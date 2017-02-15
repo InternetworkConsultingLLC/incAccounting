@@ -1,0 +1,86 @@
+<div id="check">
+	<div id="top">
+		<div id="first">
+			<div id="us">
+				<img id="logo" src="~/images/logo-black.svg" />
+				<div id="our-address">
+					3880 Greenhouse Rd #421</br>
+					Houston, Texas 77080</br>
+					<br/>
+					(832) 606-3300
+				</div>
+			</div>
+			<div id="bank">
+				Some Bank Texas, NA</br>
+				3945 / 9485
+			</div>
+			<div id="summery">
+				<div id="numbered"># {Number}</div>
+				<div id="dated">{Date}</div>
+				<div id="amount">$ {Paycheck Amount}</div>
+			</div>
+		</div>
+		<div id="second">
+			<div id="pay-amount"><b>Pay:</b> Four hundred, thirty two dollars and eights two hundredths</div>
+			<div id="pay-to"><b>To:</b> {Pay To The Order Of}</div>
+			<div id="billing-address">
+				<div>{Line 1}</div>
+				<div>{Line 2}</div>
+				<div>{City} {State} {Postal Code}</div>
+				<div>{Country}</div>
+			</div>
+			<div id="memo"><b>Payroll Ending:</b> {Ending}</div>
+		</div>
+		<div id="third">
+			<div id="micr-number">C0{Number}C</div>
+			<div id="micr-line">A123456789A 1234567890C</div>
+		</div>
+	</div>
+
+	<div id="applications">
+		<h2>Payroll Check Stub</h2>
+		<table class="fill">
+			<tr>
+				<td><b>Check:</b> {Number}</td>
+				<td class="center"><b>Employee:</b> {Employees GUID}</td>
+				<td class="center"><b>Duration:</b> {Duration}</td>
+				<td class="right"><b>Ending:</b> {Ending}</td>
+			</tr>
+		</table>
+		<br/>
+		<table class="fill">
+			<tr>
+				<td class="black">Name</td>
+				<td class="black right">Rate</td>
+				<td class="black right">Qty</td>
+				<td class="black right">Total</td>
+				<td class="black right">YTD</td>
+			</tr>
+			<!-- BEGIN Gross -->
+			<tr>
+				<td>{Gross Payroll Fields GUID}</td>
+				<td class="right">{Gross Rate}</td>
+				<td class="right">{Gross Quantity}</td>
+				<td class="right">{Gross Total}</td>
+				<td class="right">0.00</td>
+			</tr>
+			<!-- END Gross -->
+			<!-- BEGIN Employee -->
+			<tr>
+				<td>{Employee Payroll Fields GUID}</td>
+				<td class="right">-{Employee Rate}</td>
+				<td class="right">{Employee Quantity}</td>
+				<td class="right">-{Employee Total}</td>
+				<td class="right">0.00</td>
+			</tr>
+			<!-- END Employee -->
+			<tr>
+				<td></td>
+				<td></td>
+				<td class="right black">Totals:</td>
+				<td class="right">{Paycheck Amount}</td>
+				<td class="right">0.00</td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,127 @@
+/*
+ * Copyright (C) 2016 Internetwork Consulting LLC
+ *
+ * This program is free software: you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free 
+ * Software Foundation, version 3 of the License.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ * more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see http://www.gnu.org/licenses/.
+ */
+package net.internetworkconsulting.accounting.entities;
+
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+import net.internetworkconsulting.accounting.data.SalesTaxesRow;
+import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.bootstrap.entities.User;
+import net.internetworkconsulting.data.AdapterInterface;
+import net.internetworkconsulting.data.mysql.Statement;
+
+public class SalesTax extends SalesTaxesRow {
+	public static String GROUP_EXEMPT_GUID = "502fd04bc5da462f98d013dfa50d808e";
+	public void initialize() throws Exception {
+		this.setGuid(User.newGuid());
+		this.setIsGroup(false);
+	}
+
+	private static List<Option> lstOptions;
+	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
+		if(lstOptions != null && !force)
+			return lstOptions;
+
+		Statement stmt = new Statement(adapter.getSession().readFile("sql/SalesTax.loadOptions.sql"));		
+		List<Option> lst = adapter.load(Option.class, stmt);
+
+		Option opt = new Option();
+		opt.setDisplay("");
+		opt.setValue("");
+
+		lst.add(0, opt);
+		lstOptions = lst;
+		return lst;
+	}
+	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return SalesTax.loadSearch(adapter, SalesTax.class, columns, search); }
+	public static List getSearchColumns() {
+		LinkedList<String> lstColumns = new LinkedList<>();
+		lstColumns.add(SalesTax.DISPLAY_NAME);
+		lstColumns.add(SalesTax.TAX_RATE);
+		lstColumns.add(SalesTax.IS_GROUP);
+		return lstColumns;
+	}
+
+	private List<SalesTaxMembershipOption> lstMembershipOptions;
+	public List<SalesTaxMembershipOption> loadMembershipOptions(AdapterInterface adapter, boolean force) throws Exception {
+		if(adapter.getSession() == null)
+			return new LinkedList<>();
+		
+		if(lstMembershipOptions != null && !force)
+			return lstMembershipOptions;
+
+		Statement stmt = new Statement(adapter.getSession().readFile("sql/SalesTax.loadMembershipOptions.sql"));	
+		stmt.getParameters().put("{Group GUID}", this.getGuid());
+		lstMembershipOptions = adapter.load(SalesTaxMembershipOption.class, stmt);
+		
+		return lstMembershipOptions;
+	}
+	public List<SalesTaxMembership> loadMembershipsFromOptions(AdapterInterface adapter) throws Exception {
+		List<SalesTaxMembership> lstMembers = new LinkedList<SalesTaxMembership>();
+		
+		List<SalesTaxMembershipOption> lstOptions = loadMembershipOptions(adapter, false);
+		for(SalesTaxMembershipOption option: lstOptions) {
+			// exists		checked		action
+			// T			T			none -> add
+			// T			F			delete -> add
+			// F			T			create -> add
+			// F			F			none -> nothing
+			
+			SalesTaxMembership stm = null;
+			try { stm = SalesTaxMembership.loadByParentAndChild(adapter, getGuid(), option.getGuid()); }
+			catch(Exception ex) { }
+			
+			if(stm != null && option.getIsIncluded())
+				lstMembers.add(stm);
+			else if(stm != null && !option.getIsIncluded()) {
+				stm.setIsDeleted(true);
+				lstMembers.add(stm);
+			} else if(stm == null && option.getIsIncluded()) {
+				stm = new SalesTaxMembership();
+				stm.initialize();
+				stm.setParentSalesTaxesGuid(getGuid());
+				stm.setChildSalesTaxesGuid(option.getGuid());
+				lstMembers.add(stm);				
+			}				
+		}
+		
+		return lstMembers;
+	}
+	
+	public void calculateTaxRate(AdapterInterface adapter) throws Exception {
+		if(!getIsGroup())
+			return;
+		
+		BigDecimal dRate = new BigDecimal(0);
+
+		List<SalesTaxMembershipOption> lstOptions = loadMembershipOptions(adapter, false);
+		for(SalesTaxMembershipOption option: lstOptions)
+			if(option.getIsIncluded())
+				dRate = dRate.add(option.getTaxRate());
+		
+		setTaxRate(dRate);
+	}
+
+	public void beforeSave(AdapterInterface adapter) throws Exception {
+		if(getIsGroup() && getAccountsGuid() == null && getTaxRate().compareTo(BigDecimal.valueOf(0)) != 0)
+			throw new Exception("A sales tax group must have an account!");
+		
+		calculateTaxRate(adapter);
+	}
+	
+	
+}

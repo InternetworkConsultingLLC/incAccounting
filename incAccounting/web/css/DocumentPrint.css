@@ -1,0 +1,112 @@
+div.ported { width: 8.5in; }
+* {
+	font-size: 10pt;
+	color: black;
+}
+body { background-color: #eee; }
+form#form, .padded {
+	padding: 0.5in;
+	margin: 0px;
+	margin-top: 0.5in;
+	margin-bottom: 0.5in;
+	border: 1px solid black;
+	min-height: 10in;
+	background-color: white;
+}
+.black, b, th { 
+	font-weight: bolder; 
+	font-family: "Rubik";
+}
+#header { visibility: hidden; display: none; }
+@media print {
+	div.ported { width: 7.5in; }
+	form#form, .padded { 
+		margin-top: 0;
+		padding: 0;
+		border: 0;
+		margin-bottom: 0;
+	}
+}
+
+#top {
+	overflow: hidden;
+}
+
+#top > #logo { 
+	float: left;
+	width: 35%; }
+
+#top > #ouraddress { 
+	float: left;
+	width: 50%;
+	overflow: hidden;
+	text-align: center;
+}
+#top > #ident {
+	float: right;
+	width: 15%;
+	overflow: hidden;
+	text-align: right;
+}
+
+#addresses {
+	overflow: hidden;
+}
+#addresses > #billing, #addresses > #shipping {
+	width: 50%;
+	float: left;
+	margin-top: 0.5in;
+}
+
+#items { 
+	padding-top: 0.5in; 
+	width: 100%;
+}
+#items > tbody > tr:nth-child(1) > th {color: black; }
+#items > tbody > tr > td:nth-child(1), #items > tbody > tr > th:nth-child(1) {
+	width: 0.5in;
+	padding-right: 0.0125in;
+	text-align: left;
+	vertical-align: top;
+}
+#items > tbody > tr > td:nth-child(2), #items > tbody > tr > th:nth-child(2) {
+	width: 0.5in;
+	padding-right: 0.0125in;
+	text-align: left;
+	vertical-align: top;
+}
+#items > tbody > tr > td:nth-child(3), #items > tbody > tr > th:nth-child(3) { 
+	width: 0.5in;
+	padding-right: 0.0125in;
+	text-align: left;
+	vertical-align: top;
+}
+#items > tbody > tr > td:nth-child(4), #items > tbody > tr > th:nth-child(4) { 
+	padding-right: 0.0125in;
+	text-align: left;
+	vertical-align: top;
+}
+#items > tbody > tr > td:nth-child(5), #items > tbody > tr > th:nth-child(5) { 
+	width: 0.75in;
+	padding-right: 0.0125in;
+	text-align: right;
+	vertical-align: top;
+}
+#items > tbody > tr > td:nth-child(6), #items > tbody > tr > th:nth-child(6) { 
+	width: 0.75in;
+	padding-right: 0.0125in;
+	text-align: right;
+	vertical-align: top;
+}
+#items > tbody > tr > td:nth-child(7), #items > tbody > tr > th:nth-child(7) { 
+	width: 0.25in;
+	text-align: right;
+	vertical-align: top;
+}
+
+p.small { 
+	font-size: 8pt; 
+	padding-top: 0.5in;
+}
+#form * { color: #000; }
+#triplebar { visibility: hidden; display: none; }

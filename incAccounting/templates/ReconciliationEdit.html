@@ -1,0 +1,41 @@
+<h1>Reconciliation</h1>
+
+<div class="block">
+	<div class="field"><label>GUID:</label><div>{GUID}</div></div>
+	<div class="field blank"><label></label><div></div></div>
+	<div class="field"><label>Date:</label><div>{Date}</div></div>
+	<div class="field"><label>Account:</label><div>{Accounts GUID}</div></div>
+</div>
+	
+<!--<p><button>Import OFX</button></p>-->
+
+<h2>Transactions</h2>
+<!-- BEGIN Line -->
+<div class="block row">
+	<div class="field"><label>Cleared:</label><div>{Line Cleared}</div></div>
+	<div class="field"><label>Dated:</label><div>{Line Date}</div></div>
+	<div class="field"><label>Type:</label><div>{Line Name}</div></div>
+	<div class="field"><label>Number:</label><div>{Line Reference Number}</div></div>
+	<div class="field double"><label>Description:</label><div class="double">{Line Description}</div></div>
+	<div class="field blank"><label></label><div></div></div>
+	<div class="field"><label>Debit:</label><div>{Line Debit}</div></div>
+</div>
+<!-- END Line -->
+
+<h2>Summary</h2>
+<div class="block">
+	<div class="field"><label>Begin:</label><div>{Beginning Balance}</div></div>
+	<div class="field"><label>+ Cleared:</label><div>{Cleared}</div></div>
+	<div class="field"><label>= Bank:</label><div>{Ending Balance}</div></div>
+	<div class="field"><label>- Sttmnt:</label><div>{Statement Ending Balance}</div></div>
+	<div class="field"><label>= Off By:</label><div>{Off By}</div></div>
+</div>
+
+<div class="block">
+	<div class="field"><label>Begin:</label><div>{Beginning Balance}</div></div>
+	<div class="field"><label>+ Cleared:</label><div>{Cleared}</div></div>
+	<div class="field"><label>+ Unclrd:</label><div>{Uncleared}</div></div>
+	<div class="field"><label>= Ledger:</label><div>{Ledger Balance}</div></div>
+</div>
+
+<p>{Save}</p>

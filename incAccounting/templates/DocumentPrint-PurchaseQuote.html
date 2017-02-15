@@ -1,0 +1,92 @@
+<div id="top">
+	<img id="logo" src="~/images/logo-black.svg">
+	<div id="ouraddress">
+		<p>
+			3880 Greenhouse Rd #421<br/>
+			Houston, Texas 77084
+		</p>
+		<p>
+			(832) 606-3300
+		</p>
+		<p>
+			www.internetworkconsulting.net
+		</p>
+	</div>
+	<div id="ident">
+		<p>
+			<b>Purchase Quote</b><br/>
+			{Reference Number}<br/>
+			<b>Date</b><br/>
+			{Date}<br/>
+			<b>Terms</b><br/>
+			{Terms}
+		</p>
+	</div>
+</div>
+
+<div id="addresses">
+	<div id="billing">
+		<b>Bill To</b>:<br/>
+		<div>{Billing Address Display Name}</div>
+		<div>{Billing Address Line 1}</div>
+		<div>{Billing Address Line 2}</div>
+		{Billing Address City}, {Billing Address State} {Billing Address Postal Code}
+	</div>
+
+	<div id="shipping">
+		<b>Ship To</b>:<br/>
+		<div>{Shipping Address Display Name}</div>
+		<div>{Shipping Address Line 1}</div>
+		<div>{Shipping Address Line 2}</div>
+		{Shipping Address City}, {Shipping Address State} {Shipping Address Postal Code}
+	</div>
+</div>
+
+<table id="items">
+	<tr>
+		<th>Qty</th>
+		<th>Item</th>
+		<th>UM</th>
+		<th>Description</th>
+		<th>Price</th>
+		<th>Ext</th>
+		<th>T</th>
+	</tr>
+	<!-- BEGIN Row -->
+	<tr>
+		<td>{Row Quantity}</td>
+		<td>{Row Items GUID}</td>
+		<td>{Row Unit Measures GUID}</td>
+		<td>{Row Description}</td>
+		<td>{Row Unit Price}</td>
+		<td>{Row Extension}</td>
+		<td>{Row Is Taxed}</td>
+	</tr>
+	<!-- END Row -->
+	<tr>
+		<td></td> <td></td> <td></td> <td></td>
+		<td class="right black">Sub-Total:</td>
+		<td>{Subtotal}</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td> <td></td> <td></td> <td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td> <td></td> <td></td> <td></td>
+		<td class="right black">Taxes:</td>
+		<td>{Taxes}</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td> <td></td> <td></td> <td></td>
+		<td class="right black">Total:</td>
+		<td>{Total}</td>
+		<td></td>
+	</tr>
+</table>
+
+<p class="small">All sales of software and intellectual proerty are final.  No returns, refunds, or exchanges will be accepted - contact the manufacturer.  Hardware, materials, and retain the manufactures warenty only.  We will only provide a labor warenty for 7 day from the date comppleted in the original configurations. You agree that we may not be held liable for an amount more than that invoiced on single invoice directly linked to the service provided.  You agree to hold us harmless for sales of products, hardware, and software.  Invoices not paid on time will be charged an interest rate at the maximum allowable by the State of Texas.  You agree the juristiction of any disputes arising with us are under those of Harris County, Texas.</p>

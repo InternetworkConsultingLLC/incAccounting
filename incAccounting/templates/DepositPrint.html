@@ -1,0 +1,50 @@
+<div id="top">
+	<div id="first">
+		<h1 id="title">Bank Deposit</h1>
+		<div id="identifiers">
+			<div id="number"><b>Number:</b> {Number}</div>
+			<div id="date"><b>Date:</b> {Date}</div>
+		</div>
+	</div>
+
+	<div id="second">
+		<div id="address">
+			Internetwork Consulting LLC<br/>
+			3880 Greenhouse Rd #421<br/>
+			Houston, Texas 77084<br/>
+			<br/>
+			<b>Account:</b> 1234567890
+		</div>
+		<div id="summary">
+			<div id="items"><b>Items:</b> {Items}</div>
+			<div id="total"><b>Total:</b> $ {Total}</div>
+		</div>
+	</div>
+
+	<div id="third">A123456789A 1234567890C</div>
+</div>
+
+
+<h2>Includes</h2>
+<table>
+	<tr>
+		<td>Date</td>
+		<td>Contact</td>
+		<td>Number</td>
+		<td class="right">Amount</td>
+	</tr>
+	<!-- BEGIN Payment -->
+	<tr>
+		<td>{Payment Date}</td>
+		<td>{Payment Contacts Display Name}</td>
+		<td>{Payment Their Number}</td>
+		<td class="right">{Payment Total}</td>
+	</tr>
+	<!-- END Payment -->
+	<tr>
+		<td class="right black">Items:</td>
+		<td>&nbsp; {Items}</td>
+		<td class="right black">Total:</td>
+		<td class="right topline">{Total}</td>
+	</tr>
+</table>

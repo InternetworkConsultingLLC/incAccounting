@@ -1,0 +1,21 @@
+div.math {
+	overflow: hidden;
+}
+div.math > div {
+	float: left;
+	vertical-align: middle;
+	text-align: center;
+	height: 2.5em;
+	
+/*	border: 1px solid red;
+	margin: -1px;*/
+}
+
+div.math > div:nth-child(2),
+div.math > div:nth-child(4) {
+	margin-top: -0.5em;
+}
+div.math > div:nth-child(2) *,
+div.math > div:nth-child(4) * {
+	font-size: 36pt;
+}

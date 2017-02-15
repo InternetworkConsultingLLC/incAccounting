@@ -1,0 +1,66 @@
+<div id="sales">
+	<div id="top">
+		<div id="our-address">
+			<img id="logo" src="~/images/logo-black.svg"><br/>
+			3880 Greenhouse Rd #421</br>
+			Houston, Texas 77080</br>
+			(832) 606-3300
+		</div>
+		<div id="identifiers">
+			<h1>Payment Receipt</h1>
+			<b>Dated</b><br/>
+			{Date}<br/>
+			<b>Receipt #</b><br/>
+			{Our Number}<br/>
+		</div>
+	</div>
+
+	<div id="middle">
+		<div id="billing-address">
+			<b>Customer Information</b></br>
+			{Contacts Display Name}<br>
+			<div>{Billing Address Line 1}</div>
+			<div>{Billing Address Line 2}</div>
+			<div>{Billing Address City} {Billing Address State} {Billing Address Postal Code}</div>
+			<div>{Billing Address Country}</div>
+		</div>
+		<div id="payment">
+			<b>Payment $</b><br/>
+			{Total}<br/>
+			<b>Check #</b><br/>
+			{Their Number}</br>
+		</div>
+	</div>
+
+	<div id="applications">
+		<h2>Applications</h2>
+		<table>
+			<tr>
+				<td>Type</td>
+				<td>Date</td>
+				<td>Number</td>
+				<td class="right">*Balance</td>
+				<td class="right">Applied</td>
+			</tr>
+			<!-- BEGIN Application -->
+			<tr>
+				<td>{Application Name}</td>
+				<td>{Application Date}</td>
+				<td>{Application Reference Number}</td>
+				<td class="right">{Application Balance}</td>
+				<td class="right">{Application Amount}</td>
+			</tr>
+			<!-- END Application -->
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="right black">Total:</td>
+				<td class="right">{Total}</td>
+			</tr>
+			<tr>
+				<td colspan="5">* Balances shown reflect the invoice's balance at time of printing.</td>
+			</tr>
+		</table>
+	</div>
+</div>

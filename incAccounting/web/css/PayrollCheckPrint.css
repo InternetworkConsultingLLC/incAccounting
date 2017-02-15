@@ -1,0 +1,135 @@
+div.ported { width: 8.5in; }
+* {
+	font-size: 10pt;
+	color: black;
+}
+body { background-color: #eee; }
+form#form, .padded {
+	padding: 0.5in;
+	margin: 0px;
+	margin-top: 0.5in;
+	margin-bottom: 0.5in;
+	border: 1px solid black;
+	min-height: 10in;
+	background-color: white;
+}
+.black, b, th { 
+	font-weight: bolder; 
+	font-family: "Rubik";
+}
+#header { visibility: hidden; display: none; }
+@media print {
+	div.ported { width: 7.5in; }
+	form#form, .padded { 
+		margin-top: 0;
+		padding: 0;
+		border: 0;
+		margin-bottom: 0;
+	}
+}
+
+
+#applications {
+	padding-top: 0.5in;
+	overflow: hidden;
+}
+
+#check > #top {
+	height: 3in;
+	overflow: none;	
+/*	border: 1px solid yellow;
+	margin: -1px;*/
+}
+#check > #top > * {
+/*	border: 1px solid red;
+	margin: -1px;*/
+	overflow: none;
+}
+
+#check > #top > #first {
+	overflow: hidden;	
+}
+#check > #top > #first > * {
+	display: inline;
+	overflow: hidden;
+}
+
+#check > #top > #first > #us {
+	display: inline-block;
+	overflow: hidden;
+}
+#check > #top > #first > #us > #logo {
+	width: 1.75in;
+	float: left;
+}
+#check > #top > #first > #us > #our-address {
+	float: left;
+	padding-left: 0.125in;
+}
+
+#check > #top > #first > #bank {
+	float: top;
+	display: inline-block;
+	padding-left: 0.75in;
+	text-align: center;
+	vertical-align: top;
+}
+
+#check > #top > #first > #summery {
+	float: right;
+	display: inline-block;
+	text-align: right;
+}
+
+#check > #top > #first > #summery > #numbered {
+	font-size: 20pt;
+	font-weight: bolder; 
+	font-family: "Rubik";
+}
+#check > #top > #first > #summery > #dated {
+	font-size: 12pt;
+}
+#check > #top > #first > #summery > #amount {
+	font-size: 20pt;
+}
+
+#check > #top > #second > * {
+/*	border: 1px solid green;
+	margin: -1px;*/
+}
+#check > #top > #second > #pay-amount {
+	margin-top: 0.125in;
+	height: 1.3em;
+	margin-bottom: 0.125in;
+}
+
+#check > #top > #second > #pay-to {
+	padding-left: 0.09in;
+}
+#check > #top > #second > #billing-address {
+	margin-top: 0.125in;
+	padding-left: 0.33in;
+}
+#check > #top > #second > #memo {
+	margin-top: 0.125in;
+}
+
+#check > #top > #third * {
+/*	border: 1px solid green;
+	margin: -1px;*/
+	padding-top: 0.25in;
+}
+#check > #top > #third > #micr-line, #check > #top > #third > #micr-number {
+	font-size: 12pt;
+	font-family: "Aatrix";
+	font-style: normal;
+	font-weight: normal;
+}
+#check > #top > #third > #micr-number {
+	padding-left: 1.0in;
+	float: left;
+	padding-right: 0.25in;
+}
+#check > #top > #third > #micr-line {
+	float: left;
+}

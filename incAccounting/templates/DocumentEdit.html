@@ -1,0 +1,84 @@
+<h1>Document</h1>
+
+<div class="block">
+	<div class="field"><label>GUID:</label><div>{GUID}</div></div>
+	<div class="field"><label>Type:</label><div>{Document Types GUID}</div></div>
+	<div class="field"><label>Number:</label><div>{Reference Number}</div></div>
+	<div class="field"><label>Account:</label><div>{Posted Accounts GUID}</div></div>
+	<div class="field"><label>Date:</label><div>{Date}</div></div>	
+</div>
+<div class="block">
+	<div class="field"><label>Contact:</label><div>{Contacts GUID}</div></div>
+	<div class="field"><label>Display:</label><div>{Contacts Display Name}</div></div>
+	<div class="field"><label>Reference:</label><div>{Customer Reference}</div></div>
+	<div class="field"><label>Terms:</label><div>{Terms}</div></div>
+	<div class="field"><label>Due:</label><div>{Due Date}</div></div>
+</div>
+<div class="block">
+	<div class="field"><label>Shp Mthd:</label><div>{Shipping Method}</div></div>
+	<div class="field"><label>Shp Nmbr:</label><div>{Shipping Number}</div></div>
+	<div class="field"><label>Sales Tax:</label><div>{Sales Taxes GUID}</div></div>
+	<div class="field"><label>Tax Rate:</label><div>{Tax Rate}</div></div>
+</div>
+<div class="block">
+	<div class="block single">
+		<h2 class="brbefore">&nbsp;Billing</h2>
+		<div class="field"><label>Contact:</label><div>{Billing Contacts GUID}</div></div>
+		<div class="field"><label>Attention:</label><div>{Billing Address Display Name}</div></div>
+		<div class="field"><label>Address:</label><div>{Billing Address Line 1}</div></div>
+		<div class="field"><label></label><div>{Billing Address Line 2}</div></div>
+		<div class="field"><label>City, St Zip:</label><div>{Billing Address City} {Billing Address State} {Billing Address Postal Code}</div></div>
+		<div class="field"><label>Country:</label><div>{Billing Address Country}</div></div>
+	</div>
+	<div class="block single">
+		<h2 class="brbefore">&nbsp;Shipping</h2>
+		<div class="field"><label>Contact:</label><div>{Shipping Contacts GUID}</div></div>
+		<div class="field"><label>Attention:</label><div>{Shipping Address Display Name}</div></div>
+		<div class="field"><label>Address:</label><div>{Shipping Address Line 1}</div></div>
+		<div class="field"><label></label><div>{Shipping Address Line 2}</div></div>
+		<div class="field"><label>City, St Zip:</label><div>{Shipping Address City} {Shipping Address State} {Shipping Address Postal Code}</div></div>
+		<div class="field"><label>Country:</label><div>{Shipping Address Country}</div></div>
+	</div>
+</div>
+
+<p>{Add} {Save} {Post} {Number} {Print} {Open Transaction} {Create Order} {Create Invoice} {Create CM} {Copy}</p>
+
+<h2>Itemization</h2>
+<!-- BEGIN Row -->
+<div class="block row">
+	<div class="field"><label>Delete:</label><div>{Row Is Deleted}</div></div>
+	<div class="field"><label>Taxable:</label><div>{Row Is Taxed}</div></div>
+	<div class="field"><label>Item:</label><div>{Row Items GUID}</div></div>
+	<div class="field"><label>Account:</label><div>{Row Accounts GUID}</div></div>	
+	<div class="field double"><label>Description:</label><div class="double">{Row Description}</div></div>	
+	<div class="field"><label>Quantity:</label><div>{Row Quantity}</div></div>
+	<div class="field"><label>U/M:</label><div>{Row Unit Measures GUID}</div></div>
+	<div class="field"><label>Price Ea:</label><div>{Row Unit Price}</div></div>
+	<div class="field"><label>Extd Price:</label><div>{Row Extension}</div></div>	
+	<div class="field"><label>Job:</label><div>{Row Jobs GUID}</div></div>	
+	<div class="field"><label>Dept:</label><div>{Row Departments GUID}</div></div>	
+</div>
+<!-- END Row -->
+
+<div class="block final">
+	<div class="field"><label>Taxed:</label><div>{Taxable Subtotal}</div></div>
+	<div class="field"><label>Not Taxed:</label><div>{Nontaxable Subtotal}</div></div>
+	<div class="field blank"><label></label><div>&nbsp;</div></div>
+	<div class="field"><label>Sub-Total:</label><div>{Subtotal}</div></div>
+	<div class="field blank"><label></label><div>&nbsp;</div></div>
+	<div class="field"><label>Taxes:</label><div>{Taxes}</div></div>
+	<div class="field blank"><label></label><div>&nbsp;</div></div>
+	<div class="field"><label>Total:</label><div>{Total}</div></div>
+</div>
+
+<p>{Add} {Save} {Post} {Number} {Print} {Open Transaction} {Create Order} {Create Invoice} {Create CM} {Copy}</p>
+
+<script>
+	var nSettingDocumentMoneyDecimals = {Money Decimals};
+	var nSettingDocumentQuantityDecimals = {Quantity Decimals};
+	var nSettingDocumentRateDecimals = {Rate Decimals};
+	var nSettingDocuemntDueDays = {Due Days};
+	
+	pageLoaded();
+	invoiceChanged();
+</script>	

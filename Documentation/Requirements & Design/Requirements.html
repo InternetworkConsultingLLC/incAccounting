@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head><title>incAccounting Requirements</title></head>
+	<body>
+		<h1>Application Domain</h1>
+	
+		<p>
+			This project is the requirements and design of an accounting system 
+			that's intended to be comparable to Sage 50 and/or 
+			QuickBooks. This development is to provide an enterprise grade 
+			accounting system while keeping simplicity.  The system should 
+			provide the following:
+		</p>
+	
+		<img src='BusinessFlow.png' />
+
+		<p>
+			This demotes that a customer can have a quote provided that is then 
+			turned into and order.  When the order has been shipped it's turned 
+			into a invoice. If items are bad and have to be returned, the credit
+			is created and any payments sent and received.  The same applies to 
+			vendors.  Finally, all transactions may be related to a "job".  A 
+			job is any business activity that we need to track.
+		</p>
+
+		<p>
+			This does not show the back end accounting of journal entries, 
+			account reconciliation, setup, and reporting.
+		</p>
+	
+		<h1>Requirements</h1>
+
+		<p>
+			This covers what is required for the first public release.  This is 
+			broken into functional and non-functional requirements.  A 
+			functional requirement is a business task to be completed, while 
+			non-functional requirements are everything else that must be 
+			considered.
+		</p>
+		
+		<h2>Functional Requirements</h2>
+		
+		<p>
+			This section covers the business objective the application will be 
+			used to complete a task.
+		</p>
+		
+		<ol>
+			<li>
+				<b>Accounting Core</b><br/>
+				<ol>
+					<li>
+						<b>Accounts</b><br>
+						These are the "accounting" accounts of asset, liability, 
+						equity, revenue and expense.  We must our types should 
+						account for year end closing considerations (close to 
+						retained earnings).  Accounts should allow recursive 
+						definitions making a "tree" structure.
+					</li>
+					<li>
+						<b>Journal Entry</b><br/>
+						This is the basis for all documents in the program.  
+						Non-posting transactions will enter "0.00" lines.  The
+						jounal entry should allow for tagging of lines to 
+						contacts, jobs, departments (?).
+					</li>
+					<li>
+						<b>Register</b><br/>
+						I would use the term check register, but that's almost 
+						dated.  But we should provide a "register" style entry 
+						for quick coding of account transactions.
+					</li>
+					<li><b>Bank Deposits</b></li>
+					<li>
+						<b>Reconciliation</b><br/>
+						We should be able to "import" bank statements and create 
+						the missing transactions.
+					</li>
+					<li>
+						<b>Contacts</b><br/>
+						Contact are usually separate lists requiring a 
+						redefinition is a vendor is also a customer.  We should 
+						let vendors and customers "inherit" from contacts.
+					</li>
+				</ol>
+			</li>
+			<li>
+				<b>Inventory</b>
+				<ol>
+					<li>
+						<b>Items</b><br/>
+						Item list management where items denote the 
+						the following purchases, sales, and inventory: 
+						description, unit measure, price, account.
+						<ol>
+							<li>
+								<b>Non-Stock</b><br/>
+								This is non tracked item definitions that can be 
+								used through the documents.
+							</li>
+							<li>
+								<b>Inventory</b><br/>
+								This is just a cycle count of bought and sold.  
+								The quantities on documents denote a unit bought
+								or sold.  This should include the ability to 
+								tag with locations.
+							</li>
+							<li>
+								<b>Serialization</b><br/>
+								For each quantity bought or sold, we must 
+								document the serial number.
+							</li>
+						</ol>
+					</li>
+					<li><b>Unit Measures</b></li>
+					<li>
+						<b>Unit Conversions</b><br/>
+						Math can be used to convert measure of like types. if we 
+						have an equivalency:
+						
+<pre>16 oz = 1 lbs
+1 in = 2.24 mm
+1 barrel = 55 gal</pre>
+					</li>
+					<li>
+						<b>Assemblies</b><br/>
+						Assemblies are definitions of formulas or recipes to 
+						build a product or service.  Once "built" a new item 
+						will exist.  It needs to be defined that a bunch of 
+						items go in, and one item comes out.
+					</li>
+					<li>
+						<b>Builds</b><br/>
+						Normal accounting systems account for build as 
+						definitive "recipes" for making a product.  When a 
+						build is completed, we should account for the "actual"
+						quantities used.
+					</li>
+					<li><b>Valuations</b></li>
+					<li><b>Item Status</b></li>
+					<li><b>Item History</b></li>
+				</ol>
+			</li>
+			<li>Receivables
+				<ol>
+					<li>Customer</li>
+					<li>Tax Groups</li>
+					<li>Tax Authorities</li>
+					<li>Sales Quote</li>
+					<li>Sales Order</li>
+					<li>Sales Invoice</li>
+					<li>Sales Credit</li>
+					<li>Receives Payment</li>
+					<li>Aged Receivables</li>
+					<li>Customer History</li>
+					<li>Taxable Sales</li>
+				</ol>
+			</li>
+			<li>Payables
+				<ol>
+					<li>Vendors</li>
+					<li>Vendor Quote</li>
+					<li>Purchase Order</li>
+					<li>Vendor Invoice</li>
+					<li>Vendor Credit</li>
+					<li>Send Payment</li>
+					<li>Aged Payables</li>
+					<li>Vendor History</li>
+				</ol>
+			</li>
+			<li>Human Resources
+				<ol>
+					<li>Employees</li>
+					<li>Time Entry</li>
+					<li>Paycheck</li>
+				</ol>
+			</li>
+		</ol>
+
+		<h2>Non-Functional Requirements</h2>
+		
+		<p>
+			These are not work tasks, but consideration that should be 
+			considered during the development and design.
+		</p>
+		
+		<ol>
+			<li>Enterprise Features
+				<ol>
+					<li>Client Server Model</li>
+					<li>Multi User</li>
+					<li>Role Based Security</li>
+					<li>Secured Database</li>
+					<li>Audit Trail</li>
+				</ol>
+			</li>
+			<li>Small Business
+				<ol>
+					<li>Single Screen Documents</li>
+					<li>Screen Like Paper Documents</li>
+					<li>Section Flow Charts</li>
+					<li>Dash Boards</li>
+					<li>Single Click Install</li>
+				</ol>
+			</li>
+			<li>Design Considerations
+				<ol>
+					<li>Cloud / Hosted</li>
+					<li>Mobile and Tablets</li>
+					<li>Scaleable
+						<ol>
+							<li>Web Servers</li>
+							<li>Databases</li>
+							<li>Replication</li>
+						</ol>
+					</li>
+					<li>Open Source</li>
+				</ol>
+			</li>
+		</ol>
+	</body>
+</html>

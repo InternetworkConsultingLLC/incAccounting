@@ -1,0 +1,16 @@
+/* SCREEN SPECIFCS */
+@media screen and (min-width: 0px) and (max-width: 640px) {
+	input[type="text"].ChildCity { width: 130px; }
+	input[type="text"].ChildState { width: 25px; }
+	input[type="text"].ChildPostalCode { width: 85px; }
+}
+@media screen and (min-width: 641px) and (max-width: 960px) {
+	input[type="text"].ChildCity { width: 80px; }
+	input[type="text"].ChildState { width: 25px; }
+	input[type="text"].ChildPostalCode { width: 60px; }	
+}
+@media screen and (min-width: 961px) {
+	input[type="text"].ChildCity { width: 160px; }
+	input[type="text"].ChildState { width: 25px; }
+	input[type="text"].ChildPostalCode { width: 100px; }
+}

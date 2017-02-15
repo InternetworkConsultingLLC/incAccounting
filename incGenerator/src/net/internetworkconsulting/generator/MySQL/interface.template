@@ -1,0 +1,17 @@
+package __namespace_raw__;
+
+import java.util.List;
+import net.internetworkconsulting.data.AdapterInterface;
+
+public interface __table_cc__Interface {
+	// BEGIN COLUMNS
+	boolean set__column_cc__(__type_java__ value) throws Exception;
+	__type_java__ get__column_cc__();
+	// END COLUMNS
+	// BEGIN CHILDREN
+	<T extends __child_table_cc__Row> List<T> load__load_children_cc__(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	// END CHILDREN
+	// BEGIN PARENTS
+	<T extends __parent_table_cc__Row> T load__load_parent_cc__(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	// END PARENTS
+}
