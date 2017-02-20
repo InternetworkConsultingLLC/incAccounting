@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class BankDepositsRow extends Row implements BankDepositsInterface {
 	public BankDepositsRow() { 
 		super(); 
-		setSqlTableName("bank deposits");
-		setSqlSecurableGuid("f7721251e52127b9e67e464aee80eedb");
+		setSqlTableName("Bank Deposits");
+		setSqlSecurableGuid("f90075dcb981e0f99ccfe5565d31d0df");
 	}
-	public static String TABLE_NAME = "bank deposits";
+	public static String TABLE_NAME = "Bank Deposits";
 
 	// columns
 	
@@ -53,7 +54,7 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 	protected Object lstPaymentsChildren = null;
 	public <T extends PaymentsRow> List<T> loadPayments(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPaymentsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"payments\" WHERE \"Bank Deposits GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Payments\" WHERE \"Bank Deposits GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPaymentsChildren = adapter.load(model, stmt);
 		}
@@ -66,11 +67,11 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 	protected Object rTransactionParent = null;
 	public <T extends TransactionsRow> T loadTransaction(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rTransactionParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"transactions\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Transactions\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPostedTransactionsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique transactions row by GUID (" + Statement.convertObjectToString(this.getPostedTransactionsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Transactions row by GUID (" + Statement.convertObjectToString(this.getPostedTransactionsGuid(), null) + ")!");
 			rTransactionParent = lst.get(0);
 		}
 		return (T) rTransactionParent;
@@ -80,25 +81,13 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 	// unique key loaders
 	
 	public static <T extends BankDepositsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"bank deposits\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Bank Deposits\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique bank deposits row by 'GUID': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends BankDepositsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"bank deposits\" WHERE \"Number\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique bank deposits row by 'Number': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Bank Deposits row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -106,7 +95,7 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 
 	// load all
 	public static <T extends BankDepositsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"bank deposits\"");
+		Statement stmt = new Statement("SELECT * FROM \"Bank Deposits\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

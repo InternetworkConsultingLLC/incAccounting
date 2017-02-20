@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.Row;
+import net.internetworkconsulting.data.mysql.Statement;
 
 public class Computer extends net.internetworkconsulting.bootstrap.data.ComputersRow {
 	private static final long serialVersionUID = 1L;
@@ -39,4 +40,17 @@ public class Computer extends net.internetworkconsulting.bootstrap.data.Computer
 	}
 
 	public Computer() { super(); }
+
+	public static <T extends Computer> T loadByMacAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"" + Computer.TABLE_NAME +"\" WHERE \"" + Computer.MAC_ADDRESS + "\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Computer row by 'MAC Address': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+
 }

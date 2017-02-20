@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.bootstrap.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class PermissionsRow extends Row implements PermissionsInterface {
 	public PermissionsRow() { 
 		super(); 
-		setSqlTableName("permissions");
-		setSqlSecurableGuid("41275a535677f79ff347e01bc530c176");
+		setSqlTableName("Permissions");
+		setSqlSecurableGuid("d08ccf52b4cdd08e41cfb99ec42e0b29");
 	}
-	public static String TABLE_NAME = "permissions";
+	public static String TABLE_NAME = "Permissions";
 
 	// columns
 	
@@ -52,11 +53,11 @@ public class PermissionsRow extends Row implements PermissionsInterface {
 	protected Object rGroupParent = null;
 	public <T extends GroupsRow> T loadGroup(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rGroupParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"groups\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Groups\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGroupsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique groups row by GUID (" + Statement.convertObjectToString(this.getGroupsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Groups row by GUID (" + Statement.convertObjectToString(this.getGroupsGuid(), null) + ")!");
 			rGroupParent = lst.get(0);
 		}
 		return (T) rGroupParent;
@@ -65,11 +66,11 @@ public class PermissionsRow extends Row implements PermissionsInterface {
 	protected Object rSecurableParent = null;
 	public <T extends SecurablesRow> T loadSecurable(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rSecurableParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"securables\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Securables\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getSecurablesGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique securables row by GUID (" + Statement.convertObjectToString(this.getSecurablesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Securables row by GUID (" + Statement.convertObjectToString(this.getSecurablesGuid(), null) + ")!");
 			rSecurableParent = lst.get(0);
 		}
 		return (T) rSecurableParent;
@@ -81,7 +82,7 @@ public class PermissionsRow extends Row implements PermissionsInterface {
 
 	// load all
 	public static <T extends PermissionsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"permissions\"");
+		Statement stmt = new Statement("SELECT * FROM \"Permissions\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

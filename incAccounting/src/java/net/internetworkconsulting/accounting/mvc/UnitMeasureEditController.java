@@ -20,7 +20,7 @@ public class UnitMeasureEditController extends Controller {
 	public boolean getEnforceSecurity() { return true; }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/UnitMeasureEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/UnitMeasureEdit.html"), new HtmlSyntax()));
 		
 		UnitMeasure objModel = (UnitMeasure) model;
 		if(!getIsPostback()) {

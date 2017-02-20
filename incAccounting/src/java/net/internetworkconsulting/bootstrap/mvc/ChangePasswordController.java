@@ -20,7 +20,7 @@ public class ChangePasswordController extends Controller {
 	public boolean getEnforceSecurity() { return false; }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/ChangePassword.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/ChangePassword.html"), new HtmlSyntax()));
 		
 		txtPassword = new TextTag(this, "Password");
 		txtPassword.setInputType(TextTag.TYPE_PASSWORD);

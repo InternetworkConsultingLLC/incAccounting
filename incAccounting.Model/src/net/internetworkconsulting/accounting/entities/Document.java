@@ -100,7 +100,7 @@ public class Document extends DocumentsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Document.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Document.class, "Document.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

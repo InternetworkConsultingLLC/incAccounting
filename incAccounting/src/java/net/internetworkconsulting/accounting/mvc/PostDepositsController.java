@@ -20,7 +20,7 @@ public class PostDepositsController extends Controller {
 	public PostDepositsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/PostDeposits.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/PostDeposits.html"), new HtmlSyntax()));
 
 		String type_guid = Deposit.TRANSACTION_TYPE_GUID;
 		String status = getRequest().getParameter("Status");

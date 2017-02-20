@@ -19,7 +19,7 @@ public class DepartmentEditController extends Controller {
 	public DepartmentEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/DepartmentEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/DepartmentEdit.html"), new HtmlSyntax()));
 		
 		Department objModel = (Department) model;
 		if(!getIsPostback()) {

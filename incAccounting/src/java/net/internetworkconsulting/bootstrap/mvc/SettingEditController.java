@@ -21,7 +21,7 @@ import net.internetworkconsulting.template.HtmlSyntax;
 public class SettingEditController extends Controller{
 	public SettingEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/SettingEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/SettingEdit.html"), new HtmlSyntax()));
 		
 		Setting objModel = (Setting) model;
 		if(!getIsPostback()) {

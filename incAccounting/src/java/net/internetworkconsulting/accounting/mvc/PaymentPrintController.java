@@ -40,7 +40,7 @@ public class PaymentPrintController extends Controller {
 		
 		String sPaymentType = "";
 		sPaymentType = objModel.loadPaymentType(getUser().login(), PaymentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false).getName();
-		setDocument(new Template(read("templates/PaymentPrint-" + sPaymentType.replace(" ", "") + ".html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/PaymentPrint-" + sPaymentType.replace(" ", "") + ".html"), new HtmlSyntax()));
 		
 		LiteralTag txtGuid = new LiteralTag(this, Payment.GUID, objModel);
 

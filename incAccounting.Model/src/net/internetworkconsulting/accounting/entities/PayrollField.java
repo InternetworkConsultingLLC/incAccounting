@@ -36,7 +36,7 @@ public class PayrollField extends PayrollFieldsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/PayrollField.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(PayrollField.class, "PayrollField.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
@@ -52,7 +52,7 @@ public class PayrollField extends PayrollFieldsRow {
 		if(hmOptionsByType.containsKey(type_guid) && !force)
 			return hmOptionsByType.get(type_guid);
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/PayrollField.loadOptionsByType.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(PayrollField.class, "PayrollField.loadOptionsByType.sql"));		
 		stmt.getParameters().put("{Type GUID}", type_guid);
 		List<Option> lst = adapter.load(Option.class, stmt);
 

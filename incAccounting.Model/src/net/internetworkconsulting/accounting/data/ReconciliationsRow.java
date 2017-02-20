@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class ReconciliationsRow extends Row implements ReconciliationsInterface {
 	public ReconciliationsRow() { 
 		super(); 
-		setSqlTableName("reconciliations");
-		setSqlSecurableGuid("d0b19a18049abe7044966fc531b72319");
+		setSqlTableName("Reconciliations");
+		setSqlSecurableGuid("4a8a1dc4a61260a1d51e3b9f8bb5f18f");
 	}
-	public static String TABLE_NAME = "reconciliations";
+	public static String TABLE_NAME = "Reconciliations";
 
 	// columns
 	
@@ -45,7 +46,7 @@ public class ReconciliationsRow extends Row implements ReconciliationsInterface 
 	protected Object lstTransactionLinesChildren = null;
 	public <T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTransactionLinesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"transaction lines\" WHERE \"Reconciliations GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"Reconciliations GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstTransactionLinesChildren = adapter.load(model, stmt);
 		}
@@ -58,11 +59,11 @@ public class ReconciliationsRow extends Row implements ReconciliationsInterface 
 	protected Object rAccountParent = null;
 	public <T extends AccountsRow> T loadAccount(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rAccountParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"accounts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
 			rAccountParent = lst.get(0);
 		}
 		return (T) rAccountParent;
@@ -72,13 +73,13 @@ public class ReconciliationsRow extends Row implements ReconciliationsInterface 
 	// unique key loaders
 	
 	public static <T extends ReconciliationsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"reconciliations\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Reconciliations\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique reconciliations row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Reconciliations row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -86,7 +87,7 @@ public class ReconciliationsRow extends Row implements ReconciliationsInterface 
 
 	// load all
 	public static <T extends ReconciliationsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"reconciliations\"");
+		Statement stmt = new Statement("SELECT * FROM \"Reconciliations\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

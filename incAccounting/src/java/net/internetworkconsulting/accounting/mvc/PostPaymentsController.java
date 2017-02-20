@@ -19,7 +19,7 @@ public class PostPaymentsController extends Controller {
 	public PostPaymentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/PostPayments.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/PostPayments.html"), new HtmlSyntax()));
 
 		String type_guid = getRequest().getParameter("Payment Types GUID");
 		if(type_guid != null && type_guid.equals("null"))

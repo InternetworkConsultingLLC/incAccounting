@@ -60,7 +60,7 @@ public class Item extends ItemsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Item.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Item.class, "Item.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class ConversionsRow extends Row implements ConversionsInterface {
 	public ConversionsRow() { 
 		super(); 
-		setSqlTableName("conversions");
-		setSqlSecurableGuid("2cf788b632004c0776c820c40534398d");
+		setSqlTableName("Conversions");
+		setSqlSecurableGuid("6332798b12e537b25b1c6ad254e14f54");
 	}
-	public static String TABLE_NAME = "conversions";
+	public static String TABLE_NAME = "Conversions";
 
 	// columns
 	
@@ -48,11 +49,11 @@ public class ConversionsRow extends Row implements ConversionsInterface {
 	protected Object rLeftUnitMeasureParent = null;
 	public <T extends UnitMeasuresRow> T loadLeftUnitMeasure(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rLeftUnitMeasureParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"unit measures\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Unit Measures\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getLeftUnitMeasuresGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique unit measures row by GUID (" + Statement.convertObjectToString(this.getLeftUnitMeasuresGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Unit Measures row by GUID (" + Statement.convertObjectToString(this.getLeftUnitMeasuresGuid(), null) + ")!");
 			rLeftUnitMeasureParent = lst.get(0);
 		}
 		return (T) rLeftUnitMeasureParent;
@@ -61,11 +62,11 @@ public class ConversionsRow extends Row implements ConversionsInterface {
 	protected Object rRightUnitMeasureParent = null;
 	public <T extends UnitMeasuresRow> T loadRightUnitMeasure(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rRightUnitMeasureParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"unit measures\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Unit Measures\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getRightUnitMeasuresGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique unit measures row by GUID (" + Statement.convertObjectToString(this.getRightUnitMeasuresGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Unit Measures row by GUID (" + Statement.convertObjectToString(this.getRightUnitMeasuresGuid(), null) + ")!");
 			rRightUnitMeasureParent = lst.get(0);
 		}
 		return (T) rRightUnitMeasureParent;
@@ -75,13 +76,13 @@ public class ConversionsRow extends Row implements ConversionsInterface {
 	// unique key loaders
 	
 	public static <T extends ConversionsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"conversions\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Conversions\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique conversions row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Conversions row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -89,7 +90,7 @@ public class ConversionsRow extends Row implements ConversionsInterface {
 
 	// load all
 	public static <T extends ConversionsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"conversions\"");
+		Statement stmt = new Statement("SELECT * FROM \"Conversions\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

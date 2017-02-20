@@ -39,7 +39,7 @@ public abstract class ListController extends Controller {
 		if(sButton != null && sButton.equals("Delete") && sGuid != null && sGuid.length() == 32)
 			deleteRow(sGuid);
 		
-		setDocument(new Template(read("templates/List.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/List.html"), new HtmlSyntax()));
 
 		txtSearch = new TextTag(this, "Keywords");
 		

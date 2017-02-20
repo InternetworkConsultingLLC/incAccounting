@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.bootstrap.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class UsersRow extends Row implements UsersInterface {
 	public UsersRow() { 
 		super(); 
-		setSqlTableName("users");
-		setSqlSecurableGuid("9bc65c2abec141778ffaa729489f3e87");
+		setSqlTableName("Users");
+		setSqlSecurableGuid("f9aae5fda8d810a29f12d1e61b4ab25f");
 	}
-	public static String TABLE_NAME = "users";
+	public static String TABLE_NAME = "Users";
 
 	// columns
 	
@@ -53,7 +54,7 @@ public class UsersRow extends Row implements UsersInterface {
 	protected Object lstLogsChildren = null;
 	public <T extends LogsRow> List<T> loadLogs(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstLogsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"logs\" WHERE \"Users GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Logs\" WHERE \"Users GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstLogsChildren = adapter.load(model, stmt);
 		}
@@ -63,7 +64,7 @@ public class UsersRow extends Row implements UsersInterface {
 	protected Object lstMembershipsChildren = null;
 	public <T extends MembershipsRow> List<T> loadMemberships(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstMembershipsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"memberships\" WHERE \"Users GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Memberships\" WHERE \"Users GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstMembershipsChildren = adapter.load(model, stmt);
 		}
@@ -73,7 +74,7 @@ public class UsersRow extends Row implements UsersInterface {
 	protected Object lstSettingsChildren = null;
 	public <T extends SettingsRow> List<T> loadSettings(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstSettingsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"settings\" WHERE \"Users GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Settings\" WHERE \"Users GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstSettingsChildren = adapter.load(model, stmt);
 		}
@@ -87,49 +88,13 @@ public class UsersRow extends Row implements UsersInterface {
 	// unique key loaders
 	
 	public static <T extends UsersRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"users\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Users\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique users row by 'GUID': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends UsersRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"users\" WHERE \"Display Name\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique users row by 'Display Name': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends UsersRow> T loadBySqlUser(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"users\" WHERE \"SQL User\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique users row by 'SQL User': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends UsersRow> T loadByEmailAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"users\" WHERE \"Email Address\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique users row by 'Email Address': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Users row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -137,7 +102,7 @@ public class UsersRow extends Row implements UsersInterface {
 
 	// load all
 	public static <T extends UsersRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"settings\"");
+		Statement stmt = new Statement("SELECT * FROM \"Settings\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

@@ -31,7 +31,7 @@ public class TransactionEditController  extends Controller{
 		Job.loadOptions(getUser().login(), true);
 		Department.loadOptions(getUser().login(), true);
 				
-		setDocument(new Template(read("templates/TransactionEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/TransactionEdit.html"), new HtmlSyntax()));
 		
 		Transaction objModel = (Transaction) model;
 		if(!getIsPostback()) {

@@ -46,7 +46,7 @@ public class Deposit extends BankDepositsRow {
 		if(lstPayments != null && !force)
 			return lstPayments;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Deposit.loadPaymentSelections.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(Deposit.class, "Deposit.loadPaymentSelections.sql"));
 		stmt.getParameters().put("{Deposits GUID}", getGuid());
 		lstPayments = adapter.load(Payment.class, stmt);
 		

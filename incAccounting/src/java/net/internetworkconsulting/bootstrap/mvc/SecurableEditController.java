@@ -24,7 +24,7 @@ public class SecurableEditController extends Controller {
 	public boolean getEnforceSecurity() { return true; }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/SecurableEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/SecurableEdit.html"), new HtmlSyntax()));
 		
 		Securable objModel = (Securable) model;
 		if(!getIsPostback()) {

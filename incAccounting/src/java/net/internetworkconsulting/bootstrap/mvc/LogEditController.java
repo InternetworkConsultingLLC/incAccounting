@@ -17,7 +17,7 @@ public class LogEditController extends Controller {
 	public boolean getEnforceSecurity() { return true; }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/LogEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/LogEdit.html"), new HtmlSyntax()));
 		
 		Log objModel = (Log) model;
 		if(!getIsPostback()) {

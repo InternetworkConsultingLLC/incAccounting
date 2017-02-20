@@ -41,7 +41,7 @@ public class DocumentPrintController extends Controller {
 		setModel(objModel);
 
 		String sDocumentType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false).getName();
-		setDocument(new Template(read("templates/DocumentPrint-" + sDocumentType.replace(" ", "") + ".html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/DocumentPrint-" + sDocumentType.replace(" ", "") + ".html"), new HtmlSyntax()));
 
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";

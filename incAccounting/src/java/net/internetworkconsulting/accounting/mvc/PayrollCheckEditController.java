@@ -32,7 +32,7 @@ public class PayrollCheckEditController extends Controller {
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 
-		setDocument(new Template(read("templates/PayrollCheckEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/PayrollCheckEdit.html"), new HtmlSyntax()));
 		
 		objModel = (PayrollCheck) model;
 		if(!getIsPostback()) {

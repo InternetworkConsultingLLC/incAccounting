@@ -145,7 +145,7 @@ public class Row implements RowInterface, Serializable {
 		if(search != null)
 			sSearch = search;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/" + cls.getSimpleName() + ".loadSearch.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(cls, cls.getSimpleName() + ".loadSearch.sql"));
 		sSearch = sSearch.replace("'", "").replaceAll("\\s+", " ");
 
 		String sWhere = " 1=1 ";

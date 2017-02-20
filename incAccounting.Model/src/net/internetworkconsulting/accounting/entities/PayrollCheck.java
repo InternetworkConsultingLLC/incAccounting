@@ -71,7 +71,7 @@ public class PayrollCheck extends PayrollChecksRow {
 	}
 
 	public static PayrollCheck loadTemplate(AdapterInterface adapter, String employees_guid) throws Exception {
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/PayrollCheck.loadTemplate.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(PayrollCheck.class, "PayrollCheck.loadTemplate.sql"));
 		stmt.getParameters().put("{Employees GUID}", employees_guid);
 		List<PayrollCheck> lstChecks = adapter.load(PayrollCheck.class, stmt);
 		
@@ -94,7 +94,7 @@ public class PayrollCheck extends PayrollChecksRow {
 	}	
 	
 	public List<PayrollFieldValue> loadValues(AdapterInterface adapter, String type_guid) throws Exception {
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/PayrollCheck.loadValues.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(PayrollCheck.class, "PayrollCheck.loadValues.sql"));
 		stmt.getParameters().put("{Payroll Checks GUID}", this.getGuid());
 		stmt.getParameters().put("{Payroll Field Types GUID}", type_guid);
 		List<PayrollFieldValue> lstValues = adapter.load(PayrollFieldValue.class, stmt);

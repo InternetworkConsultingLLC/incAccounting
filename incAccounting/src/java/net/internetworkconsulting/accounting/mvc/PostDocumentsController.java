@@ -19,7 +19,7 @@ public class PostDocumentsController extends Controller {
 	public PostDocumentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/PostDocuments.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/PostDocuments.html"), new HtmlSyntax()));
 
 		String type_guid = getRequest().getParameter("Document Types GUID");
 		if(type_guid != null && type_guid.equals("null"))

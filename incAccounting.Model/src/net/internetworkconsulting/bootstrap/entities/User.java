@@ -73,7 +73,7 @@ public class User extends UsersRow implements SessionInterface {
 		if (lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/User.loadOptions.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(User.class, "User.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
@@ -231,7 +231,7 @@ public class User extends UsersRow implements SessionInterface {
 	private List<Membership> lstMemberships = null;
 	public <T extends MembershipsRow> List<T> loadMemberships(AdapterInterface adapter, Class biz, boolean force) throws Exception {
 		if (lstMemberships == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"memberships\" WHERE \"Users GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Memberships\" WHERE \"Users GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstMemberships = adapter.load(Membership.class, stmt);
 
@@ -467,50 +467,6 @@ public class User extends UsersRow implements SessionInterface {
 	private String sProgramPath = null;
 	public String getProgramPath() { return sProgramPath; }
 	public void setProgramPath(String value) { sProgramPath = value; }
-	public String readFile(String name) throws Exception {
-		return User.readFile(name, sProgramPath);
-	}
-	public static String readFile(String name, String program_path) throws Exception {
-		if(name.contains(".."))
-			throw new Exception("Cannot use file names with 'parent folders' (..) in them!");
-
-		// program path is multiple folders, break into array
-		String[] sFolders = program_path.split("\\" + File.pathSeparator);
-
-		// search each folder, taking the first file found
-		String sTargetFile = "";
-		for(String sFolder : sFolders) {
-			String sFile = sFolder + java.io.File.separator + name;
-			// remove duplicate path seperators
-			String sNew = sFile.replace(java.io.File.separator + java.io.File.separator, java.io.File.separator);
-			while(!sNew.equals(sFile)) {
-				sFile = sNew;
-				sNew = sFile.replace(java.io.File.separator + java.io.File.separator, java.io.File.separator);
-			}
-			// check if file exists
-			File file = new File(sNew);
-			if(file.exists()) {
-				sTargetFile = sNew;
-				break;
-			}
-		}
-
-		// check if file was found
-		File file = new File(sTargetFile);
-		if(!file.exists())
-			throw new Exception(
-					"Could not locate a file in the programs path!\n"
-					+ "File: " + name + "\n"
-					+ "Path: " + program_path
-			);
-
-		// read the file
-		try {
-			return Helper.FileToString(sTargetFile);
-		} catch(Exception ex) {
-			throw new Exception("Could not locate file '" + name + "'!", ex);
-		}
-	}
 	
 	private List<Setting> lstSettings = null;
 	public <T extends SettingsRow> List<T> loadSettings(AdapterInterface adapter, Class biz, boolean force) throws Exception {
@@ -539,5 +495,24 @@ public class User extends UsersRow implements SessionInterface {
 			throw new Exception("Could not locate a version number in the applications settings!");
 		if(!hmSettings.get(SETTING_VERSION_NUMBER).equals(getVersion()))
 			throw new Exception("The program version number does not match the database version number.");
+	}
+	
+	public String readJar(Class jar, String filename) throws Exception {
+		return Helper.InputStreamToString(jar.getResourceAsStream(filename));
+	}
+	public static String readJarFile(Class jar, String filename) throws Exception {
+		return Helper.InputStreamToString(jar.getResourceAsStream(filename));
+	}
+				
+	public static <T extends User> T loadBySqlUser(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"" + User.TABLE_NAME +"\" WHERE \"" + User.SQL_USER + "\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Userrow by 'SQL User': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
 	}
 }

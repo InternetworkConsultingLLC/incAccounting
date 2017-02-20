@@ -40,7 +40,7 @@ public class Reconciliation extends ReconciliationsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Reconciliation.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Reconciliation.class, "Reconciliation.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
@@ -66,7 +66,7 @@ public class Reconciliation extends ReconciliationsRow {
 			return new LinkedList<T>();
 		
 		if(lstTransactionLinesChildren == null || force) {
-			Statement stmt = new Statement(adapter.getSession().readFile("sql/Reconciliation.loadTransactionLines.sql"));
+			Statement stmt = new Statement(adapter.getSession().readJar(Reconciliation.class, "Reconciliation.loadTransactionLines.sql"));
 			stmt.getParameters().put("{RECONCILIATIONS GUID}", this.getGuid());
 			stmt.getParameters().put("{ACCOUNTS GUID}", this.getAccountsGuid());
 			stmt.getParameters().put("{DATE}", this.getDate());
@@ -85,7 +85,7 @@ public class Reconciliation extends ReconciliationsRow {
 		if(getDate() == null || getAccountsGuid() == null)
 			return new BigDecimal(0);
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Reconciliation.calculateBeginningBalance.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(Reconciliation.class, "Reconciliation.calculateBeginningBalance.sql"));
 		stmt.getParameters().put("{Date}", getDate());
 		stmt.getParameters().put("{Accounts GUID}", getAccountsGuid());
 		List<Row> lst = adapter.load(Row.class, stmt);

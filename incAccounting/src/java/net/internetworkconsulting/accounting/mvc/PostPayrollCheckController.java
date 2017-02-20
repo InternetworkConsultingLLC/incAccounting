@@ -20,7 +20,7 @@ public class PostPayrollCheckController  extends Controller {
 	public PostPayrollCheckController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/PostPayrollChecks.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/PostPayrollChecks.html"), new HtmlSyntax()));
 
 		String status = getRequest().getParameter("Status");
 		if(status != null && status.equals("null"))

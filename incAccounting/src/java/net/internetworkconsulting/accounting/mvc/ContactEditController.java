@@ -41,7 +41,7 @@ public class ContactEditController extends Controller {
 		User.loadOptions(getUser().login(), true);
 		Contact.loadOptions(getUser().login(), true);
 
-		setDocument(new Template(read(getTemplateFile()), new HtmlSyntax()));
+		setDocument(new Template(read_url(getTemplateFile()), new HtmlSyntax()));
 		
 		Contact objModel = (Contact) model;
 		if(!getIsPostback()) {

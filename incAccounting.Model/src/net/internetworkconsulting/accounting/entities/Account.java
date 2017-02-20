@@ -53,7 +53,7 @@ public class Account extends AccountsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Account.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Account.class, "Account.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.bootstrap.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class ComputersRow extends Row implements ComputersInterface {
 	public ComputersRow() { 
 		super(); 
-		setSqlTableName("computers");
-		setSqlSecurableGuid("524164822d03894ee68052e183e7ea36");
+		setSqlTableName("Computers");
+		setSqlSecurableGuid("45888a4da062f16a099a7f7c6cc15ee0");
 	}
-	public static String TABLE_NAME = "computers";
+	public static String TABLE_NAME = "Computers";
 
 	// columns
 	
@@ -41,7 +42,7 @@ public class ComputersRow extends Row implements ComputersInterface {
 	protected Object lstLogsChildren = null;
 	public <T extends LogsRow> List<T> loadLogs(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstLogsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"logs\" WHERE \"Computers GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Logs\" WHERE \"Computers GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstLogsChildren = adapter.load(model, stmt);
 		}
@@ -55,37 +56,13 @@ public class ComputersRow extends Row implements ComputersInterface {
 	// unique key loaders
 	
 	public static <T extends ComputersRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"computers\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Computers\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique computers row by 'GUID': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends ComputersRow> T loadByDescription(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"computers\" WHERE \"Description\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique computers row by 'Description': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends ComputersRow> T loadByMacAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"computers\" WHERE \"MAC Address\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique computers row by 'MAC Address': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Computers row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -93,7 +70,7 @@ public class ComputersRow extends Row implements ComputersInterface {
 
 	// load all
 	public static <T extends ComputersRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"logs\"");
+		Statement stmt = new Statement("SELECT * FROM \"Logs\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

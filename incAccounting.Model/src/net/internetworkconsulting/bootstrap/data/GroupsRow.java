@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.bootstrap.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class GroupsRow extends Row implements GroupsInterface {
 	public GroupsRow() { 
 		super(); 
-		setSqlTableName("groups");
-		setSqlSecurableGuid("1471e4e05a4db95d353cc867fe317314");
+		setSqlTableName("Groups");
+		setSqlSecurableGuid("a37ede293936e29279ed543129451ec3");
 	}
-	public static String TABLE_NAME = "groups";
+	public static String TABLE_NAME = "Groups";
 
 	// columns
 	
@@ -41,7 +42,7 @@ public class GroupsRow extends Row implements GroupsInterface {
 	protected Object lstMembershipsChildren = null;
 	public <T extends MembershipsRow> List<T> loadMemberships(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstMembershipsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"memberships\" WHERE \"Groups GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Memberships\" WHERE \"Groups GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstMembershipsChildren = adapter.load(model, stmt);
 		}
@@ -51,7 +52,7 @@ public class GroupsRow extends Row implements GroupsInterface {
 	protected Object lstPermissionsChildren = null;
 	public <T extends PermissionsRow> List<T> loadPermissions(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPermissionsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"permissions\" WHERE \"Groups GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Permissions\" WHERE \"Groups GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPermissionsChildren = adapter.load(model, stmt);
 		}
@@ -65,37 +66,13 @@ public class GroupsRow extends Row implements GroupsInterface {
 	// unique key loaders
 	
 	public static <T extends GroupsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"groups\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Groups\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique groups row by 'GUID': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends GroupsRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"groups\" WHERE \"Display Name\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique groups row by 'Display Name': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends GroupsRow> T loadByEmailAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"groups\" WHERE \"Email Address\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique groups row by 'Email Address': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Groups row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -103,7 +80,7 @@ public class GroupsRow extends Row implements GroupsInterface {
 
 	// load all
 	public static <T extends GroupsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"permissions\"");
+		Statement stmt = new Statement("SELECT * FROM \"Permissions\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

@@ -37,11 +37,11 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 
 		List<String> lstSql = new LinkedList<String>();
 
-		String[] arrSql = User.readFile("sql/Database.20151111.sql", program_path).split("\\;");
+		String[] arrSql = User.readJarFile(Setup.class, "Database.20151111.sql").split("\\;");
 		for (String sql : arrSql)
 			lstSql.add(sql);
 
-		arrSql = User.readFile("sql/Database.20160204.sql", program_path).split("\\;");
+		arrSql = User.readJarFile(Setup.class, "Database.20160204.sql").split("\\;");
 		for (String sql : arrSql)
 			lstSql.add(sql);
 

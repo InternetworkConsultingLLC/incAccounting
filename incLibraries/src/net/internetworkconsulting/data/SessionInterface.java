@@ -33,5 +33,5 @@ public interface SessionInterface {
 	void canRead(String securable_guid) throws Exception;
 	void canUpdate(String securable_guid) throws Exception;	
 
-	String readFile(String filename)  throws Exception;
+	String readJar(Class jar, String filename) throws Exception;
 }

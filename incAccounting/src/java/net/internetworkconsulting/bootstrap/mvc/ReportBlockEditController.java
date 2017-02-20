@@ -21,7 +21,7 @@ public class ReportBlockEditController extends Controller {
 	public boolean getEnforceSecurity() { return true; }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/ReportBlockEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/ReportBlockEdit.html"), new HtmlSyntax()));
 		
 		ReportBlock objModel = (ReportBlock) model;
 		if(!getIsPostback()) {

@@ -35,7 +35,7 @@ public class Job extends JobsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Job.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Job.class, "Job.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

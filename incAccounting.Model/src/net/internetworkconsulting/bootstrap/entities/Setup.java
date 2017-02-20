@@ -92,7 +92,7 @@ public class Setup implements Serializable {
 	public void createDatabase(String program_path) throws Exception {
 		AdapterInterface adapter = connect();
 
-		String[] arrSql = User.readFile("sql/Database.20151007.sql", program_path).split("\\;");
+		String[] arrSql = User.readJarFile(Setup.class, "Database.20151007.sql").split("\\;");
 		for(String sql: arrSql)
 			if(sql.trim().length() > 0) {
 				Statement stmt = new Statement(sql);

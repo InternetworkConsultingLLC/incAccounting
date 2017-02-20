@@ -34,7 +34,7 @@ public class DocumentEditController extends Controller {
 
 	public boolean getEnforceSecurity() { return true; }	
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/DocumentEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/DocumentEdit.html"), new HtmlSyntax()));
 		
 		Document objModel = (Document) model;
 		if(!getIsPostback()) {

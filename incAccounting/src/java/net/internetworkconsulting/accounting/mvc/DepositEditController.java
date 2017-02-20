@@ -22,7 +22,7 @@ public class DepositEditController extends Controller {
 	public DepositEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/DepositEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/DepositEdit.html"), new HtmlSyntax()));
 		
 		objModel = (Deposit) model;
 		if(!getIsPostback()) {

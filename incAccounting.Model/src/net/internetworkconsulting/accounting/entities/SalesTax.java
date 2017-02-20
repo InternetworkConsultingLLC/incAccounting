@@ -36,7 +36,7 @@ public class SalesTax extends SalesTaxesRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/SalesTax.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(SalesTax.class, "SalesTax.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
@@ -64,7 +64,7 @@ public class SalesTax extends SalesTaxesRow {
 		if(lstMembershipOptions != null && !force)
 			return lstMembershipOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/SalesTax.loadMembershipOptions.sql"));	
+		Statement stmt = new Statement(adapter.getSession().readJar(SalesTax.class, "SalesTax.loadMembershipOptions.sql"));	
 		stmt.getParameters().put("{Group GUID}", this.getGuid());
 		lstMembershipOptions = adapter.load(SalesTaxMembershipOption.class, stmt);
 		

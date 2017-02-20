@@ -65,7 +65,7 @@ public class Payment extends PaymentsRow {
 		if(lstPaymentApplicationSelection != null && !force)
 			return lstPaymentApplicationSelection;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Payment.loadPaymentApplicationSelection.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(Payment.class, "Payment.loadPaymentApplicationSelection.sql"));
 		stmt.getParameters().put("{Contacts GUID}", getContactsGuid());
 		stmt.getParameters().put("{Payment Types GUID}", getPaymentTypesGuid());
 		stmt.getParameters().put("{Payments GUID}", getGuid());

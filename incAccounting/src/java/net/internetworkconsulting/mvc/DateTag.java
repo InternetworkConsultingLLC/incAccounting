@@ -16,7 +16,7 @@ public class DateTag extends Tag {
 	public DateTag(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/Date.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/Date.html"), new HtmlSyntax()));
 
 		cboMonth = new ComboTag(this, "Month");
 		cboMonth.setName(getName() + "Month");

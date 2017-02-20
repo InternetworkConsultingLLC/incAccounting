@@ -20,7 +20,7 @@ public class AccountEditController extends Controller {
 	public boolean getEnforceSecurity() { return true; }
 	
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/AccountEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/AccountEdit.html"), new HtmlSyntax()));
 		
 		Account objModel = (Account) model;
 		if(!getIsPostback()) {

@@ -26,7 +26,7 @@ public class GroupEditController extends Controller {
 	public boolean getEnforceSecurity() { return true; }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/GroupEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/GroupEdit.html"), new HtmlSyntax()));
 		
 		Group objModel = (Group) model;
 		if(!getIsPostback()) {

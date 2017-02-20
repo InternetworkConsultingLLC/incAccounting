@@ -39,7 +39,7 @@ public class DocumentType extends DocumentTypesRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/DocumentType.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(DocumentType.class, "DocumentType.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
@@ -56,7 +56,7 @@ public class DocumentType extends DocumentTypesRow {
 		if(lstPostableOptions != null && !force)
 			return lstPostableOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/DocumentType.loadPostableOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(DocumentType.class, "DocumentType.loadPostableOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

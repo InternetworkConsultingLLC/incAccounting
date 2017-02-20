@@ -49,7 +49,7 @@ public class Employee extends EmployeesRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Employee.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Employee.class, "Employee.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

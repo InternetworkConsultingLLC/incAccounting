@@ -32,7 +32,7 @@ public class LoginController extends Controller {
 	public boolean getEnforceSecurity() { return false; }
 	
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/Login.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/Login.html"), new HtmlSyntax()));
 		setModel(new User());
 
 		TextTag txtUser = new TextTag(this, User.SQL_USER);

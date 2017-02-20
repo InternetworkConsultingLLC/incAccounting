@@ -29,7 +29,7 @@ public class ReportBlock extends ReportBlocksRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/ReportBlock.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(ReportBlock.class, "ReportBlock.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

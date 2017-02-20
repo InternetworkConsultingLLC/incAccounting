@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class TransactionLinesRow extends Row implements TransactionLinesInterface {
 	public TransactionLinesRow() { 
 		super(); 
-		setSqlTableName("transaction lines");
-		setSqlSecurableGuid("ca9e47d13b37bc3dbb9c9f4feaab8398");
+		setSqlTableName("Transaction Lines");
+		setSqlSecurableGuid("e4eed2a7d7b7558dfe63d4f4fd18ce67");
 	}
-	public static String TABLE_NAME = "transaction lines";
+	public static String TABLE_NAME = "Transaction Lines";
 
 	// columns
 	
@@ -64,11 +65,11 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 	protected Object rTransactionParent = null;
 	public <T extends TransactionsRow> T loadTransaction(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rTransactionParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"transactions\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Transactions\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getTransactionsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique transactions row by GUID (" + Statement.convertObjectToString(this.getTransactionsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Transactions row by GUID (" + Statement.convertObjectToString(this.getTransactionsGuid(), null) + ")!");
 			rTransactionParent = lst.get(0);
 		}
 		return (T) rTransactionParent;
@@ -77,11 +78,11 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 	protected Object rJobParent = null;
 	public <T extends JobsRow> T loadJob(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rJobParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"jobs\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Jobs\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getJobsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique jobs row by GUID (" + Statement.convertObjectToString(this.getJobsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Jobs row by GUID (" + Statement.convertObjectToString(this.getJobsGuid(), null) + ")!");
 			rJobParent = lst.get(0);
 		}
 		return (T) rJobParent;
@@ -90,11 +91,11 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 	protected Object rDepartmentParent = null;
 	public <T extends DepartmentsRow> T loadDepartment(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rDepartmentParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"departments\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Departments\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDepartmentsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique departments row by GUID (" + Statement.convertObjectToString(this.getDepartmentsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Departments row by GUID (" + Statement.convertObjectToString(this.getDepartmentsGuid(), null) + ")!");
 			rDepartmentParent = lst.get(0);
 		}
 		return (T) rDepartmentParent;
@@ -103,11 +104,11 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 	protected Object rAccountParent = null;
 	public <T extends AccountsRow> T loadAccount(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rAccountParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"accounts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
 			rAccountParent = lst.get(0);
 		}
 		return (T) rAccountParent;
@@ -116,11 +117,11 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 	protected Object rReconciliationParent = null;
 	public <T extends ReconciliationsRow> T loadReconciliation(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rReconciliationParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"reconciliations\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Reconciliations\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getReconciliationsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique reconciliations row by GUID (" + Statement.convertObjectToString(this.getReconciliationsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Reconciliations row by GUID (" + Statement.convertObjectToString(this.getReconciliationsGuid(), null) + ")!");
 			rReconciliationParent = lst.get(0);
 		}
 		return (T) rReconciliationParent;
@@ -130,13 +131,13 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 	// unique key loaders
 	
 	public static <T extends TransactionLinesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"transaction lines\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Transaction Lines\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique transaction lines row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Transaction Lines row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -144,7 +145,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 
 	// load all
 	public static <T extends TransactionLinesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"transaction lines\"");
+		Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

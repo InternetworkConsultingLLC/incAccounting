@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 	public PayrollFieldsRow() { 
 		super(); 
-		setSqlTableName("payroll fields");
-		setSqlSecurableGuid("1b8a2c949640913326cf4de864dd546f");
+		setSqlTableName("Payroll Fields");
+		setSqlSecurableGuid("07c8b483d9322c5ccc83bf3db6be4eb1");
 	}
-	public static String TABLE_NAME = "payroll fields";
+	public static String TABLE_NAME = "Payroll Fields";
 
 	// columns
 	
@@ -45,7 +46,7 @@ public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 	protected Object lstPayrollFieldValuesChildren = null;
 	public <T extends PayrollFieldValuesRow> List<T> loadPayrollFieldValues(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPayrollFieldValuesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"payroll field values\" WHERE \"Payroll Fields GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Payroll Field Values\" WHERE \"Payroll Fields GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPayrollFieldValuesChildren = adapter.load(model, stmt);
 		}
@@ -58,11 +59,11 @@ public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 	protected Object rPayrollFieldTypeParent = null;
 	public <T extends PayrollFieldTypesRow> T loadPayrollFieldType(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rPayrollFieldTypeParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"payroll field types\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Payroll Field Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPayrollFieldTypesGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique payroll field types row by GUID (" + Statement.convertObjectToString(this.getPayrollFieldTypesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Payroll Field Types row by GUID (" + Statement.convertObjectToString(this.getPayrollFieldTypesGuid(), null) + ")!");
 			rPayrollFieldTypeParent = lst.get(0);
 		}
 		return (T) rPayrollFieldTypeParent;
@@ -71,11 +72,11 @@ public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 	protected Object rDebitAccountParent = null;
 	public <T extends AccountsRow> T loadDebitAccount(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rDebitAccountParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"accounts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDebitAccountsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique accounts row by GUID (" + Statement.convertObjectToString(this.getDebitAccountsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getDebitAccountsGuid(), null) + ")!");
 			rDebitAccountParent = lst.get(0);
 		}
 		return (T) rDebitAccountParent;
@@ -84,11 +85,11 @@ public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 	protected Object rCreditAccountParent = null;
 	public <T extends AccountsRow> T loadCreditAccount(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rCreditAccountParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"accounts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getCreditAccountsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique accounts row by GUID (" + Statement.convertObjectToString(this.getCreditAccountsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getCreditAccountsGuid(), null) + ")!");
 			rCreditAccountParent = lst.get(0);
 		}
 		return (T) rCreditAccountParent;
@@ -98,25 +99,13 @@ public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 	// unique key loaders
 	
 	public static <T extends PayrollFieldsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"payroll fields\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Payroll Fields\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique payroll fields row by 'GUID': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends PayrollFieldsRow> T loadByName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"payroll fields\" WHERE \"Name\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique payroll fields row by 'Name': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Payroll Fields row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -124,7 +113,7 @@ public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 
 	// load all
 	public static <T extends PayrollFieldsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"payroll fields\"");
+		Statement stmt = new Statement("SELECT * FROM \"Payroll Fields\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

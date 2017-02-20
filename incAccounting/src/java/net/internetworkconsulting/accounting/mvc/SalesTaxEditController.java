@@ -15,7 +15,7 @@ public class SalesTaxEditController extends Controller {
 	public SalesTaxEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception { 
-		setDocument(new Template(read("templates/SalesTaxEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/SalesTaxEdit.html"), new HtmlSyntax()));
 		
 		SalesTax objModel = (SalesTax) model;
 		if(!getIsPostback()) {

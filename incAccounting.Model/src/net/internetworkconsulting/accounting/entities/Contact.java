@@ -44,7 +44,7 @@ public class Contact extends ContactsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Contact.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Contact.class, "Contact.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
@@ -77,7 +77,7 @@ public class Contact extends ContactsRow {
 		if(lstChildOptions != null && !force)
 			return lstChildOptions;
 		
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Contact.loadChildOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Contact.class, "Contact.loadChildOptions.sql"));		
 		stmt.getParameters().put("{GUID}", this.getGuid());
 		List<Option> lst = adapter.load(Option.class, stmt);
 

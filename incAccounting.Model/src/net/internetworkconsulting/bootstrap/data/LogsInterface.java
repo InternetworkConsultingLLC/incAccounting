@@ -1,7 +1,3 @@
-/*
- * incGenerator - Generated Object Model
- * Copyright (C) 2016 Internetwork Consulting LLC
- */
 package net.internetworkconsulting.bootstrap.data;
 
 import java.util.List;

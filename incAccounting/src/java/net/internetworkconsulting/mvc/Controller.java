@@ -2,9 +2,9 @@ package net.internetworkconsulting.mvc;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.HashMap;
@@ -310,45 +310,14 @@ public abstract class Controller implements ControllerInterface {
 	}
 
 	// helpers
-	public String read(String file_name) throws Exception {
-		if(file_name.contains(".."))
-			throw new Exception("Cannot use file names with 'parent folders' (..) in them!");
-
-		// program path is multiple folders, break into array
-		String[] sFolders = getProgramPath().split("\\" + File.pathSeparator);
-
-		// search each folder, taking the first file found
-		String sTargetFile = "";
-		for(String sFolder: sFolders) {
-			String sFile = sFolder + java.io.File.separator + file_name;
-			// remove duplicate path seperators
-			String sNew = sFile.replace(java.io.File.separator + java.io.File.separator, java.io.File.separator);
-			while(!sNew.equals(sFile)) {
-				sFile = sNew;
-				sNew = sFile.replace(java.io.File.separator + java.io.File.separator, java.io.File.separator);
-			}
-			// check if file exists
-			File file = new File(sNew);
-			if(file.exists()) {
-				sTargetFile = sNew;
-				break;
-			}
-		}
-
-		// check if file was found
-		File file = new File(sTargetFile);
-		if(!file.exists())
-			throw new Exception(
-					"Could not locate a file in the programs path!\n"
-					+ "File: " + file_name + "\n"
-					+ "Path: " + getProgramPath()
-			);
-
+	public String read_url(String relative_url) throws Exception {		
 		// read the file
 		try {
-			return Helper.FileToString(sTargetFile);
+			String sUrl = relative_url.replace("~/", getRootUrl());
+			URL url = new URL(sUrl);
+			return Helper.InputStreamToString(url.openStream());
 		} catch(Exception ex) {
-			throw new Exception("Could not locate file '" + file_name + "'!", ex);
+			throw new Exception("Could not locate file '" + relative_url + "'!", ex);
 		}
 	}
 	public void redirect(String url) throws Exception {

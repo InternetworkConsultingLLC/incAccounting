@@ -12,7 +12,7 @@ public abstract class TemplateController extends Controller {
 	public boolean getEnforceSecurity() { return false; }
 	
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/Template.html"), new HtmlSyntax()));		
+		setDocument(new Template(read_url("~/templates/Template.html"), new HtmlSyntax()));		
 	}
 	public History createHistory() throws Exception { return null; }
 	

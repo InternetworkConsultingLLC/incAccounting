@@ -87,6 +87,6 @@ public interface ControllerInterface {
 	void populateDocument() throws Exception;
 	
 	// helpers
-	String read(String file_name) throws Exception;
+	String read_url(String file_name) throws Exception;
 	void redirect(String url) throws Exception;
 }

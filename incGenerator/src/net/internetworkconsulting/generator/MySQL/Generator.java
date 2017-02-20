@@ -31,7 +31,7 @@ import net.internetworkconsulting.template.CSyntax;
 import net.internetworkconsulting.template.Template;
 
 public class Generator {
-	private final String sDatabase = "ibs";
+	private final String sDatabase = "incllc";
 	private final Statement stmtTables = new Statement("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = {database};");
 	private final Statement stmtColumns = new Statement("SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = {table} AND TABLE_SCHEMA = {database};");
 	private final Statement stmtForeignKeys = new Statement("SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {database} AND REFERENCED_TABLE_NAME IS NOT NULL;");

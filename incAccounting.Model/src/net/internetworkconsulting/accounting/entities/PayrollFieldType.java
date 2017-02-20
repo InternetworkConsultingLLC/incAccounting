@@ -31,7 +31,7 @@ public class PayrollFieldType extends PayrollFieldTypesRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/PayrollFieldType.loadOptions.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(PayrollFieldType.class, "PayrollFieldType.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.bootstrap.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class MembershipsRow extends Row implements MembershipsInterface {
 	public MembershipsRow() { 
 		super(); 
-		setSqlTableName("memberships");
-		setSqlSecurableGuid("f060aa0e3d493f5fd489cf45446706bc");
+		setSqlTableName("Memberships");
+		setSqlSecurableGuid("a7a7b26872b3e2d00de7bb7b1452b5a8");
 	}
-	public static String TABLE_NAME = "memberships";
+	public static String TABLE_NAME = "Memberships";
 
 	// columns
 	
@@ -36,11 +37,11 @@ public class MembershipsRow extends Row implements MembershipsInterface {
 	protected Object rUserParent = null;
 	public <T extends UsersRow> T loadUser(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rUserParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"users\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Users\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getUsersGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
 			rUserParent = lst.get(0);
 		}
 		return (T) rUserParent;
@@ -49,11 +50,11 @@ public class MembershipsRow extends Row implements MembershipsInterface {
 	protected Object rGroupParent = null;
 	public <T extends GroupsRow> T loadGroup(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rGroupParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"groups\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Groups\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGroupsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique groups row by GUID (" + Statement.convertObjectToString(this.getGroupsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Groups row by GUID (" + Statement.convertObjectToString(this.getGroupsGuid(), null) + ")!");
 			rGroupParent = lst.get(0);
 		}
 		return (T) rGroupParent;
@@ -65,7 +66,7 @@ public class MembershipsRow extends Row implements MembershipsInterface {
 
 	// load all
 	public static <T extends MembershipsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"memberships\"");
+		Statement stmt = new Statement("SELECT * FROM \"Memberships\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

@@ -35,7 +35,7 @@ public class Department extends DepartmentsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/Department.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Department.class, "Department.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

@@ -22,7 +22,7 @@ public class SetupController extends Controller {
 	
 	public void createControls(Template document, Object model) throws Exception {
 		checkAllowed();
-		setDocument(new Template(read("templates/Setup.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/Setup.html"), new HtmlSyntax()));
 		
 		Setup objModel = (Setup) model;
 		if(!getIsPostback()) {

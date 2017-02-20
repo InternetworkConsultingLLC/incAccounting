@@ -10,7 +10,7 @@ public class ContactTypeEditController extends Controller {
 	public ContactTypeEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/ContactTypeEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/ContactTypeEdit.html"), new HtmlSyntax()));
 		
 		ContactType objModel = (ContactType) model;
 		if(!getIsPostback()) {

@@ -21,7 +21,7 @@ import net.internetworkconsulting.data.AdapterInterface;
 public class Main {
 	public static void main(String[] args) throws Exception {
 		AdapterInterface adapter;		
-		adapter = new Adapter("localhost", "ibs", "root", "happy", false);
+		adapter = new Adapter("localhost", "incllc", "root", "Welcome123", false);
 		Generator gen = new Generator(adapter);
 		gen.execute();			
 	}	

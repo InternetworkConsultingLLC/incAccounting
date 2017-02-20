@@ -30,7 +30,7 @@ public class TransactionType extends TransactionTypesRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/TransactionType.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(TransactionType.class, "TransactionType.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

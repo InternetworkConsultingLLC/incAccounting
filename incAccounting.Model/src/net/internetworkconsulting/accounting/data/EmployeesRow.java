@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class EmployeesRow extends Row implements EmployeesInterface {
 	public EmployeesRow() { 
 		super(); 
-		setSqlTableName("employees");
-		setSqlSecurableGuid("582ca3f7cbaf4edcc1b445f8ea90b503");
+		setSqlTableName("Employees");
+		setSqlSecurableGuid("eb626c94531ec554f93b2b78a77c8b1b");
 	}
-	public static String TABLE_NAME = "employees";
+	public static String TABLE_NAME = "Employees";
 
 	// columns
 	
@@ -85,7 +86,7 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 	protected Object lstPayrollChecksChildren = null;
 	public <T extends PayrollChecksRow> List<T> loadPayrollChecks(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPayrollChecksChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"payroll checks\" WHERE \"Employees GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Payroll Checks\" WHERE \"Employees GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPayrollChecksChildren = adapter.load(model, stmt);
 		}
@@ -98,11 +99,11 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 	protected Object rContactParent = null;
 	public <T extends ContactsRow> T loadContact(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rContactParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"contacts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique contacts row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
 			rContactParent = lst.get(0);
 		}
 		return (T) rContactParent;
@@ -111,11 +112,11 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 	protected Object rSupervisorParent = null;
 	public <T extends ContactsRow> T loadSupervisor(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rSupervisorParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"contacts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getSupervisorContactsGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique contacts row by GUID (" + Statement.convertObjectToString(this.getSupervisorContactsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getSupervisorContactsGuid(), null) + ")!");
 			rSupervisorParent = lst.get(0);
 		}
 		return (T) rSupervisorParent;
@@ -125,13 +126,13 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 	// unique key loaders
 	
 	public static <T extends EmployeesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"employees\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Employees\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique employees row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Employees row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -139,7 +140,7 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 
 	// load all
 	public static <T extends EmployeesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"employees\"");
+		Statement stmt = new Statement("SELECT * FROM \"Employees\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

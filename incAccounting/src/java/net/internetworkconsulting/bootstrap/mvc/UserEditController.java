@@ -23,7 +23,7 @@ public class UserEditController extends Controller {
 	public boolean getEnforceSecurity() { return true; }
 
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/UserEdit.html"), new HtmlSyntax()));		
+		setDocument(new Template(read_url("~/templates/UserEdit.html"), new HtmlSyntax()));		
 
 		User objModel = (User) model;
 		if(!getIsPostback()) {

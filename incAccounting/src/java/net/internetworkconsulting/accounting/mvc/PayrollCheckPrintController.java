@@ -34,7 +34,7 @@ public class PayrollCheckPrintController extends Controller {
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 
-		setDocument(new Template(read("templates/PayrollCheckPrint.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/PayrollCheckPrint.html"), new HtmlSyntax()));
 		
 		objModel = (PayrollCheck) model;
 		if(!getIsPostback()) {

@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class TransactionsRow extends Row implements TransactionsInterface {
 	public TransactionsRow() { 
 		super(); 
-		setSqlTableName("transactions");
-		setSqlSecurableGuid("c15b977dd99332ca8623fbdfb86827e8");
+		setSqlTableName("Transactions");
+		setSqlSecurableGuid("31112aca11d0e9e6eb7db96f317dda49");
 	}
-	public static String TABLE_NAME = "transactions";
+	public static String TABLE_NAME = "Transactions";
 
 	// columns
 	
@@ -41,7 +42,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	protected Object lstBankDepositChildren = null;
 	public <T extends BankDepositsRow> List<T> loadBankDeposit(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstBankDepositChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"bank deposits\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Bank Deposits\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstBankDepositChildren = adapter.load(model, stmt);
 		}
@@ -51,7 +52,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	protected Object lstDocumentChildren = null;
 	public <T extends DocumentsRow> List<T> loadDocument(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstDocumentChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"documents\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstDocumentChildren = adapter.load(model, stmt);
 		}
@@ -61,7 +62,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	protected Object lstPaymentChildren = null;
 	public <T extends PaymentsRow> List<T> loadPayment(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPaymentChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"payments\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Payments\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPaymentChildren = adapter.load(model, stmt);
 		}
@@ -71,7 +72,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	protected Object lstPayrollChecksChildren = null;
 	public <T extends PayrollChecksRow> List<T> loadPayrollChecks(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPayrollChecksChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"payroll checks\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Payroll Checks\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPayrollChecksChildren = adapter.load(model, stmt);
 		}
@@ -81,7 +82,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	protected Object lstTransactionLinesChildren = null;
 	public <T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTransactionLinesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"transaction lines\" WHERE \"Transactions GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstTransactionLinesChildren = adapter.load(model, stmt);
 		}
@@ -94,11 +95,11 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	protected Object rTransactionTypeParent = null;
 	public <T extends TransactionTypesRow> T loadTransactionType(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rTransactionTypeParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"transaction types\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Transaction Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getTransactionTypesGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique transaction types row by GUID (" + Statement.convertObjectToString(this.getTransactionTypesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Transaction Types row by GUID (" + Statement.convertObjectToString(this.getTransactionTypesGuid(), null) + ")!");
 			rTransactionTypeParent = lst.get(0);
 		}
 		return (T) rTransactionTypeParent;
@@ -108,13 +109,13 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	// unique key loaders
 	
 	public static <T extends TransactionsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"transactions\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Transactions\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique transactions row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Transactions row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -122,7 +123,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 
 	// load all
 	public static <T extends TransactionsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"transactions\"");
+		Statement stmt = new Statement("SELECT * FROM \"Transactions\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

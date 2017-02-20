@@ -23,7 +23,7 @@ public class ReconciliationEditController extends Controller {
 	public ReconciliationEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read("templates/ReconciliationEdit.html"), new HtmlSyntax()));
+		setDocument(new Template(read_url("~/templates/ReconciliationEdit.html"), new HtmlSyntax()));
 
 		String sFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		

@@ -4,18 +4,19 @@
  */
 package net.internetworkconsulting.accounting.data;
 
-import net.internetworkconsulting.data.mysql.Statement;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class SalesTaxMembershipsRow extends Row implements SalesTaxMembershipsInterface {
 	public SalesTaxMembershipsRow() { 
 		super(); 
-		setSqlTableName("sales tax memberships");
-		setSqlSecurableGuid("6f0e8a9adaef933d118da911c511595f");
+		setSqlTableName("Sales Tax Memberships");
+		setSqlSecurableGuid("aa0a678d8950cf58d676ff1df2aa08ce");
 	}
-	public static String TABLE_NAME = "sales tax memberships";
+	public static String TABLE_NAME = "Sales Tax Memberships";
 
 	// columns
 	
@@ -36,11 +37,11 @@ public class SalesTaxMembershipsRow extends Row implements SalesTaxMembershipsIn
 	protected Object rParentSalesTaxParent = null;
 	public <T extends SalesTaxesRow> T loadParentSalesTax(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rParentSalesTaxParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"sales taxes\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Sales Taxes\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentSalesTaxesGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique sales taxes row by GUID (" + Statement.convertObjectToString(this.getParentSalesTaxesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Sales Taxes row by GUID (" + Statement.convertObjectToString(this.getParentSalesTaxesGuid(), null) + ")!");
 			rParentSalesTaxParent = lst.get(0);
 		}
 		return (T) rParentSalesTaxParent;
@@ -49,11 +50,11 @@ public class SalesTaxMembershipsRow extends Row implements SalesTaxMembershipsIn
 	protected Object rChildSalesTaxParent = null;
 	public <T extends SalesTaxesRow> T loadChildSalesTax(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rChildSalesTaxParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"sales taxes\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"Sales Taxes\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getChildSalesTaxesGuid());
 			List<T> lst = adapter.load(model, stmt);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique sales taxes row by GUID (" + Statement.convertObjectToString(this.getChildSalesTaxesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique Sales Taxes row by GUID (" + Statement.convertObjectToString(this.getChildSalesTaxesGuid(), null) + ")!");
 			rChildSalesTaxParent = lst.get(0);
 		}
 		return (T) rChildSalesTaxParent;
@@ -65,7 +66,7 @@ public class SalesTaxMembershipsRow extends Row implements SalesTaxMembershipsIn
 
 	// load all
 	public static <T extends SalesTaxMembershipsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"sales tax memberships\"");
+		Statement stmt = new Statement("SELECT * FROM \"Sales Tax Memberships\"");
 		return (List<T>) adapter.load(model, stmt);
 	}
 }

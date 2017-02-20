@@ -7,6 +7,8 @@ package __namespace_raw__;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
+import net.internetworkconsulting.data.mysql.*;
+
 
 public class __table_cc__Row extends Row implements __table_cc__Interface {
 	public __table_cc__Row() { 

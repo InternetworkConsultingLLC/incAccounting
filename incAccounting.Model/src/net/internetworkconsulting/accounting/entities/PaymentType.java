@@ -33,7 +33,7 @@ public class PaymentType extends PaymentTypesRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readFile("sql/PaymentType.loadOptions.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(PaymentType.class, "PaymentType.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
