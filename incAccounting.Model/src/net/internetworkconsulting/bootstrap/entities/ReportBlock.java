@@ -48,7 +48,9 @@ public class ReportBlock extends ReportBlocksRow {
 	private Object lstChildrenChildren = null;
 	public <T extends ReportBlocksRow> List<T> loadChildren(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstChildrenChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"report blocks\" WHERE \"Parent Block GUID\"={PRIMARYKEY} ORDER BY \"Priority\"");
+			String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={PRIMARYKEY} ORDER BY \"%s\"";
+			sql = String.format(sql, ReportBlock.TABLE_NAME, ReportBlock.PARENT_BLOCK_GUID, ReportBlock.PRIORITY);
+			Statement stmt = new Statement(sql);
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstChildrenChildren = adapter.load(model, stmt);
 		}

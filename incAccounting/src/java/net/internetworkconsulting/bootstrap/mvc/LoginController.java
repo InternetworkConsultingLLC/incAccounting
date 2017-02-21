@@ -1,19 +1,3 @@
-/*
- * incBootstrap Servlet MVC Controllers
- * Copyright (C) 2016 Internetwork Consulting LLC
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, version 3 of the License.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
- */
 package net.internetworkconsulting.bootstrap.mvc;
 
 import net.internetworkconsulting.bootstrap.entities.User;
@@ -35,12 +19,12 @@ public class LoginController extends Controller {
 		setDocument(new Template(read_url("~/templates/Login.html"), new HtmlSyntax()));
 		setModel(new User());
 
-		TextTag txtUser = new TextTag(this, User.SQL_USER);
-		txtUser.bind(getModel(), User.SQL_USER);
+		TextTag txtServer = new TextTag(this, User.SQL_SERVER, getModel());
+		TextTag txDatabase = new TextTag(this, User.DATABASE, getModel());
+		TextTag txtUser = new TextTag(this, User.SQL_USER, getModel());
 
-		TextTag txtPassword = new TextTag(this, User.PASSWORD);
+		TextTag txtPassword = new TextTag(this, User.PASSWORD, getModel());
 		txtPassword.setInputType(TextTag.TYPE_PASSWORD);
-		txtPassword.bind(getModel(), User.PASSWORD);
 		
 		ButtonTag btnLogin = new ButtonTag(this, "Login");
 		btnLogin.setValue("Login");
@@ -54,8 +38,10 @@ public class LoginController extends Controller {
 	
 	public void btnLogin_OnClick() throws Exception {
 		User objModel = (User) getModel();
-		objModel.setSqlServer(getSqlServer());
-		objModel.setDatabase(getSqlDatabase());
+		if(objModel.getSqlServer() == null || objModel.getSqlServer().isEmpty())
+			objModel.setSqlServer(getSqlServer());
+		if(objModel.getDatabase() == null || objModel.getDatabase().isEmpty())		
+			objModel.setDatabase(getSqlDatabase());
 
 		AdapterInterface adapter = null;
 		try { adapter = objModel.login(); }

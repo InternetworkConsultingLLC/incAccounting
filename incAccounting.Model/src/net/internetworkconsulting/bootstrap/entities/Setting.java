@@ -45,7 +45,7 @@ public class Setting extends net.internetworkconsulting.bootstrap.data.SettingsR
 	}
 	
 	public static <T extends Setting> T loadByKey(AdapterInterface adapter, Class model, String value) throws Exception {
-		String sql = "SELECT * FROM \"settings\" WHERE \"" + Setting.KEY + "\"={VALUE}";
+		String sql = "SELECT * FROM \"Settings\" WHERE \"" + Setting.KEY + "\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 

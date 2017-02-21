@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="~/css/style.css"/>
+		<link rel="stylesheet" href="~/css/colors.css"/>
+		<script src="~/scripts/library.js" ></script>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		{Header}
+	</head>
+	<body>
+		<div id="header">
+			<div class="ported">
+				<div id="triplebar" onclick="toggleMenu();">&#9776;</div>
+				<div id="history">{History}</div>
+			</div>
+		</div>		
+		<div id="menu" class="ported hidden">
+			<div class="padded columns">
+				<h1>Actions</h1>
+				<a href="~/incBootstrap?App=System">Splash Screen</a><br/>
+				<a href="~/incBootstrap?App=Login">User Login</a><br/>	
+				<a href="~/incAccounting?App=Setup">Database Setup</a><br/>
+				<a href="~/incBootstrap?App=ChangePassword">Change Password</a><br/>	
+
+				<h1>Security</h1>
+				<a href="~/incBootstrap?App=UserList">User List</a><br/>	
+				<a href="~/incBootstrap?App=GroupList">Group List</a><br/>	
+				<a href="~/incBootstrap?App=SecurableList">Securable List</a><br/>	
+				<a href="~/incBootstrap?App=ComputerList">Computer List</a><br/>	
+				<a href="~/incBootstrap?App=SettingList">Setting List</a><br/>	
+				<a href="~/incBootstrap?App=LogList">Log List</a><br/>	
+
+				<h1>Reporting</h1>
+				<a href="~/incBootstrap?App=ReportList">Report List</a><br/>	
+				<a href="~/incBootstrap?App=ReportView&GUID=cef027b31c704b17b9f97bc9489626cb">Group Membership Report</a><br/>	
+				<a href="~/incBootstrap?App=ReportView&GUID=6d4ea7d4624e48509e915e019ca1f7a9">Chart of Accounts with Balances</a><br/>	
+
+				<h1>Lists</h1>
+				<a href="~/incAccounting?App=AccountList">Account List</a><br/>	
+				<a href="~/incAccounting?App=ContactTypeList">Contact Type List</a><br/>	
+				<a href="~/incAccounting?App=ContactList">Contacts List</a><br/>	
+				<a href="~/incAccounting?App=DepartmentList">Departments List</a><br/>	
+				<a href="~/incAccounting?App=ItemList">Items List</a><br/>	
+				<a href="~/incAccounting?App=JobList">Jobs List</a><br/>	
+				<a href="~/incAccounting?App=SalesTaxList">Sales Tax List</a><br/>	
+				<a href="~/incAccounting?App=UnitMeasureList">Unit Measure List</a><br/>
+				<a href="~/incAccounting?App=DocumentTypeList">Document Type List</a><br/>	
+				<a href="~/incAccounting?App=PaymentTypeList">Payment Type List</a><br/>	
+				<a href="~/incAccounting?App=EmployeeList">Employee List</a><br/>	
+				<a href="~/incAccounting?App=PayrollFieldList">Payroll Field List</a><br/>
+
+				<h1>Documents</h1>			
+				<a href="~/incAccounting?App=TransactionList">Transaction List</a><br/>	
+				<a href="~/incAccounting?App=DocumentList">Document List</a><br/>	
+				<a href="~/incAccounting?App=PaymentList">Payment List</a><br/>	
+				<a href="~/incAccounting?App=DepositList">Deposit List</a><br/>	
+				<a href="~/incAccounting?App=PayrollCheckList">Payroll Check List</a><br/>	
+				<a href="~/incAccounting?App=ReconciliationList">Reconciliation List</a><br/>
+
+				<h1>Posting</h1>			
+				<a href="~/incAccounting?App=PostDocuments">Post Documents</a><br/>	
+				<a href="~/incAccounting?App=PostPayments">Post Payments</a><br/>									
+				<a href="~/incAccounting?App=PostDeposits">Post Deposits</a><br/>									
+				<a href="~/incAccounting?App=PostPayrollChecks">Post Payroll Checks</a><br/>													
+			</div>
+		</div>
+		<div id="body" class="ported">
+			<form id="form" method="post" onsubmit="beforeSubmit(); return true;">
+				<div id="hiddenmodel">{Hidden Model}</div>
+				<div id="error">{Error}</div>
+				{Body}
+			</form>
+		</div>
+		<script>
+			{OnLoad}
+			
+			var bMenuActive = false;
+			function toggleMenu() {
+				if(bMenuActive === false) {
+					// show menu
+					document.getElementById("body").className = document.getElementById("body").className + " hidden";
+					document.getElementById("menu").className = replaceAll(document.getElementById("menu").className, "hidden", "");
+					bMenuActive = true;
+				} else {
+					// hide menu
+					document.getElementById("menu").className = document.getElementById("menu").className + " hidden";
+					document.getElementById("body").className = replaceAll(document.getElementById("body").className, "hidden", "");
+					bMenuActive = false;
+				}
+			}
+			function replaceAll(haystack, needle, value) {
+				var before = haystack;
+				var after = before.replace(needle, value);
+
+				while (before != after) {
+					before = after;
+					after = before.replace(needle, value);
+				}
+
+				return after;
+			}
+			function beforeSubmit() {
+//				var msg = "beforeSubmit\n";
+//
+//				msg += "HiddenControl " + document.getElementById("HiddenControl").value + "\n";
+//				msg += "HiddenEvent " + document.getElementById("HiddenEvent").value + "\n";
+//				
+//				alert(msg);
+			}
+			function sendEvent(element_name, event_name) {
+//				alert("sendEvent");
+				
+				var elm = document.getElementById("HiddenControl");
+				elm.setAttribute("value", element_name);
+				
+				elm = document.getElementById("HiddenEvent");
+				elm.setAttribute("value", event_name);
+
+				elm = document.getElementById("form");
+				elm.submit();
+			}
+		</script>
+	</body>
+</html>

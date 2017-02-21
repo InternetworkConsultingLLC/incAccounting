@@ -30,8 +30,8 @@ import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
-	public void createDatabase(String program_path) throws Exception {
-		super.createDatabase(program_path);
+	public void createDatabase() throws Exception {
+		super.createDatabase();
 
 		AdapterInterface adapter = connect();
 

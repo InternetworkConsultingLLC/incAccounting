@@ -41,9 +41,6 @@ public interface ControllerInterface {
 	HttpSession getSession();
 	void setSession(HttpSession value);
 	
-	String getProgramPath();
-	void setProgramPath(String value);
-	
 	List<ControllerInterface> getControls();
 	void setControls(List<ControllerInterface> value);
 	

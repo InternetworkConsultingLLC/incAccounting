@@ -83,7 +83,7 @@ public class SetupController extends Controller {
 	}
 	private void btnCreateDatabase_OnClick() throws Exception {
 		Setup model = (Setup) getModel();
-		model.createDatabase(getProgramPath());
+		model.createDatabase();
 		addError("Created Database", "You database has been created.");
 	}
 	private void btnCreateAdministrator_OnClick() throws Exception {

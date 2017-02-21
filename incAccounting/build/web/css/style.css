@@ -1,0 +1,290 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700');
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,700,900');
+@import url('https://fonts.googleapis.com/css?family=Droid+Sans+Mono');
+
+/* GLOBALS */
+* { 
+	font-family: "Droid Serif";
+	font-size: 16px;
+	margin: 0px;
+	padding: 0px;
+}
+.hidden { visibility: hidden; display: none; }
+.center {text-align: center; }
+.right {text-align: right; }
+.top { vertical-align: top; }
+.fill { width: 100%; }
+
+h1, h3, h5 {
+	padding: 0px;
+	margin: 0px;
+	font-family: "Rubik";
+	font-size: 32px;
+	font-weight: bolder;
+}
+h2, h4, h6 {
+	padding: 0px;
+	margin: 0px;
+	font-family: "Droid Serif";
+	font-size: 32px;
+	font-weight: normal;
+	font-style: italic;
+}
+h1 { font-size: 54px; }
+h2, h3 { font-size: 48px; }
+h4, h5 { font-size: 32px; }
+h6 { font-size: 16px; }
+
+p + p, p + table, table + p, div + h2, div + p,
+p + div.block, div.block + div.block, div.block + p,
+a + h1, a + h2, a + h3, a + h4, a + h5, a + h6,
+br + h1, br + h2, br + h3, br + h4, br + h5, br + h6,
+div.block + h1, div.block + h2, div.block + h3, div.block + h4, div.block + h5, div.block + h6,
+p + h1, p + h2, p + h3, p + h4, p + h5, p + h6,
+div + table, table + div, .brbefore {
+	margin-top: 1em;
+}
+
+/* SECTIONS */
+div#header {
+	overflow: hidden;
+	height: 48px;
+}
+div#header div#triplebar { 
+	width: 48px;
+	padding-left: 16px;
+	float: left;
+	margin-top: -2px;
+	font-size: 36px;
+	font-family: "Rubik";
+	font-weight: bolder;
+	cursor: pointer;
+}
+div#header div#history { 
+	padding-top: 16px;
+	padding-bottom: 16px;
+	height: 16px; 
+	float: left;
+	overflow-y: hidden;
+}
+div#header div#history a { 
+	color: #fff;
+	text-decoration: none;
+}
+
+div.ported { margin: auto; }
+form#form, .padded { 
+	padding: 16px;
+}
+div#menu a {
+	display: inline-block;
+	padding-bottom: 8px;
+	text-decoration: none;
+}
+
+/* LISTS */
+/*table.list { width: 100%; }*/
+table.list tr td a { text-decoration: none; }
+table.list tr td { padding-right: 16px; padding-bottom: 2px; }
+table.list > tbody > tr:nth-child(1) > td { color: #fff; }
+a.add { color: #4f8; }
+a.delete { color: #f48; }
+
+/* BLOCKS */
+div.block {
+	overflow: hidden;
+
+}
+div.block > div.field {
+	overflow: hidden;
+	display: inline-block;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	min-height: 1.66em;
+}
+div.block > div.field > label {
+	text-align: right;
+	float: left;
+	padding-right: 4px;
+	vertical-align: middle;
+	display: inline-block;
+	margin-top: 1px;
+}
+div.block > div.field > label + div {
+	float: left;
+	display: inline-block;
+	width: 70%;
+}
+div.block.row + div.block.row, div.block.row + div.block.final { 
+	padding-top: 16px;
+}
+
+/* SCREEN SPECIFCS */
+@media screen and (min-width: 0px) and (max-width: 640px) {
+	div#history { display: none; visibility: hidden; }
+	div.ported { width: 320px; }
+	
+	div.block > div.field {
+		display: block;
+		width: 400px;
+	}
+	div.block > div.field > label {
+		width: auto;
+		display: block;
+	}
+	div.block > div.field > label + div {
+		clear: left;
+		display: block;
+	}
+	input[type="text"] { width: 275px; }
+	input[type="password"] { width: 275px; }
+	textarea { width: 275px; }
+	select { width: 285px; }
+	
+	div.block > div.field.blank { visibility: hidden; display: none; }
+	
+	input[type="text"].City { width: 130px; }
+	input[type="text"].State { width: 25px; }
+	input[type="text"].PostalCode { width: 85px; }
+}
+@media screen and (min-width: 641px) and (max-width: 960px) {
+	div.ported { width: 640px; }
+	.columns {
+		-webkit-columns: 2 auto;
+		-moz-columns: 2 auto;
+		columns: 2 auto;	
+	}
+	div.block > div.field {
+		float: left;
+		width: 50%;
+	}	
+	div.block > div.field > label {
+		display: inline-block;
+		width: 95px;
+		padding-top: 3px;
+	}
+	div.block > div.field > label + div {
+		display: inline-block;
+		width: 205px;
+	}
+
+	input[type="text"] { width: 195px ; }
+	input[type="password"] { width: 195px ; }
+	textarea { width: 195px; }
+	select { width: 205px; }
+	
+	input[type="text"].City { width: 80px; }
+	input[type="text"].State { width: 25px; }
+	input[type="text"].PostalCode { width: 60px; }	
+	
+	div.block.single { 
+		width: 50%;
+		float: left;
+	}
+	.block.single + .block.single {
+		margin-top: 0px;
+	}
+	div.block.single > div.field {
+		display: inline-block;
+		width: 100%;
+	}
+	div.block > div.field.double {
+		display: inline-block;
+		width: 640px;
+	}
+	div.block > div.field > label + div.double {
+		display: inline-block;
+		width: 505px;
+	}
+	div.block > div.field > label + div.double > textarea {
+		width: 499px;
+	}	
+	div.block > div.field > label + div.double > input[type="text"] {
+		width: 499px;
+	}	
+}
+@media screen and (min-width: 961px) {
+	div.ported { width: 960px; }
+	.columns {
+		-webkit-columns: 2 auto;
+		-moz-columns: 2 auto;
+		columns: 2 auto;	
+	}
+	div.block > div.field {
+		float: left;
+		width: 50%;
+	}	
+	div.block > div.field > label {
+		display: inline-block;
+		width: 95px;
+		padding-top: 3px;
+	}
+
+	input[type="text"] { width: 355px; }
+	input[type="password"] { width: 355px; }
+	textarea { width: 354px; }
+	select { width: 365px; }
+	
+	input[type="text"].City { width: 160px; }
+	input[type="text"].State { width: 25px; }
+	input[type="text"].PostalCode { width: 100px; }
+	
+	div.block.single { 
+		width: 50%;
+		float: left;
+	}
+	.block.single + .block.single {
+		margin-top: 0px;
+	}
+	div.block.single > div.field {
+		display: inline-block;
+		width: 100%;
+	}
+	div.block > div.field.double {
+		display: inline-block;
+		width: 960px;
+	}
+	div.block > div.field > label + div.double {
+		display: inline-block;
+	}
+	div.block > div.field > label + div.double > textarea {
+		width: 819px;
+	}
+	div.block > div.field > label + div.double > input[type="text"] {
+		width: 819px;
+	}
+}
+
+/* INPUTS */
+button, input[type="text"], input[type="password"], textarea, a.add, a.delete {
+	padding: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+select, select > option, select * {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+span.value { 
+	overflow: hidden;
+}
+textarea { 
+	font-family: "Droid Sans Mono"; 
+	height: 4em;
+}
+
+select.Month { width: 60px; }
+select.Day { width: 60px; }
+input[type="text"].Year { width: 50px; }
+
+input[type="checkbox"] {
+	margin-top: 8px;
+}
+
+button { cursor: pointer; }
+button.readonly { display: none; visibility: hidden; }
+
+a.add, a.delete {
+	display: inline-block;
+}

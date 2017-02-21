@@ -33,7 +33,8 @@ public class ContactEditController extends Controller {
 	protected CheckTag chkAllowed;
 	protected TextTag txtDisplay;
 	protected TextTag txtGuid;
-	protected String getTemplateFile() { return "templates/ContactEdit.html"; }
+
+	protected String getTemplateFile() { return "~/templates/ContactEdit.html"; }
 	
 	public ContactEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }

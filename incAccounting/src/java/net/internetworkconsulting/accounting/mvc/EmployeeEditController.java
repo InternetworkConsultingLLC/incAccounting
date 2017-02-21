@@ -17,7 +17,7 @@ public class EmployeeEditController extends ContactEditController {
 	protected Employee objEmployee;
 	protected Contact objModel;
 	
-	protected String getTemplateFile() { return "templates/EmployeeEdit.html"; }
+	protected String getTemplateFile() { return "~/templates/EmployeeEdit.html"; }
 	public EmployeeEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {

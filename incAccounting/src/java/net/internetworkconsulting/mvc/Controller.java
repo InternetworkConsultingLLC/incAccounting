@@ -34,7 +34,6 @@ public abstract class Controller implements ControllerInterface {
 		setResponse(controller.getResponse());
 		setSession(controller.getSession());
 
-		setProgramPath(controller.getProgramPath());
 		setRootUrl(controller.getRootUrl());
 		setSqlDatabase(controller.getSqlDatabase());
 		setSqlServer(controller.getSqlServer());
@@ -55,12 +54,8 @@ public abstract class Controller implements ControllerInterface {
 		setSqlServer(request.getServletContext().getInitParameter("SQL Server"));
 		setIsSetupAllowed(request.getServletContext().getInitParameter("Setup Allowed").toLowerCase().charAt(0) == 't');
 
-		setProgramPath(request.getServletContext().getInitParameter("Program Path"));
-
 		if(getUser() == null)
 			setUser(new User());
-
-		getUser().setProgramPath(getProgramPath());
 
 		String url = getRequest().getScheme() + "://" + getRequest().getServerName();
 		if(getRequest().getServerPort() != 80)
@@ -167,14 +162,6 @@ public abstract class Controller implements ControllerInterface {
 	}
 	public void setSession(HttpSession value) {
 		mySession = value;
-	}
-
-	private String sProgramPath;
-	public String getProgramPath() {
-		return sProgramPath;
-	}
-	public void setProgramPath(String value) {
-		sProgramPath = value;
 	}
 
 	private List<ControllerInterface> myControls = new LinkedList<>();
