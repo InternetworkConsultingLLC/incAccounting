@@ -79,6 +79,26 @@ public class DocumentLinesRow extends Row implements DocumentLinesInterface {
 
 	// child loaders
 	
+	protected Object lstDecreasingItemPostingsChildren = null;
+	public <T extends ItemPostingsRow> List<T> loadDecreasingItemPostings(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstDecreasingItemPostingsChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Item Postings\" WHERE \"Decreasing Document Lines GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstDecreasingItemPostingsChildren = adapter.load(model, stmt);
+		}
+		return (List<T>) lstDecreasingItemPostingsChildren;
+	}
+	
+	protected Object lstIncreasingItemPostingsChildren = null;
+	public <T extends ItemPostingsRow> List<T> loadIncreasingItemPostings(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstIncreasingItemPostingsChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Item Postings\" WHERE \"Increasing Document Lines GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstIncreasingItemPostingsChildren = adapter.load(model, stmt);
+		}
+		return (List<T>) lstIncreasingItemPostingsChildren;
+	}
+	
 
 	// parent loaders
 	

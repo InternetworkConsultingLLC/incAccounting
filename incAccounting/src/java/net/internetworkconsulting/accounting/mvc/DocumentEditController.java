@@ -192,6 +192,11 @@ public class DocumentEditController extends Controller {
 			btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClick(); } });
 		}
 		
+		if(objTransaction == null && objModel.getRowState() != RowState.Insert) {
+			ButtonTag btnDelete = new ButtonTag(this, "Delete");
+			btnDelete.addOnClickEvent(new Event() { public void handle() throws Exception { btnDelete_OnClick(); } });
+		}
+		
 		if(objModel.getRowState() == RowState.NA && (objModel.getReferenceNumber() == null || objModel.getReferenceNumber().isEmpty())) {
 			ButtonTag btnNumber = new ButtonTag(this, "Number");
 			btnNumber.addOnClickEvent(new Event() { public void handle() throws Exception { btnNumber_OnClick(); } });
@@ -265,6 +270,30 @@ public class DocumentEditController extends Controller {
 		objModel.handleSalesTaxesGuid(getUser().login());
 	}
 
+	private void btnDelete_OnClick() throws Exception {
+		Document objModel = (Document) getModel();
+		
+		try {
+			getUser().login().begin(true);
+
+			List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false);
+			for(DocumentLine line : lstLines)
+				line.setIsDeleted(true);
+			objModel.setIsDeleted(true);
+			
+			getUser().login().save(DocumentLine.TABLE_NAME, lstLines);
+			getUser().login().save(Document.TABLE_NAME, objModel);
+			
+			getUser().login().commit(true);
+		} catch(Exception ex) {
+			getUser().login().rollback(true);
+			getUser().logExcpetion(ex, "fb5e47d3b5964075a46e7192a68d43c1");
+			addError("Save", ex.getMessage());
+			return;
+		}
+		
+		redirect("~/incAccounting?App=DocumentList");
+	}
 	private void btnSave_OnClick() throws Exception {
 		Document objModel = (Document) getModel();
 		objModel.calculate(getUser().login());
@@ -285,6 +314,7 @@ public class DocumentEditController extends Controller {
 	}
 	private void btnAdd_OnClick() throws Exception { 
 		Document objModel = (Document) getModel();
+		objModel.calculate(getUser().login());
 		
 		DocumentLine line = new DocumentLine();
 		line.initialize(getUser().login(), objModel);
@@ -300,6 +330,7 @@ public class DocumentEditController extends Controller {
 	}
 	private void btnPost_OnClick() throws Exception {
 		Document objModel = (Document) getModel();
+		objModel.calculate(getUser().login());
 		
 		try {
 			getUser().login().begin(true);
@@ -325,11 +356,30 @@ public class DocumentEditController extends Controller {
 	}
 	private void btnPrint_OnClick() throws Exception {
 		Document objModel = (Document) getModel();
+		objModel.calculate(getUser().login());
+
 		redirect("~/incAccounting?App=DocumentPrint&GUID=" + objModel.getGuid());
 	}
 	private void btnNumber_OnClick() throws Exception {
 		Document objModel = (Document) getModel();
-		objModel.handleAutoNumber(getUser().login());
+		objModel.calculate(getUser().login());
+				
+		try {
+			getUser().login().begin(true);
+
+			objModel.handleAutoNumber(getUser().login());
+			
+			getUser().login().save(Document.TABLE_NAME, objModel);
+			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false));
+			getUser().login().commit(true);
+		} catch(Exception ex) {
+			getUser().login().rollback(true);
+			getUser().logExcpetion(ex, "4722ae08ea614fec8c15278e296e337c");
+			addError("Save", ex.getMessage());
+			return;
+		}
+		
+		redirect("~/incAccounting?App=DocumentEdit&GUID=" + objModel.getGuid() + "&Error=Saved!");		
 	}
 	private void btnCreateOrder_OnClick() throws Exception {
 		Document objNew = null;

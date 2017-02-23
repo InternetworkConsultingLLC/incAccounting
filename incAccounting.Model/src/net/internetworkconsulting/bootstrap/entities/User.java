@@ -504,15 +504,15 @@ public class User extends UsersRow implements SessionInterface {
 		return Helper.InputStreamToString(jar.getResourceAsStream(filename));
 	}
 				
-	public static <T extends User> T loadBySqlUser(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"" + User.TABLE_NAME +"\" WHERE \"" + User.SQL_USER + "\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Userrow by 'SQL User': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
+//	public static <T extends User> T loadBySqlUser(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+//		String sql = "SELECT * FROM \"" + User.TABLE_NAME +"\" WHERE \"" + User.SQL_USER + "\"={VALUE}";
+//		Statement stmt = new Statement(sql);
+//		stmt.getParameters().put("{VALUE}", value);
+//
+//		List<T> lst = adapter.load(model, stmt);
+//		if(lst.size() != 1)
+//			throw new Exception("Could not locate unique Userrow by 'SQL User': " + Statement.convertObjectToString(value, null));
+//
+//		return lst.get(0);		
+//	}
 }

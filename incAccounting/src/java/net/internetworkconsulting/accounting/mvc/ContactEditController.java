@@ -154,7 +154,8 @@ public class ContactEditController extends Controller {
 
 			Contact child = new Contact();
 			child.initialize(objModel);
-
+			child.setContactTypesGuid(ContactType.TYPE_INDIVIDUAL_GUID);
+			
 			objModel.loadChildrenContacts(getUser().login(), Contact.class, false).add(child);
 
 			ContactEditChildController controller = createChildController(child);			

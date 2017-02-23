@@ -36,6 +36,15 @@ public class ItemEditController extends Controller {
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
+
+		LiteralTag litMoneyDecimals = new LiteralTag(this, "Money Decimals");
+		litMoneyDecimals.setValue(getUser().getSetting(Document.SETTING_MONEY_DECIMALS));
+		
+		LiteralTag litRateDecimals = new LiteralTag(this, "Rate Decimals");
+		litRateDecimals.setValue(getUser().getSetting(Document.SETTING_RATE_DECIMALS));
+				
+		LiteralTag litQuantityDecimals = new LiteralTag(this, "Quantity Decimals");
+		litQuantityDecimals.setValue(getUser().getSetting(Document.SETTING_QUANITY_DECIMALS));
 		
 		TextTag txtGuid = new TextTag(this, Item.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

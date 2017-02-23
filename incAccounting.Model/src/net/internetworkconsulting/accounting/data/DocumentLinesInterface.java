@@ -48,6 +48,10 @@ public interface DocumentLinesInterface {
 	java.lang.String getAccountsGuid();
 	
 	
+	<T extends ItemPostingsRow> List<T> loadDecreasingItemPostings(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends ItemPostingsRow> List<T> loadIncreasingItemPostings(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends DocumentsRow> T loadDocument(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

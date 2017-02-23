@@ -67,6 +67,30 @@ public class ComputersRow extends Row implements ComputersInterface {
 		return lst.get(0);		
 	}
 	
+	public static <T extends ComputersRow> T loadByDescription(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Computers\" WHERE \"Description\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Computers row by 'Description': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends ComputersRow> T loadByMacAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Computers\" WHERE \"MAC Address\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Computers row by 'MAC Address': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
 
 	// load all
 	public static <T extends ComputersRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

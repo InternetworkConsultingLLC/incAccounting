@@ -110,18 +110,14 @@ public class Item extends ItemsRow {
 			return;
 		
 		Item itm = loadParentItem(myAdapter, Item.class, true);
-		
+				
 		this.setInventoryAccountsGuid(itm.getInventoryAccountsGuid());
-		//this.setInventoryDescription(itm.getInventoryDescription());
 		this.setInventoryUnitMeasuresGuid(itm.getInventoryUnitMeasuresGuid());
 		this.setIsAllowed(itm.getIsAllowed());
 		this.setIsSalesTaxed(itm.getIsSalesTaxed());
 		this.setPurchaseAccountsGuid(itm.getPurchaseAccountsGuid());
 		this.setPurchaseContactsGuid(itm.getPurchaseContactsGuid());
-		//this.setPurchaseDescription(itm.getPurchaseDescription());
 		this.setSalesAccountsGuid(itm.getSalesAccountsGuid());
-		//this.setSalesDescription(itm.getSalesDescription());
 		this.setSalesMarkUp(itm.getSalesMarkUp());
-		this.setSalesUnitPrice(itm.getSalesUnitPrice());
 	}
  }

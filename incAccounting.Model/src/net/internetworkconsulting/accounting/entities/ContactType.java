@@ -28,6 +28,7 @@ public class ContactType extends ContactTypesRow {
 	private static List<Option> lstOptions;
 	public static String TYPE_BUSINESS_GUID = "4134430d7bb64a97b95f7862bea83644";
 	public static String TYPE_EMPLOYEE_GUID = "7c85de861e784b9f8dcb4a456e267869";
+	public static String TYPE_INDIVIDUAL_GUID = "77c1c5bad818403f8ae836a3fc7fd84b";
 	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
 		if(lstOptions != null && !force)
 			return lstOptions;

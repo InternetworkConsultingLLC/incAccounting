@@ -45,7 +45,7 @@ public class Report extends ReportsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readJar(Report.class, "sql/Report.loadOptions.sql"));		
+		Statement stmt = new Statement(adapter.getSession().readJar(Report.class, "Report.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();
@@ -110,15 +110,15 @@ public class Report extends ReportsRow {
 		return document.generate();
 	}
 
-	public static <T extends Report> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"" + Report.TABLE_NAME +"\" WHERE \"" + Report.DISPLAY_NAME +"\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique " + Report.TABLE_NAME + " row by '" + Report.DISPLAY_NAME +"': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
+//	public static <T extends Report> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+//		String sql = "SELECT * FROM \"" + Report.TABLE_NAME +"\" WHERE \"" + Report.DISPLAY_NAME +"\"={VALUE}";
+//		Statement stmt = new Statement(sql);
+//		stmt.getParameters().put("{VALUE}", value);
+//
+//		List<T> lst = adapter.load(model, stmt);
+//		if(lst.size() != 1)
+//			throw new Exception("Could not locate unique " + Report.TABLE_NAME + " row by '" + Report.DISPLAY_NAME +"': " + Statement.convertObjectToString(value, null));
+//
+//		return lst.get(0);		
+//	}
 }

@@ -110,6 +110,18 @@ public class PayrollFieldsRow extends Row implements PayrollFieldsInterface {
 		return lst.get(0);		
 	}
 	
+	public static <T extends PayrollFieldsRow> T loadByName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Payroll Fields\" WHERE \"Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Payroll Fields row by 'Name': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
 
 	// load all
 	public static <T extends PayrollFieldsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

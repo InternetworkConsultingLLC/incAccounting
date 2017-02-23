@@ -850,6 +850,12 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		ct.setIsAllowed(true);
 		adapter.save(ContactType.TABLE_NAME, ct);
 		
+		ct = new ContactType();
+		ct.setGuid(ContactType.TYPE_INDIVIDUAL_GUID);
+		ct.setDisplayName("Individual");
+		ct.setIsAllowed(true);
+		adapter.save(ContactType.TABLE_NAME, ct);
+		
 		Contact contact = new Contact();
 		contact.initialize();
 		contact.setGuid(Contact.OUR_COMPANY_GUID);
