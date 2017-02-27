@@ -479,9 +479,8 @@ public abstract class Controller implements ControllerInterface {
 		if(sMessage != null)
 			addError("Notification", sMessage);
 		sMessage = "";
-		for(String key: getErrors().keySet()) {
-			sMessage += "<p class=\"error\"><b>" + getUser().desalinate(key) + "</b><br/>" + getUser().desalinate(getErrors().get(key)) + "</p>";
-		}
+		for(String key: getErrors().keySet())
+			sMessage += "<p class=\"error\"><b>" + getUser().desalinate(key) + "</b><br/>" + getUser().desalinate(getErrors().get(key).replace("\n", "<br />")) + "</p>";
 		getDocument().set("Error", sMessage);
 		
 		String sHiddenModel = "<input type=\"hidden\" name=\"HiddenModel\" value=\"%VALUE%\" />";

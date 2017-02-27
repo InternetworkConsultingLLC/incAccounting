@@ -358,153 +358,6 @@ public class Document extends DocumentsRow {
 		return iMax;
 	}
 	
-	public List<TransactionLine> createPostLines(AdapterInterface adapter, Transaction objTran) throws Exception {
-		List<TransactionLine> lstTranLines =  objTran.loadTransactionLines(adapter, TransactionLine.class, false);
-		//List<TransactionLine> lstTranLines = new LinkedList<TransactionLine>();
-		TransactionLine objTranLine = null;
-		List<DocumentLine> lstDocLines = this.loadDocumentLines(adapter, DocumentLine.class, false);
-		DocumentType docType = this.loadDocumentType(adapter, DocumentType.class, true);
-
-		// Sales	CM		Lines	Hdr		Type 
-		//	T		T		1		-1		Sales Credit
-		//	T		F		-1		1		Sales Invoice
-		//	F		T		-1		1		Purch Credit
-		//	F		F		1		-1		Purch Invoice
-		
-
-		
-		// setup for lines
-		BigDecimal dMultiplier = BigDecimal.ONE;
-		if(docType.getIsCreditMemo() != docType.getIsSalesRelated())
-			dMultiplier = BigDecimal.valueOf(-1);
-
-
-		for(DocumentLine docLine: lstDocLines) {
-			if(docLine.getAccountsGuid() == null)
-				throw new Exception("One of the document lines is not associated with an account!");
-			
-			if(docLine.getItemsGuid() != null && docLine.loadItem(adapter, Item.class, false).getInventoryAccountsGuid() != null) {
-				// inventory item
-				if(docLine.getQuantity() == null)
-					throw new Exception("An inventory item was encountered with no quantity!");
-				
-				// For inventory items...  We need to compute the quantity effect:
-				// Sales	CM		Mult
-				//	T		T		1
-				//	T		F		-1
-				//	F		T		-1
-				//	F		F		1				
-				int iQtyMultiple = 0;
-				if(docType.getIsSalesRelated())
-					iQtyMultiple = -1;
-				else
-					iQtyMultiple = 1;
-				if(docType.getIsCreditMemo())
-					iQtyMultiple = iQtyMultiple * -1;
-				
-				if(docLine.getQuantity().multiply(BigDecimal.valueOf(iQtyMultiple)).compareTo(BigDecimal.ZERO) > 0) {
-					// increase inventory
-					createPostStandard(dMultiplier, docLine, objTran, lstTranLines, adapter);
-				} else if(docLine.getQuantity().multiply(BigDecimal.valueOf(iQtyMultiple)).compareTo(BigDecimal.ZERO) < 0) {
-					// decrease inventory
-					createPostCostAndRevenue(dMultiplier, docLine, objTran, lstTranLines, adapter);
-				} else
-					throw new Exception("An inventory item was encountered with a quantity of 0!");
-			} else {
-				// non-inventory item
-				createPostStandard(dMultiplier, docLine, objTran, lstTranLines, adapter);
-			}
-		}
-		
-		// add sales tax line
-		SalesTax tax = this.loadSalesTax(adapter, SalesTax.class, true);
-		if(tax.getAccountsGuid() == null)
-			throw new Exception("The sales tax group does not have a liability account!");
-				
-		objTranLine = new TransactionLine();
-		objTranLine.initialize(objTran, adapter);
-		objTranLine.setGuid(User.newGuid());
-		objTranLine.setSortOrder(lstTranLines.size());
-		objTranLine.setAccountsGuid(tax.getAccountsGuid());
-		objTranLine.setDebit(this.getTaxes().multiply(dMultiplier));
-		objTranLine.setDepartmentsGuid(null);
-		objTranLine.setDescription("Sales Tax " + tax.getDisplayName());
-		objTranLine.setJobsGuid(null);
-		lstTranLines.add(objTranLine);
-		
-		// add header line
-		dMultiplier = dMultiplier.multiply(BigDecimal.valueOf(-1)); // flip the sign
-		objTranLine = new TransactionLine();
-		objTranLine.initialize(objTran, adapter);
-		objTranLine.setGuid(User.newGuid());
-		objTranLine.setSortOrder(lstTranLines.size());
-		objTranLine.setAccountsGuid(getPostedAccountsGuid());
-		objTranLine.setDebit(this.getTotal().multiply(dMultiplier));
-		objTranLine.setDepartmentsGuid(null);
-		objTranLine.setDescription("Invoice " + this.getReferenceNumber() + " Total");
-		objTranLine.setJobsGuid(null);
-		lstTranLines.add(objTranLine);
-		
-		return lstTranLines;		
-	}
-	private void createPostStandard(BigDecimal dMultiplier, DocumentLine docLine, Transaction objTran, List<TransactionLine> lstTranLines,  AdapterInterface adapter) throws Exception {
-		TransactionLine objTranLine = new TransactionLine();
-		objTranLine.initialize(objTran, adapter);
-		//objTranLine.setGuid(docLine.getGuid());
-		objTranLine.setSortOrder(lstTranLines.size());
-		objTranLine.setGuid(User.newGuid());
-		objTranLine.setAccountsGuid(docLine.getAccountsGuid());
-		objTranLine.setDebit(docLine.getExtension().multiply(dMultiplier));
-		objTranLine.setDepartmentsGuid(docLine.getDepartmentsGuid());
-		objTranLine.setDescription(docLine.getDescription());
-		objTranLine.setJobsGuid(docLine.getJobsGuid());
-		lstTranLines.add(objTranLine);
-	}
-	private void createPostCostAndRevenue(BigDecimal dMultiplier, DocumentLine docLine, Transaction objTran, List<TransactionLine> lstTranLines, AdapterInterface adapter) throws Exception {
-		TransactionLine objTranLine;
-		
-		// increase costs (debit $ of costs)
-		objTranLine= new TransactionLine();
-		objTranLine.initialize(objTran, adapter);
-		//objTranLine.setGuid(docLine.getGuid());
-		objTranLine.setSortOrder(lstTranLines.size());
-		objTranLine.setGuid(User.newGuid());
-		objTranLine.setAccountsGuid(docLine.getAccountsGuid());
-		objTranLine.setDebit(docLine.getExtension().multiply(dMultiplier));
-		objTranLine.setDepartmentsGuid(docLine.getDepartmentsGuid());
-		objTranLine.setDescription(docLine.getDescription());
-		objTranLine.setJobsGuid(docLine.getJobsGuid());
-		lstTranLines.add(objTranLine);
-
-
-		// reduce inventory (credit $ of costs)
-		objTranLine= new TransactionLine();
-		objTranLine.initialize(objTran, adapter);
-		//objTranLine.setGuid(docLine.getGuid());
-		objTranLine.setSortOrder(lstTranLines.size());
-		objTranLine.setGuid(User.newGuid());
-		objTranLine.setAccountsGuid(docLine.getAccountsGuid());
-		objTranLine.setDebit(docLine.getExtension().multiply(dMultiplier));
-		objTranLine.setDepartmentsGuid(docLine.getDepartmentsGuid());
-		objTranLine.setDescription(docLine.getDescription());
-		objTranLine.setJobsGuid(docLine.getJobsGuid());
-		lstTranLines.add(objTranLine);
-		
-
-		// revenue line (credit $ of sales - costs)
-		objTranLine = new TransactionLine();
-		objTranLine.initialize(objTran, adapter);
-		//objTranLine.setGuid(docLine.getGuid());
-		objTranLine.setSortOrder(lstTranLines.size());
-		objTranLine.setGuid(User.newGuid());
-		objTranLine.setAccountsGuid(docLine.getAccountsGuid());
-		objTranLine.setDebit(docLine.getExtension().multiply(dMultiplier));
-		objTranLine.setDepartmentsGuid(docLine.getDepartmentsGuid());
-		objTranLine.setDescription(docLine.getDescription());
-		objTranLine.setJobsGuid(docLine.getJobsGuid());
-		lstTranLines.add(objTranLine);
-	}
-
 	public void post(AdapterInterface adapter) throws Exception {
 		// Document Guid => Transaction Guid
 		// Document Line Guid => Transaction Line Guid
@@ -556,6 +409,15 @@ public class Document extends DocumentsRow {
 		objTran.setIsDeleted(true);
 		for(TransactionLine line: objLines)
 			line.setIsDeleted(true);
+
+		List<ItemPosting> lstDeletePostings = new LinkedList<>();
+		for(DocumentLine dl : lstDocLines) {
+			List<ItemPosting> lstPostings = dl.loadDecreasingItemPostings(adapter, ItemPosting.class, false);
+			for(ItemPosting ip : lstPostings) {
+				ip.setIsDeleted(true);
+				lstDeletePostings.add(ip);
+			}
+		}
 		
 		//this.setPostedAccountsGuid(null);
 		this.setPostedTransactionsGuid(null);
@@ -565,9 +427,11 @@ public class Document extends DocumentsRow {
 
 			this.bSkipPostedCheck = true;
 			adapter.save(Document.TABLE_NAME, this, false);
-			adapter.save(DocumentLine.TABLE_NAME, lstDocLines, false);		
+			adapter.save(DocumentLine.TABLE_NAME, lstDocLines, false);
 			this.bSkipPostedCheck = false;
 
+			adapter.save(ItemPosting.TABLE_NAME, lstDeletePostings);
+			
 			objTran.setSkipDocumentCheck(true);
 			adapter.save(TransactionLine.TABLE_NAME, objLines);
 			adapter.save(Transaction.TABLE_NAME, objTran);
@@ -580,6 +444,143 @@ public class Document extends DocumentsRow {
 			throw ex;
 		}
 	}		
+	public List<TransactionLine> createPostLines(AdapterInterface adapter, Transaction objTran) throws Exception {
+		List<TransactionLine> lstTranLines =  objTran.loadTransactionLines(adapter, TransactionLine.class, false);
+		//List<TransactionLine> lstTranLines = new LinkedList<TransactionLine>();
+		TransactionLine objTranLine = null;
+		List<DocumentLine> lstDocLines = this.loadDocumentLines(adapter, DocumentLine.class, false);
+		DocumentType docType = this.loadDocumentType(adapter, DocumentType.class, true);
+
+		// Sales	CM		Lines	Hdr		Type 
+		//	T		T		1		-1		Sales Credit
+		//	T		F		-1		1		Sales Invoice
+		//	F		T		-1		1		Purch Credit
+		//	F		F		1		-1		Purch Invoice
+		
+		// setup for lines
+		BigDecimal dMultiplier = BigDecimal.ONE;
+		if(docType.getIsCreditMemo() != docType.getIsSalesRelated())
+			dMultiplier = BigDecimal.valueOf(-1);
+
+		for(DocumentLine docLine: lstDocLines) {
+			if(docLine.getAccountsGuid() == null)
+				throw new Exception("One of the document lines is not associated with an account!");
+			
+			if(docLine.getItemsGuid() != null && docLine.loadItem(adapter, Item.class, false).getInventoryAccountsGuid() != null) {
+				// inventory item
+				if(docLine.getQuantity() == null)
+					throw new Exception("An inventory item was encountered with no quantity!");
+				
+				// For inventory items...  We need to compute the quantity effect:
+				// Sales	CM		Mult
+				//	T		T		1
+				//	T		F		-1
+				//	F		T		-1
+				//	F		F		1				
+				int iQtyMultiple = 0;
+				if(docType.getIsSalesRelated())
+					iQtyMultiple = -1;
+				else
+					iQtyMultiple = 1;
+				if(docType.getIsCreditMemo())
+					iQtyMultiple = iQtyMultiple * -1;
+				
+				if(docLine.getQuantity().multiply(BigDecimal.valueOf(iQtyMultiple)).compareTo(BigDecimal.ZERO) > 0) {
+					// increase inventory
+					createPostStandard(dMultiplier, docLine, objTran, adapter);
+				} else if(docLine.getQuantity().multiply(BigDecimal.valueOf(iQtyMultiple)).compareTo(BigDecimal.ZERO) < 0) {
+					// decrease inventory
+					createPostCostAndRevenue(dMultiplier, docLine, objTran, adapter);
+				} else
+					throw new Exception("An inventory item was encountered with a quantity of 0!");
+			} else {
+				// non-inventory item
+				createPostStandard(dMultiplier, docLine, objTran, adapter);
+			}
+		}
+		
+		// add sales tax line
+		SalesTax tax = this.loadSalesTax(adapter, SalesTax.class, true);
+		if(tax.getAccountsGuid() == null)
+			throw new Exception("The sales tax group does not have a liability account!");
+				
+		objTranLine = new TransactionLine();
+		objTranLine.initialize(objTran, adapter);
+		objTranLine.setGuid(User.newGuid());
+		objTranLine.setSortOrder(lstTranLines.size());
+		objTranLine.setAccountsGuid(tax.getAccountsGuid());
+		objTranLine.setDebit(this.getTaxes().multiply(dMultiplier));
+		objTranLine.setDepartmentsGuid(null);
+		objTranLine.setDescription("Sales Tax " + tax.getDisplayName());
+		objTranLine.setJobsGuid(null);
+		lstTranLines.add(objTranLine);
+		
+		// add header line
+		dMultiplier = dMultiplier.multiply(BigDecimal.valueOf(-1)); // flip the sign
+		objTranLine = new TransactionLine();
+		objTranLine.initialize(objTran, adapter);
+		objTranLine.setGuid(User.newGuid());
+		objTranLine.setSortOrder(lstTranLines.size());
+		objTranLine.setAccountsGuid(getPostedAccountsGuid());
+		objTranLine.setDebit(this.getTotal().multiply(dMultiplier));
+		objTranLine.setDepartmentsGuid(null);
+		objTranLine.setDescription("Invoice " + this.getReferenceNumber() + " Total");
+		objTranLine.setJobsGuid(null);
+		lstTranLines.add(objTranLine);
+		
+		return lstTranLines;		
+	}
+	private void createPostStandard(BigDecimal dMultiplier, DocumentLine docLine, Transaction objTran, AdapterInterface adapter) throws Exception {
+		TransactionLine objTranLine = new TransactionLine();
+		objTranLine.initialize(objTran, adapter);
+		//objTranLine.setGuid(docLine.getGuid());
+		objTranLine.setSortOrder(objTran.loadTransactionLines(adapter, TransactionLine.class, false).size());
+		objTranLine.setGuid(User.newGuid());
+		objTranLine.setAccountsGuid(docLine.getAccountsGuid());
+		objTranLine.setDebit(docLine.getExtension().multiply(dMultiplier));
+		objTranLine.setDepartmentsGuid(docLine.getDepartmentsGuid());
+		objTranLine.setDescription(docLine.getDescription());
+		objTranLine.setJobsGuid(docLine.getJobsGuid());
+		objTran.loadTransactionLines(adapter, TransactionLine.class, false).add(objTranLine);
+	}
+	private void createPostCostAndRevenue(BigDecimal dMultiplier, DocumentLine docLine, Transaction objTran, AdapterInterface adapter) throws Exception {
+		int iQtyDecimals = Integer.parseInt(adapter.getSession().getSetting(Document.SETTING_QUANITY_DECIMALS));
+		int iMoneyDecimals = Integer.parseInt(adapter.getSession().getSetting(Document.SETTING_MONEY_DECIMALS));
+		
+		Item item = docLine.loadItem(adapter, Item.class, false);
+		BigDecimal dCosts = item.calculateCost(adapter, docLine, true);
+		dCosts = new BigDecimal(dCosts.toString());
+		BigDecimal dRevenue = docLine.getExtension().subtract(dCosts).setScale(iMoneyDecimals, RoundingMode.HALF_UP);
+				
+		TransactionLine objTranLine;
+
+		// reduce inventory (credit $ of costs)
+		objTranLine= new TransactionLine();
+		objTranLine.initialize(objTran, adapter);
+		//objTranLine.setGuid(docLine.getGuid());
+		objTranLine.setSortOrder(objTran.loadTransactionLines(adapter, TransactionLine.class, false).size());
+		objTranLine.setGuid(User.newGuid());
+		objTranLine.setAccountsGuid(item.getInventoryAccountsGuid());
+		objTranLine.setDebit(dCosts.multiply(new BigDecimal(-1)));
+		objTranLine.setDepartmentsGuid(docLine.getDepartmentsGuid());
+		objTranLine.setDescription(docLine.getDescription());
+		objTranLine.setJobsGuid(docLine.getJobsGuid());
+		objTran.loadTransactionLines(adapter, TransactionLine.class, false).add(objTranLine);
+		
+
+		// revenue line (credit $ of sales - costs)
+		objTranLine = new TransactionLine();
+		objTranLine.initialize(objTran, adapter);
+		//objTranLine.setGuid(docLine.getGuid());
+		objTranLine.setSortOrder(objTran.loadTransactionLines(adapter, TransactionLine.class, false).size());
+		objTranLine.setGuid(User.newGuid());
+		objTranLine.setAccountsGuid(docLine.getAccountsGuid());
+		objTranLine.setDebit(dRevenue.multiply(new BigDecimal(-1)));
+		objTranLine.setDepartmentsGuid(docLine.getDepartmentsGuid());
+		objTranLine.setDescription(docLine.getDescription());
+		objTranLine.setJobsGuid(docLine.getJobsGuid());
+		objTran.loadTransactionLines(adapter, TransactionLine.class, false).add(objTranLine);
+	}
 	
 	private static boolean isNumberAvailable(AdapterInterface adapter, String type_guid, String number) throws Exception {
 		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={Type} AND \"%s\"={Reference}";

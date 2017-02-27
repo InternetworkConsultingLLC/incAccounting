@@ -60,13 +60,20 @@ public class Transaction extends TransactionsRow {
 		this.setDate(new Date(Instant.now().toEpochMilli()));
 		this.setTransactionTypesGuid(TransactionType.TRANSACTION_GUID);
 	}
+	private String sDebitsAndCredits = "";
 	public BigDecimal calculate(AdapterInterface adapter) throws Exception {
+		sDebitsAndCredits = "";
 		List<TransactionLine> lstLines = loadTransactionLines(adapter, TransactionLine.class, false);
 		BigDecimal dBalance = new BigDecimal(0);
 		for(TransactionLine tl : lstLines) {
-			if(tl.getDebit() != null)
+			if(tl.getDebit() != null && tl.getDebit().compareTo(BigDecimal.ZERO) != 0) {
 				dBalance = dBalance.add(tl.getDebit());
+				sDebitsAndCredits = sDebitsAndCredits + tl.getDescription() + " $ " + tl.getDebit() + "\n";
+			} else {
+				tl.setIsDeleted(true);
+			}
 		}
+		sDebitsAndCredits = sDebitsAndCredits + "Balance $ " + dBalance;
 		return dBalance;
 	}
 	
@@ -85,6 +92,11 @@ public class Transaction extends TransactionsRow {
 		
 		BigDecimal dBalance = calculate(adapter);
 		if(dBalance.compareTo(BigDecimal.ZERO) != 0)
-			throw new Exception("This transaction does not follow the 'debits must equal credits' rule!  Please balance before saving!");
-	}	
+			throw new Exception("This transaction does not follow the 'debits must equal credits' rule!  Please balance before saving!\n\n" + sDebitsAndCredits);
+	}
+	public void afterSave(AdapterInterface adapter) throws Exception {
+		String sql = "DELETE FROM \"%s\" WHERE \"%s\" = 0";
+		sql = String.format(sql, TransactionLine.TABLE_NAME, TransactionLine.DEBIT);
+		adapter.execute(new Statement(sql), false);
+	}
 }

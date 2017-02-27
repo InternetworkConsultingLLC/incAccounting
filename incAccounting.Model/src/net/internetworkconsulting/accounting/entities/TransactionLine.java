@@ -19,6 +19,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.data.TransactionLinesRow;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
+import net.internetworkconsulting.data.mysql.Statement;
 
 public class TransactionLine extends TransactionLinesRow {
 	public static String SETTING_DEBIT_DECIMALS = "Transaction Line Setting Decimals";
@@ -46,6 +47,9 @@ public class TransactionLine extends TransactionLinesRow {
 			if(!myTransaction.getTransactionTypesGuid().equals(TransactionType.TRANSACTION_GUID))
 				throw new Exception("You cannot edit a transaction line - it's a document line!");
 	}
-	
-	
+	public void afterSave(AdapterInterface adapter) throws Exception {
+		String sql = "DELETE FROM \"%s\" WHERE \"%s\" = 0";
+		sql = String.format(sql, TransactionLine.TABLE_NAME, TransactionLine.DEBIT);
+		adapter.execute(new Statement(sql), false);
+	}	
 }

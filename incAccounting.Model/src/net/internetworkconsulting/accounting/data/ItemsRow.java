@@ -4,6 +4,7 @@
  */
 package net.internetworkconsulting.accounting.data;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
