@@ -44,39 +44,45 @@ public class ReportViewFilterController extends Controller {
 			myTag = new TextTag(this, "Filter " + ReportFilter.VALUE);
 		} else
 			throw new Exception("The report filter's data type is invalid: " + objModel.getDataType() + "!");
+		myTag.setName(objModel.getPrompt());
 		
 		List<Row> lstResults = null;
-		if(objModel.getQuery() != null) {
+		if(objModel.getQuery() != null && objModel.getQuery().length() > 0) {
 			Statement stmt = new Statement(objModel.getQuery());
 			lstResults = getUser().login().load(Row.class, stmt);
 		}
+	
+		if(lstResults == null || lstResults.size() < 1)
+			return;
 		
-		if(lstResults != null && lstResults.size() > 0) {
-			if(ReportFilter.DT_ENUM.equals(objModel.getDataType())) {
-				// if combo, load options and set on combo
-				if(!lstResults.get(0).getColumns().containsKey("Display"))
-					throw new Exception("The enum type's query did not have a 'Display' column!");
-				if(!lstResults.get(0).getColumns().containsKey("Value"))
-					throw new Exception("The enum type's query did not have a 'Value' column!");
+		if(ReportFilter.DT_ENUM.equals(objModel.getDataType())) {
+			// if combo, load options and set on combo
+			if(!lstResults.get(0).getColumns().containsKey("Display"))
+				throw new Exception("The enum type's query did not have a 'Display' column!");
+			if(!lstResults.get(0).getColumns().containsKey("Value"))
+				throw new Exception("The enum type's query did not have a 'Value' column!");
 
-				List<Option> lstOptions = new LinkedList<Option>();
-				for(Row r : lstResults) {
-					Option opt = new Option();
-					opt.setDisplay(r.get("Display").toString());
-					opt.setValue(r.get("Value").toString());
-					lstOptions.add(opt);
-				}
-
-				ComboTag cbo = (ComboTag) myTag;
-				cbo.setOptions(lstOptions);
-			} else {
-				// not combo, run query and load results as value
-				Object obj = lstResults.get(0).get("Value");
-				objModel.setValue(Statement.convertObjectToString(obj, null));
+			List<Option> lstOptions = new LinkedList<Option>();
+			for(Row r : lstResults) {
+				Option opt = new Option();
+				opt.setDisplay(r.get("Display").toString());
+				opt.setValue(r.get("Value").toString());
+				lstOptions.add(opt);
 			}
+
+			ComboTag cbo = (ComboTag) myTag;
+			cbo.setOptions(lstOptions);
+		} else {
+			// not combo, run query and load results as value
+			String sValue = net.internetworkconsulting.data.mysql.Statement.convertObjectToString(lstResults.get(0).get("Value"), null); 
+			myTag.setValue(sValue);
 		}
-		
-		myTag.bind(objModel, ReportFilter.VALUE);
 	}
 	public History createHistory() throws Exception { return null; }
+	
+	public void updateControls() throws Exception {
+		super.updateControls();
+		
+		objModel.setValue(myTag.getValue());
+	}
 }

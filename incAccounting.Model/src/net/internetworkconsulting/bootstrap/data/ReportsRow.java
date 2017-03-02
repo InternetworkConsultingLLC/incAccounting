@@ -32,6 +32,10 @@ public class ReportsRow extends Row implements ReportsInterface {
 	public boolean setHtmlTemplate(java.lang.String value) throws Exception { return set(HTML_TEMPLATE, value); }
 	public java.lang.String getHtmlTemplate() { return (java.lang.String) get(HTML_TEMPLATE); }
 	
+	public static String TITLE = "Title";
+	public boolean setTitle(java.lang.String value) throws Exception { return set(TITLE, value); }
+	public java.lang.String getTitle() { return (java.lang.String) get(TITLE); }
+	
 
 	// child loaders
 	

@@ -23,8 +23,11 @@ public class ReportViewController extends Controller {
 		Report objModel = loadModel();
 		setDocument(new Template(read_url("~/templates/ReportView.html"),  new HtmlSyntax()));
 
-		LiteralTag litTitle = new LiteralTag(this, "Title");
-		litTitle.setValue(objModel.getDisplayName());
+		LiteralTag litTitle = new LiteralTag(this, Report.TITLE);
+		litTitle.setValue(objModel.getTitle());
+
+		LiteralTag litName = new LiteralTag(this, Report.DISPLAY_NAME);
+		litName.setValue(objModel.getDisplayName());
 		
 		List<ReportFilter> lstFilters = objModel.loadFilters(getUser().login(), ReportFilter.class, false);
 		for(ReportFilter rf: lstFilters) {

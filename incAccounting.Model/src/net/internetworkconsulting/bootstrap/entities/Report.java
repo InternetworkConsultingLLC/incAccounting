@@ -110,15 +110,26 @@ public class Report extends ReportsRow {
 		return document.generate();
 	}
 
-//	public static <T extends Report> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-//		String sql = "SELECT * FROM \"" + Report.TABLE_NAME +"\" WHERE \"" + Report.DISPLAY_NAME +"\"={VALUE}";
-//		Statement stmt = new Statement(sql);
-//		stmt.getParameters().put("{VALUE}", value);
-//
-//		List<T> lst = adapter.load(model, stmt);
-//		if(lst.size() != 1)
-//			throw new Exception("Could not locate unique " + Report.TABLE_NAME + " row by '" + Report.DISPLAY_NAME +"': " + Statement.convertObjectToString(value, null));
-//
-//		return lst.get(0);		
-//	}
+	public Report handleCopy(AdapterInterface adapter) throws Exception {
+		Report objNew = new Report();
+		objNew.initialize();
+		for(String key : this.getOriginals().keySet())
+			objNew.getChanges().put(key, this.getOriginals().get(key));
+		
+		objNew.setGuid(User.newGuid());
+		objNew.setDisplayName(objNew.getDisplayName() + " " + objNew.getGuid());
+		
+		List<ReportFilter> lstOldFilters = this.loadFilters(adapter, ReportFilter.class, false);
+		List<ReportFilter> lstNewFilters = objNew.loadFilters(adapter, ReportFilter.class, false);
+		for(ReportFilter filter : lstOldFilters)
+			lstNewFilters.add(filter.handleCopy(adapter));
+			
+		List<ReportBlock> lstOldBlocks = this.loadBlocks(adapter, ReportBlock.class, false);
+		List<ReportBlock> lstNewBlocks = objNew.loadBlocks(adapter, ReportBlock.class, false);
+		for(ReportBlock block : lstOldBlocks)
+			lstNewFilters.add(block.handleCopy(adapter));
+	
+		return objNew;
+	}
+
 }

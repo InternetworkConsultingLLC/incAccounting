@@ -82,7 +82,7 @@ public abstract class Tag extends Controller implements TagInterface {
 			if(mthd.getName().equals("get" + getCamelCase(getModelProperty())))
 				if(mthd.getParameterCount() == 0)
 					return mthd.invoke(getModel());
-
+		
 		throw new Exception("Could not locate get" + getCamelCase(getModelProperty()) + " on " + getModel().getClass().getSimpleName() + "!");
 	}
 	private void setModelValue(String value) throws Exception {

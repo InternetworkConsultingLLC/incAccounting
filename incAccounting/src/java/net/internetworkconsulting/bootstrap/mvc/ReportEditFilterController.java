@@ -6,6 +6,7 @@ import net.internetworkconsulting.mvc.ComboTag;
 import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.History;
+import net.internetworkconsulting.mvc.LiteralTag;
 import net.internetworkconsulting.mvc.TextAreaTag;
 import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
@@ -17,6 +18,9 @@ public class ReportEditFilterController extends Controller {
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
 		ReportFilter objModel = (ReportFilter) getModel();
+		
+		LiteralTag litGuid = new LiteralTag(this, "Filter " + ReportFilter.GUID);
+		litGuid.bind(objModel, ReportFilter.GUID);
 		
 		CheckTag chkDelete = new CheckTag(this, "Filter " + ReportFilter.IS_DELETED);
 		chkDelete.setName(ReportFilter.IS_DELETED + objModel.getGuid());

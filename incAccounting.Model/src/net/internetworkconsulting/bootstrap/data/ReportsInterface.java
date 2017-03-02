@@ -14,6 +14,9 @@ public interface ReportsInterface {
 	boolean setHtmlTemplate(java.lang.String value) throws Exception;
 	java.lang.String getHtmlTemplate();
 	
+	boolean setTitle(java.lang.String value) throws Exception;
+	java.lang.String getTitle();
+	
 	
 	<T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

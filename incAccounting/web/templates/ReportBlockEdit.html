@@ -5,7 +5,10 @@
 	<div class="field"><label>Block:</label><div>{Parent Block GUID}</div></div>
 	<div class="field"><label>Priority:</label><div>{Priority}</div></div>
 	<div class="field"><label>Name:</label><div>{Name}</div></div>
-	<div class="field double"><label>SQL:</label><div class="double">{SQL Query}</div></div>
+	<div class="field double"><label>SQL:</label><div class="double">
+			{SQL Query}
+			<pre id="SqlEditor"></pre>	
+	</div></div>
 </div>
 
 <p>{Open Report} {Open Block}</p>
@@ -32,3 +35,8 @@
 </table>
 
 <p>{Add Block} {Save}</p>
+
+<script src="~/ace/src/ace.js"></script>
+<script>
+	pageLoaded();
+</script>

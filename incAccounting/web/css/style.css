@@ -288,3 +288,29 @@ button.readonly { display: none; visibility: hidden; }
 a.add, a.delete {
 	display: inline-block;
 }
+
+.ace_editor { 
+	height: 50vh;
+	border: 1pt solid #888; 
+	background-color: #fff;
+	border-radius: 4px;
+}
+
+.ace_editor * { 
+    font: inherit!important;
+}
+@media screen and (min-width: 0px) and (max-width: 640px) {
+	.ace_editor { 
+		width: 281px;
+	}
+}
+@media screen and (min-width: 641px) and (max-width: 960px) {
+	.ace_editor { 
+		width: 506px;
+	}
+}
+@media screen and (min-width: 961px) {
+	.ace_editor { 
+		width: 826px;
+	}
+}

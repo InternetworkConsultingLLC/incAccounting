@@ -1,6 +1,5 @@
 package net.internetworkconsulting.bootstrap.mvc;
 
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.bootstrap.entities.Report;
 import net.internetworkconsulting.bootstrap.entities.ReportBlock;
@@ -11,7 +10,6 @@ import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
-import net.internetworkconsulting.mvc.LiteralTag;
 import net.internetworkconsulting.mvc.TextAreaTag;
 import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
@@ -42,6 +40,9 @@ public class ReportEditController extends Controller {
 		
 		TextTag txtName = new TextTag(this, Report.DISPLAY_NAME);
 		txtName.bind(objModel, Report.DISPLAY_NAME);
+
+		TextTag txtTitle = new TextTag(this, Report.TITLE);
+		txtTitle.bind(objModel, Report.TITLE);
 		
 		TextAreaTag txtTemplate = new TextAreaTag(this, Report.HTML_TEMPLATE);
 		txtTemplate.setRows("10");
@@ -97,9 +98,9 @@ public class ReportEditController extends Controller {
 		try {
 			getUser().login().begin(true);
 
-			LinkedList<Report> lst = new LinkedList<>();
-			lst.add(objModel);
-			getUser().login().save(Report.TABLE_NAME, lst);
+			objModel.setHtmlTemplate(objModel.getHtmlTemplate().replace(getRootUrl(), "~/"));
+
+			getUser().login().save(Report.TABLE_NAME, objModel);
 			getUser().login().save(ReportFilter.TABLE_NAME, objModel.loadFilters(getUser().login(), ReportFilter.class, false));
 			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadBlocks(getUser().login(), ReportBlock.class, false));
 
@@ -130,5 +131,10 @@ public class ReportEditController extends Controller {
 		objModel.loadFilters(getUser().login(), ReportFilter.class, false).add(rf);
 		ReportEditFilterController controller = createFilter(rf);
 		doCreateControls(controller, false);
+	}
+	private void btncopy_OnClick() throws Exception {
+		Report objModel = (Report) getModel();
+
+		Report objCopy = objModel.createCopy(getUser().login());
 	}
 }
