@@ -20,6 +20,9 @@ public interface ReportFiltersInterface {
 	boolean setQuery(java.lang.String value) throws Exception;
 	java.lang.String getQuery();
 	
+	boolean setPriority(java.lang.Long value) throws Exception;
+	java.lang.Long getPriority();
+	
 	
 	
 	<T extends ReportsRow> T loadReport(AdapterInterface adapter, Class biz, boolean force) throws Exception;

@@ -29,6 +29,10 @@ public class ReportEditFilterController extends Controller {
 		TextTag txtPrompt = new TextTag(this, "Filter " + ReportFilter.PROMPT);
 		txtPrompt.setName(ReportFilter.PROMPT + objModel.getGuid());
 		txtPrompt.bind(objModel, ReportFilter.PROMPT);
+
+		TextTag txtPriority = new TextTag(this, "Filter " + ReportFilter.PRIORITY);
+		txtPriority.setName(ReportFilter.PRIORITY + objModel.getGuid());
+		txtPriority.bind(objModel, ReportFilter.PRIORITY);
 		
 		ComboTag cboDataType = new ComboTag(this, "Filter " + ReportFilter.DATA_TYPE);
 		cboDataType.setName(ReportFilter.DATA_TYPE + objModel.getGuid());

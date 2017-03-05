@@ -40,6 +40,10 @@ public class ReportFiltersRow extends Row implements ReportFiltersInterface {
 	public boolean setQuery(java.lang.String value) throws Exception { return set(QUERY, value); }
 	public java.lang.String getQuery() { return (java.lang.String) get(QUERY); }
 	
+	public static String PRIORITY = "Priority";
+	public boolean setPriority(java.lang.Long value) throws Exception { return set(PRIORITY, value); }
+	public java.lang.Long getPriority() { return (java.lang.Long) get(PRIORITY); }
+	
 
 	// child loaders
 	

@@ -28,6 +28,7 @@ function aceLoad(textareaId, editorId, mode) {
 	
 	objEditor.setValue(objTextarea.value, -1);
 	objEditor.session.setMode("ace/mode/" + mode);
+	objEditor.setFontSize(16);
 	objEditor.setReadOnly(false);
 }
 function aceSave(textareaId, editorId) {

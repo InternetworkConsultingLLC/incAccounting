@@ -11,7 +11,6 @@ import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
 import net.internetworkconsulting.mvc.TextTag;
-import net.internetworkconsulting.mvc.LabelTag;
 import net.internetworkconsulting.mvc.TextAreaTag;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
@@ -70,18 +69,24 @@ public class ReportBlockEditController extends Controller {
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.setValue("Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });
-		
-		ButtonTag btnAddBlock = new ButtonTag(this, "Add Block");
-		btnAddBlock.setValue("Add Block");
-		btnAddBlock.addOnClickEvent(new Event() { public void handle() throws Exception { btnAddBlock_OnClick(); } });
-		
-		ButtonTag btnOpenReport = new ButtonTag(this, "Open Report");
-		btnOpenReport.setValue("Open");
-		btnOpenReport.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpenReport_OnClick(); } });
 
-		ButtonTag btnOpenParent = new ButtonTag(this, "Open Block");
-		btnOpenParent.setValue("Open");
-		btnOpenParent.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpenParent_OnClick(); } });
+		if(objModel.getRowState() == RowState.NA) {
+			ButtonTag btnAddBlock = new ButtonTag(this, "Add Block");
+			btnAddBlock.setValue("Add Block");
+			btnAddBlock.addOnClickEvent(new Event() { public void handle() throws Exception { btnAddBlock_OnClick(); } });
+		}
+		
+		if(objModel.getReportsGuid() != null) {
+			ButtonTag btnOpenReport = new ButtonTag(this, "Open Report");
+			btnOpenReport.setValue("Open Report");
+			btnOpenReport.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpenReport_OnClick(); } });
+		}
+
+		if(objModel.getParentBlockGuid() != null) {
+			ButtonTag btnOpenParent = new ButtonTag(this, "Open Block");
+			btnOpenParent.setValue("Open Block");
+			btnOpenParent.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpenParent_OnClick(); } });
+		}
 		
 		List<ReportBlock> lstBlocks = objModel.loadChildren(getUser().login(), ReportBlock.class, false);
 		for(ReportBlock rb: lstBlocks)
@@ -132,12 +137,7 @@ public class ReportBlockEditController extends Controller {
 			return;
 		}
 
-		if(objModel.getParentBlockGuid() != null)
-			redirect("~/incBootstrap?App=ReportBlockEdit&GUID=" + objModel.getParentBlockGuid());
-		else if(objModel.getReportsGuid() != null)
-			redirect("~/incBootstrap?App=ReportEdit&GUID=" + objModel.getReportsGuid());
-		else
-			throw new Exception("This block is not a child to another block or a report!");
+		redirect("~/incBootstrap?App=ReportBlockEdit&GUID=" + objModel.getGuid());
 	}
 	private void btnAddBlock_OnClick() throws Exception {
 		ReportBlock objModel = (ReportBlock) getModel();

@@ -517,10 +517,10 @@ public abstract class Controller implements ControllerInterface {
 		String sOutput = getDocument().generate();
 		sOutput = sOutput.replace("~/", getRootUrl());
 		
-		getResponse().setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
-		getResponse().setHeader("Pragma", "no-cache");
+		//getResponse().setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
+		//getResponse().setHeader("Pragma", "no-cache");
 		getResponse().setHeader("Content-Type", "text/html");
-		getResponse().setDateHeader("Expires", -1);
+		//getResponse().setDateHeader("Expires", -1);
 		getResponse().getWriter().write(sOutput);
 	}
 }

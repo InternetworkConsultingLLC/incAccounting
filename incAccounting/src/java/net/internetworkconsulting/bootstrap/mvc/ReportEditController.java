@@ -45,7 +45,6 @@ public class ReportEditController extends Controller {
 		txtTitle.bind(objModel, Report.TITLE);
 		
 		TextAreaTag txtTemplate = new TextAreaTag(this, Report.HTML_TEMPLATE);
-		txtTemplate.setRows("10");
 		txtTemplate.bind(objModel, Report.HTML_TEMPLATE);
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
@@ -62,7 +61,13 @@ public class ReportEditController extends Controller {
 		
 		ButtonTag btnAddFilter = new ButtonTag(this, "Add Filter");
 		btnAddFilter.setValue("Add Filter");
-		btnAddFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnAddFilter_OnClick(); } });
+		btnAddFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnAddFilter_OnClick(); } });		
+
+		if(objModel.getRowState() == RowState.NA) {
+			ButtonTag btnCopy = new ButtonTag(this, "Copy");
+			btnCopy.setValue("Copy");
+			btnCopy.addOnClickEvent(new Event() { public void handle() throws Exception { btnCopy_OnClick(); } });
+		}
 		
 		List<ReportBlock> lstBlocks = objModel.loadBlocks(getUser().login(), ReportBlock.class, false);
 		for(ReportBlock rb: lstBlocks)
@@ -88,7 +93,7 @@ public class ReportEditController extends Controller {
 		
 		String sDisplay = "Edit New Report";
 		if(objModel.getRowState() != RowState.Insert)
-			sDisplay = "Edit " + objModel.getDisplayName();
+			sDisplay = objModel.getDisplayName();
 
 		return new History(sDisplay, getRequest(), getUser());
 	}
@@ -132,9 +137,12 @@ public class ReportEditController extends Controller {
 		ReportEditFilterController controller = createFilter(rf);
 		doCreateControls(controller, false);
 	}
-	private void btncopy_OnClick() throws Exception {
+	private void btnCopy_OnClick() throws Exception {
 		Report objModel = (Report) getModel();
 
-		Report objCopy = objModel.createCopy(getUser().login());
+		Report objCopy = objModel.handleCopy(getUser().login());
+		objCopy.handleSave(getUser().login());
+
+		redirect("~/incBootstrap?App=ReportEdit&GUID=" + objCopy.getGuid());
 	}
 }

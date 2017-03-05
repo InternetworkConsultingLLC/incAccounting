@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.bootstrap.data.ReportBlocksRow;
+import net.internetworkconsulting.bootstrap.data.ReportFiltersRow;
 import net.internetworkconsulting.bootstrap.data.ReportsRow;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.Row;
@@ -57,7 +58,6 @@ public class Report extends ReportsRow {
 		return lst;
 	}
 	
-	private Object lstBlocksChildren = null;
 	public <T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstBlocksChildren == null || force) {
 			String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={PRIMARYKEY} ORDER BY \"%s\"";
@@ -68,7 +68,17 @@ public class Report extends ReportsRow {
 		}
 		return (List<T>) lstBlocksChildren;
 	}
+	public <T extends ReportFiltersRow> List<T> loadFilters(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstFiltersChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Report Filters\" WHERE \"Reports GUID\"={PRIMARYKEY} ORDER BY \"Priority\"");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstFiltersChildren = adapter.load(model, stmt);
+		}
+		return (List<T>) lstFiltersChildren;
+	}
 
+	
+	
 	public void beforeSave(AdapterInterface adapter) throws Exception {
 		Securable sec = null;
 		
@@ -121,15 +131,39 @@ public class Report extends ReportsRow {
 		
 		List<ReportFilter> lstOldFilters = this.loadFilters(adapter, ReportFilter.class, false);
 		List<ReportFilter> lstNewFilters = objNew.loadFilters(adapter, ReportFilter.class, false);
-		for(ReportFilter filter : lstOldFilters)
-			lstNewFilters.add(filter.handleCopy(adapter));
+		for(ReportFilter filter : lstOldFilters) {
+			ReportFilter newFilter = filter.handleCopy(adapter);
+			newFilter.setReportsGuid(objNew.getGuid());
+			lstNewFilters.add(newFilter);
+		}
 			
 		List<ReportBlock> lstOldBlocks = this.loadBlocks(adapter, ReportBlock.class, false);
 		List<ReportBlock> lstNewBlocks = objNew.loadBlocks(adapter, ReportBlock.class, false);
-		for(ReportBlock block : lstOldBlocks)
-			lstNewFilters.add(block.handleCopy(adapter));
+		for(ReportBlock block : lstOldBlocks) {
+			ReportBlock newBlock = block.handleCopy(adapter);
+			newBlock.setReportsGuid(objNew.getGuid());
+			lstNewBlocks.add(newBlock);
+		}
 	
 		return objNew;
+	}
+	public void handleSave(AdapterInterface adapter) throws Exception {
+		adapter.begin(false);
+		
+		try {
+			adapter.save(Report.TABLE_NAME, this);
+
+			List<ReportBlock> lstBlocks = this.loadBlocks(adapter, ReportBlock.class, false);
+			for(ReportBlock block : lstBlocks)
+				block.handleSave(adapter);
+
+			adapter.save(ReportFilter.TABLE_NAME, this.loadFilters(adapter, ReportFilter.class, false));			
+		} catch(Exception ex) {
+			adapter.rollback(false);
+			throw ex;
+		}
+
+		adapter.commit(false);
 	}
 
 }

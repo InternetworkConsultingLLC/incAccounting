@@ -56,7 +56,7 @@ public class ReportBlock extends ReportBlocksRow {
 		}
 		return (List<T>) lstChildrenChildren;
 	}
-	void generate(AdapterInterface adapter, Template document, HashMap<String, String> values) throws Exception {
+	public void generate(AdapterInterface adapter, Template document, HashMap<String, String> values) throws Exception {
 		// create query and execute
 		Statement stmt = new Statement(getSqlQuery());
 		for(String key: values.keySet())
@@ -84,4 +84,30 @@ public class ReportBlock extends ReportBlocksRow {
 			document.parse(getName());
 		}				
 	}
+
+	public ReportBlock handleCopy(AdapterInterface adapter) throws Exception {
+		ReportBlock objNew = new ReportBlock();
+		objNew.initialize();
+		for(String key : this.getOriginals().keySet())
+			objNew.getChanges().put(key, this.getOriginals().get(key));
+
+		objNew.setGuid(User.newGuid());
+		
+		List<ReportBlock> lstOldBlocks = this.loadChildren(adapter, ReportBlock.class, false);
+		List<ReportBlock> lstNewBlocks = objNew.loadChildren(adapter, ReportBlock.class, false);
+		for(ReportBlock block : lstOldBlocks) {
+			ReportBlock newBlock = block.handleCopy(adapter);
+			newBlock.setParentBlockGuid(objNew.getGuid());
+			lstNewBlocks.add(newBlock);
+		}
+		
+		return objNew;
+	}
+	public void handleSave(AdapterInterface adapter) throws Exception {
+		adapter.save(ReportBlock.TABLE_NAME, this);
+		
+		List<ReportBlock> lstBlocks = this.loadChildren(adapter, ReportBlock.class, false);
+		for(ReportBlock block : lstBlocks)
+			block.handleSave(adapter);
+	}	
 }

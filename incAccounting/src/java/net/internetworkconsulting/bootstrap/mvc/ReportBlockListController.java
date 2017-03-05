@@ -7,7 +7,6 @@ import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
-import net.internetworkconsulting.mvc.LiteralTag;
 import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
 

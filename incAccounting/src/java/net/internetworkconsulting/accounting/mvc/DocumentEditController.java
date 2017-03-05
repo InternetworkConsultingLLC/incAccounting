@@ -44,6 +44,10 @@ public class DocumentEditController extends Controller {
 			else {
 				objModel = new net.internetworkconsulting.accounting.entities.Document();
 				objModel.initialize(getUser().login());
+				
+				String sDocuentTypesGuid = getRequest().getParameter(Document.DOCUMENT_TYPES_GUID);
+				if(sDocuentTypesGuid != null)
+					objModel.setDocumentTypesGuid(sDocuentTypesGuid);
 			}				
 		}
 		setModel(objModel);

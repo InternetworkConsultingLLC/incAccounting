@@ -18,6 +18,7 @@ package net.internetworkconsulting.bootstrap.entities;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.bootstrap.data.ReportFiltersRow;
+import net.internetworkconsulting.data.AdapterInterface;
 
 public class ReportFilter extends ReportFiltersRow {
 
@@ -48,6 +49,15 @@ public class ReportFilter extends ReportFiltersRow {
 	public void initialize() throws Exception {
 		this.setGuid(User.newGuid());
 	}
-	
-	
- }
+
+	public ReportFilter handleCopy(AdapterInterface adapter) throws Exception {
+		ReportFilter objNew = new ReportFilter();
+		objNew.initialize();
+		for(String key : this.getOriginals().keySet())
+			objNew.getChanges().put(key, this.getOriginals().get(key));
+		
+		objNew.setGuid(User.newGuid());
+		
+		return objNew;
+	}	
+}

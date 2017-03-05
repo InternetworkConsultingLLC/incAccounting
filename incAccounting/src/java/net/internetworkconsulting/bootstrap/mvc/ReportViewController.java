@@ -48,7 +48,7 @@ public class ReportViewController extends Controller {
 		
 		String sDisplay = "New Report";
 		if(objModel.getRowState() != RowState.Insert)
-			sDisplay = objModel.getDisplayName();
+			sDisplay = objModel.getTitle();
 
 		return new History(sDisplay, getRequest(), getUser());
 	}
