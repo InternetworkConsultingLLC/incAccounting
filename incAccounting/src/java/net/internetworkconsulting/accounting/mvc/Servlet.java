@@ -14,185 +14,113 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 			resp.sendRedirect("incBootstrap?App=Login");
 			resp.flushBuffer();
 			return;
-		} else if(sApp.equals("AccountEdit"))
+		} else if(sApp.equals("Account"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new AccountEditController(this, TemplateController.BLOCK_BODY);
+				new AccountsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("AccountList"))
+		else if(sApp.equals("Department"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new AccountListController(this, TemplateController.BLOCK_BODY);
+				new DepartmentsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("DepartmentList"))
+		else if(sApp.equals("Job"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DepartmentListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("DepartmentEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DepartmentEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("JobList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new JobListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("JobEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new JobEditController(this, TemplateController.BLOCK_BODY);
+				new JobsController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("Setup"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new SetupController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("TransactionList"))
+		else if(sApp.equals("Transaction"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new TransactionListController(this, TemplateController.BLOCK_BODY);
+				new TransactionsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("TransactionEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new TransactionEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("UnitMeasureList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new UnitMeasureListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("UnitMeasureEdit"))
+		else if(sApp.equals("UnitMeasure"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new UnitMeasureEditController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ContactList"))
+		else if(sApp.equals("Contact"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ContactListController(this, TemplateController.BLOCK_BODY);
+				new ContactsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ContactEdit"))
+		else if(sApp.equals("Item"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ContactEditController(this, TemplateController.BLOCK_BODY);
+				new ItemsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ItemList"))
+		else if(sApp.equals("SalesTax"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ItemListController(this, TemplateController.BLOCK_BODY);
+				new SalesTaxesController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ItemEdit"))
+		else if(sApp.equals("Reconciliation"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ItemEditController(this, TemplateController.BLOCK_BODY);
+				new ReconciliationsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("SalesTaxList"))
+		else if(sApp.equals("Document"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new SalesTaxListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("SalesTaxEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new SalesTaxEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("ReconciliationList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ReconciliationListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("ReconciliationEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ReconciliationEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("DocumentList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DocumentListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("DocumentEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DocumentEditController(this, TemplateController.BLOCK_BODY);
+				new DocumentsController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("DocumentPrint"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DocumentPrintController(this, TemplateController.BLOCK_BODY);
+				new DocumentsPrintController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ContactTypeList"))
+		else if(sApp.equals("ContactType"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ContactTypeListController(this, TemplateController.BLOCK_BODY);
+				new ContactTypesController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ContactTypeEdit"))
+		else if(sApp.equals("DocumentType"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ContactTypeEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("DocumentTypeList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DocumentTypeListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("DocumentTypeEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DocumentTypeEditController(this, TemplateController.BLOCK_BODY);
+				new DocumentTypesController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("PostDocuments"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new PostDocumentsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("PaymentList"))
+		else if(sApp.equals("Payment"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PaymentListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("PaymentEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PaymentEditController(this, TemplateController.BLOCK_BODY);
+				new PaymentsController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("PaymentPrint"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PaymentPrintController(this, TemplateController.BLOCK_BODY);
+				new PaymentsPrintController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("PaymentTypeList"))
+		else if(sApp.equals("PaymentType"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PaymentTypeListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("PaymentTypeEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PaymentTypeEditController(this, TemplateController.BLOCK_BODY);
+				new PaymentTypesController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("PostPayments"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new PostPaymentsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("DepositList"))
+		else if(sApp.equals("Deposit"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DepositListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("DepositEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DepositEditController(this, TemplateController.BLOCK_BODY);
+				new DepositsController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("DepositPrint"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new DepositPrintController(this, TemplateController.BLOCK_BODY);
+				new DepositsPrintController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("PostDeposits"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new PostDepositsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("EmployeeList"))
+		else if(sApp.equals("Employee"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new EmployeeListController(this, TemplateController.BLOCK_BODY);
+				new EmployeesController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("EmployeeEdit"))
+		else if(sApp.equals("PayrollField"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new EmployeeEditController(this, TemplateController.BLOCK_BODY);
+				new PayrollFieldsController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("PayrollFieldList"))
+		else if(sApp.equals("PayrollCheck"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PayrollFieldListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("PayrollFieldEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PayrollFieldEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("PayrollCheckList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PayrollCheckListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("PayrollCheckEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PayrollCheckEditController(this, TemplateController.BLOCK_BODY);
+				new PayrollChecksController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("PayrollCheckPrint"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PayrollCheckPrintController(this, TemplateController.BLOCK_BODY);
+				new PayrollChecksPrintController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("PostPayrollChecks"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new PostPayrollCheckController(this, TemplateController.BLOCK_BODY);
+				new PostPayrollChecksController(this, TemplateController.BLOCK_BODY);
 			} };
 		else {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The GET parameter App is is not valid!");

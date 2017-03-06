@@ -15,7 +15,7 @@ public class PostDocumentsController extends Controller {
 	private ComboTag cboType;
 	private ComboTag cboStatus;
 	private List<net.internetworkconsulting.accounting.entities.Document> objModel;
-	private LinkedList<PostDocumentsLineController> lstControllers;
+	private LinkedList<PostDocumentsLinesController> lstControllers;
 	public PostDocumentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
@@ -96,7 +96,7 @@ public class PostDocumentsController extends Controller {
 		try {
 			getUser().login().begin(true);
 
-			for(PostDocumentsLineController pdlc: lstControllers) {
+			for(PostDocumentsLinesController pdlc: lstControllers) {
 				boolean isChecked = pdlc.getIsPosted();
 				Document doc = (Document) pdlc.getModel();
 				boolean isPosted = doc.getPostedAccountsGuid() != null && doc.getPostedTransactionsGuid() != null;
@@ -122,8 +122,8 @@ public class PostDocumentsController extends Controller {
 		
 		btnFilter_OnClick();
 	}
-	private PostDocumentsLineController createController(Document doc) {
-		PostDocumentsLineController pdlc = new PostDocumentsLineController(this, "Row");
+	private PostDocumentsLinesController createController(Document doc) {
+		PostDocumentsLinesController pdlc = new PostDocumentsLinesController(this, "Row");
 		pdlc.setIsDocumentBlock(true);
 		pdlc.setModel(doc);
 

@@ -22,61 +22,37 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new ChangePasswordController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ComputerList"))
+		else if(sApp.equals("Computer"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ComputerListController(this, TemplateController.BLOCK_BODY);
+				new ComputerController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("ComputerEdit"))
+		else if(sApp.equals("Group"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ComputerEditController(this, TemplateController.BLOCK_BODY);
+				new GroupController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("GroupList"))
+		else if(sApp.equals("Log"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new GroupListController(this, TemplateController.BLOCK_BODY);
+				new LogController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("GroupEdit"))
+		else if(sApp.equals("ReportBlock"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new GroupEditController(this, TemplateController.BLOCK_BODY);
+				new ReportBlockController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("LogList"))
+		else if(sApp.equals("Report"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new LogListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("LogEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new LogEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("ReportBlockEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ReportBlockEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("ReportList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ReportListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("ReportEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ReportEditController(this, TemplateController.BLOCK_BODY);
+				new ReportController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("ReportView"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new ReportViewController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("SecurableList"))
+		else if(sApp.equals("Securable"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new SecurableListController(this, TemplateController.BLOCK_BODY);
+				new SecurableController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("SecurableEdit"))
+		else if(sApp.equals("Setting"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new SecurableEditController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("SettingList"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new SettingListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("SettingEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new SettingEditController(this, TemplateController.BLOCK_BODY);
+				new SettingController(this, TemplateController.BLOCK_BODY);
 			} };
 		else if(sApp.equals("Setup"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
@@ -86,17 +62,13 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new SystemController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("UserList"))
+		else if(sApp.equals("User"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new UserListController(this, TemplateController.BLOCK_BODY);
-			} };
-		else if(sApp.equals("UserEdit"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new UserEditController(this, TemplateController.BLOCK_BODY);
+				new UserController(this, TemplateController.BLOCK_BODY);
 			} };
 		else {
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new UserEditController(this, TemplateController.BLOCK_BODY);
+				new UserController(this, TemplateController.BLOCK_BODY);
 			} };
 		}
 		

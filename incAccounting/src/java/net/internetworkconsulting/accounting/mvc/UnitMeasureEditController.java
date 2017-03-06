@@ -3,37 +3,40 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Conversion;
 import net.internetworkconsulting.accounting.entities.UnitMeasure;
+import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
-import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
-import net.internetworkconsulting.mvc.LiteralTag;
 import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
-public class UnitMeasureEditController extends Controller {
+public class UnitMeasureEditController extends EditController {
 	public UnitMeasureEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
-	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/UnitMeasureEdit.html"), new HtmlSyntax()));
-		
-		UnitMeasure objModel = (UnitMeasure) model;
-		if(!getIsPostback()) {
-			String sGuid = getRequest().getParameter(UnitMeasure.GUID);
-			if(sGuid != null)
-				objModel = UnitMeasure.loadByGuid(getUser().login(), UnitMeasure.class, sGuid);
-			else {
-				objModel = new UnitMeasure();
-				objModel.initialize();
-			}
-		}
-		setModel(objModel);
-		
+
+	public void handleDeleteRow(String guid) throws Exception {
+		UnitMeasure objModel = UnitMeasure.loadByGuid(getUser().login(), UnitMeasure.class, guid);
+		objModel.setIsDeleted(true);
+		getUser().login().save(UnitMeasure.TABLE_NAME, objModel);
+	}
+	public Object handleLoadRow(String guid) throws Exception {
+		return UnitMeasure.loadByGuid(getUser().login(), UnitMeasure.class, guid);
+	}
+	public Object handleNewRow() throws Exception {
+		UnitMeasure objModel = new UnitMeasure();
+		objModel.initialize();
+		return objModel;
+	}
+	
+	public void createControls(Template document, Object model) throws Exception {		
+		UnitMeasure objModel = (UnitMeasure) handleNonPostbackActions(model);
+		setDocument(new Template(read_url("~/templates/UnitMeasure.html"), new HtmlSyntax()));
+
 		TextTag txtGuid = new TextTag(this, UnitMeasure.GUID);
 		txtGuid.setIsReadOnly(true);
 		txtGuid.bind(objModel);
@@ -63,10 +66,10 @@ public class UnitMeasureEditController extends Controller {
 		for(Conversion conv: lstConversion)
 			createController(conv);
 	}
-	private UnitMeasureEditConversionController createController(Conversion conv) throws Exception {
+	private UnitMeasuresConversionsController createController(Conversion conv) throws Exception {
 		UnitMeasure objModel = (UnitMeasure) getModel();
 
-		UnitMeasureEditConversionController umecc = new UnitMeasureEditConversionController(this, "Conversion");
+		UnitMeasuresConversionsController umecc = new UnitMeasuresConversionsController(this, "Conversion");
 		umecc.setModel(conv);
 		umecc.setIsDocumentBlock(true);
 		umecc.setLeftUnitMeasure(objModel);
@@ -91,7 +94,7 @@ public class UnitMeasureEditController extends Controller {
 		conv.setLeftUnitMeasuresGuid(objModel.getGuid());
 		objModel.loadLeftConversions(getUser().login(), Conversion.class, false).add(conv);
 		
-		UnitMeasureEditConversionController controller = createController(conv);
+		UnitMeasuresConversionsController controller = createController(conv);
 		doCreateControls(controller, false);
 	}
 	private void btnSave_OnClick() throws Exception {
@@ -107,6 +110,6 @@ public class UnitMeasureEditController extends Controller {
 			return;
 		}
 		
-		redirect("~/incAccounting?App=UnitMeasureEdit&GUID=" + objModel.getGuid() + "&Error=Saved!");
+		redirect("~/incAccounting?App=UnitMeasure&GUID=" + objModel.getGuid() + "&Error=Saved!");
 	}
 }

@@ -14,7 +14,7 @@ public class PostPaymentsController extends Controller {
 	private ComboTag cboType;
 	private ComboTag cboStatus;
 	private List<net.internetworkconsulting.accounting.entities.Payment> objModel;
-	private LinkedList<PostPaymentsLineController> lstControllers;
+	private LinkedList<PostPaymentsLinesController> lstControllers;
 	
 	public PostPaymentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
@@ -96,7 +96,7 @@ public class PostPaymentsController extends Controller {
 		try {
 			getUser().login().begin(true);
 
-			for(PostPaymentsLineController pdlc: lstControllers) {
+			for(PostPaymentsLinesController pdlc: lstControllers) {
 				boolean isChecked = pdlc.getIsPosted();
 				Payment doc = (Payment) pdlc.getModel();
 				boolean isPosted = doc.getPostedAccountsGuid() != null && doc.getPostedTransactionsGuid() != null;
@@ -122,8 +122,8 @@ public class PostPaymentsController extends Controller {
 		
 		btnFilter_OnClick();
 	}
-	private PostPaymentsLineController createController(Payment payment) {
-		PostPaymentsLineController controller = new PostPaymentsLineController(this, "Row");
+	private PostPaymentsLinesController createController(Payment payment) {
+		PostPaymentsLinesController controller = new PostPaymentsLinesController(this, "Row");
 		controller.setIsDocumentBlock(true);
 		controller.setModel(payment);
 

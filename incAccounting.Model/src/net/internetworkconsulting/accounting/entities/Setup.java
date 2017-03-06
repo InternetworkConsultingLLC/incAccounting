@@ -260,16 +260,16 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(TransactionType.TRANSACTION_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Transaction");
-		trantype.setListUrl("/incAccounting?App=TransactionList");
-		trantype.setEditUrl("/incAccounting?App=TransactionEdit");
+		trantype.setListUrl("/incAccounting?App=Transaction");
+		trantype.setEditUrl("/incAccounting?App=Transaction");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 
 		// transaction type - payroll check
 		trantype.setGuid(PayrollCheck.TRANSACTION_TYPE_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Payroll Check");
-		trantype.setListUrl("/incAccounting?App=PayrollCheckList");
-		trantype.setEditUrl("/incAccounting?App=PayrollCheckEdit");
+		trantype.setListUrl("/incAccounting?App=PayrollCheck");
+		trantype.setEditUrl("/incAccounting?App=PayrollCheck");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		// sales quotes
@@ -282,8 +282,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.SALES_QUOTE_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Sales Quote");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -303,8 +303,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.SALES_ORDER_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Sales Order");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -324,8 +324,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.SALES_INVOICE_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Sales Invoice");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -345,8 +345,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.SALES_CREDIT_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Sales Credit");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -366,8 +366,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.PURCHASE_QUOTE_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Purchase Quote");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -387,8 +387,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.PURCHASE_ORDER_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Purchase Order");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -408,8 +408,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.PURCHASE_INVOICE_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Purchase Invoice");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -429,8 +429,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(DocumentType.PURCHASE_CREDIT_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Purchase Credit");
-		trantype.setListUrl("/incAccounting?App=DocumentList");
-		trantype.setEditUrl("/incAccounting?App=DocumentEdit");
+		trantype.setListUrl("/incAccounting?App=Document");
+		trantype.setEditUrl("/incAccounting?App=Document");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		doctype = new DocumentType();
@@ -450,8 +450,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(PaymentType.SALES_PAYMENT_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Sales Payment");
-		trantype.setListUrl("/incAccounting?App=PaymentList");
-		trantype.setEditUrl("/incAccounting?App=PaymentEdit");
+		trantype.setListUrl("/incAccounting?App=Payment");
+		trantype.setEditUrl("/incAccounting?App=Payment");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 	
 		paytype = new PaymentType();
@@ -479,8 +479,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(PaymentType.PURCHASE_PAYMENT_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Purchase Payment");
-		trantype.setListUrl("/incAccounting?App=PaymentList");
-		trantype.setEditUrl("/incAccounting?App=PaymentEdit");
+		trantype.setListUrl("/incAccounting?App=Payment");
+		trantype.setEditUrl("/incAccounting?App=Payment");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 		paytype = new PaymentType();
@@ -508,8 +508,8 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		trantype.setGuid(Deposit.TRANSACTION_TYPE_GUID);
 		trantype.setIsAllowed(true);
 		trantype.setName("Bank Deposit");
-		trantype.setListUrl("/incAccounting?App=DepositList");
-		trantype.setEditUrl("/incAccounting?App=DepositEdit");
+		trantype.setListUrl("/incAccounting?App=Deposit");
+		trantype.setEditUrl("/incAccounting?App=Deposit");
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 	}
