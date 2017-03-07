@@ -83,5 +83,12 @@ public class DocumentType extends DocumentTypesRow {
 	public void setTransactionType(TransactionType value) {
 		this.rTransactionTypeParent = value;
 	}
+
+	public void beforeSave(AdapterInterface adapter) throws Exception {
+		if(getRowState() == RowState.Delete)
+			throw new Exception("You cannot delete a document type!");
+	}
+	
+	
 	
 }

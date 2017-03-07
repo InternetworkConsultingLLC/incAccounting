@@ -55,6 +55,6 @@ public class LoginController extends Controller {
 		if(objModel.isPasswordExpired(adapter))
 			redirect("~/incBootstrap?App=ChangePassword");
 		else
-			redirect("~/incBootstrap?App=System");
+			redirect("~/incBootstrap?App=ReportView&GUID=18afbfdf422246b1a549f34dad94f8b7");
 	}
 }

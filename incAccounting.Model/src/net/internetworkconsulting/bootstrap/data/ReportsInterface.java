@@ -17,6 +17,9 @@ public interface ReportsInterface {
 	boolean setTitle(java.lang.String value) throws Exception;
 	java.lang.String getTitle();
 	
+	boolean setAutoLoad(java.lang.Boolean value) throws Exception;
+	java.lang.Boolean getAutoLoad();
+	
 	
 	<T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

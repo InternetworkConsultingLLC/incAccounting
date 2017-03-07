@@ -32,7 +32,12 @@ public class PaymentsController extends EditController {
 	}
 	public Object handleNewRow() throws Exception {
 		objModel = new Payment();
-		objModel.initialize();
+		objModel.initialize(getUser().login());
+		
+		String sPaymentTypesGuid = getRequest().getParameter(Payment.PAYMENT_TYPES_GUID);
+		if(sPaymentTypesGuid != null)
+			objModel.setPaymentTypesGuid(sPaymentTypesGuid);
+		
 		return objModel;
 	}
 	

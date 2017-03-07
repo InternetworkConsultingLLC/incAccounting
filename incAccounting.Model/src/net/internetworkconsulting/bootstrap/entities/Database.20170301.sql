@@ -5,3 +5,7 @@ ALTER TABLE "Report Filters" ADD COLUMN "Priority" BIGINT NOT NULL;
 UPDATE "Report Filters" SET "Priority" = "DELETE ME";
 ALTER TABLE "Report Filters" DROP COLUMN "DELETE ME";
 ALTER TABLE "Report Filters" ADD CONSTRAINT "Unique Priority" UNIQUE ("Reports GUID", "Priority");
+
+ALTER TABLE "Reports" ADD COLUMN "Auto Load" BIT;
+UPDATE "Reports" SET "Auto Load" = 0;
+ALTER TABLE "Reports" MODIFY COLUMN "Auto Load" BIT NOT NULL;

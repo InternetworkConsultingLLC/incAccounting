@@ -58,10 +58,6 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new SetupController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("System"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new SystemController(this, TemplateController.BLOCK_BODY);
-			} };
 		else if(sApp.equals("User"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new UserController(this, TemplateController.BLOCK_BODY);

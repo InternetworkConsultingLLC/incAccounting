@@ -61,4 +61,11 @@ public class PaymentType extends PaymentTypesRow {
 	public void setTransactionType(TransactionType value) {
 		this.rTransactionTypeParent = value;
 	}
+	@Override
+	public void beforeSave(AdapterInterface adapter) throws Exception {
+		if(getRowState() == RowState.Delete)
+			throw new Exception("You may not delete payment types!");
+	}
+	
+	
 }

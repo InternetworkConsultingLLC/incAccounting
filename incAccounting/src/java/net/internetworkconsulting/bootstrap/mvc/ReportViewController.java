@@ -36,12 +36,17 @@ public class ReportViewController extends Controller {
 			rvfc.setIsDocumentBlock(true);
 		}
 		
-		ButtonTag btnLoad = new ButtonTag(this, "Load");
-		btnLoad.setValue("Load");
-		btnLoad.addOnClickEvent(new Event() { public void handle() throws Exception { btnLoad_OnClick(); } });
+		if(objModel.loadFilters(getUser().login(), ReportFilter.class, false).size() > 0) {
+			ButtonTag btnLoad = new ButtonTag(this, "Load");
+			btnLoad.setValue("Load");
+			btnLoad.addOnClickEvent(new Event() { public void handle() throws Exception { btnLoad_OnClick(); } });
+		}
 		
-		litOutput = new LiteralTag(this, "Output");
-		litOutput.setValue("");
+		litOutput = new LiteralTag(this, "Output");		
+		if(objModel.getAutoLoad() || objModel.loadFilters(getUser().login(), ReportFilter.class, false).size() == 0)
+			btnLoad_OnClick();
+		else
+			litOutput.setValue("");
 	}
 	public History createHistory() throws Exception {
 		Report objModel = (Report) getModel();

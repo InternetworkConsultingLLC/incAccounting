@@ -6,6 +6,7 @@ import net.internetworkconsulting.bootstrap.entities.ReportBlock;
 import net.internetworkconsulting.bootstrap.entities.ReportFilter;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
+import net.internetworkconsulting.mvc.CheckTag;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
@@ -48,6 +49,9 @@ public class ReportController extends EditController {
 		
 		TextAreaTag txtTemplate = new TextAreaTag(this, Report.HTML_TEMPLATE);
 		txtTemplate.bind(objModel, Report.HTML_TEMPLATE);
+		
+		CheckTag chkAutoLoad = new CheckTag(this, Report.AUTO_LOAD);
+		chkAutoLoad.bind(objModel, Report.AUTO_LOAD);
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.setValue("Save");

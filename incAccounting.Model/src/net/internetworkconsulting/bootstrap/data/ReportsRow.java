@@ -36,6 +36,10 @@ public class ReportsRow extends Row implements ReportsInterface {
 	public boolean setTitle(java.lang.String value) throws Exception { return set(TITLE, value); }
 	public java.lang.String getTitle() { return (java.lang.String) get(TITLE); }
 	
+	public static String AUTO_LOAD = "Auto Load";
+	public boolean setAutoLoad(java.lang.Boolean value) throws Exception { return set(AUTO_LOAD, value); }
+	public java.lang.Boolean getAutoLoad() { return (java.lang.Boolean) get(AUTO_LOAD); }
+	
 
 	// child loaders
 	

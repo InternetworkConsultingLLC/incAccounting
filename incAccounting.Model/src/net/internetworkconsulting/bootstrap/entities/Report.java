@@ -28,6 +28,7 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class Report extends ReportsRow {
+	public static String SPLASH_GUID = "18afbfdf422246b1a549f34dad94f8b7";
 	public void initialize() throws Exception {
 		this.setGuid(User.newGuid());
 	}
@@ -81,6 +82,9 @@ public class Report extends ReportsRow {
 	
 	public void beforeSave(AdapterInterface adapter) throws Exception {
 		Securable sec = null;
+		
+		if(Report.SPLASH_GUID.equals(getGuid()) && RowState.Delete == getRowState())
+			throw new Exception("You cannot delete the splash report!");
 		
 		if(getRowState() == RowState.Insert) {
 			sec = new Securable();
@@ -165,5 +169,5 @@ public class Report extends ReportsRow {
 
 		adapter.commit(false);
 	}
-
+	
 }

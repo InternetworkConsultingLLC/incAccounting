@@ -37,7 +37,7 @@ public class Group extends net.internetworkconsulting.bootstrap.data.GroupsRow {
 		if(lstOptions != null && !force)
 			return lstOptions;
 
-		Statement stmt = new Statement(adapter.getSession().readJar(Group.class, "sql/Group.loadOptions.sql"));
+		Statement stmt = new Statement(adapter.getSession().readJar(Group.class, "Group.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt);
 
 		Option opt = new Option();

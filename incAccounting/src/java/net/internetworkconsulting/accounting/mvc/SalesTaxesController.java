@@ -8,6 +8,7 @@ import net.internetworkconsulting.accounting.entities.SalesTaxMembership;
 import net.internetworkconsulting.accounting.entities.SalesTaxMembershipOption;
 import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
+import net.internetworkconsulting.data.pervasive.Statement;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
@@ -27,7 +28,14 @@ public class SalesTaxesController extends EditController {
 	public Object handleNewRow() throws Exception {
 		SalesTax objModel = new SalesTax();
 		objModel.initialize();
-		return objModel;
+		
+		String sGroup = getRequest().getParameter(SalesTax.IS_GROUP);
+		if(sGroup != null) {
+			boolean bGroup = (boolean) Statement.parseStringToValue(boolean.class, sGroup);
+			objModel.setIsGroup(bGroup);
+		}
+
+		return objModel;		
 	}
 	
 	public void createControls(Template document, Object model) throws Exception {		

@@ -45,10 +45,9 @@ public class PaymentTypesController extends EditController {
 
 		TextTag txtName = new TextTag(this, TransactionType.NAME, objTranType);
 		txtName.setIsReadOnly(true);
+
 		TextTag txtEditUrl = new TextTag(this, TransactionType.EDIT_URL, objTranType);
-		txtEditUrl.setIsReadOnly(true);
 		TextTag txtListUrl = new TextTag(this, TransactionType.LIST_URL, objTranType);
-		txtListUrl.setIsReadOnly(true);
 		CheckTag chkAllowed = new CheckTag(this, TransactionType.IS_ALLOWED, objTranType);
 	
 		CheckTag cboSalesRelated = new CheckTag(this, PaymentType.IS_SALES_RELATED, objModel);
