@@ -15,13 +15,11 @@
  */
 package net.internetworkconsulting.accounting.entities;
 
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.PaymentTypesRow;
 import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class PaymentType extends PaymentTypesRow { 
@@ -45,15 +43,6 @@ public class PaymentType extends PaymentTypesRow {
 		return lst;
 	}
 
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception {
-		return Row.loadSearch(adapter, ContactType.class, columns, search);
-	}
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(TransactionType.NAME);
-		lstColumns.add(TransactionType.IS_ALLOWED);
-		return lstColumns;
-	}
 	public void initialize() throws Exception {
 		this.setGuid(User.newGuid());
 	}

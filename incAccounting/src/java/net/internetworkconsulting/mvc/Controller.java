@@ -257,12 +257,12 @@ public abstract class Controller implements ControllerInterface {
 
 				getUser().setDatabase(getSqlDatabase());
 				if(ex.getMessage() != null)
-					out += "<p style=\"color: red;\">" + getUser().desalinate(ex.getMessage()).replace("\n", "<br />") + "</p>";
+					out += "<p style=\"color: red;\">" + getUser().desalinate(ex.getMessage()).replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br />") + "</p>";
 
 				out += "<p>An unhandled error occured while processing your request. ";
 				out += "Please retry your request again, and if the problem persists, please provide the following information to support.</p>";
 				out += "<h2>Exception</h2>";
-				out += "<p>" + getUser().desalinate(ex.toString()).replace("\n", "<br />") + "</p>";
+				out += "<p>" + getUser().desalinate(ex.toString()).replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br />") + "</p>";
 				out += "<h2>Stack Trace</h2>";
 				out += "<ul>";
 				for(StackTraceElement st: ex.getStackTrace())

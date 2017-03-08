@@ -51,14 +51,6 @@ public class Reconciliation extends ReconciliationsRow {
 		lstOptions = lst;
 		return lst;
 	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Reconciliation.loadSearch(adapter, Reconciliation.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(Reconciliation.DATE);
-		lstColumns.add("Account");
-		lstColumns.add("Balance");
-		return lstColumns;
-	}
 
 	private Object lstTransactionLinesChildren = null;
 	public <T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class model, boolean force) throws Exception {

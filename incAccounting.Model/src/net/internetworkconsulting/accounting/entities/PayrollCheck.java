@@ -23,7 +23,6 @@ import net.internetworkconsulting.accounting.data.PayrollChecksRow;
 import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class PayrollCheck extends PayrollChecksRow {
@@ -43,17 +42,6 @@ public class PayrollCheck extends PayrollChecksRow {
 		this.setGuid(User.newGuid());
 		this.setDate(new Date(java.time.Instant.now().toEpochMilli()));
 		this.setEnding(new Date(java.time.Instant.now().toEpochMilli()));
-	}
-	
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, PayrollCheck.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(PayrollCheck.DATE);
-		lstColumns.add(PayrollCheck.NUMBER);
-		lstColumns.add(PayrollCheck.PAY_TO_THE_ORDER_OF);
-		lstColumns.add(PayrollCheck.PAYCHECK_AMOUNT);
-		lstColumns.add(PayrollCheck.IS_TEMPLATE);
-		return lstColumns;
 	}
 	
 	public static List<Option> getDurationOptions() throws Exception {

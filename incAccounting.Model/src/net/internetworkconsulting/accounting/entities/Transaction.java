@@ -18,24 +18,14 @@ package net.internetworkconsulting.accounting.entities;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.TransactionLinesRow;
 import net.internetworkconsulting.accounting.data.TransactionsRow;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Transaction extends TransactionsRow {	
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Transaction.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(Transaction.DATE);
-		lstColumns.add(Transaction.REFERENCE_NUMBER);
-		lstColumns.add(TransactionType.NAME);
-		return lstColumns;
-	}
 	private Object lstTransactionLinesChildren = null;
 	public <T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTransactionLinesChildren == null || force) {

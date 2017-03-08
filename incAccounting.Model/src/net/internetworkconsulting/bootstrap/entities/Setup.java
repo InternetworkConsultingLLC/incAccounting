@@ -92,14 +92,22 @@ public class Setup implements Serializable {
 	public void createDatabase() throws Exception {
 		AdapterInterface adapter = connect();
 
-		String[] arrSql = User.readJarFile(Setup.class, "Database.20151007.sql").split("\\;");
-		for(String sql: arrSql)
+		String[] arrSql;
+		List<String> lstSql = new LinkedList<String>();
+		
+		arrSql = User.readJarFile(Setup.class, "Database.20151007.sql").split("\\;\\r?\\n");
+		for (String sql : arrSql)
+			lstSql.add(sql);
+
+		arrSql = User.readJarFile(Setup.class, "Database.20170301.sql").split("\\;\\r?\\n");
+		for (String sql : arrSql)
+			lstSql.add(sql);		
+		
+		for(String sql: lstSql)
 			if(sql.trim().length() > 0) {
 				Statement stmt = new Statement(sql);
 				stmt.setCommand(stmt.getCommand().replace("%DATABASE%", getDatabase()));
-				try {
-					adapter.execute(stmt, false);
-				}
+				try { adapter.execute(stmt, false); }
 				catch(Exception ex) {
 					throw new Exception(ex.getMessage() + "\n\n" + stmt.generate(null, false));
 				}
@@ -398,63 +406,7 @@ public class Setup implements Serializable {
 		return lstComputers;
 	}
 	private void createReport(AdapterInterface adapter) throws Exception {
-		Report rpt = new Report();
-		rpt.initialize();
-		rpt.setGuid("cef027b31c704b17b9f97bc9489626cb");
-		rpt.setDisplayName("Group Member List");
-		rpt.setHtmlTemplate(
-				"<!-- STOCK REPORT -->"
-				+ "<!-- BEGIN Groups -->\n"
-				+ "<h2>{Display Name}</h2>\n"
-				+ "<div class=\"columns\">\n"
-				+ "<!-- BEGIN Users -->\n"
-				+ "<p>\n"
-				+ "<b>{Display Name}</b><br />\n"
-				+ "{SQL User}<br />\n"
-				+ "{Email Address}\n"
-				+ "</p>\n"
-				+ "<!-- END Users -->\n"
-				+ "</div>\n"
-				+ "<!-- END Groups -->"
-		);
-
-		ReportFilter filter = new ReportFilter();
-		filter.setGuid(User.newGuid());
-		filter.setReportsGuid(rpt.getGuid());
-		filter.setPrompt("Group Contains");
-		filter.setDataType(ReportFilter.DT_TEXT);
-
-		ReportBlock blkGroup = new ReportBlock();
-		blkGroup.setGuid(User.newGuid());
-		blkGroup.setName("Groups");
-		blkGroup.setReportsGuid(rpt.getGuid());
-		blkGroup.setPriority(1);
-		blkGroup.setSqlQuery(
-				"SELECT * \n"
-				+ "FROM \"Groups\" \n"
-				+ "WHERE\n"
-				+ "\"Groups\".\"Display Name\" LIKE CONCAT('%', {Group Contains}, '%') OR {Group Contains} IS NULL"
-		);
-
-		ReportBlock blkUser = new ReportBlock();
-		blkUser.setGuid(User.newGuid());
-		blkUser.setName("Users");
-		blkUser.setParentBlockGuid(blkGroup.getGuid());
-		blkUser.setPriority(1);
-		blkUser.setSqlQuery(
-				"SELECT * FROM \"Users\" \n"
-				+ "WHERE \"Users\".\"GUID\" IN (\n"
-				+ "\n"
-				+ "SELECT \"Users GUID\" FROM \"Memberships\" \n"
-				+ "WHERE \"Memberships\".\"Groups GUID\" = {GUID}\n"
-				+ "\n"
-				+ ")"
-		);
-
-		adapter.save(Report.TABLE_NAME, rpt);
-		adapter.save(ReportFilter.TABLE_NAME, filter);
-		adapter.save(ReportBlock.TABLE_NAME, blkGroup);
-		adapter.save(ReportBlock.TABLE_NAME, blkUser);
+		
 	}
 
 	public void createAdministrator() throws Exception {

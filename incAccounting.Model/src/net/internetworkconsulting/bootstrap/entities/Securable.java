@@ -15,20 +15,6 @@
  */
 package net.internetworkconsulting.bootstrap.entities;
 
-import java.util.LinkedList;
-import java.util.List;
-import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
-
 public class Securable extends net.internetworkconsulting.bootstrap.data.SecurablesRow {
-	private static final long serialVersionUID = 1L;
-
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Securable.class, columns, search); }
-	public static List<String> getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Securable.DISPLAY_NAME);
-		return lstColumns;
-	}
-
 	public Securable() { super(); }
 }

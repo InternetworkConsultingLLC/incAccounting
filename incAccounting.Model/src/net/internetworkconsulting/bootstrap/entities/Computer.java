@@ -15,42 +15,13 @@
  */
 package net.internetworkconsulting.bootstrap.entities;
 
-import java.util.LinkedList;
-import java.util.List;
-import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
-import net.internetworkconsulting.data.mysql.Statement;
-
 public class Computer extends net.internetworkconsulting.bootstrap.data.ComputersRow {
-	private static final long serialVersionUID = 1L;
 	public static String SETTING_ENFORCE_COMPUTERS = "Enforce Computers";
 
 	public void initialize() throws Exception {
 		this.setGuid(User.newGuid());
 		this.setIsAllowed(true);
 	}
-	
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Computer.class, columns, search); }
-	public static List<String> getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Computer.DESCRIPTION);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Computer.MAC_ADDRESS);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Computer.IS_ALLOWED);
-		return lstColumns;
-	}
 
 	public Computer() { super(); }
-
-//	public static <T extends Computer> T loadByMacAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-//		String sql = "SELECT * FROM \"" + Computer.TABLE_NAME +"\" WHERE \"" + Computer.MAC_ADDRESS + "\"={VALUE}";
-//		Statement stmt = new Statement(sql);
-//		stmt.getParameters().put("{VALUE}", value);
-//
-//		List<T> lst = adapter.load(model, stmt);
-//		if(lst.size() != 1)
-//			throw new Exception("Could not locate unique Computer row by 'MAC Address': " + Statement.convertObjectToString(value, null));
-//
-//		return lst.get(0);		
-//	}
-
 }

@@ -63,9 +63,9 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 				new UserController(this, TemplateController.BLOCK_BODY);
 			} };
 		else {
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new UserController(this, TemplateController.BLOCK_BODY);
-			} };
+			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The GET parameter App is is not valid!");
+			resp.flushBuffer();
+			return;
 		}
 		
 		template.execute();

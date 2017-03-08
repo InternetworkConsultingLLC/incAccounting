@@ -15,15 +15,11 @@
  */
 package net.internetworkconsulting.bootstrap.entities;
 
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Setting extends net.internetworkconsulting.bootstrap.data.SettingsRow {
-	private static final long serialVersionUID = 1L;
-
 	public static String TYPE_BOOLEAN = "Boolean";
 	public static String TYPE_GUID = "Guid";
 	public static String TYPE_NUMBER = "Number";
@@ -32,16 +28,6 @@ public class Setting extends net.internetworkconsulting.bootstrap.data.SettingsR
 	public Setting() { super(); }
 	public void initialize() throws Exception {
 		this.setGuid(User.newGuid());
-	}
-
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Setting.class, columns, search); }
-	public static List<String> getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Setting.KEY);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.User.SQL_USER);
-//		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Setting.TYPE);
-//		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Setting.VALUE);
-		return lstColumns;
 	}
 	
 	public static <T extends Setting> T loadByKey(AdapterInterface adapter, Class model, String value) throws Exception {

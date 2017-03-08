@@ -47,14 +47,6 @@ public class SalesTax extends SalesTaxesRow {
 		lstOptions = lst;
 		return lst;
 	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return SalesTax.loadSearch(adapter, SalesTax.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(SalesTax.DISPLAY_NAME);
-		lstColumns.add(SalesTax.TAX_RATE);
-		lstColumns.add(SalesTax.IS_GROUP);
-		return lstColumns;
-	}
 
 	private List<SalesTaxMembershipOption> lstMembershipOptions;
 	public List<SalesTaxMembershipOption> loadMembershipOptions(AdapterInterface adapter, boolean force) throws Exception {

@@ -23,24 +23,11 @@ import java.util.List;
 import net.internetworkconsulting.accounting.data.BankDepositsRow;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Deposit extends BankDepositsRow {
 	public static String TRANSACTION_TYPE_GUID = "bbb9a35380834fe9976ad7184976f0d6";
 
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception {
-		return Row.loadSearch(adapter, ContactType.class, columns, search);
-	}
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(Account.NAME);
-		lstColumns.add(Deposit.DATE);
-		lstColumns.add(Deposit.NUMBER);
-		lstColumns.add(Deposit.TOTAL);
-		return lstColumns;
-	}
-	
 	private List<Payment> lstPayments = null;
 	public List<Payment> loadPaymentSelections(AdapterInterface adapter, boolean force) throws Exception {
 		if(lstPayments != null && !force)

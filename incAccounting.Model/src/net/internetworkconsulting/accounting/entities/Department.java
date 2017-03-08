@@ -15,7 +15,6 @@
  */
 package net.internetworkconsulting.accounting.entities;
 
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.DepartmentsRow;
 import net.internetworkconsulting.bootstrap.entities.Option;
@@ -45,13 +44,6 @@ public class Department extends DepartmentsRow {
 		lst.add(0, opt);
 		lstOptions = lst;
 		return lst;
-	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Department.loadSearch(adapter, Department.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(Department.NUMBER);
-		lstColumns.add(Department.NAME);
-		return lstColumns;
 	}
 
 	public void beforeSave(AdapterInterface adapter) throws Exception {

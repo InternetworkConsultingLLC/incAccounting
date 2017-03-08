@@ -16,13 +16,11 @@
 package net.internetworkconsulting.accounting.entities;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.PayrollFieldsRow;
 import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class PayrollField extends PayrollFieldsRow {
@@ -64,12 +62,5 @@ public class PayrollField extends PayrollFieldsRow {
 
 		hmOptionsByType.put(type_guid, lst);
 		return hmOptionsByType.get(type_guid);
-	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Document.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(PayrollField.NAME);
-		lstColumns.add(PayrollField.PAYROLL_FIELD_TYPES_GUID);
-		return lstColumns;
 	}
 }

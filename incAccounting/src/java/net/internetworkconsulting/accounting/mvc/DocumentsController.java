@@ -47,8 +47,10 @@ public class DocumentsController extends EditController {
 		objModel.initialize(getUser().login());
 		
 		String sDocuentTypesGuid = getRequest().getParameter(Document.DOCUMENT_TYPES_GUID);
-		if(sDocuentTypesGuid != null)
-			objModel.setDocumentTypesGuid(sDocuentTypesGuid);		
+		if(sDocuentTypesGuid != null) {
+			objModel.setDocumentTypesGuid(sDocuentTypesGuid);
+			cboDocType_OnChange();
+		}
 		
 		return objModel;
 	}

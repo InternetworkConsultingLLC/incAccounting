@@ -27,7 +27,6 @@ import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.bootstrap.entities.Setting;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Document extends DocumentsRow {
@@ -110,17 +109,6 @@ public class Document extends DocumentsRow {
 		lst.add(0, opt);
 		lstOptions = lst;
 		return lst;
-	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Document.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(Document.DATE);
-		//lstColumns.add(Document.DUE_DATE);
-		lstColumns.add(Document.REFERENCE_NUMBER);
-		lstColumns.add("Document Type");
-		lstColumns.add(Document.CONTACTS_DISPLAY_NAME);
-		lstColumns.add(Document.TOTAL);
-		return lstColumns;
 	}
 
 	public void handleDocumentTypesGuid(AdapterInterface adapter) throws Exception {

@@ -126,7 +126,7 @@ public class ReportController extends EditController {
 	}
 	private void btnAddBlock_OnClick() throws Exception {
 		Report objModel = (Report) getModel();
-		redirect("~/incBootstrap?App=ReportBlockEdit&" + ReportBlock.REPORTS_GUID + "=" + objModel.getGuid());
+		redirect("~/incBootstrap?App=ReportBlock&" + ReportBlock.REPORTS_GUID + "=" + objModel.getGuid());
 	}
 	private void btnView_OnClick() throws Exception {
 		Report objModel = (Report) getModel();

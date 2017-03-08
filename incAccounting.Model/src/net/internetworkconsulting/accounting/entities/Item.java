@@ -23,7 +23,6 @@ import net.internetworkconsulting.accounting.data.ItemsRow;
 import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Item extends ItemsRow {
@@ -72,13 +71,6 @@ public class Item extends ItemsRow {
 		lst.add(0, opt);
 		lstOptions = lst;
 		return lst;
-	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Item.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(Item.NUMBER);
-		lstColumns.add(Item.IS_ALLOWED);
-		return lstColumns;
 	}
 
 	public void beforeSave(AdapterInterface adapter) throws Exception {

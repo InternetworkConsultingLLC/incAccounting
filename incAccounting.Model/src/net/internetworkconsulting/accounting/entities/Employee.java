@@ -16,12 +16,10 @@
 package net.internetworkconsulting.accounting.entities;
 
 import java.sql.Date;
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.EmployeesRow;
 import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Employee extends EmployeesRow {
@@ -59,15 +57,5 @@ public class Employee extends EmployeesRow {
 		lst.add(0, opt);
 		lstOptions = lst;		
 		return lst;
-	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Contact.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(Contact.DISPLAY_NAME);
-		//lstColumns.add(Contact.EMAIL_ADDRESS);
-		//lstColumns.add(Contact.OFFICE_PHONE);
-		lstColumns.add(Contact.MOBILE_PHONE);
-		///lstColumns.add(Contact.HOME_PHONE);
-		return lstColumns;
 	}
 }

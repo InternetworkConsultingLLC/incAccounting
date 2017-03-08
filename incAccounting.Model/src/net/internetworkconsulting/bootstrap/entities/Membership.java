@@ -18,7 +18,5 @@ package net.internetworkconsulting.bootstrap.entities;
 import net.internetworkconsulting.bootstrap.data.MembershipsRow;
 
 public class Membership extends MembershipsRow {
-	private static final long serialVersionUID = 1L;
-	
 	public Membership() { super(); }
 }

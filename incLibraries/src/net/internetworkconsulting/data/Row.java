@@ -140,32 +140,6 @@ public class Row implements RowInterface, Serializable {
 		hsColumns = value;
 	}
 
-	public static List loadSearch(AdapterInterface adapter, Class cls, List<String> columns, String search) throws Exception {		
-		String sSearch = "";
-		if(search != null)
-			sSearch = search;
-		
-		Statement stmt = new Statement(adapter.getSession().readJar(cls, cls.getSimpleName() + ".loadSearch.sql"));
-		sSearch = sSearch.replace("'", "").replaceAll("\\s+", " ");
-
-		String sWhere = " 1=1 ";
-		if(sSearch.length() > 0) {
-			String[] arrKeywords = sSearch.split("\\s+");
-			for(int cnt = 0;cnt < arrKeywords.length;cnt++) {
-				String sParameter = "{Keyword " + Integer.toString(cnt) + "}";
-				stmt.getParameters().put(sParameter, arrKeywords[cnt]);
-				sWhere += " AND ( ";
-				for(int colCnt = 0;colCnt < columns.size();colCnt++)
-					sWhere += "     \"" + columns.get(colCnt) + "\" LIKE CONCAT('%', {Keyword " + Integer.toString(cnt) + "}, '%') OR ";
-				sWhere = sWhere.substring(0, sWhere.length() - 3);
-				sWhere += " ) ";
-			}
-		}
-
-		stmt.setCommand(stmt.getCommand().replace("%WHERE%", sWhere));
-		return adapter.load(cls, stmt);
-	}
-
 	public static String getReource(Class cls, String file) throws Exception {
 		InputStream is = cls.getResourceAsStream(file);
 		return Helper.InputStreamToString(is);

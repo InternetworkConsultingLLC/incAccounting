@@ -55,7 +55,7 @@ public class TextAreaTag extends Tag {
 		html += " >";
 
 		if(getValue() != null)
-			html +=  getValue().replace("<", "&lt;").replace(">", "&gt;");
+			html +=  getValue().replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
 		
 		html += "</textarea> ";
 				

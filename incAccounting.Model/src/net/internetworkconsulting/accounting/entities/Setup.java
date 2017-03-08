@@ -20,9 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.bootstrap.entities.Group;
 import net.internetworkconsulting.bootstrap.entities.Permission;
-import net.internetworkconsulting.bootstrap.entities.Report;
-import net.internetworkconsulting.bootstrap.entities.ReportBlock;
-import net.internetworkconsulting.bootstrap.entities.ReportFilter;
 import net.internetworkconsulting.bootstrap.entities.Securable;
 import net.internetworkconsulting.bootstrap.entities.Setting;
 import net.internetworkconsulting.bootstrap.entities.User;
@@ -35,15 +32,24 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 
 		AdapterInterface adapter = connect();
 
-		List<String> lstSql = new LinkedList<String>();
-
-		String[] arrSql = User.readJarFile(Setup.class, "Database.20151111.sql").split("\\;");
-		for (String sql : arrSql)
+		List<String> lstSql = new LinkedList<>();
+		String[] arrSql;
+		
+		arrSql = User.readJarFile(Setup.class, "Database.20151111.sql").split("\\;\\r?\\n");
+		for(String sql : arrSql)
 			lstSql.add(sql);
 
-		arrSql = User.readJarFile(Setup.class, "Database.20160204.sql").split("\\;");
-		for (String sql : arrSql)
+		arrSql = User.readJarFile(Setup.class, "Database.20160204.sql").split("\\;\\r?\\n");
+		for(String sql : arrSql)
 			lstSql.add(sql);
+		
+		arrSql = User.readJarFile(Setup.class, "Database.20170222.sql").split("\\;\\r?\\n");
+		for(String sql : arrSql)
+			lstSql.add(sql);
+
+		arrSql = User.readJarFile(Setup.class, "Database.20170306.sql").split("\\;\\r?\\n");
+		for(String sql : arrSql)
+			lstSql.add(sql);	
 
 		for (String sql : lstSql) {
 			if (sql.trim().length() > 0) {
@@ -513,65 +519,7 @@ public class Setup extends net.internetworkconsulting.bootstrap.entities.Setup {
 		adapter.save(TransactionType.TABLE_NAME, trantype);
 		
 	}
-	private void createReport(AdapterInterface adapter) throws Exception {
-		Report report = new Report();
-		report.initialize();
-		report.setGuid("6d4ea7d4624e48509e915e019ca1f7a9");
-		report.setDisplayName("Chart of Accounts with Balances");
-		report.setHtmlTemplate(
-			"<!-- STOCK REPORT -->" +
-			"<table>\n" +
-			"	<tr>\n" +
-			"		<td>Number</td>\n" +
-			"        <td>Name</td>\n" +
-			"        <td>Type</td>\n" +
-			"        <td>Balance</td>\n" +
-			"        <td>Actions</td>\n" +
-			"	</tr>\n" +
-			"    <!-- BEGIN Account -->\n" +
-			"	<tr>\n" +
-			"		<td>{Number}</td>\n" +
-			"        <td>{Name}</td>\n" +
-			"        <td>{Account Types Name}</td>\n" +
-			"        <td>{Balance}</td>\n" +
-			"        <td>\n" +
-			"			<a href=\"http://localhost:8080/incAccounting/AccountEdit?GUID={GUID}\">Edit</a>\n" +
-			"		</td>\n" +
-			"	</tr>\n" +
-			"    <!-- END Account -->\n" +
-			"</table>"
-		);
-		adapter.save(Report.TABLE_NAME, report);
-		
-		ReportFilter filter = new ReportFilter();
-		filter.initialize();
-		filter.setPrompt("As Of Date");
-		filter.setDataType(ReportFilter.DT_DATE);
-		filter.setQuery("SELECT NOW()");
-		filter.setReportsGuid(report.getGuid());
-		adapter.save(ReportFilter.TABLE_NAME, filter);
-		
-		ReportBlock block = new ReportBlock();
-		block.initialize();
-		block.setReportsGuid(report.getGuid());
-		block.setName("Account");
-		block.setPriority(0);
-		block.setSqlQuery(
-			"SELECT\n" +
-			"	\"Accounts\".\"GUID\",\n" +
-			"	\"Accounts\".\"Number\",\n" +
-			"	\"Accounts\".\"Name\",\n" +
-			"	\"Account Types\".\"Name\" AS \"Account Types Name\",\n" +
-			"	CAST((\n" +
-			"		SELECT SUM(\"Transaction Lines\".\"Debit\") FROM \"Transaction Lines\"\n" +
-			"	) AS DECIMAL(64,2)) AS \"Balance\"\n" +
-			"FROM \n" +
-			"	\"Accounts\"\n" +
-			"	JOIN \"Account Types\" ON \"Accounts\".\"Account Types GUID\" = \"Account Types\".\"GUID\"\n" +
-			"ORDER BY \"Number\""
-		);
-		adapter.save(ReportBlock.TABLE_NAME, block);
-	}
+	private void createReport(AdapterInterface adapter) throws Exception {}
 	private void createSecurables(AdapterInterface adapter) throws Exception {
 		Securable sec;
 		Permission perm;

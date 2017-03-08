@@ -33,11 +33,9 @@ import net.internetworkconsulting.bootstrap.data.UsersRow;
 import net.internetworkconsulting.data.mysql.Adapter;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.Helper;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class User extends UsersRow implements SessionInterface {
-	private static final long serialVersionUID = 1L;
 	public static String ADMINISTRATOR_GUID = "86b41969e95143c090fd93a4819c58a2";
 	public static String SETTING_PASSWORD_AGE = "Password Age (Days)";
 	public static String SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
@@ -53,19 +51,6 @@ public class User extends UsersRow implements SessionInterface {
 		this.setGuid(User.newGuid()); 
 		this.setIsAllowed(true);
 		this.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
-	}
-
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception {
-		return Row.loadSearch(adapter, User.class, columns, search);
-	}
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(User.SQL_USER);
-		lstColumns.add(User.DISPLAY_NAME);
-//		lstColumns.add(User.EMAIL_ADDRESS);
-		lstColumns.add(User.IS_ALLOWED);
-//		lstColumns.add(net.internetworkconsulting.bootstrap.entities.User.ADD_COMPUTER);
-		return lstColumns;
 	}
 
 	private static List<Option> lstOptions;

@@ -33,15 +33,6 @@ public class Report extends ReportsRow {
 		this.setGuid(User.newGuid());
 	}
 
-	public static List<String> getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Report.DISPLAY_NAME);
-		return lstColumns;
-	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception {
-		return Row.loadSearch(adapter, Report.class, columns, search);
-	}
-
 	private static List<Option> lstOptions;
 	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
 		if(lstOptions != null && !force)
@@ -107,7 +98,11 @@ public class Report extends ReportsRow {
 	}
 
 	public String generate(AdapterInterface adapter) throws Exception {
-		Template document = new Template(getHtmlTemplate(), new HtmlSyntax());
+		Template document;
+		try { document = new Template(getHtmlTemplate(), new HtmlSyntax()); }
+		catch(Exception ex) {
+			throw new Exception("Problem parsing HTML template.  If a 'no match' error, your BEGIN block does not have an END.  Please check that opening and closing blocks and brackets match.", ex);
+		}
 		
 		List<ReportFilter> lstFilters = loadFilters(adapter, ReportFilter.class, false);
 		HashMap<String, String> hmValues = new HashMap<>();

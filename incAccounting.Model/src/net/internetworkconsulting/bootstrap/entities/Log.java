@@ -15,25 +15,6 @@
  */
 package net.internetworkconsulting.bootstrap.entities;
 
-import java.util.LinkedList;
-import java.util.List;
-import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
-
 public class Log extends net.internetworkconsulting.bootstrap.data.LogsRow {
-	private static final long serialVersionUID = 1L;
-
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Log.class, columns, search); }
-	public static List<String> getSearchColumns() { 
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Log.OCCURED);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Log.LOG);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.User.SQL_USER);
-		//lstColumns.add("Computer");
-		//lstColumns.add(net.internetworkconsulting.bootstrap.entities.Log.CODE_GUID);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Log.DETAILS);
-		return lstColumns;
-	}
-	
 	public Log() { super(); }
 }

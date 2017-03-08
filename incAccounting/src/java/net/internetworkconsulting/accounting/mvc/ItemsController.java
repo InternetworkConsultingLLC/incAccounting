@@ -29,8 +29,10 @@ public class ItemsController extends EditController {
 		objModel.initialize();
 
 		String sParentGuid = getRequest().getParameter(Item.PARENT_ITEMS_GUID);
-		if(sParentGuid != null && sParentGuid.length() == 32)
+		if(sParentGuid != null && sParentGuid.length() == 32) {
 			objModel.setParentItemsGuid(sParentGuid);
+			objModel.handleParentItemsGuid();
+		}
 
 		return objModel;
 	}

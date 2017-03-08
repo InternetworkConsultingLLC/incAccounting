@@ -15,13 +15,11 @@
  */
 package net.internetworkconsulting.accounting.entities;
 
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.UnitMeasuresRow;
 import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class UnitMeasure extends UnitMeasuresRow {
@@ -46,30 +44,4 @@ public class UnitMeasure extends UnitMeasuresRow {
 		lstOptions = lst;		
 		return lst;
 	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, UnitMeasure.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(UnitMeasure.DISPLAY_NAME);
-		lstColumns.add(UnitMeasure.ABBREVIATION);
-		lstColumns.add(UnitMeasure.IS_ALLOWED);
-		return lstColumns;
-	}
-
-//	private HashMap<String, BigDecimal> hmConversions = null;
-//	public HashMap<String, BigDecimal> loadConversionMap(AdapterInterface adapter) throws Exception {
-//		if(hmConversions != null)
-//			return hmConversions;
-//		
-//		hmConversions = new HashMap<>();
-//		
-//		List<UnitConversion> lstConversions = this.loadBaseToQuantityConversions(adapter, UnitConversion.class, true);
-//		for(UnitConversion uc : lstConversions) {
-//			if(hmConversions.containsKey(uc.getQuantityUnitMeasuresGuid()))
-//				continue;
-//			
-//			hmConversions.put(uc.getQuantityUnitMeasuresGuid(), uc.getQuantity());			
-//		}
-//
-//		return hmConversions;
-//	}
 }

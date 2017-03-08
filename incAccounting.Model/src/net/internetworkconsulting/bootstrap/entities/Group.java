@@ -15,15 +15,11 @@
  */
 package net.internetworkconsulting.bootstrap.entities;
 
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Group extends net.internetworkconsulting.bootstrap.data.GroupsRow {
-	private static final long serialVersionUID = 1L;
-
 	public void initialize() throws Exception {
 		this.setGuid(User.newGuid());
 		this.setIsAllowed(true);
@@ -48,14 +44,6 @@ public class Group extends net.internetworkconsulting.bootstrap.data.GroupsRow {
 		lstOptions = lst;
 		return lst;
 	}
-	public static List loadSearch(AdapterInterface adapter, List<String> columns, String search) throws Exception { return Row.loadSearch(adapter, Group.class, columns, search); }
-	public static List getSearchColumns() {
-		LinkedList<String> lstColumns = new LinkedList<>();
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Group.DISPLAY_NAME);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Group.EMAIL_ADDRESS);
-		lstColumns.add(net.internetworkconsulting.bootstrap.entities.Group.IS_ALLOWED);
-		return lstColumns;
-	}
-	
+
 	public Group() { super(); }
 }

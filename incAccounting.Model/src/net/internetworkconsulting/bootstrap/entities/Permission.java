@@ -16,7 +16,5 @@
 package net.internetworkconsulting.bootstrap.entities;
 
 public class Permission extends net.internetworkconsulting.bootstrap.data.PermissionsRow {
-	private static final long serialVersionUID = 1L;
-
 	public Permission() { super(); }
 }

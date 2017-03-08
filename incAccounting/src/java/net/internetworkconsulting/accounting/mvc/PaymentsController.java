@@ -35,8 +35,10 @@ public class PaymentsController extends EditController {
 		objModel.initialize(getUser().login());
 		
 		String sPaymentTypesGuid = getRequest().getParameter(Payment.PAYMENT_TYPES_GUID);
-		if(sPaymentTypesGuid != null)
+		if(sPaymentTypesGuid != null) {
 			objModel.setPaymentTypesGuid(sPaymentTypesGuid);
+			objModel.handlePaymentType(getUser().login());
+		}
 		
 		return objModel;
 	}
