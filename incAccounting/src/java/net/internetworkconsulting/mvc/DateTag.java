@@ -2,7 +2,7 @@ package net.internetworkconsulting.mvc;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 

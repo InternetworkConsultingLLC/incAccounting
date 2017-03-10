@@ -1,7 +1,7 @@
 <h1>Setup</h1>
 <p>Make sure to create the administrator's password when creating a database.</p>
 
-<h2>Database</h2>
+<h2>Connection</h2>
 <p>Please enter the MySQL information below.  Please note that the MySQL user must be an administrator.</p>
 <div class="block">
 	<div class="field"><label>User:</label><div>{SQL User}</div></div>
@@ -9,7 +9,16 @@
 	<div class="field"><label>Server:</label><div>{SQL Server}</div></div>
 	<div class="field"><label>Database:</label><div>{Database}</div></div>		
 </div>
-<p>{Test Connection} {Drop Database} {Create Database}</p>
+<p>{Test Connection}</p>
+
+<h2>Database</h2>
+<p>The following is an ordered list of SQL scripts to be executed.</p>
+<div class="block">
+	<!-- BEGIN Script -->
+	<div class="field check">{Script Check} {Script Name}</div>
+	<!-- END Script -->
+</div>
+<p>{Select All} {Drop Database} {Create Database}</p>
 
 <h2>Administrator</h2>
 <p>Please enter the desired administrator user's password.  This drops and recreates the administrator's user (this is not the MySQL root user).</p>

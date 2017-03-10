@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import net.internetworkconsulting.bootstrap.entities.User;
+import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.template.Template;
 
 public interface ControllerInterface {

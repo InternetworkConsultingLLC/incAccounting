@@ -2,7 +2,6 @@ package net.internetworkconsulting.accounting.mvc;
 
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Job;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;

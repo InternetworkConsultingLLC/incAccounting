@@ -9,7 +9,7 @@ import net.internetworkconsulting.accounting.entities.PayrollCheck;
 import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldType;
 import net.internetworkconsulting.accounting.entities.PayrollFieldValue;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;

@@ -17,7 +17,6 @@ package net.internetworkconsulting.accounting.entities;
 
 import java.util.List;
 import net.internetworkconsulting.accounting.data.AccountTypesRow;
-import net.internetworkconsulting.bootstrap.entities.Option;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 

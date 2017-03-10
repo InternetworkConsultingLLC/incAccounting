@@ -15,12 +15,8 @@
 	<welcome-file-list>
 		<welcome-file>incAccounting</welcome-file>
 	</welcome-file-list>
-	<servlet>
-		<servlet-name>incBootstrap</servlet-name>
-		<servlet-class>net.internetworkconsulting.bootstrap.mvc.Servlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-		<servlet-name>incBootstrap</servlet-name>
+		<servlet-name>incAccounting</servlet-name>
 		<url-pattern>/incBootstrap</url-pattern>
 	</servlet-mapping>	
 	<servlet>
@@ -30,14 +26,6 @@
 	<servlet-mapping>
 		<servlet-name>incAccounting</servlet-name>
 		<url-pattern>/incAccounting</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>incBootstrapRest</servlet-name>
-		<servlet-class>net.internetworkconsulting.bootstrap.rest.Servlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>incBootstrapRest</servlet-name>
-		<url-pattern>/incBootstrapRest</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>

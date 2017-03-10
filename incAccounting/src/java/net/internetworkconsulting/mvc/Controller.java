@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import net.internetworkconsulting.bootstrap.entities.User;
+import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.data.Helper;
 import static net.internetworkconsulting.mvc.TemplateController.serialize;
 import net.internetworkconsulting.template.Template;
@@ -243,6 +243,12 @@ public abstract class Controller implements ControllerInterface {
 			doPopulateDocument(this);
 			doOutput();
 		} catch(Exception ex) {
+			if(ex.getMessage() != null && ex.getMessage().contains("You must provide a password to login")) {
+				try { redirect("~/incBootstrap?App=Login&Error=You must log in to use this application!"); }
+				catch(Exception exx) {}
+				return;
+			}
+			
 			if(ex.getMessage() != null && ex.getMessage().length() > 1 && ex.getMessage().equals("redirected"))
 				return;
 

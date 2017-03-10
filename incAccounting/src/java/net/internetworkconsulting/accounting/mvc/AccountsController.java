@@ -3,7 +3,6 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.AccountType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;

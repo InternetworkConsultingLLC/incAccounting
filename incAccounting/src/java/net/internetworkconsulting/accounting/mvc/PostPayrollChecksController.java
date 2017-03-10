@@ -3,7 +3,7 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.PayrollCheck;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.ComboTag;
 import net.internetworkconsulting.mvc.Controller;

@@ -26,53 +26,41 @@ import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.Helper;
 import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.RowInterface;
+import net.internetworkconsulting.data.mysql.Adapter;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.template.CSyntax;
 import net.internetworkconsulting.template.Template;
 
 public class Generator {
 	private final String sDatabase = "ia-incllc";
+	private final String sServer = "localhost";
+	private final String sUser = "root";
+	private final String sPassword = "Welcome123";
+	
+	private final String sNamespace = "net.internetworkconsulting.accounting.data";
+	private final String sOutputFolder = "e:/NetBeans/incAccounting.Model/src/net/internetworkconsulting/accounting/data/";
+	
 	private final Statement stmtTables = new Statement("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = {database};");
 	private final Statement stmtColumns = new Statement("SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = {table} AND TABLE_SCHEMA = {database};");
 	private final Statement stmtForeignKeys = new Statement("SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {database} AND REFERENCED_TABLE_NAME IS NOT NULL;");
 	private final Statement stmtUniqueKeys = new Statement();
 	
-	private final AdapterInterface dbAdapter;	
+	private AdapterInterface dbAdapter;	
 	private List lstForeignKeys;
 	private List lstUniqueKeys;
 	private HashMap<String, String> hmFileNames;
 	private HashMap<String, Template> hmDocuments;
-	private HashMap<String, Config> hmTablesConfig;
 	private HashMap<String, Family> hmFamilies;
 	private HashMap<String, Row> hmTables;
 	
 	private HashSet<String> hsMethods = null;
 	
-	public Generator(AdapterInterface adapter) { 
-		dbAdapter = adapter; 
-	}	
 	public int execute() throws Exception {
+		dbAdapter = new Adapter(sServer, sDatabase, sUser, sPassword, false);
+
 		stmtUniqueKeys.setCommand(Helper.InputStreamToString(Generator.class.getResourceAsStream("SelectUniqueKeys.sql")));
-		//stmtUniqueKeys.setCommand(IOUtils.toString(Generator.class.getResourceAsStream("SelectUniqueKeys.sql"), "UTF-8"));
 		
-		
-		List<String> arrConfig = Helper.InputStreamToStringList(Generator.class.getResourceAsStream("tables.config"));
-		//List<String> arrConfig = IOUtils.readLines(Generator.class.getResourceAsStream("tables.config"));
-		hmTablesConfig = new HashMap<>();
-		for(String sLine : arrConfig) {
-			String[] arrColumns = sLine.split("\\|");			
-			if(arrColumns.length < 1)
-				continue;
-				
-			Config cfg = new Config();
-			cfg.Table = arrColumns[0];
-			cfg.NameSpace = arrColumns[1];
-			cfg.Folder = arrColumns[2];
-			hmTablesConfig.put(cfg.Table.toLowerCase(), cfg);
-		}
-		
-		arrConfig = Helper.InputStreamToStringList(Generator.class.getResourceAsStream("files.config"));
-		//arrConfig = IOUtils.readLines(Generator.class.getResourceAsStream("files.config"));
+		List<String> arrConfig = Helper.InputStreamToStringList(Generator.class.getResourceAsStream("files.config"));
 		hmFileNames = new HashMap<>();
 		for(String sLine : arrConfig) {
 			String[] arrColumns = sLine.split("\\|");			
@@ -95,17 +83,13 @@ public class Generator {
 		lstForeignKeys = dbAdapter.load(Row.class, stmtForeignKeys);
 		
 		processRowsAndInterfaces(lstTables);
-		//processComposits();
-		
+	
 		return 0;
 	}
 
 	private void processRowsAndInterfaces(List<Row> lstTables) throws Exception {
 		for(int cnt = 0; cnt < lstTables.size(); cnt++) {
 			Row row = lstTables.get(cnt);
-			if(!hmTablesConfig.containsKey(row.get("TABLE_NAME").toString().toLowerCase()))
-				throw new Exception("Could not fine table (" + row.get("TABLE_NAME").toString() + ") in config!");
-			
 			hsMethods = new HashSet<>();
 			
 			// read templates
@@ -113,7 +97,7 @@ public class Generator {
 			
 			// populate with table meta data
 			addToDocument("database", sDatabase);
-			addToDocument("namespace", hmTablesConfig.get(row.get("TABLE_NAME").toString().toLowerCase()).NameSpace);			
+			addToDocument("namespace", sNamespace);			
 			addToDocument("table", row.get("TABLE_NAME").toString());
 		
 			processTable(row);			
@@ -345,16 +329,17 @@ public class Generator {
 	private void saveDocuments(String TABLE_NAME) throws Exception {
 		for(String template : hmFileNames.keySet()) {
 			String sFile;
-                        if(hmTablesConfig.get(TABLE_NAME.toLowerCase()).Folder.endsWith(File.separator))
-				sFile = hmTablesConfig.get(TABLE_NAME.toLowerCase()).Folder + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
+			if(sOutputFolder.endsWith(File.separator))
+				sFile = sOutputFolder + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
 			else
-                                sFile = hmTablesConfig.get(TABLE_NAME.toLowerCase()).Folder + File.separator + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
+				sFile = sOutputFolder + File.separator + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
 			File f = new File(sFile);
 			if(f.exists())
 				f.delete();
 			try {
 				f.createNewFile();
-			} catch(Exception ex) {
+			}
+			catch(Exception ex) {
 				System.err.println(ex.toString());
 			}
 

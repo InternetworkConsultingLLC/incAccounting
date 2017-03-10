@@ -2,7 +2,7 @@ package net.internetworkconsulting.mvc;
 
 import java.util.LinkedList;
 import java.util.List;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.template.Template;
 
 public class ComboTag  extends Tag {

@@ -7,7 +7,6 @@ import net.internetworkconsulting.accounting.entities.Payment;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.PaymentApplicationSelection;
 import net.internetworkconsulting.accounting.entities.PaymentType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.HtmlSyntax;

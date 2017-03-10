@@ -6,7 +6,6 @@ import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.SalesTaxMembership;
 import net.internetworkconsulting.accounting.entities.SalesTaxMembershipOption;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.data.pervasive.Statement;
 import net.internetworkconsulting.mvc.*;

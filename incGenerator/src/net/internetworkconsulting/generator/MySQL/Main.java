@@ -15,14 +15,9 @@
  */
 package net.internetworkconsulting.generator.MySQL;
 
-import net.internetworkconsulting.data.mysql.Adapter;
-import net.internetworkconsulting.data.AdapterInterface;
-
 public class Main {
 	public static void main(String[] args) throws Exception {
-		AdapterInterface adapter;		
-		adapter = new Adapter("localhost", "ia-incllc", "root", "Welcome123", false);
-		Generator gen = new Generator(adapter);
+		Generator gen = new Generator();
 		gen.execute();			
 	}	
 }

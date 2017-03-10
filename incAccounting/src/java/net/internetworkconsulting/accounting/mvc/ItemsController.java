@@ -6,7 +6,6 @@ import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Item;
 import net.internetworkconsulting.accounting.entities.UnitMeasure;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;

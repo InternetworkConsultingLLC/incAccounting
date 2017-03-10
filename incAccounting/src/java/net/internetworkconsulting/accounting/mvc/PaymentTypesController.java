@@ -3,7 +3,6 @@ package net.internetworkconsulting.accounting.mvc;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.PaymentType;
 import net.internetworkconsulting.accounting.entities.TransactionType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.HtmlSyntax;

@@ -18,7 +18,6 @@ package net.internetworkconsulting.accounting.entities;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import net.internetworkconsulting.accounting.data.DocumentLinesRow;
-import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 
 public class DocumentLine extends DocumentLinesRow {

@@ -1,7 +1,6 @@
 package net.internetworkconsulting.accounting.mvc;
 
 import net.internetworkconsulting.accounting.entities.ContactType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;

@@ -21,7 +21,6 @@ import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.BankDepositsRow;
-import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 

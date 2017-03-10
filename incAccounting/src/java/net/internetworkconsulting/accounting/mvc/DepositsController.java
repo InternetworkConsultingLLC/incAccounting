@@ -5,7 +5,6 @@ import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Deposit;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Payment;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.ComboTag;

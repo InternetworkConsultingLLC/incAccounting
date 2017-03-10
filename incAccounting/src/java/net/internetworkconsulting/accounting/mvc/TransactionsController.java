@@ -8,7 +8,6 @@ import net.internetworkconsulting.accounting.entities.Job;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
 import net.internetworkconsulting.accounting.entities.TransactionType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.mvc.ButtonTag;

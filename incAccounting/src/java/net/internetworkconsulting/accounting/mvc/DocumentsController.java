@@ -8,7 +8,6 @@ import net.internetworkconsulting.accounting.entities.DocumentLine;
 import net.internetworkconsulting.accounting.entities.DocumentType;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.Transaction;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;

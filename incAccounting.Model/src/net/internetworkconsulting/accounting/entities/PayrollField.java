@@ -18,8 +18,6 @@ package net.internetworkconsulting.accounting.entities;
 import java.util.HashMap;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.PayrollFieldsRow;
-import net.internetworkconsulting.bootstrap.entities.Option;
-import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 

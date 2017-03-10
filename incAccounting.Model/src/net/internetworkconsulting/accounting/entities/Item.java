@@ -20,8 +20,6 @@ import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.ItemsRow;
-import net.internetworkconsulting.bootstrap.entities.Option;
-import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 

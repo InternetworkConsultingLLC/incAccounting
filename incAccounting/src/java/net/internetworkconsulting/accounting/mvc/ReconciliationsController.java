@@ -5,7 +5,6 @@ import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Reconciliation;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.mvc.*;
