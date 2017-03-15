@@ -99,6 +99,7 @@ public class Setup implements Serializable {
 		lstSql.add("20170301.ReportFixes.sql");
 		lstSql.add("20170306.StockReports.sql");
 		lstSql.add("20170309.EditListURLs.sql");
+		lstSql.add("20170310.AccountRegister.sql");
 
 		return lstSql;
 	}

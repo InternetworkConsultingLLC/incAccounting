@@ -1,3 +1,5 @@
+USE "%DATABASE%";
+
 CREATE TABLE "Item Postings" (
 	"GUID" CHAR(32) NOT NULL PRIMARY KEY,
 	"Increasing Document Lines GUID" CHAR(32) NOT NULL,

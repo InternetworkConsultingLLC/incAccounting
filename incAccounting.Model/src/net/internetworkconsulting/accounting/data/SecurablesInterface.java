@@ -1,4 +1,4 @@
-package net.internetworkconsulting.accounting.data ;
+package net.internetworkconsulting.accounting.data;
 
 import java.util.List;
 import net.internetworkconsulting.data.AdapterInterface;

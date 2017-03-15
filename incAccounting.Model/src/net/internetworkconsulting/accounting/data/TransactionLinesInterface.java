@@ -33,6 +33,8 @@ public interface TransactionLinesInterface {
 	java.lang.String getReconciliationsGuid();
 	
 	
+	<T extends RegisterEntriesRow> List<T> loadRegisterEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends TransactionsRow> T loadTransaction(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

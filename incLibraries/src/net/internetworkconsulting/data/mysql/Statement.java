@@ -225,6 +225,11 @@ public class Statement implements StatementInterface {
 				java.sql.Timestamp objTs = (java.sql.Timestamp) value;
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return "'" + sdf.format(objTs) + "'";
+			case "java.util.GregorianCalendar":
+				java.util.Calendar cal = (java.util.Calendar) value;
+				java.sql.Timestamp objTsCal = new Timestamp(cal.toInstant().toEpochMilli());
+				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				return "'" + sdf.format(objTsCal) + "'";
 		}
 
 		throw new Exception("Not a valid type (" + value.getClass().getCanonicalName() + ")!");
@@ -275,6 +280,11 @@ public class Statement implements StatementInterface {
 				java.sql.Timestamp objTs = (java.sql.Timestamp) value;
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return sdf.format(objTs);
+			case "java.util.GregorianCalendar":
+				java.util.Calendar cal = (java.util.Calendar) value;
+				java.sql.Timestamp objTsCal = new Timestamp(cal.toInstant().toEpochMilli());
+				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				return sdf.format(objTsCal);
 		}
 
 		throw new Exception("Not a valid type (" + value.getClass().getCanonicalName() + ")!");

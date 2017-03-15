@@ -71,9 +71,8 @@ public class Transaction extends TransactionsRow {
 	public boolean getSkipDocumentCheck() { return bSkipDocumentCheck; }
 	
 	public void beforeSave(AdapterInterface adapter) throws Exception {
-		if(!getSkipDocumentCheck())
-			if(!getTransactionTypesGuid().equals(TransactionType.TRANSACTION_GUID))
-				throw new Exception("You cannot edit this transaction - it's a document!");
+		if(!getSkipDocumentCheck() && !getTransactionTypesGuid().equals(TransactionType.TRANSACTION_GUID))
+			throw new Exception("You cannot edit this transaction - it's a document!");
 		
 		List<TransactionLine> lstLines = loadTransactionLines(adapter, TransactionLine.class, false);
 		if(lstLines.size() < 1)

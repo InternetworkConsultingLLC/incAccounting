@@ -59,6 +59,16 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 
 	// child loaders
 	
+	protected Object lstRegisterEntriesChildren = null;
+	public <T extends RegisterEntriesRow> List<T> loadRegisterEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstRegisterEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Register Entries\" WHERE \"GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstRegisterEntriesChildren = adapter.load(model, stmt);
+		}
+		return (List<T>) lstRegisterEntriesChildren;
+	}
+	
 
 	// parent loaders
 	

@@ -12,7 +12,6 @@ import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.ComboTag;
-import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.DateTag;
 import net.internetworkconsulting.mvc.Event;

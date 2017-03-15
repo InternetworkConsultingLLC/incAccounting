@@ -172,7 +172,7 @@ public abstract class Controller implements ControllerInterface {
 		myControls = value;
 	}
 	protected void removeAllControllers(Class target) {
-		HashSet<ControllerInterface> hsRemoves = new HashSet<ControllerInterface>();
+		HashSet<ControllerInterface> hsRemoves = new HashSet<>();
 		for(ControllerInterface ctrlr: this.getControls())
 			if(ctrlr.getClass().getCanonicalName().equals(target.getCanonicalName()))
 				hsRemoves.add( ctrlr);
@@ -275,7 +275,7 @@ public abstract class Controller implements ControllerInterface {
 					out += "<li>" + st.toString() + "</li>";
 				out += "</ul>";
 				getResponse().getWriter().write(out.replace("~/", getRootUrl()));
-			} catch(Exception exx) { }
+			} catch(Exception exx) { /* do nothing */ }
 		}
 	}
 

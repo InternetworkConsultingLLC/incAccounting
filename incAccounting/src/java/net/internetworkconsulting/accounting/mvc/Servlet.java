@@ -170,6 +170,10 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new PostPayrollChecksController(this, TemplateController.BLOCK_BODY);
 			} };
+		else if(sApp.equals("RegisterEntries"))
+			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
+				new RegisterEntriesController(this, TemplateController.BLOCK_BODY);
+			} };
 		else {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The GET parameter App is is not valid!");
 			resp.flushBuffer();

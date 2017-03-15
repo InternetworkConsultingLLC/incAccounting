@@ -1,3 +1,5 @@
+USE "%DATABASE%";
+
 CREATE TABLE "Contact Types" (
 	"GUID" CHAR(32) NOT NULL PRIMARY KEY,
 	"Is Allowed" BIT NOT NULL,

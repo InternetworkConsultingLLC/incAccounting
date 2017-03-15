@@ -1,3 +1,5 @@
+USE "%DATABASE%";
+
 UPDATE `Transaction Types` SET `Edit URL`='/incAccounting?App=PayrollCheck', `List URL`='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Payroll Checks' WHERE `GUID`='14a778aeb6e04b7fa1dd31e4445e9b18';
 UPDATE `Transaction Types` SET `Edit URL`='/incAccounting?App=Transaction', `List URL`='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Transactions' WHERE `GUID`='1d648ca26c9c40c59e1483aa262656c2';
 UPDATE `Transaction Types` SET `Edit URL`='/incAccounting?App=Document', `List URL`='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Quotes' WHERE `GUID`='276db4afcf634b6fbc4a5821c9858ab9';

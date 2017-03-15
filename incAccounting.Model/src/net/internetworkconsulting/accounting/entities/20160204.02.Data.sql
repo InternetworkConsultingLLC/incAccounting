@@ -1,3 +1,5 @@
+USE "%DATABASE%";
+
 INSERT INTO "Account Types" ("GUID", "Name", "Gets Closed") VALUES ('2ddbad1cf8d04f0d9c44fa9771a15306','Revenue',1);
 INSERT INTO "Account Types" ("GUID", "Name", "Gets Closed") VALUES ('40f7e36772f240999fca4a9d2c1b536f','Equity Stays Open',0);
 INSERT INTO "Account Types" ("GUID", "Name", "Gets Closed") VALUES ('531c81d9f0c942aeb5b742160d6b3942','Equity Gets Closed',1);

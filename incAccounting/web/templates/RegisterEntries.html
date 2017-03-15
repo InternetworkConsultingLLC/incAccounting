@@ -1,0 +1,44 @@
+<h1>Account Register</h1>
+
+<div class="block">
+	<div class="field"><label>Starting:</label><div>{Starting}</div></div>
+	<div class="field"><label>Ending:</label><div>{Ending}</div></div>
+	<div class="field"><label>Account:</label><div>{Account}</div></div>
+</div>
+
+<p>{Load} {Save} {Add}</p>
+
+<div class="block row">
+	<div class="field blank"><label>&nbsp;</label><div></div></div>
+	<div class="field"><label>Beg Bal:</label><div>{Beginning Balance}</div></div>
+</div>
+
+<!-- BEGIN Row -->
+<div class="block row">
+	<div class="field {Row Delete Blank}"><label>{Row Delete Label}</label><div>{Row Is Deleted}</div></div>
+	<div class="field"><label>Date:</label><div>{Row Date}</div></div>
+	<div class="field"><label>Contact:</label><div>{Row Contacts GUID}</div></div>
+	<div class="field"><label>Number:</label><div>{Row Reference Number}</div></div>
+	<div class="field"><label>Job:</label><div>{Row Jobs GUID}</div></div>
+	<div class="field"><label>Dept:</label><div>{Row Departments GUID}</div></div>
+	<div class="field double"><label>Desc:</label><div class="double">{Row Description}</div></div>
+	<div class="field"><label>{Row Type Label}:</label><div>{Row Type Combo}</div></div>
+	<div class="field"><label>Debit:</label><div>{Row Debit}</div></div>
+	<div class="field blank"><label>&nbsp;</label><div></div></div>
+	<div class="field"><label>Balance:</label><div>{Row Balance}</div></div>
+</div>
+<!-- END Row -->
+
+<div class="block row">
+	<div class="field blank"><label>&nbsp;</label><div></div></div>
+	<div class="field"><label>End Bal:</label><div>{Ending Balance}</div></div>
+</div>
+
+<p>{Save} {Add}</p>
+
+<script>
+	var nSettingDocumentMoneyDecimals = {Money Decimals};
+
+	pageLoaded();
+	pageChanged();
+</script>

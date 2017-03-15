@@ -223,6 +223,16 @@ public class ContactsRow extends Row implements ContactsInterface {
 		return (List<T>) lstContactPaymentsChildren;
 	}
 	
+	protected Object lstRegisterEntriesChildren = null;
+	public <T extends RegisterEntriesRow> List<T> loadRegisterEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstRegisterEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Register Entries\" WHERE \"Contacts GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstRegisterEntriesChildren = adapter.load(model, stmt);
+		}
+		return (List<T>) lstRegisterEntriesChildren;
+	}
+	
 	protected Object lstSalesTaxesChildren = null;
 	public <T extends SalesTaxesRow> List<T> loadSalesTaxes(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstSalesTaxesChildren == null || force) {

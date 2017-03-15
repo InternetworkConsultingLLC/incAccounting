@@ -2,7 +2,7 @@
  * incEntity - Generated Object Model
  * Copyright (C) 2016 Internetwork Consulting LLC
  */
-package net.internetworkconsulting.accounting.data ;
+package net.internetworkconsulting.accounting.data;
 
 import java.util.List;
 import javax.xml.bind.annotation.*;
