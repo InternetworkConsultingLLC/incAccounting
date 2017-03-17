@@ -31,8 +31,6 @@ public class SetupController extends Controller {
 		if(!getIsPostback()) {
 			objModel = newModel();
 			objModel.setSqlUser("root");
-			objModel.setDatabase(getSqlDatabase());
-			objModel.setSqlServer(getSqlServer());
 		}
 		setModel(objModel);			
 		

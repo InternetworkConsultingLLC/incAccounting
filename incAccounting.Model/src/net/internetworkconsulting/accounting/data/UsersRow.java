@@ -32,10 +32,6 @@ public class UsersRow extends Row implements UsersInterface {
 	public boolean setDisplayName(java.lang.String value) throws Exception { return set(DISPLAY_NAME, value); }
 	public java.lang.String getDisplayName() { return (java.lang.String) get(DISPLAY_NAME); }
 	
-	public static String SQL_USER = "SQL User";
-	public boolean setSqlUser(java.lang.String value) throws Exception { return set(SQL_USER, value); }
-	public java.lang.String getSqlUser() { return (java.lang.String) get(SQL_USER); }
-	
 	public static String EMAIL_ADDRESS = "Email Address";
 	public boolean setEmailAddress(java.lang.String value) throws Exception { return set(EMAIL_ADDRESS, value); }
 	public java.lang.String getEmailAddress() { return (java.lang.String) get(EMAIL_ADDRESS); }
@@ -44,9 +40,9 @@ public class UsersRow extends Row implements UsersInterface {
 	public boolean setPasswordDate(java.sql.Date value) throws Exception { return set(PASSWORD_DATE, value); }
 	public java.sql.Date getPasswordDate() { return (java.sql.Date) get(PASSWORD_DATE); }
 	
-	public static String ADD_COMPUTER = "Add Computer";
-	public boolean setAddComputer(java.lang.Boolean value) throws Exception { return set(ADD_COMPUTER, value); }
-	public java.lang.Boolean getAddComputer() { return (java.lang.Boolean) get(ADD_COMPUTER); }
+	public static String PASSWORD_HASH = "Password Hash";
+	public boolean setPasswordHash(java.lang.String value) throws Exception { return set(PASSWORD_HASH, value); }
+	public java.lang.String getPasswordHash() { return (java.lang.String) get(PASSWORD_HASH); }
 	
 
 	// child loaders
@@ -95,42 +91,6 @@ public class UsersRow extends Row implements UsersInterface {
 		List<T> lst = adapter.load(model, stmt);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Users row by 'GUID': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends UsersRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Users\" WHERE \"Display Name\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Users row by 'Display Name': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends UsersRow> T loadBySqlUser(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Users\" WHERE \"SQL User\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Users row by 'SQL User': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends UsersRow> T loadByEmailAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Users\" WHERE \"Email Address\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Users row by 'Email Address': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}

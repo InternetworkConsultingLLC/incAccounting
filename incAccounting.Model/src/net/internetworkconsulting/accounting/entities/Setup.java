@@ -69,14 +69,8 @@ public class Setup implements Serializable {
 
 	protected AdapterInterface connect() throws Exception {
 		User user = new User();
-		user.setUserSalt(" ");
-		user.setPasswordSalt(" ");
-		user.setDatabase("mysql");
-		user.setSqlServer(getSqlServer());
-		user.setSqlUser(getSqlUser());
-		user.setPassword(getPassword());
-
-		return user.login(false);
+		user.setDatabase(getDatabase());
+		return user.unvalidatedLogin();
 	}
 	public void testConnection() throws Exception {
 		AdapterInterface adapter = connect();
@@ -91,15 +85,8 @@ public class Setup implements Serializable {
 	public List<String> getScripts() {
 		List<String> lstSql = new LinkedList<>();
 
-		lstSql.add("20151007.Bootstrap.sql");
-		lstSql.add("20151111.Accounting.sql");
-		lstSql.add("20160204.01.Accounting.sql");
-		lstSql.add("20160204.02.Data.sql");
-		lstSql.add("20170222.FIFO.sql");
-		lstSql.add("20170301.ReportFixes.sql");
+		lstSql.add("20151007.Database.sql");
 		lstSql.add("20170306.StockReports.sql");
-		lstSql.add("20170309.EditListURLs.sql");
-		lstSql.add("20170310.AccountRegister.sql");
 
 		return lstSql;
 	}
@@ -123,65 +110,17 @@ public class Setup implements Serializable {
 				}
 			}
 		}
-
-		List<Computer> lstComputers = createComputers();
-		adapter.save(Computer.TABLE_NAME, lstComputers);
-	}
-	private List<Computer> createComputers() throws Exception {
-//		String sMac = User.getMacAddress();
-//
-//		Computer comp = new Computer();
-//		comp.setDescription("First Installed");
-//		comp.setGuid(User.newGuid());
-//		comp.setIsAllowed(true);
-//		comp.setMacAddress(sMac);
-
-		List<Computer> lstComputers = new LinkedList<>();
-		//lstComputers.add(comp);
-		return lstComputers;
 	}
 	public void createAdministrator() throws Exception {
 		AdapterInterface adapter = connect();
 		adapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
+
 		User user = User.loadByGuid(adapter, User.class, User.ADMINISTRATOR_GUID);
 		user.setDatabase(getDatabase());
-
-		String sUser = user.getUserSalt().replace(" ", user.getSqlUser());
-		String sPassword = user.getPasswordSalt().replace(" ", getAdministratorPassword());
-
-		if(sUser.contains("'"))
-			throw new Exception("The user name must not contain an apostrophe (')!");
-		if(sPassword.contains("'"))
-			throw new Exception("The password must not contain an apostrophe (')!");
-
-		String sql;
-		Statement stmt;
-
-		try {
-			sql = "DROP USER {USER}@'%';";
-			stmt = new Statement(sql);
-			stmt.getParameters().put("{USER}", sUser);
-			adapter.execute(stmt, false);
-		}
-		catch(Exception ex) {
-		}
-
-		sql = "CREATE USER {USER}@'%' IDENTIFIED BY {PASSWORD} REQUIRE SSL;";
-		stmt = new Statement(sql);
-		stmt.getParameters().put("{USER}", sUser);
-		stmt.getParameters().put("{PASSWORD}", sPassword);
-		adapter.execute(stmt, false);
-
-		sql = " GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE, SHOW VIEW ON \"DATABASE\".* TO {USER}@'%' WITH GRANT OPTION; \n";
-		sql = sql.replace("DATABASE", getDatabase());
-		stmt = new Statement(sql);
-		stmt.getParameters().put("{USER}", sUser);
-		adapter.execute(stmt, false);
-
-		sql = " GRANT CREATE USER ON *.* TO {USER}@'%' WITH GRANT OPTION; ";
-		stmt = new Statement(sql);
-		stmt.getParameters().put("{USER}", sUser);
-		adapter.execute(stmt, false);
+		user.setPasswordHash(User.hashPassword(getAdministratorPassword()));		
+		user.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
+		
+		//adapter.save(User.TABLE_NAME, this);
 	}
 
 }

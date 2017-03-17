@@ -1,10 +1,8 @@
 package net.internetworkconsulting.accounting.mvc;
 
 import net.internetworkconsulting.accounting.entities.User;
-import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
-import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.DateTag;
 import net.internetworkconsulting.mvc.Event;
@@ -43,19 +41,12 @@ public class UserController extends EditController {
 		CheckTag chkIsAllowed = new CheckTag(this, User.IS_ALLOWED);
 		chkIsAllowed.bind(getModel(), User.IS_ALLOWED);
 
-		CheckTag chkAddComputer = new CheckTag(this, User.ADD_COMPUTER);
-		chkAddComputer.bind(getModel(), User.ADD_COMPUTER);
-
 		TextTag txtGuid = new TextTag(this, User.GUID);
 		txtGuid.setIsReadOnly(true);
 		txtGuid.bind(getModel(), User.GUID);
 
 		TextTag txtDisplayName = new TextTag(this, User.DISPLAY_NAME);
 		txtDisplayName.bind(getModel(), User.DISPLAY_NAME);
-
-		TextTag txtSqlUser = new TextTag(this, User.SQL_USER);
-		txtSqlUser.setIsReadOnly(((RowInterface) getModel()).getRowState() != RowInterface.RowState.Insert);
-		txtSqlUser.bind(getModel(), User.SQL_USER);
 
 		TextTag txtEmailAddress = new TextTag(this, User.EMAIL_ADDRESS);
 		txtEmailAddress.bind(getModel(), User.EMAIL_ADDRESS);
@@ -104,7 +95,6 @@ public class UserController extends EditController {
 	}
 	private void btnReset_OnClick() throws Exception {
 		User objModel = (User) getModel();
-		objModel.setDatabase(getSqlDatabase());
 		objModel.resetSqlPassword(getUser().login(), txtConfirm.getValue(), txtPassword.getValue());
 		addError("Error", "Reset!");
 	}

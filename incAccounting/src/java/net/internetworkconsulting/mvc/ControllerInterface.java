@@ -31,12 +31,6 @@ public interface ControllerInterface {
 	
 	String getRootUrl();
 	void setRootUrl(String value);
-
-	String getSqlDatabase();
-	void setSqlDatabase(String value);
-	
-	String getSqlServer();
-	void setSqlServer(String value);
 	
 	HttpSession getSession();
 	void setSession(HttpSession value);
@@ -52,9 +46,6 @@ public interface ControllerInterface {
 	
 	boolean getIsDocumentBlock();
 	void setIsDocumentBlock(boolean value);
-	
-	boolean getIsSetupAllowed();
-	void setIsSetupAllowed(boolean value);
 
 	boolean getIsPostback();	
 	

@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-	<context-param>
-		<param-name>Database</param-name>
-		<param-value>ia-incllc</param-value>
-	</context-param>
-	<context-param>
-		<param-name>SQL Server</param-name>
-		<param-value>localhost</param-value>
-	</context-param>
-	<context-param>
-		<param-name>Setup Allowed</param-name>
-		<param-value>true</param-value>
-	</context-param>
-	<welcome-file-list>
-		<welcome-file>incAccounting</welcome-file>
-	</welcome-file-list>
-	<servlet-mapping>
-		<servlet-name>incAccounting</servlet-name>
-		<url-pattern>/incBootstrap</url-pattern>
-	</servlet-mapping>	
-	<servlet>
-		<servlet-name>incAccounting</servlet-name>
-		<servlet-class>net.internetworkconsulting.accounting.mvc.Servlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>incAccounting</servlet-name>
-		<url-pattern>/incAccounting</url-pattern>
-	</servlet-mapping>
-	<session-config>
-		<session-timeout>
+    <welcome-file-list>
+        <welcome-file>incAccounting</welcome-file>
+    </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>incAccounting</servlet-name>
+        <url-pattern>/incBootstrap</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>incAccounting</servlet-name>
+        <servlet-class>net.internetworkconsulting.accounting.mvc.Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>incAccounting</servlet-name>
+        <url-pattern>/incAccounting</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
 			30
 		</session-timeout>
-	</session-config>
+    </session-config>
+    <env-entry>
+        <env-entry-name>dbServer</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>localhost</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>dbUser</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>root</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>dbPassword</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>Welcome123</env-entry-value>
+    </env-entry>
 </web-app>

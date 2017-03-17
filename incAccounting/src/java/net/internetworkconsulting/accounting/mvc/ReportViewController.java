@@ -62,7 +62,7 @@ public class ReportViewController extends Controller {
 
 		if(objModel == null) {
 			sTemp = getRequest().getParameter(Report.DISPLAY_NAME);
-			objModel = Report.loadByDisplayName(getUser().login(), Report.class, sTemp);
+			objModel = Report.loadByDisplayName(getUser().login(), sTemp);
 		}
 
 		if(objModel == null)

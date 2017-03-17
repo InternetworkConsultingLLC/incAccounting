@@ -16,13 +16,11 @@
 package net.internetworkconsulting.accounting.entities;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.ReportBlocksRow;
 import net.internetworkconsulting.accounting.data.ReportFiltersRow;
 import net.internetworkconsulting.accounting.data.ReportsRow;
 import net.internetworkconsulting.data.AdapterInterface;
-import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
@@ -49,6 +47,19 @@ public class Report extends ReportsRow {
 		lstOptions = lst;
 		return lst;
 	}
+
+	public static Report loadByDisplayName(AdapterInterface adapter, String display_name) throws Exception {
+		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={Name}";
+		sql = String.format(sql, Report.TABLE_NAME, Report.DISPLAY_NAME);
+
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{Name}", display_name);
+		List<Report> lst = adapter.load(Report.class, stmt);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate report by Display Name '" + display_name + "'!");
+		
+		return lst.get(0);
+	}
 	
 	public <T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstBlocksChildren == null || force) {
@@ -69,8 +80,6 @@ public class Report extends ReportsRow {
 		return (List<T>) lstFiltersChildren;
 	}
 
-	
-	
 	public void beforeSave(AdapterInterface adapter) throws Exception {
 		Securable sec = null;
 		

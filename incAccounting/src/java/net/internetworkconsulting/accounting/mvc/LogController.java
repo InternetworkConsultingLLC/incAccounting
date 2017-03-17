@@ -1,6 +1,5 @@
 package net.internetworkconsulting.accounting.mvc;
 
-import net.internetworkconsulting.accounting.entities.Computer;
 import net.internetworkconsulting.accounting.entities.Log;
 import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.data.RowInterface.RowState;
@@ -39,10 +38,7 @@ public class LogController extends EditController {
 		lblLog.bind(objModel, Log.LOG);
 		
 		LabelTag lblUser = new LabelTag(this, Log.USERS_GUID);
-		lblUser.setValue(objModel.loadUser(getUser().login(), User.class, true).getSqlUser());
-		
-		LabelTag lblComputer = new LabelTag(this, Log.COMPUTERS_GUID);
-		lblComputer.setValue(objModel.loadComputer(getUser().login(), Computer.class, true).getDescription());
+		lblUser.setValue(objModel.loadUser(getUser().login(), User.class, true).getEmailAddress());
 		
 		LiteralTag lblCodeGuid = new LiteralTag(this, Log.CODE_GUID);
 		lblCodeGuid.bind(objModel, Log.CODE_GUID);

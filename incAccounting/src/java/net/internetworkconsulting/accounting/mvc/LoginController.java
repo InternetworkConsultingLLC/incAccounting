@@ -19,10 +19,8 @@ public class LoginController extends Controller {
 		setDocument(new Template(read_url("~/templates/Login.html"), new HtmlSyntax()));
 		setModel(new User());
 
-		TextTag txtServer = new TextTag(this, User.SQL_SERVER, getModel());
 		TextTag txDatabase = new TextTag(this, User.DATABASE, getModel());
-		TextTag txtUser = new TextTag(this, User.SQL_USER, getModel());
-
+		TextTag txtUser = new TextTag(this, User.EMAIL_ADDRESS, getModel());
 		TextTag txtPassword = new TextTag(this, User.PASSWORD, getModel());
 		txtPassword.setInputType(TextTag.TYPE_PASSWORD);
 		
@@ -38,10 +36,6 @@ public class LoginController extends Controller {
 	
 	public void btnLogin_OnClick() throws Exception {
 		User objModel = (User) getModel();
-		if(objModel.getSqlServer() == null || objModel.getSqlServer().isEmpty())
-			objModel.setSqlServer(getSqlServer());
-		if(objModel.getDatabase() == null || objModel.getDatabase().isEmpty())		
-			objModel.setDatabase(getSqlDatabase());
 
 		AdapterInterface adapter = null;
 		try { adapter = objModel.login(); }

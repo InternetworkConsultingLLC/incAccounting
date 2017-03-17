@@ -129,18 +129,6 @@ public class JobsRow extends Row implements JobsInterface {
 		return lst.get(0);		
 	}
 	
-	public static <T extends JobsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Jobs\" WHERE \"Number\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Jobs row by 'Number': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
 
 	// load all
 	public static <T extends JobsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

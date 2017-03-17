@@ -22,10 +22,6 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new ChangePasswordController(this, TemplateController.BLOCK_BODY);
 			} };
-		else if(sApp.equals("Computer"))
-			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
-				new ComputerController(this, TemplateController.BLOCK_BODY);
-			} };
 		else if(sApp.equals("Group"))
 			template = new TemplateController(req, resp, is_postback) { public void loadChildControls() {
 				new GroupController(this, TemplateController.BLOCK_BODY);

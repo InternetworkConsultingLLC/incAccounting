@@ -35,10 +35,7 @@ public abstract class Controller implements ControllerInterface {
 		setSession(controller.getSession());
 
 		setRootUrl(controller.getRootUrl());
-		setSqlDatabase(controller.getSqlDatabase());
-		setSqlServer(controller.getSqlServer());
 
-		setIsSetupAllowed(controller.getIsSetupAllowed());
 		isPostback = controller.getIsPostback();
 
 		controller.getControls().add(this);
@@ -49,10 +46,6 @@ public abstract class Controller implements ControllerInterface {
 		setRequest(request);
 		setResponse(response);
 		setSession(request.getSession());
-
-		setSqlDatabase(request.getServletContext().getInitParameter("Database"));
-		setSqlServer(request.getServletContext().getInitParameter("SQL Server"));
-		setIsSetupAllowed(request.getServletContext().getInitParameter("Setup Allowed").toLowerCase().charAt(0) == 't');
 
 		if(getUser() == null)
 			setUser(new User());
@@ -99,22 +92,6 @@ public abstract class Controller implements ControllerInterface {
 	}
 	public void setController(ControllerInterface value) {
 		myController = value;
-	}
-
-	private String sSqlDatabase;
-	public String getSqlDatabase() {
-		return sSqlDatabase;
-	}
-	public void setSqlDatabase(String value) {
-		sSqlDatabase = value;
-	}
-
-	private String sSqlServer;
-	public String getSqlServer() {
-		return sSqlServer;
-	}
-	public void setSqlServer(String value) {
-		sSqlServer = value;
 	}
 
 	private String sRootUrl;
@@ -243,12 +220,6 @@ public abstract class Controller implements ControllerInterface {
 			doPopulateDocument(this);
 			doOutput();
 		} catch(Exception ex) {
-			if(ex.getMessage() != null && ex.getMessage().contains("You must provide a password to login")) {
-				try { redirect("~/incBootstrap?App=Login&Error=You must log in to use this application!"); }
-				catch(Exception exx) {}
-				return;
-			}
-			
 			if(ex.getMessage() != null && ex.getMessage().length() > 1 && ex.getMessage().equals("redirected"))
 				return;
 
@@ -261,14 +232,13 @@ public abstract class Controller implements ControllerInterface {
 
 				String out = "<h1>Unhandled Exception</h1>";
 
-				getUser().setDatabase(getSqlDatabase());
 				if(ex.getMessage() != null)
-					out += "<p style=\"color: red;\">" + getUser().desalinate(ex.getMessage()).replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br />") + "</p>";
+					out += "<p style=\"color: red;\">" + ex.getMessage().replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br />") + "</p>";
 
 				out += "<p>An unhandled error occured while processing your request. ";
 				out += "Please retry your request again, and if the problem persists, please provide the following information to support.</p>";
 				out += "<h2>Exception</h2>";
-				out += "<p>" + getUser().desalinate(ex.toString()).replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br />") + "</p>";
+				out += "<p>" + ex.toString().replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br />") + "</p>";
 				out += "<h2>Stack Trace</h2>";
 				out += "<ul>";
 				for(StackTraceElement st: ex.getStackTrace())
@@ -310,7 +280,7 @@ public abstract class Controller implements ControllerInterface {
 			URL url = new URL(sUrl);
 			return Helper.InputStreamToString(url.openStream());
 		} catch(Exception ex) {
-			throw new Exception("Could not locate file '" + relative_url + "'!", ex);
+			throw new Exception("Could not locate file '" + relative_url + "'!\n\n" + ex.getMessage(), ex);
 		}
 	}
 	public void redirect(String url) throws Exception {
@@ -480,13 +450,12 @@ public abstract class Controller implements ControllerInterface {
 		current.populateDocument();
 	}
 	protected void doOutput() throws Exception {
-		getUser().setDatabase(getSqlDatabase());
 		String sMessage = getRequest().getParameter("Error");
 		if(sMessage != null)
 			addError("Notification", sMessage);
 		sMessage = "";
 		for(String key: getErrors().keySet())
-			sMessage += "<p class=\"error\"><b>" + getUser().desalinate(key) + "</b><br/>" + getUser().desalinate(getErrors().get(key).replace("\n", "<br />")) + "</p>";
+			sMessage += "<p class=\"error\"><b>" + key + "</b><br/>" + getErrors().get(key).replace("\n", "<br />") + "</p>";
 		getDocument().set("Error", sMessage);
 		
 		String sHiddenModel = "<input type=\"hidden\" name=\"HiddenModel\" value=\"%VALUE%\" />";

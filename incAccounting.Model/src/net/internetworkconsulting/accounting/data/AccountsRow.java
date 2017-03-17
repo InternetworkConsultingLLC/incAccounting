@@ -249,30 +249,6 @@ public class AccountsRow extends Row implements AccountsInterface {
 		return lst.get(0);		
 	}
 	
-	public static <T extends AccountsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Accounts\" WHERE \"Number\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Accounts row by 'Number': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends AccountsRow> T loadByNestedName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Accounts\" WHERE \"Nested Name\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Accounts row by 'Nested Name': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
 
 	// load all
 	public static <T extends AccountsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

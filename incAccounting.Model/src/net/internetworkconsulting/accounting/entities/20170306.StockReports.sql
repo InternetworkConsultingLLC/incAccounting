@@ -1,5 +1,3 @@
-USE "%DATABASE%";
-
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('06db3e1b55e54bc2babf0424e0843d5b','Report - List - Accounting - Accounts');
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('84c704545c9140fb96ee5b9610fe632b','Report - List - Accounting - Bank Deposits');
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('ed6c823f890a470fa23b637dae910117','Report - List - Accounting - Contact Types');

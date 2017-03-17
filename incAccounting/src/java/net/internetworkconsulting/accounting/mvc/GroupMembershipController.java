@@ -26,8 +26,8 @@ public class GroupMembershipController extends Controller {
 		setDocument(document);
 		Membership objModel = (Membership) super.getModel();
 		
-		lblUser = new LiteralTag(this, "User " + User.SQL_USER);
-		lblUser.setName(User.SQL_USER + myOptionUser.getValue());
+		lblUser = new LiteralTag(this, "User " + User.EMAIL_ADDRESS);
+		lblUser.setName(User.EMAIL_ADDRESS + myOptionUser.getValue());
 		lblUser.setValue(myOptionUser.getDisplay());
 		
 		chkIncluded = new CheckTag(this, "User Included");

@@ -14,17 +14,14 @@ public interface UsersInterface {
 	boolean setDisplayName(java.lang.String value) throws Exception;
 	java.lang.String getDisplayName();
 	
-	boolean setSqlUser(java.lang.String value) throws Exception;
-	java.lang.String getSqlUser();
-	
 	boolean setEmailAddress(java.lang.String value) throws Exception;
 	java.lang.String getEmailAddress();
 	
 	boolean setPasswordDate(java.sql.Date value) throws Exception;
 	java.sql.Date getPasswordDate();
 	
-	boolean setAddComputer(java.lang.Boolean value) throws Exception;
-	java.lang.Boolean getAddComputer();
+	boolean setPasswordHash(java.lang.String value) throws Exception;
+	java.lang.String getPasswordHash();
 	
 	
 	<T extends LogsRow> List<T> loadLogs(AdapterInterface adapter, Class biz, boolean force) throws Exception;

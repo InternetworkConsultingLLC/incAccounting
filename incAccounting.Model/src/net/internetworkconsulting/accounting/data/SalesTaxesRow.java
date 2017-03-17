@@ -121,18 +121,6 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		return lst.get(0);		
 	}
 	
-	public static <T extends SalesTaxesRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Sales Taxes\" WHERE \"Display Name\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Sales Taxes row by 'Display Name': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
 
 	// load all
 	public static <T extends SalesTaxesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

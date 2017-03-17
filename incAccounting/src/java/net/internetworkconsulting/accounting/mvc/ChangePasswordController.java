@@ -39,7 +39,6 @@ public class ChangePasswordController extends Controller {
 	private void btnSave_OnClick() throws Exception {
 		User currentUser = getUser();
 		currentUser.changePassword(getUser().login(), txtPassword.getValue(), txtConfirm.getValue());
-		currentUser.setPasswordDate(new java.sql.Date((new Date()).getTime()));
 
 		SessionInterface si = getUser().login().getSession();
 		//getUser().login().setSession(null);

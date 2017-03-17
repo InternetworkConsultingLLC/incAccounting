@@ -32,10 +32,6 @@ public class LogsRow extends Row implements LogsInterface {
 	public boolean setUsersGuid(java.lang.String value) throws Exception { return set(USERS_GUID, value); }
 	public java.lang.String getUsersGuid() { return (java.lang.String) get(USERS_GUID); }
 	
-	public static String COMPUTERS_GUID = "Computers GUID";
-	public boolean setComputersGuid(java.lang.String value) throws Exception { return set(COMPUTERS_GUID, value); }
-	public java.lang.String getComputersGuid() { return (java.lang.String) get(COMPUTERS_GUID); }
-	
 	public static String CODE_GUID = "Code GUID";
 	public boolean setCodeGuid(java.lang.String value) throws Exception { return set(CODE_GUID, value); }
 	public java.lang.String getCodeGuid() { return (java.lang.String) get(CODE_GUID); }
@@ -65,19 +61,6 @@ public class LogsRow extends Row implements LogsInterface {
 			rUserParent = lst.get(0);
 		}
 		return (T) rUserParent;
-	}
-	
-	protected Object rComputerParent = null;
-	public <T extends ComputersRow> T loadComputer(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(rComputerParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Computers\" WHERE \"GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getComputersGuid());
-			List<T> lst = adapter.load(model, stmt);
-			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Computers row by GUID (" + Statement.convertObjectToString(this.getComputersGuid(), null) + ")!");
-			rComputerParent = lst.get(0);
-		}
-		return (T) rComputerParent;
 	}
 	
 

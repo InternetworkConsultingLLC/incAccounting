@@ -15,18 +15,17 @@
  */
 package net.internetworkconsulting.accounting.entities;
 
-import java.io.File;
+import java.math.BigInteger;
 import net.internetworkconsulting.data.SessionInterface;
-import java.net.NetworkInterface;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import javax.xml.bind.annotation.XmlElement;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import net.internetworkconsulting.accounting.data.MembershipsRow;
 import net.internetworkconsulting.accounting.data.SettingsRow;
 import net.internetworkconsulting.accounting.data.UsersRow;
@@ -41,8 +40,6 @@ public class User extends UsersRow implements SessionInterface {
 	public static String SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
 	public static String SETTING_PASSWORD_LENGTH = "Password Length (1-4)";
 	public static String SETTING_VERSION_NUMBER = "Version Number";
-	public static String CHECK_MAC_ADDRESS = "Check MAC Address";
-	//public static String SETTING_TITLE_PREFIX = "HTML Title Prefix";
 
 	public static String newGuid() { return UUID.randomUUID().toString().replace("-", ""); }
 
@@ -69,147 +66,125 @@ public class User extends UsersRow implements SessionInterface {
 		lstOptions = lst;
 		return lst;
 	}
+	
+	private static User loadByEmailAddress(AdapterInterface adapter, String email_address) throws Exception {
+		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={Email} AND \"%s\"=1";
+		sql = String.format(sql, User.TABLE_NAME, User.EMAIL_ADDRESS, User.IS_ALLOWED);
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{Email}", email_address);
+		List<User> lst = adapter.load(User.class, stmt);
+		
+		if(lst.size() != 1)
+			return null;
+		
+		return lst.get(0);
+	}
 
 	public static String DATABASE = "Database";
 	private String sDatabase;
-	@XmlElement
 	public void setDatabase(String value) { sDatabase = value; }
 	public String getDatabase() { return sDatabase; }
-
-	public static String SQL_SERVER = "SQL Server";
-	private String sSqlServer;
-	@XmlElement
-	public void setSqlServer(String value) { sSqlServer = value; }
-	public String getSqlServer() { return sSqlServer; }
 
 	public static String PASSWORD = "Password";
 	private String sPassword;
 	public String getPassword() { return sPassword; }
-	@XmlElement
 	public void setPassword(java.lang.String value) { sPassword = value; }
-
-	public static String USER_SALT = "User Salt";
-	private String sUserSalt = "_ ";
-	@XmlElement
-	public void setUserSalt(java.lang.String value) { sUserSalt = value; }
-	public String getUserSalt() { return sUserSalt.replace("_", getDatabase() + "_"); }
-
-	public static String PASSWORD_SALT = "Password Salt";
-	private String sPasswordSalt = "4F*k| !hK]5";
-	@XmlElement
-	public void setPasswordSalt(java.lang.String value) { sPasswordSalt = value; }
-	public String getPasswordSalt() { return sPasswordSalt; }
 	
-	public String desalinate(String value) {
-		if(value == null)
-			value = "";
-		
-		String ret = value;
-		for(String salt : getPasswordSalt().split("\\s"))
-			ret = ret.replace(salt, "");
-		for(String salt : getUserSalt().split("\\s"))
-			ret = ret.replace(salt, "");	
-		return ret;
-	}
-
-	private AdapterInterface myAdapter;
 	public AdapterInterface getAdapter() { return adapter; }
 	private AdapterInterface adapter = null;
 	private AdapterInterface loggingAdapter = null;
 	private boolean isValidated = false;
 	public AdapterInterface login() throws Exception {
-		return login(true);
-	}
-	public AdapterInterface login(boolean validate) throws Exception {
-		if (adapter != null && adapter.getConnection() != null && adapter.getSession() != null)
+		if(adapter != null && adapter.getConnection() != null && adapter.getSession() != null)
 			return adapter;
 
-		if (sPassword == null)
-			throw new Exception("You must provide a password to login...  Either your session expired, or you are not logged in.  Please login and retry.");
-		if (getUserSalt().indexOf(" ") != getUserSalt().lastIndexOf(" ") || !getUserSalt().contains(" "))
-			throw new Exception("The user salt must contain exactly one space!");
-		if (getPasswordSalt().indexOf(" ") != getPasswordSalt().lastIndexOf(" ") || !getUserSalt().contains(" "))
-			throw new Exception("The password salt must have exactly one space!");
+		if(sPassword == null)
+			throw new Exception("You must provide a password to login.");
 
-		String sSaltedUser = getUserSalt().replace(" ", getSqlUser());
-		String sSaltedPassword = getPasswordSalt().replace(" ", sPassword);
+		if(getDatabase() == null)
+			throw new Exception("you must provide a database!");
 
-		AdapterInterface tempAdapter = new Adapter(getSqlServer(), getDatabase(), sSaltedUser, sSaltedPassword, true);
-		AdapterInterface tempLoggingAdapter = new Adapter(getSqlServer(), getDatabase(), sSaltedUser, sSaltedPassword, true);
-
-		if (validate) {
-			// load new user to become session
-			User row = User.loadBySqlUser(tempAdapter, User.class, getSqlUser());
-			this.setOriginals(row.getOriginals());
-			this.setChanges(row.getChanges());
-
-			// load settings
-			List<Setting> lstSettings = loadSettings(tempAdapter, Setting.class, false);
-			hmSettings = new HashMap();
-			for(Setting setting : lstSettings) 
-				hmSettings.put(setting.getKey(), setting.getValue());
-			
-			// check program vs database version
-			checkVersion();
-			
-			// determine computer and check if allowed
-			String chkMac = hmSettings.get(User.CHECK_MAC_ADDRESS);
-			boolean isChkMac = (boolean) Statement.parseStringToValue(boolean.class, chkMac);			
-			myComputer = isComputerAllowed(tempAdapter);
-			if (myComputer == null && isChkMac) {
-				if (!this.getAddComputer())
-					throw new Exception("The computer is not authorized!");
-
-				Computer rComputer = new Computer();
-				rComputer.setDescription(this.getDisplayName() + "'s Computer");
-				rComputer.setGuid(User.newGuid());
-				rComputer.setIsAllowed(true);
-				rComputer.setMacAddress(this.getMacAddress());
-				List<Computer> lstComputers = new LinkedList<>();
-				lstComputers.add(rComputer);
-				tempAdapter.save(Computer.TABLE_NAME, lstComputers);
-				myComputer = isComputerAllowed(tempAdapter);
-			}
-
-			// load securables
-			hmSecurables = new HashMap<>();
-			List<Securable> lstSecurables =  Securable.loadAll(tempAdapter, Securable.class);
-			for (Securable sec : lstSecurables) 
-				hmSecurables.put(sec.getGuid(), sec);
-
-			// load memberships
-			List<Membership> tempLstMemberships = this.loadMemberships(tempAdapter, Membership.class, false);
-			hmPermissionsBySecurable = new HashMap<>();
-			for (Membership mbr : tempLstMemberships) {
-				Group grp = mbr.loadGroup(tempAdapter, Group.class, false);
-				if (grp.getGuid().equals(Group.ADMINISTRATORS_GUID))
-					bIsAdministrator = true;
-
-				List<Permission> lstPerms = grp.loadPermissions(tempAdapter, Permission.class, false);
-				for (Permission perm : lstPerms) {
-					if(!hmPermissionsBySecurable.containsKey(perm.getSecurablesGuid())) {
-						Permission newPerm = new Permission();
-						newPerm.setSecurablesGuid(perm.getSecurablesGuid());
-						hmPermissionsBySecurable.put(perm.getSecurablesGuid(), newPerm);
-					}
-
-					Permission myPerm = hmPermissionsBySecurable.get(perm.getSecurablesGuid());					
-					myPerm.setCanCreate((myPerm.getCanCreate() != null && myPerm.getCanCreate()) || perm.getCanCreate());
-					myPerm.setCanRead((myPerm.getCanRead() != null && myPerm.getCanRead()) || perm.getCanRead());
-					myPerm.setCanUpdate((myPerm.getCanUpdate() != null && myPerm.getCanUpdate()) || perm.getCanUpdate());
-					myPerm.setCanDelete((myPerm.getCanDelete() != null && myPerm.getCanDelete()) || perm.getCanDelete());
-				}
-			}
-
-			// set validated and active session
-			isValidated = true;
-			tempAdapter.setSession(this);
-
+		
+		AdapterInterface tempAdapter = new Adapter();
+		tempAdapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
+				
+		AdapterInterface tempLoggingAdapter = new Adapter();
+		tempLoggingAdapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
+		
+		if(isValidated) {
 			loggingAdapter = tempLoggingAdapter;
-			logEvent("Logged in!", "28ea22a4879c447f96a29c58ddc5ff94");
+			logEvent("Logged in!", "21cfe67af5004856b8501c0d89762655");
+
+			tempAdapter.setSession(this);
+			adapter = tempAdapter;
+			return adapter;
+		}
+		
+		// load new user to become session
+		User row = User.loadByEmailAddress(tempAdapter, getEmailAddress());
+		if(row == null)
+			throw new Exception("Login failure!");
+		String sHash = row.getPasswordHash();
+		String arrHash[] = sHash.split(":");
+		if(!hashPassword(new Integer(arrHash[0]), Helper.HexToByteArray(arrHash[1]), getPassword()).equalsIgnoreCase(sHash))
+			throw new Exception("Login failure!");
+		
+		this.setOriginals(row.getOriginals());
+		this.setChanges(new HashMap<>());
+
+		// load settings
+		List<Setting> lstSettings = loadSettings(tempAdapter, Setting.class, false);
+		hmSettings = new HashMap();
+		for(Setting setting : lstSettings) 
+			hmSettings.put(setting.getKey(), setting.getValue());
+
+		// check program vs database version
+		checkVersion();
+
+		// load securables
+		hmSecurables = new HashMap<>();
+		List<Securable> lstSecurables =  Securable.loadAll(tempAdapter, Securable.class);
+		for (Securable sec : lstSecurables) 
+			hmSecurables.put(sec.getGuid(), sec);
+
+		// load memberships
+		List<Membership> tempLstMemberships = this.loadMemberships(tempAdapter, Membership.class, false);
+		hmPermissionsBySecurable = new HashMap<>();
+		for (Membership mbr : tempLstMemberships) {
+			Group grp = mbr.loadGroup(tempAdapter, Group.class, false);
+			if (grp.getGuid().equals(Group.ADMINISTRATORS_GUID))
+				bIsAdministrator = true;
+
+			List<Permission> lstPerms = grp.loadPermissions(tempAdapter, Permission.class, false);
+			for (Permission perm : lstPerms) {
+				if(!hmPermissionsBySecurable.containsKey(perm.getSecurablesGuid())) {
+					Permission newPerm = new Permission();
+					newPerm.setSecurablesGuid(perm.getSecurablesGuid());
+					hmPermissionsBySecurable.put(perm.getSecurablesGuid(), newPerm);
+				}
+
+				Permission myPerm = hmPermissionsBySecurable.get(perm.getSecurablesGuid());					
+				myPerm.setCanCreate((myPerm.getCanCreate() != null && myPerm.getCanCreate()) || perm.getCanCreate());
+				myPerm.setCanRead((myPerm.getCanRead() != null && myPerm.getCanRead()) || perm.getCanRead());
+				myPerm.setCanUpdate((myPerm.getCanUpdate() != null && myPerm.getCanUpdate()) || perm.getCanUpdate());
+				myPerm.setCanDelete((myPerm.getCanDelete() != null && myPerm.getCanDelete()) || perm.getCanDelete());
+			}
 		}
 
+		// set validated and active session
+		isValidated = true;
+		tempAdapter.setSession(this);
+
+		loggingAdapter = tempLoggingAdapter;
+		logEvent("Logged in!", "28ea22a4879c447f96a29c58ddc5ff94");
+
 		adapter = tempAdapter;
+		return adapter;
+	}
+	public AdapterInterface unvalidatedLogin() throws Exception { 
+		AdapterInterface adapter = new Adapter();
+		if(getDatabase() != null)
+			adapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
 		return adapter;
 	}
 
@@ -230,51 +205,21 @@ public class User extends UsersRow implements SessionInterface {
 	}
 
 	public void resetSqlPassword(AdapterInterface adapter, String password, String confirm) throws Exception {
-		validatePassword(adapter, password, confirm);
-
-		String sDbUser = getUserSalt().replace(" ", getSqlUser());
-		String sDbPassword = getPasswordSalt().replace(" ", password);
-		String strDatabase = adapter.getConnection().getCatalog();
-		
-		String sql;
-		Statement stmt;
-
-		try {
-			sql = "DROP USER {USER}@'%';";
-			stmt = new Statement(sql);
-			stmt.getParameters().put("{USER}", sDbUser);
-			adapter.execute(stmt, false);
-		} catch (Exception ex) { }
-
-		sql = "CREATE USER {USER}@'%' IDENTIFIED BY {PASSWORD} REQUIRE SSL;";
-		stmt = new Statement(sql);
-		stmt.getParameters().put("{USER}", sDbUser);
-		stmt.getParameters().put("{PASSWORD}", sDbPassword);
-		adapter.execute(stmt, false);
-
-		sql = "GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON \"DATABASE\".* TO {USER}@'%';";
-		sql = sql.replace("DATABASE", strDatabase);
-		stmt = new Statement(sql);
-		stmt.getParameters().put("{USER}", sDbUser);
-		adapter.execute(stmt, false);
-		
-		this.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
-		adapter.save(User.TABLE_NAME, this);		
+		resetSqlPassword(adapter, password, confirm, true);
 	}
 	public void changePassword(AdapterInterface adapter, String password, String confirm) throws Exception {
+		resetSqlPassword(adapter, password, confirm, false);
+	}
+	private void resetSqlPassword(AdapterInterface adapter, String password, String confirm, boolean force_change) throws Exception {
 		validatePassword(adapter, password, confirm);
 
-		String sql = " ALTER USER {User}@'%' IDENTIFIED BY {Password}; \n";
-		//sql += " ALTER USER {User}@'%' ACCOUNT UNLOCK; \n";
-		//sql += " ALTER USER {User}@'localhost' IDENTIFIED BY {Password}; \n";
-		//sql += " ALTER USER {User}@'localhost' ACCOUNT UNLOCK; \n";
-
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{User}", getUserSalt().replace(" ", getSqlUser()));
-		stmt.getParameters().put("{Password}", getPasswordSalt().replace(" ", password));
-		adapter.execute(stmt, false);
-
-		setPassword(password);
+		this.setPasswordHash(hashPassword(password));
+		if(force_change)
+			this.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
+		else
+			this.setPasswordDate(new java.sql.Date((new Date()).getTime()));
+		
+		adapter.save(User.TABLE_NAME, this);		
 	}
 	private void validatePassword(AdapterInterface adapter, String password, String confirm) throws Exception {
 		if (password == null || confirm == null)
@@ -333,38 +278,6 @@ public class User extends UsersRow implements SessionInterface {
 		return getPasswordDate().before(cal.getTime());
 	}
 
-	private Computer myComputer;
-	public Computer getComputer() { return myComputer; }
-	public static String getMacAddress() throws Exception {
-		Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-		while (en.hasMoreElements()) {
-			NetworkInterface ni = en.nextElement();
-			byte[] arrMac = ni.getHardwareAddress();
-			if (arrMac != null)
-				return Helper.ByteArrayToHex(arrMac);
-		}
-
-		throw new Exception("Could not locate a MAC address!");
-	}
-	public Computer isComputerAllowed(AdapterInterface adapter) throws Exception {
-		Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-		while (en.hasMoreElements()) {
-			NetworkInterface ni = en.nextElement();
-			byte[] arrMac = ni.getHardwareAddress();
-			if (arrMac == null)
-				continue;
-			
-			String sMac = Helper.ByteArrayToHex(arrMac);
-			Computer comp = null;
-			try { comp = Computer.loadByMacAddress(adapter, Computer.class, sMac); }
-			catch(Exception ex) { return null; }
-			
-			if (comp.getIsAllowed())
-				return comp;
-		}
-		return null;
-	}
-
 	private boolean bIsAdministrator = false;
 	private HashMap<String, Securable> hmSecurables;
 	private HashMap<String, Permission> hmPermissionsBySecurable;
@@ -406,8 +319,7 @@ public class User extends UsersRow implements SessionInterface {
 			Log log = new Log();
 			log.setGuid(User.newGuid());
 			log.setCodeGuid(code_guid);
-			log.setComputersGuid(this.getComputer().getGuid());
-			log.setDetails(desalinate(message));
+			log.setDetails(message);
 			log.setLog("Event");
 			log.setOccured(new Timestamp((new Date()).getTime()));
 			log.setUsersGuid(getGuid());
@@ -419,7 +331,6 @@ public class User extends UsersRow implements SessionInterface {
 			Log log = new Log();
 			log.setGuid(User.newGuid());
 			log.setCodeGuid(code_guid);
-			log.setComputersGuid(this.getComputer().getGuid());
 
 			String out = ex.getMessage();
 			out += "\n\n";
@@ -428,7 +339,7 @@ public class User extends UsersRow implements SessionInterface {
 			for (StackTraceElement st : ex.getStackTrace())
 				out += st.toString() + "\n";
 
-			log.setDetails(desalinate(out));
+			log.setDetails(out);
 			log.setLog("Exception");
 			log.setOccured(new Timestamp((new Date()).getTime()));
 			log.setUsersGuid(getGuid());
@@ -440,8 +351,7 @@ public class User extends UsersRow implements SessionInterface {
 			Log log = new Log();
 			log.setGuid(User.newGuid());
 			log.setCodeGuid(code_guid);
-			log.setComputersGuid(this.getComputer().getGuid());
-			log.setDetails(desalinate(sql));
+			log.setDetails(sql);
 			log.setLog("SQL");
 			log.setOccured(new Timestamp((new Date()).getTime()));
 			log.setUsersGuid(getGuid());
@@ -473,12 +383,16 @@ public class User extends UsersRow implements SessionInterface {
 	}
 	public void setSetting(String key, String value) { hmSettings.put(key, value); }
 	
-	public static String VersionNumber = "2016.1.5.dev";
+	public static String VersionNumber = "2017.3.17";
 	public String getVersion() { return User.VersionNumber; }
 	public void checkVersion() throws Exception {
 		if(!hmSettings.containsKey(SETTING_VERSION_NUMBER))
 			throw new Exception("Could not locate a version number in the applications settings!");
-		if(!hmSettings.get(SETTING_VERSION_NUMBER).equals(getVersion()))
+
+		String sSetting = hmSettings.get(SETTING_VERSION_NUMBER);
+		String sVersion = getVersion();
+		
+		if(!sSetting.equals(sVersion))
 			throw new Exception("The program version number does not match the database version number.");
 	}
 	
@@ -489,15 +403,24 @@ public class User extends UsersRow implements SessionInterface {
 		return Helper.InputStreamToString(jar.getResourceAsStream(filename));
 	}
 				
-//	public static <T extends User> T loadBySqlUser(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-//		String sql = "SELECT * FROM \"" + User.TABLE_NAME +"\" WHERE \"" + User.SQL_USER + "\"={VALUE}";
-//		Statement stmt = new Statement(sql);
-//		stmt.getParameters().put("{VALUE}", value);
-//
-//		List<T> lst = adapter.load(model, stmt);
-//		if(lst.size() != 1)
-//			throw new Exception("Could not locate unique Userrow by 'SQL User': " + Statement.convertObjectToString(value, null));
-//
-//		return lst.get(0);		
-//	}
+    public static String hashPassword(String password) throws Exception {
+        int iterations = 1000;
+        byte[] salt = getSalt();
+        
+		return hashPassword(iterations, salt, password);
+    }
+    public static String hashPassword(int iterations, byte[] salt, String password) throws Exception {
+        char[] chars = password.toCharArray();
+         
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] hash = skf.generateSecret(spec).getEncoded();
+        return iterations + ":" + Helper.ByteArrayToHex(salt) + ":" + Helper.ByteArrayToHex(hash);
+    }
+    private static byte[] getSalt() throws Exception {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
+    }
 }

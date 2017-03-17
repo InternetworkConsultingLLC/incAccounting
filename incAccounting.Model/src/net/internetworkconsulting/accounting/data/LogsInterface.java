@@ -14,9 +14,6 @@ public interface LogsInterface {
 	boolean setUsersGuid(java.lang.String value) throws Exception;
 	java.lang.String getUsersGuid();
 	
-	boolean setComputersGuid(java.lang.String value) throws Exception;
-	java.lang.String getComputersGuid();
-	
 	boolean setCodeGuid(java.lang.String value) throws Exception;
 	java.lang.String getCodeGuid();
 	
@@ -29,7 +26,5 @@ public interface LogsInterface {
 	
 	
 	<T extends UsersRow> T loadUser(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
-	<T extends ComputersRow> T loadComputer(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 }
