@@ -39,7 +39,7 @@ public class GroupController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Group objModel = (Group) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Group.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Group.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, Group.GUID);
 		txtGuid.setIsReadOnly(true);

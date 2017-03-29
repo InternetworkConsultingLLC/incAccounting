@@ -16,7 +16,7 @@ public class LoginController extends Controller {
 	public boolean getEnforceSecurity() { return false; }
 	
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/Login.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Login.html"), new HtmlSyntax()));
 		setModel(new User());
 
 		TextTag txDatabase = new TextTag(this, User.DATABASE, getModel());
@@ -40,7 +40,7 @@ public class LoginController extends Controller {
 		AdapterInterface adapter = null;
 		try { adapter = objModel.login(); }
 		catch(Exception ex) { 
-			addError("Login Failed", ex.getMessage()); 
+			addError("Login Failed!", ex.getMessage()); 
 			return;
 		}
 

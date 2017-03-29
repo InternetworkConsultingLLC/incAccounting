@@ -55,7 +55,7 @@ public class SettingsRow extends Row implements SettingsInterface {
 		if(rUserParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Users\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getUsersGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
 			rUserParent = lst.get(0);
@@ -71,7 +71,7 @@ public class SettingsRow extends Row implements SettingsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Settings row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -82,6 +82,6 @@ public class SettingsRow extends Row implements SettingsInterface {
 	// load all
 	public static <T extends SettingsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Settings\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

@@ -28,7 +28,7 @@ public class PaymentTypesController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		PaymentType objModel = (PaymentType) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/PaymentType.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PaymentType.html"), new HtmlSyntax()));
 
 		TransactionType objTranType = null;
 		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false); }

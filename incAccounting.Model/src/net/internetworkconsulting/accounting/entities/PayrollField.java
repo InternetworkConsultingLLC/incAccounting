@@ -33,7 +33,7 @@ public class PayrollField extends PayrollFieldsRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(PayrollField.class, "PayrollField.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -50,7 +50,7 @@ public class PayrollField extends PayrollFieldsRow {
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(PayrollField.class, "PayrollField.loadOptionsByType.sql"));		
 		stmt.getParameters().put("{Type GUID}", type_guid);
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

@@ -29,7 +29,7 @@ public class TransactionType extends TransactionTypesRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(TransactionType.class, "TransactionType.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

@@ -1,5 +1,6 @@
 package net.internetworkconsulting.mvc;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.internetworkconsulting.template.Template;
@@ -8,11 +9,11 @@ import net.internetworkconsulting.template.HtmlSyntax;
 public abstract class TemplateController extends Controller {
 	public static String BLOCK_BODY = "Body";
 	
-	public TemplateController(HttpServletRequest request, HttpServletResponse response, boolean is_postback) { super(request, response, is_postback); }
+	public TemplateController(HttpServletRequest request, HttpServletResponse response, ServletContext context, boolean is_postback) { super(request, response, context, is_postback); }
 	public boolean getEnforceSecurity() { return false; }
 	
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/Template.html"), new HtmlSyntax()));		
+		setDocument(new Template(readTemplate("~/templates/Template.html"), new HtmlSyntax()));		
 	}
 	public History createHistory() throws Exception { return null; }
 	

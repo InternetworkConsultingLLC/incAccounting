@@ -39,7 +39,7 @@ public class SettingController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {
 		Setting objModel = (Setting) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Setting.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Setting.html"), new HtmlSyntax()));
 		
 		TextTag txtGuid = new TextTag(this, Setting.GUID);
 		txtGuid.setIsReadOnly(true);

@@ -2,6 +2,7 @@ package net.internetworkconsulting.mvc;
 
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,6 +29,9 @@ public interface ControllerInterface {
 	
 	HttpServletResponse getResponse();
 	void setResponse(HttpServletResponse value);
+
+	ServletContext getContext();
+	void setContext(ServletContext value);
 	
 	String getRootUrl();
 	void setRootUrl(String value);
@@ -75,6 +79,6 @@ public interface ControllerInterface {
 	void populateDocument() throws Exception;
 	
 	// helpers
-	String read_url(String file_name) throws Exception;
+	String readTemplate(String file_name) throws Exception;
 	void redirect(String url) throws Exception;
 }

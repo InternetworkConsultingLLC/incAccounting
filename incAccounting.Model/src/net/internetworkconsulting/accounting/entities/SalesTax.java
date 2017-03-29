@@ -35,7 +35,7 @@ public class SalesTax extends SalesTaxesRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(SalesTax.class, "SalesTax.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -56,7 +56,7 @@ public class SalesTax extends SalesTaxesRow {
 
 		Statement stmt = new Statement(adapter.getSession().readJar(SalesTax.class, "SalesTax.loadMembershipOptions.sql"));	
 		stmt.getParameters().put("{Group GUID}", this.getGuid());
-		lstMembershipOptions = adapter.load(SalesTaxMembershipOption.class, stmt);
+		lstMembershipOptions = adapter.load(SalesTaxMembershipOption.class, stmt, true);
 		
 		return lstMembershipOptions;
 	}

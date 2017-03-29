@@ -21,7 +21,7 @@ public class ReportViewController extends Controller {
 	
 	public void createControls(Template document, Object model) throws Exception {
 		Report objModel = loadModel();
-		setDocument(new Template(read_url("~/templates/ReportView.html"),  new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/ReportView.html"),  new HtmlSyntax()));
 
 		LiteralTag litTitle = new LiteralTag(this, Report.TITLE);
 		litTitle.setValue(objModel.getTitle());

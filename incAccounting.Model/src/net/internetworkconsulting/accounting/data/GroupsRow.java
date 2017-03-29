@@ -44,7 +44,7 @@ public class GroupsRow extends Row implements GroupsInterface {
 		if(lstMembershipsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Memberships\" WHERE \"Groups GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstMembershipsChildren = adapter.load(model, stmt);
+			lstMembershipsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstMembershipsChildren;
 	}
@@ -54,7 +54,7 @@ public class GroupsRow extends Row implements GroupsInterface {
 		if(lstPermissionsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Permissions\" WHERE \"Groups GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPermissionsChildren = adapter.load(model, stmt);
+			lstPermissionsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPermissionsChildren;
 	}
@@ -70,9 +70,33 @@ public class GroupsRow extends Row implements GroupsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Groups row by 'GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends GroupsRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Groups\" WHERE \"Display Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Groups row by 'Display Name': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends GroupsRow> T loadByEmailAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Groups\" WHERE \"Email Address\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Groups row by 'Email Address': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -81,6 +105,6 @@ public class GroupsRow extends Row implements GroupsInterface {
 	// load all
 	public static <T extends GroupsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Permissions\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

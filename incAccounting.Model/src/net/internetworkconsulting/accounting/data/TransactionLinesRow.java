@@ -64,7 +64,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 		if(lstRegisterEntriesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Register Entries\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstRegisterEntriesChildren = adapter.load(model, stmt);
+			lstRegisterEntriesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstRegisterEntriesChildren;
 	}
@@ -77,7 +77,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 		if(rTransactionParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transactions\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getTransactionsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transactions row by GUID (" + Statement.convertObjectToString(this.getTransactionsGuid(), null) + ")!");
 			rTransactionParent = lst.get(0);
@@ -90,7 +90,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 		if(rJobParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Jobs\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getJobsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Jobs row by GUID (" + Statement.convertObjectToString(this.getJobsGuid(), null) + ")!");
 			rJobParent = lst.get(0);
@@ -103,7 +103,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 		if(rDepartmentParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Departments\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDepartmentsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Departments row by GUID (" + Statement.convertObjectToString(this.getDepartmentsGuid(), null) + ")!");
 			rDepartmentParent = lst.get(0);
@@ -116,7 +116,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 		if(rAccountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
 			rAccountParent = lst.get(0);
@@ -129,7 +129,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 		if(rReconciliationParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Reconciliations\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getReconciliationsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Reconciliations row by GUID (" + Statement.convertObjectToString(this.getReconciliationsGuid(), null) + ")!");
 			rReconciliationParent = lst.get(0);
@@ -145,7 +145,7 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Transaction Lines row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -156,6 +156,6 @@ public class TransactionLinesRow extends Row implements TransactionLinesInterfac
 	// load all
 	public static <T extends TransactionLinesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

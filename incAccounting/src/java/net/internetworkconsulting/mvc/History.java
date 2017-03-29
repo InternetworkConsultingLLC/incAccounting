@@ -12,17 +12,17 @@ public class History {
 			throw new Exception("You must supply a history name!");
 		
 		setName(name);
-		String url = req.getRequestURL().toString();
+		String url = req.getRequestURL().toString() + "?" + req.getQueryString();
 		
-		String sQuery = "";
-		Map<String, String[]> mapParams = req.getParameterMap();
-		for(String key: mapParams.keySet()) {
-			if(!key.toLowerCase().equals("error"))
-				for(String value: mapParams.get(key))
-					sQuery = sQuery + "&" +  escapeUrl(key) + "=" + escapeUrl(value);
-		}
-		if(sQuery.length() > 0)
-			url = url + "?" + sQuery.substring(1);
+//		String sQuery = "";
+//		Map<String, String[]> mapParams = req.getParameterMap();
+//		for(String key: mapParams.keySet()) {
+//			if(!key.toLowerCase().equals("error"))
+//				for(String value: mapParams.get(key))
+//					sQuery = sQuery + "&" +  escapeUrl(key) + "=" + escapeUrl(value);
+//		}
+//		if(sQuery.length() > 0)
+//			url = url + "?" + sQuery.substring(1);
 		
 		setUrl(url);
 		

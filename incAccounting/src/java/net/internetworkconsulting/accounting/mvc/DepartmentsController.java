@@ -34,7 +34,7 @@ public class DepartmentsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Department objModel = (Department) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Department.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Department.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, Department.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

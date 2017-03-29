@@ -56,7 +56,7 @@ public class User extends UsersRow implements SessionInterface {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(User.class, "User.loadOptions.sql"));
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -72,7 +72,7 @@ public class User extends UsersRow implements SessionInterface {
 		sql = String.format(sql, User.TABLE_NAME, User.EMAIL_ADDRESS, User.IS_ALLOWED);
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{Email}", email_address);
-		List<User> lst = adapter.load(User.class, stmt);
+		List<User> lst = adapter.load(User.class, stmt, true);
 		
 		if(lst.size() != 1)
 			return null;
@@ -82,7 +82,9 @@ public class User extends UsersRow implements SessionInterface {
 
 	public static String DATABASE = "Database";
 	private String sDatabase;
-	public void setDatabase(String value) { sDatabase = value; }
+	public void setDatabase(String value) { 
+		sDatabase = value.replace("'", "").replace("\"", "").replace(";", "").replace(" ", "").replace("`", ""); 
+	}
 	public String getDatabase() { return sDatabase; }
 
 	public static String PASSWORD = "Password";
@@ -97,14 +99,10 @@ public class User extends UsersRow implements SessionInterface {
 	public AdapterInterface login() throws Exception {
 		if(adapter != null && adapter.getConnection() != null && adapter.getSession() != null)
 			return adapter;
-
-		if(sPassword == null)
-			throw new Exception("You must provide a password to login.");
-
-		if(getDatabase() == null)
-			throw new Exception("you must provide a database!");
-
 		
+		if(getPassword() == null || getDatabase() == null)
+			throw new Exception("Login failure!");
+
 		AdapterInterface tempAdapter = new Adapter();
 		tempAdapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
 				
@@ -119,7 +117,7 @@ public class User extends UsersRow implements SessionInterface {
 			adapter = tempAdapter;
 			return adapter;
 		}
-		
+
 		// load new user to become session
 		User row = User.loadByEmailAddress(tempAdapter, getEmailAddress());
 		if(row == null)
@@ -181,10 +179,8 @@ public class User extends UsersRow implements SessionInterface {
 		adapter = tempAdapter;
 		return adapter;
 	}
-	public AdapterInterface unvalidatedLogin() throws Exception { 
-		AdapterInterface adapter = new Adapter();
-		if(getDatabase() != null)
-			adapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
+	public AdapterInterface unvalidatedLogin(String server, String user, String password) throws Exception { 
+		AdapterInterface adapter = new Adapter(server, "", user, password, true);
 		return adapter;
 	}
 
@@ -193,7 +189,7 @@ public class User extends UsersRow implements SessionInterface {
 		if (lstMemberships == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Memberships\" WHERE \"Users GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstMemberships = adapter.load(Membership.class, stmt);
+			lstMemberships = adapter.load(Membership.class, stmt, true);
 
 			Membership mbr = new Membership();
 			mbr.setUsersGuid(getGuid());
@@ -346,7 +342,12 @@ public class User extends UsersRow implements SessionInterface {
 			loggingAdapter.save(Log.TABLE_NAME, log);
 		} catch (Exception exx) { }
 	}
+	private static String lastSql = "";
 	public void logSql(String sql, String code_guid) {
+		if(lastSql.equals(sql))
+			return;
+		lastSql = sql;
+		
 		try {
 			Log log = new Log();
 			log.setGuid(User.newGuid());
@@ -370,7 +371,7 @@ public class User extends UsersRow implements SessionInterface {
 			sql = String.format(sql, Setting.TABLE_NAME, Setting.USERS_GUID, Setting.USERS_GUID, Setting.USERS_GUID);
 			Statement stmt = new Statement(sql);
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstSettings = adapter.load(biz, stmt);
+			lstSettings = adapter.load(biz, stmt, true);
 		}
 		return (List<T>) lstSettings;
 	}
@@ -383,7 +384,7 @@ public class User extends UsersRow implements SessionInterface {
 	}
 	public void setSetting(String key, String value) { hmSettings.put(key, value); }
 	
-	public static String VersionNumber = "2017.3.17";
+	public static String VersionNumber = "2017.3.18";
 	public String getVersion() { return User.VersionNumber; }
 	public void checkVersion() throws Exception {
 		if(!hmSettings.containsKey(SETTING_VERSION_NUMBER))

@@ -34,7 +34,7 @@ public class Deposit extends BankDepositsRow {
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(Deposit.class, "Deposit.loadPaymentSelections.sql"));
 		stmt.getParameters().put("{Deposits GUID}", getGuid());
-		lstPayments = adapter.load(Payment.class, stmt);
+		lstPayments = adapter.load(Payment.class, stmt, true);
 		
 		return lstPayments;
 	}	
@@ -145,7 +145,7 @@ public class Deposit extends BankDepositsRow {
 		sql = sql.replace("COL", Deposit.POSTED_TRANSACTIONS_GUID);
 		
 		Statement stmt = new Statement(sql);
-		return adapter.load(Deposit.class, stmt);
+		return adapter.load(Deposit.class, stmt, true);
 	}
 
 

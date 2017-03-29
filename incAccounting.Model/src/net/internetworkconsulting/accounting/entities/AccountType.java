@@ -35,7 +35,7 @@ public class AccountType extends AccountTypesRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(AccountType.class, "AccountType.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

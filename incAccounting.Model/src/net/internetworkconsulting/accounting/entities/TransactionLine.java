@@ -63,7 +63,7 @@ public class TransactionLine extends TransactionLinesRow {
 		stmt.getParameters().put("{Account}", account_guid);
 		stmt.getParameters().put("{Starting}", starting_date);
 		stmt.getParameters().put("{Ending}", ending_date);
-		return adapter.load(model, stmt);
+		return adapter.load(model, stmt, true);
 	}
 
 }

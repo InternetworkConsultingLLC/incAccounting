@@ -69,8 +69,7 @@ public class Setup implements Serializable {
 
 	protected AdapterInterface connect() throws Exception {
 		User user = new User();
-		user.setDatabase(getDatabase());
-		return user.unvalidatedLogin();
+		return user.unvalidatedLogin(getSqlServer(), getSqlUser(), getPassword());
 	}
 	public void testConnection() throws Exception {
 		AdapterInterface adapter = connect();
@@ -116,11 +115,10 @@ public class Setup implements Serializable {
 		adapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
 
 		User user = User.loadByGuid(adapter, User.class, User.ADMINISTRATOR_GUID);
-		user.setDatabase(getDatabase());
 		user.setPasswordHash(User.hashPassword(getAdministratorPassword()));		
 		user.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
 		
-		//adapter.save(User.TABLE_NAME, this);
+		adapter.save(User.TABLE_NAME, user);
 	}
 
 }

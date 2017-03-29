@@ -30,7 +30,8 @@ public class DocumentTypesController extends EditController {
 	}
 	
 	public void createControls(Template document, Object model) throws Exception {		
-		DocumentType objModel = (DocumentType) handleNonPostbackActions(model);		setDocument(new Template(read_url("~/templates/DocumentType.html"), new HtmlSyntax()));
+		DocumentType objModel = (DocumentType) handleNonPostbackActions(model);		
+		setDocument(new Template(readTemplate("~/templates/DocumentType.html"), new HtmlSyntax()));
 		
 		TransactionType objTranType = null;
 		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false); }

@@ -26,7 +26,7 @@ public class ContactTypesController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		ContactType objModel = (ContactType) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/ContactType.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/ContactType.html"), new HtmlSyntax()));
 		
 		TextTag txtGuid = new TextTag(this, ContactType.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

@@ -28,9 +28,9 @@ public class Transaction extends TransactionsRow {
 	private Object lstTransactionLinesChildren = null;
 	public <T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTransactionLinesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"transaction lines\" WHERE \"Transactions GUID\"={PRIMARYKEY} ORDER BY \"" + TransactionLine.SORT_ORDER + "\"");
+			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"Transactions GUID\"={PRIMARYKEY} ORDER BY \"" + TransactionLine.SORT_ORDER + "\"");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTransactionLinesChildren = adapter.load(model, stmt);
+			lstTransactionLinesChildren = adapter.load(model, stmt, true);
 		}
 
 		if(lstTransactionLinesChildren != null) {

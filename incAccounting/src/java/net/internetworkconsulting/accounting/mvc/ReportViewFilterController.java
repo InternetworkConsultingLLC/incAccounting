@@ -49,7 +49,7 @@ public class ReportViewFilterController extends Controller {
 		List<Row> lstResults = null;
 		if(objModel.getQuery() != null && objModel.getQuery().length() > 0) {
 			Statement stmt = new Statement(objModel.getQuery());
-			lstResults = getUser().login().load(Row.class, stmt);
+			lstResults = getUser().login().load(Row.class, stmt, true);
 		}
 	
 		// we have results!

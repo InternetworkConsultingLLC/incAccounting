@@ -37,7 +37,7 @@ public class Report extends ReportsRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(Report.class, "Report.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -54,7 +54,7 @@ public class Report extends ReportsRow {
 
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{Name}", display_name);
-		List<Report> lst = adapter.load(Report.class, stmt);
+		List<Report> lst = adapter.load(Report.class, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate report by Display Name '" + display_name + "'!");
 		
@@ -67,7 +67,7 @@ public class Report extends ReportsRow {
 			sql = String.format(sql, ReportBlock.TABLE_NAME, ReportBlock.REPORTS_GUID, ReportBlock.PRIORITY);
 			Statement stmt = new Statement(sql);
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstBlocksChildren = adapter.load(model, stmt);
+			lstBlocksChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstBlocksChildren;
 	}
@@ -75,7 +75,7 @@ public class Report extends ReportsRow {
 		if(lstFiltersChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Report Filters\" WHERE \"Reports GUID\"={PRIMARYKEY} ORDER BY \"Priority\"");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstFiltersChildren = adapter.load(model, stmt);
+			lstFiltersChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstFiltersChildren;
 	}

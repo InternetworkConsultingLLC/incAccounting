@@ -30,7 +30,7 @@ public class ReportBlock extends ReportBlocksRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(ReportBlock.class, "ReportBlock.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -52,7 +52,7 @@ public class ReportBlock extends ReportBlocksRow {
 			sql = String.format(sql, ReportBlock.TABLE_NAME, ReportBlock.PARENT_BLOCK_GUID, ReportBlock.PRIORITY);
 			Statement stmt = new Statement(sql);
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildrenChildren = adapter.load(model, stmt);
+			lstChildrenChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildrenChildren;
 	}
@@ -61,7 +61,7 @@ public class ReportBlock extends ReportBlocksRow {
 		Statement stmt = new Statement(getSqlQuery());
 		for(String key: values.keySet())
 			stmt.getParameters().put("{" + key + "}", values.get(key));
-		List<Row> lstRows = adapter.load(Row.class, stmt);
+		List<Row> lstRows = adapter.load(Row.class, stmt, true);
 		
 		// for each row
 		for(Row row: lstRows) {

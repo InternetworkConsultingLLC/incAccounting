@@ -43,7 +43,7 @@ public class TransactionsController  extends EditController{
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Transaction objModel = (Transaction) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Transaction.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Transaction.html"), new HtmlSyntax()));
 		
 		Account.loadOptions(getUser().login(), true);
 		Job.loadOptions(getUser().login(), true);

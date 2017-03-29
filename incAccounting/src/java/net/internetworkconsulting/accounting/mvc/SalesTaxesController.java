@@ -39,7 +39,7 @@ public class SalesTaxesController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		SalesTax objModel = (SalesTax) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/SalesTax.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/SalesTax.html"), new HtmlSyntax()));
 		
 		TextTag txtGuid = new TextTag(this, SalesTax.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

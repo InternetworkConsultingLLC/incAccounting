@@ -22,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.SessionInterface;
@@ -102,7 +101,7 @@ public class Adapter implements AdapterInterface {
 
 		return mapColumns;
 	}
-	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt) throws Exception {
+	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt, boolean log_query) throws Exception {
 		if(myUser != null) {
 			R ri = null;
 			try { ri = cls.newInstance(); }
@@ -110,7 +109,7 @@ public class Adapter implements AdapterInterface {
 			myUser.canRead(ri.getSqlSecurableGuid());
 		}
 
-		java.sql.ResultSet rs = myConnection.createStatement().executeQuery(stmt.generate(getSession(), false));
+		java.sql.ResultSet rs = myConnection.createStatement().executeQuery(stmt.generate(getSession(), log_query));
 
 		List<R> newTable = new java.util.LinkedList<>();
 
@@ -208,7 +207,7 @@ public class Adapter implements AdapterInterface {
 	public <R extends RowInterface> HashMap<String, String> getColumns(Class<R> cls, StatementInterface stmt) throws Exception {
 		String sql = "SELECT * FROM (" + stmt.getCommand() + ") TBL WHERE 1 <> 1";
 		stmt.setCommand(sql);
-		load(cls, stmt);
+		load(cls, stmt, false);
 		return mapColumns;
 	}
 

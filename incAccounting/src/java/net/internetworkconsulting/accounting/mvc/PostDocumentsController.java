@@ -19,7 +19,7 @@ public class PostDocumentsController extends Controller {
 	public PostDocumentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/PostDocuments.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PostDocuments.html"), new HtmlSyntax()));
 
 		String type_guid = getRequest().getParameter("Document Types GUID");
 		if(type_guid != null && type_guid.equals("null"))
@@ -98,17 +98,15 @@ public class PostDocumentsController extends Controller {
 
 			for(PostDocumentsLinesController pdlc: lstControllers) {
 				boolean isChecked = pdlc.getIsPosted();
-				Document doc = (Document) pdlc.getModel();
-				boolean isPosted = doc.getPostedAccountsGuid() != null && doc.getPostedTransactionsGuid() != null;
-				// Checked	WasPosted
-				//	T			T		==> Do Nothing
-				//	T			F		==> Post
-				//	F			T		==> Unpost
-				//	F			F		==> Do Nothing
-				if(isChecked && !isPosted)
-					doc.post(getUser().login());
-				if(!isChecked && isPosted)
-					doc.unpost(getUser().login());
+				Document obj = (Document) pdlc.getModel();
+				boolean isPosted = obj.getPostedAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
+
+				if(isChecked) {
+					if(isPosted)
+						obj.unpost(getUser().login());
+					else
+						obj.post(getUser().login());
+				}
 			}
 			
 			getUser().login().commit(true);

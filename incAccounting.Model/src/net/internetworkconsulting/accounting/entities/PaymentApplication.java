@@ -31,7 +31,7 @@ public class PaymentApplication extends PaymentApplicationsRow{
 		stmt.getParameters().put("{Documents GUID}", documentsGuid);
 		stmt.getParameters().put("{Payments GUID}", paymentsGuid);
 		
-		List<PaymentApplication> lst = adapter.load(PaymentApplication.class, stmt);
+		List<PaymentApplication> lst = adapter.load(PaymentApplication.class, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate a unique payment application by document and payments GUID!");
 		

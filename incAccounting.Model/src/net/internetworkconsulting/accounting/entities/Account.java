@@ -50,7 +50,7 @@ public class Account extends AccountsRow {
 		Statement stmt = new Statement(adapter.getSession().readJar(Account.class, "Account.getBeginningBalance.sql"));
 		stmt.getParameters().put("{GUID}", account_guid);
 		stmt.getParameters().put("{As Of Date}", as_of_date);
-		List<Row> lstRows = adapter.load(Row.class, stmt);
+		List<Row> lstRows = adapter.load(Row.class, stmt, true);
 		if(lstRows.size() != 1)
 			return BigDecimal.ZERO;
 		
@@ -63,7 +63,7 @@ public class Account extends AccountsRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(Account.class, "Account.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

@@ -44,7 +44,7 @@ public class PayrollFieldTypesRow extends Row implements PayrollFieldTypesInterf
 		if(lstPayrollFieldsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payroll Fields\" WHERE \"Payroll Field Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPayrollFieldsChildren = adapter.load(model, stmt);
+			lstPayrollFieldsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPayrollFieldsChildren;
 	}
@@ -60,9 +60,21 @@ public class PayrollFieldTypesRow extends Row implements PayrollFieldTypesInterf
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Payroll Field Types row by 'GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends PayrollFieldTypesRow> T loadByName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Payroll Field Types\" WHERE \"Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Payroll Field Types row by 'Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -71,6 +83,6 @@ public class PayrollFieldTypesRow extends Row implements PayrollFieldTypesInterf
 	// load all
 	public static <T extends PayrollFieldTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Payroll Fields\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

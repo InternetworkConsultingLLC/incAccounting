@@ -34,7 +34,7 @@ public class UnitMeasureEditController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		UnitMeasure objModel = (UnitMeasure) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/UnitMeasure.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/UnitMeasure.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, UnitMeasure.GUID);
 		txtGuid.setIsReadOnly(true);

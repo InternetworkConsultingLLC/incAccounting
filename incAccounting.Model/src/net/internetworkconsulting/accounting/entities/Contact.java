@@ -30,7 +30,7 @@ public class Contact extends ContactsRow {
 		if(lstChildrenContactsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"Parent Contacts GUID\"={PRIMARYKEY} ORDER BY \"Display Name\"");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildrenContactsChildren = adapter.load(model, stmt);
+			lstChildrenContactsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildrenContactsChildren;
 	}
@@ -41,7 +41,7 @@ public class Contact extends ContactsRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(Contact.class, "Contact.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -59,7 +59,7 @@ public class Contact extends ContactsRow {
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(Contact.class, "Contact.loadChildOptions.sql"));		
 		stmt.getParameters().put("{GUID}", this.getGuid());
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

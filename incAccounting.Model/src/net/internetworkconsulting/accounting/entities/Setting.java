@@ -35,7 +35,7 @@ public class Setting extends net.internetworkconsulting.accounting.data.Settings
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique settings row by 'GUID': " + Statement.convertObjectToString(value, null));
 

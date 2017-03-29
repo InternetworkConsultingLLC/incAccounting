@@ -37,7 +37,7 @@ public class PayrollFieldsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		objModel = (PayrollField) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/PayrollField.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PayrollField.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, PayrollField.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

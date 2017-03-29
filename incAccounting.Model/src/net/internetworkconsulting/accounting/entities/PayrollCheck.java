@@ -59,7 +59,7 @@ public class PayrollCheck extends PayrollChecksRow {
 	public static PayrollCheck loadTemplate(AdapterInterface adapter, String employees_guid) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(PayrollCheck.class, "PayrollCheck.loadTemplate.sql"));
 		stmt.getParameters().put("{Employees GUID}", employees_guid);
-		List<PayrollCheck> lstChecks = adapter.load(PayrollCheck.class, stmt);
+		List<PayrollCheck> lstChecks = adapter.load(PayrollCheck.class, stmt, true);
 		
 		if(lstChecks.isEmpty())
 			throw new Exception("Could not locate a template for employee GUID: " + employees_guid);
@@ -74,7 +74,7 @@ public class PayrollCheck extends PayrollChecksRow {
 			sql = sql.replace(" NOT ", " ");
 
 		Statement stmt = new Statement(sql);
-		List<PayrollCheck> lstValues = adapter.load(PayrollCheck.class, stmt);
+		List<PayrollCheck> lstValues = adapter.load(PayrollCheck.class, stmt, true);
 		
 		return lstValues;
 	}	
@@ -83,7 +83,7 @@ public class PayrollCheck extends PayrollChecksRow {
 		Statement stmt = new Statement(adapter.getSession().readJar(PayrollCheck.class, "PayrollCheck.loadValues.sql"));
 		stmt.getParameters().put("{Payroll Checks GUID}", this.getGuid());
 		stmt.getParameters().put("{Payroll Field Types GUID}", type_guid);
-		List<PayrollFieldValue> lstValues = adapter.load(PayrollFieldValue.class, stmt);
+		List<PayrollFieldValue> lstValues = adapter.load(PayrollFieldValue.class, stmt, true);
 		for(PayrollFieldValue pfv: lstValues)
 			pfv.setPayrollCheck(this);
 		

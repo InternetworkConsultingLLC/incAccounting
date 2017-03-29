@@ -21,7 +21,6 @@ public class PostDepositsLinesController extends Controller {
 		Deposit objModel = (Deposit) getModel();
 
 		chkIsPosted = new CheckTag(this, "Row Posted");
-		chkIsPosted.setIsChecked(objModel.getPostedTransactionsGuid() != null);				
 		chkIsPosted.setName("Posted" + objModel.getGuid());
 		
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";

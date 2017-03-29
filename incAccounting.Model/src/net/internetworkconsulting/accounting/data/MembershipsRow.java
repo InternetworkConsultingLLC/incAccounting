@@ -39,7 +39,7 @@ public class MembershipsRow extends Row implements MembershipsInterface {
 		if(rUserParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Users\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getUsersGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
 			rUserParent = lst.get(0);
@@ -52,7 +52,7 @@ public class MembershipsRow extends Row implements MembershipsInterface {
 		if(rGroupParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Groups\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGroupsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Groups row by GUID (" + Statement.convertObjectToString(this.getGroupsGuid(), null) + ")!");
 			rGroupParent = lst.get(0);
@@ -67,6 +67,6 @@ public class MembershipsRow extends Row implements MembershipsInterface {
 	// load all
 	public static <T extends MembershipsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Memberships\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

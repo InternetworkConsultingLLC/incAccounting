@@ -48,7 +48,7 @@ public class TransactionTypesRow extends Row implements TransactionTypesInterfac
 		if(lstDocumentTypeChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentTypeChildren = adapter.load(model, stmt);
+			lstDocumentTypeChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentTypeChildren;
 	}
@@ -58,7 +58,7 @@ public class TransactionTypesRow extends Row implements TransactionTypesInterfac
 		if(lstPaymentTypeChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payment Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPaymentTypeChildren = adapter.load(model, stmt);
+			lstPaymentTypeChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPaymentTypeChildren;
 	}
@@ -68,7 +68,7 @@ public class TransactionTypesRow extends Row implements TransactionTypesInterfac
 		if(lstTransactionsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transactions\" WHERE \"Transaction Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTransactionsChildren = adapter.load(model, stmt);
+			lstTransactionsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstTransactionsChildren;
 	}
@@ -84,9 +84,21 @@ public class TransactionTypesRow extends Row implements TransactionTypesInterfac
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Transaction Types row by 'GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends TransactionTypesRow> T loadByName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Transaction Types\" WHERE \"Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Transaction Types row by 'Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -95,6 +107,6 @@ public class TransactionTypesRow extends Row implements TransactionTypesInterfac
 	// load all
 	public static <T extends TransactionTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Transactions\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

@@ -30,7 +30,7 @@ public class PaymentType extends PaymentTypesRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(PaymentType.class, "PaymentType.loadOptions.sql"));
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

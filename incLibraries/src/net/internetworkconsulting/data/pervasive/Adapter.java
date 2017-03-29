@@ -52,7 +52,7 @@ public class Adapter implements AdapterInterface {
 	public boolean execute(Statement stmt, boolean log_query) throws Exception { 
 		return ptConnection.createStatement().execute(stmt.generate(getSession(), false));
 	}
-	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt) throws Exception {
+	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt, boolean log_query) throws Exception {
 		java.sql.ResultSet rs = ptConnection.createStatement().executeQuery(stmt.generate(getSession(), false));
 
 		List<R> newTable = new java.util.LinkedList<>();

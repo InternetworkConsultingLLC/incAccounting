@@ -88,7 +88,7 @@ public class Document extends DocumentsRow {
 		if(!where.trim().equals("WHERE"))
 			stmt.setCommand(stmt.getCommand() + where);
 		
-		return adapter.load(Document.class, stmt);		
+		return adapter.load(Document.class, stmt, true);		
 	}
 	
 	private static List<Option> lstOptions;
@@ -97,7 +97,7 @@ public class Document extends DocumentsRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(Document.class, "Document.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -516,6 +516,9 @@ public class Document extends DocumentsRow {
 		return lstTranLines;		
 	}
 	private void createPostStandard(BigDecimal dMultiplier, DocumentLine docLine, Transaction objTran, AdapterInterface adapter) throws Exception {
+		if(docLine.getAccountsGuid() == null)
+			throw new Exception("Document line does not have an account!");
+		
 		TransactionLine objTranLine = new TransactionLine();
 		objTranLine.initialize(objTran, adapter);
 		//objTranLine.setGuid(docLine.getGuid());
@@ -575,7 +578,7 @@ public class Document extends DocumentsRow {
 		stmt.getParameters().put("{Type}", type_guid);
 		stmt.getParameters().put("{Reference}", number);
 		
-		List<Document> lst = adapter.load(Document.class, stmt);
+		List<Document> lst = adapter.load(Document.class, stmt, true);
 		return lst.isEmpty();
 	}
  }

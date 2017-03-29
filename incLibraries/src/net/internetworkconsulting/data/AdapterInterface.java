@@ -28,7 +28,7 @@ public interface AdapterInterface {
 	long commit(boolean is_final) throws Exception;
 
 	boolean execute(Statement stmt, boolean log_query) throws Exception;
-	<R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt) throws Exception;
+	<R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt, boolean log_query) throws Exception;
 	<R extends RowInterface> long save(String table_name, List<R> table, boolean before_and_after) throws Exception;
 	<R extends RowInterface> long save(String table_name, R row, boolean before_and_after) throws Exception;
 	<R extends RowInterface> long save(String table_name, List<R> table) throws Exception;

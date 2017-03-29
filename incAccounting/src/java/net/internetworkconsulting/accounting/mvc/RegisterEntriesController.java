@@ -42,9 +42,9 @@ public class RegisterEntriesController extends Controller {
 		objModel = (List<TransactionLine>) model;
 		if(objModel == null)
 			objModel = new LinkedList<>();
-
+		
 		setModel(model);		
-		setDocument(new Template(read_url("~/templates/RegisterEntries.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/RegisterEntries.html"), new HtmlSyntax()));
 		
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
@@ -66,25 +66,35 @@ public class RegisterEntriesController extends Controller {
 		dtEnding = new DateTag(this, "Ending");
 		
 		if(!getIsPostback()) {
+			String sGuid = getRequest().getParameter("GUID");
 			String sAccount = getRequest().getParameter("Account");
 			String sStarting = getRequest().getParameter("Starting");
 			String sEnding = getRequest().getParameter("Ending");
 
+			if(sGuid != null) {
+				TransactionLine objLine = TransactionLine.loadByGuid(getUser().login(), TransactionLine.class, sGuid);				
+				Transaction objTran = objLine.loadTransaction(getUser().login(), Transaction.class, false);
+
+				sAccount = objLine.getAccountsGuid();
+				sStarting = Statement.convertObjectToString(objTran.getDate(), null);
+				sEnding = Statement.convertObjectToString(objTran.getDate(), null);
+			}
+
 			if(sAccount != null)
 				tagAccount.setValue(sAccount);
-				
+
 			Calendar calStarting = Calendar.getInstance();
 			calStarting.add(Calendar.MONTH, -1);
-			
+
 			Calendar calEnding = Calendar.getInstance();
-			
+
 			if(sStarting != null)
 				dtStarting.setValue(sStarting);
 			else
 				dtStarting.setValue(Statement.convertObjectToString(calStarting, null));
-			
+
 			if(sEnding != null)
-				dtEnding.setValue(sStarting);
+				dtEnding.setValue(sEnding);
 			else
 				dtEnding.setValue(Statement.convertObjectToString(calEnding, null));
 		}
@@ -100,6 +110,9 @@ public class RegisterEntriesController extends Controller {
 		
 		for(TransactionLine entry : objModel)
 			createController(entry);
+		
+		if(!getIsPostback() && tagAccount.getValue() != null && dtStarting.getValue() != null && dtEnding.getValue() != null)
+			btnLoad_Clicked();
 	}
 	public History createHistory() throws Exception {
 		String sDisplay = "Register";
@@ -151,19 +164,30 @@ public class RegisterEntriesController extends Controller {
 			for(TransactionLine line : objModel) {
 				Transaction tran = line.loadTransaction(getUser().login(), Transaction.class, false);
 				List<TransactionLine> lstLines = tran.loadTransactionLines(getUser().login(), TransactionLine.class, false);
+				
 				RegisterEntry entry = null;
-				try {
-					entry = (RegisterEntry) line.loadRegisterEntries(getUser().login(), RegisterEntry.class, false).get(0);
-				}
-				catch(Exception ex) {
-					/* do nothing */ }
+				try { entry = (RegisterEntry) line.loadRegisterEntries(getUser().login(), RegisterEntry.class, false).get(0); }
+				catch(Exception ex) { continue; }
+				
+				if(line.getReconciliationsGuid() != null)
+					continue;
 
-				if(entry != null) {
-					tran.setSkipDocumentCheck(true);
+				tran.setSkipDocumentCheck(true);
+				if(line.getIsDeleted()) {
+					tran.setIsDeleted(true);
+					entry.setIsDeleted(true);
+					for(TransactionLine tlDelete : lstLines)
+						tlDelete.setIsDeleted(true);
+
+					getUser().login().save(RegisterEntry.TABLE_NAME, entry);
+					getUser().login().save(TransactionLine.TABLE_NAME, lstLines);
+					getUser().login().save(Transaction.TABLE_NAME, tran);
+				} else {
 					getUser().login().save(Transaction.TABLE_NAME, tran);
 					getUser().login().save(TransactionLine.TABLE_NAME, lstLines);
 					getUser().login().save(RegisterEntry.TABLE_NAME, entry);
 				}
+				
 			}
 			getUser().login().commit(true);
 		}
@@ -174,7 +198,8 @@ public class RegisterEntriesController extends Controller {
 			return;
 		}
 
-		redirect(String.format("~/incAccounting/RegisterEntry?Account=%s&Starting=%s&Ending=%s", tagAccount.getValue(), dtStarting.getValue(), dtEnding.getValue()));
+		String sUrl = String.format("~/incAccounting?App=RegisterEntries&Account=%s&Starting=%s&Ending=%s", tagAccount.getValue(), dtStarting.getValue(), dtEnding.getValue());
+		redirect(sUrl);
 	}
 	public void btnAdd_Clicked() throws Exception {
 		if(tagAccount.getValue() == null) {

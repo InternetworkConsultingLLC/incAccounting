@@ -42,7 +42,7 @@ public class AccountsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Account objModel = (Account) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Account.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Account.html"), new HtmlSyntax()));
 		
 		TextTag txtGuid = new TextTag(this, Account.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

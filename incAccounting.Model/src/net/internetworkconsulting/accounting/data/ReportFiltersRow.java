@@ -55,7 +55,7 @@ public class ReportFiltersRow extends Row implements ReportFiltersInterface {
 		if(rReportParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Reports\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getReportsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Reports row by GUID (" + Statement.convertObjectToString(this.getReportsGuid(), null) + ")!");
 			rReportParent = lst.get(0);
@@ -71,7 +71,7 @@ public class ReportFiltersRow extends Row implements ReportFiltersInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Report Filters row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -82,6 +82,6 @@ public class ReportFiltersRow extends Row implements ReportFiltersInterface {
 	// load all
 	public static <T extends ReportFiltersRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Report Filters\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

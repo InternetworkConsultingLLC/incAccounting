@@ -56,7 +56,7 @@ public class DepartmentsRow extends Row implements DepartmentsInterface {
 		if(lstChildrenChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Departments\" WHERE \"Parent Departments GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildrenChildren = adapter.load(model, stmt);
+			lstChildrenChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildrenChildren;
 	}
@@ -66,7 +66,7 @@ public class DepartmentsRow extends Row implements DepartmentsInterface {
 		if(lstDocumentLinesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"Departments GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentLinesChildren = adapter.load(model, stmt);
+			lstDocumentLinesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentLinesChildren;
 	}
@@ -76,7 +76,7 @@ public class DepartmentsRow extends Row implements DepartmentsInterface {
 		if(lstTransactionLinesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"Departments GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTransactionLinesChildren = adapter.load(model, stmt);
+			lstTransactionLinesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstTransactionLinesChildren;
 	}
@@ -89,7 +89,7 @@ public class DepartmentsRow extends Row implements DepartmentsInterface {
 		if(rParentDepartmentParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Departments\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentDepartmentsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Departments row by GUID (" + Statement.convertObjectToString(this.getParentDepartmentsGuid(), null) + ")!");
 			rParentDepartmentParent = lst.get(0);
@@ -105,9 +105,21 @@ public class DepartmentsRow extends Row implements DepartmentsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Departments row by 'GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends DepartmentsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Departments\" WHERE \"Number\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Departments row by 'Number': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -116,6 +128,6 @@ public class DepartmentsRow extends Row implements DepartmentsInterface {
 	// load all
 	public static <T extends DepartmentsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Departments\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

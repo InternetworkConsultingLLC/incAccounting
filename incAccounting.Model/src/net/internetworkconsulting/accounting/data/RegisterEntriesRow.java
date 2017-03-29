@@ -39,7 +39,7 @@ public class RegisterEntriesRow extends Row implements RegisterEntriesInterface 
 		if(rTransactionLineParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transaction Lines row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
 			rTransactionLineParent = lst.get(0);
@@ -52,7 +52,7 @@ public class RegisterEntriesRow extends Row implements RegisterEntriesInterface 
 		if(rContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
@@ -68,7 +68,7 @@ public class RegisterEntriesRow extends Row implements RegisterEntriesInterface 
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Register Entries row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -79,6 +79,6 @@ public class RegisterEntriesRow extends Row implements RegisterEntriesInterface 
 	// load all
 	public static <T extends RegisterEntriesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Register Entries\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

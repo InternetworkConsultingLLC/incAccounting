@@ -34,7 +34,7 @@ public class Group extends net.internetworkconsulting.accounting.data.GroupsRow 
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(Group.class, "Group.loadOptions.sql"));
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

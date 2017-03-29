@@ -48,7 +48,7 @@ public class ReportsRow extends Row implements ReportsInterface {
 		if(lstBlocksChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Report Blocks\" WHERE \"Reports GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstBlocksChildren = adapter.load(model, stmt);
+			lstBlocksChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstBlocksChildren;
 	}
@@ -58,7 +58,7 @@ public class ReportsRow extends Row implements ReportsInterface {
 		if(lstFiltersChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Report Filters\" WHERE \"Reports GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstFiltersChildren = adapter.load(model, stmt);
+			lstFiltersChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstFiltersChildren;
 	}
@@ -71,7 +71,7 @@ public class ReportsRow extends Row implements ReportsInterface {
 		if(rSecurableParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Securables\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Securables row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
 			rSecurableParent = lst.get(0);
@@ -87,9 +87,21 @@ public class ReportsRow extends Row implements ReportsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Reports row by 'GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends ReportsRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Reports\" WHERE \"Display Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Reports row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -98,6 +110,6 @@ public class ReportsRow extends Row implements ReportsInterface {
 	// load all
 	public static <T extends ReportsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Report Filters\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

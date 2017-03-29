@@ -55,7 +55,7 @@ public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInte
 		if(rPayrollCheckParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payroll Checks\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPayrollChecksGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Payroll Checks row by GUID (" + Statement.convertObjectToString(this.getPayrollChecksGuid(), null) + ")!");
 			rPayrollCheckParent = lst.get(0);
@@ -68,7 +68,7 @@ public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInte
 		if(rPayrollFieldParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payroll Fields\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPayrollFieldsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Payroll Fields row by GUID (" + Statement.convertObjectToString(this.getPayrollFieldsGuid(), null) + ")!");
 			rPayrollFieldParent = lst.get(0);
@@ -84,7 +84,7 @@ public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInte
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Payroll Field Values row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -95,6 +95,6 @@ public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInte
 	// load all
 	public static <T extends PayrollFieldValuesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Payroll Field Values\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

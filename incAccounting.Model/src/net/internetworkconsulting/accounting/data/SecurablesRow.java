@@ -36,7 +36,7 @@ public class SecurablesRow extends Row implements SecurablesInterface {
 		if(lstPermissionsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Permissions\" WHERE \"Securables GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPermissionsChildren = adapter.load(model, stmt);
+			lstPermissionsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPermissionsChildren;
 	}
@@ -46,7 +46,7 @@ public class SecurablesRow extends Row implements SecurablesInterface {
 		if(lstReportChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Reports\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstReportChildren = adapter.load(model, stmt);
+			lstReportChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstReportChildren;
 	}
@@ -62,9 +62,21 @@ public class SecurablesRow extends Row implements SecurablesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Securables row by 'GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends SecurablesRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Securables\" WHERE \"Display Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Securables row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
@@ -73,6 +85,6 @@ public class SecurablesRow extends Row implements SecurablesInterface {
 	// load all
 	public static <T extends SecurablesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Reports\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

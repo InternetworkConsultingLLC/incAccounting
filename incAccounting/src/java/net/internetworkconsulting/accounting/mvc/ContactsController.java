@@ -55,7 +55,7 @@ public class ContactsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Contact objModel = (Contact) handleNonPostbackActions(model);
-		setDocument(new Template(read_url(getTemplateFile()), new HtmlSyntax()));
+		setDocument(new Template(readTemplate(getTemplateFile()), new HtmlSyntax()));
 
 		User.loadOptions(getUser().login(), true);
 		Contact.loadOptions(getUser().login(), true);

@@ -34,7 +34,7 @@ public class JobsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Job objModel = (Job) handleNonPostbackActions(model);		
-		setDocument(new Template(read_url("~/templates/Job.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Job.html"), new HtmlSyntax()));
 	
 		TextTag txtGuid = new TextTag(this, Job.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

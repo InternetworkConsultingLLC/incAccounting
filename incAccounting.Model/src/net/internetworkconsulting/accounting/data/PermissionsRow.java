@@ -55,7 +55,7 @@ public class PermissionsRow extends Row implements PermissionsInterface {
 		if(rGroupParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Groups\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGroupsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Groups row by GUID (" + Statement.convertObjectToString(this.getGroupsGuid(), null) + ")!");
 			rGroupParent = lst.get(0);
@@ -68,7 +68,7 @@ public class PermissionsRow extends Row implements PermissionsInterface {
 		if(rSecurableParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Securables\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getSecurablesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Securables row by GUID (" + Statement.convertObjectToString(this.getSecurablesGuid(), null) + ")!");
 			rSecurableParent = lst.get(0);
@@ -83,6 +83,6 @@ public class PermissionsRow extends Row implements PermissionsInterface {
 	// load all
 	public static <T extends PermissionsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Permissions\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

@@ -1,5 +1,6 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.internetworkconsulting.mvc.Controller;
@@ -7,7 +8,7 @@ import net.internetworkconsulting.mvc.ControllerInterface;
 
 public abstract class EditController extends Controller {
 	public EditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
-	public EditController(HttpServletRequest request, HttpServletResponse response, boolean is_postback) { super(request, response, is_postback); }
+	public EditController(HttpServletRequest request, HttpServletResponse response, ServletContext context, boolean is_postback) { super(request, response, context, is_postback); }
 
 	public Object handleNonPostbackActions(Object model) throws Exception {
 		setModel(model);

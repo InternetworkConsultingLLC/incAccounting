@@ -39,7 +39,7 @@ public class Reconciliation extends ReconciliationsRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(Reconciliation.class, "Reconciliation.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -60,7 +60,7 @@ public class Reconciliation extends ReconciliationsRow {
 			stmt.getParameters().put("{RECONCILIATIONS GUID}", this.getGuid());
 			stmt.getParameters().put("{ACCOUNTS GUID}", this.getAccountsGuid());
 			stmt.getParameters().put("{DATE}", this.getDate());
-			lstTransactionLinesChildren = adapter.load(model, stmt);
+			lstTransactionLinesChildren = adapter.load(model, stmt, true);
 		}
 		
 		return (List<T>) lstTransactionLinesChildren;
@@ -78,7 +78,8 @@ public class Reconciliation extends ReconciliationsRow {
 		Statement stmt = new Statement(adapter.getSession().readJar(Reconciliation.class, "Reconciliation.calculateBeginningBalance.sql"));
 		stmt.getParameters().put("{Date}", getDate());
 		stmt.getParameters().put("{Accounts GUID}", getAccountsGuid());
-		List<Row> lst = adapter.load(Row.class, stmt);
+		stmt.getParameters().put("{Reconciliations GUID}", getGuid());
+		List<Row> lst = adapter.load(Row.class, stmt, true);
 		if(lst.size() != 1)
 			return new BigDecimal(0);
 		

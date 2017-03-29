@@ -19,7 +19,7 @@ public class DepositsPrintController extends Controller {
 	public DepositsPrintController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/DepositPrint.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/DepositPrint.html"), new HtmlSyntax()));
 		
 		objModel = (Deposit) model;
 		if(!getIsPostback()) {

@@ -26,7 +26,7 @@ public class LogController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Log objModel = (Log) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Log.html"), new HtmlSyntax()));		
+		setDocument(new Template(readTemplate("~/templates/Log.html"), new HtmlSyntax()));		
 		
 		LiteralTag lblGuid = new LiteralTag(this, Log.GUID);
 		lblGuid.bind(objModel, Log.GUID);

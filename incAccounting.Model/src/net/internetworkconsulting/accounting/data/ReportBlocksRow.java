@@ -52,7 +52,7 @@ public class ReportBlocksRow extends Row implements ReportBlocksInterface {
 		if(lstChildrenChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Report Blocks\" WHERE \"Parent Block GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildrenChildren = adapter.load(model, stmt);
+			lstChildrenChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildrenChildren;
 	}
@@ -65,7 +65,7 @@ public class ReportBlocksRow extends Row implements ReportBlocksInterface {
 		if(rReportParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Reports\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getReportsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Reports row by GUID (" + Statement.convertObjectToString(this.getReportsGuid(), null) + ")!");
 			rReportParent = lst.get(0);
@@ -78,7 +78,7 @@ public class ReportBlocksRow extends Row implements ReportBlocksInterface {
 		if(rParentParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Report Blocks\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentBlockGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Report Blocks row by GUID (" + Statement.convertObjectToString(this.getParentBlockGuid(), null) + ")!");
 			rParentParent = lst.get(0);
@@ -94,7 +94,7 @@ public class ReportBlocksRow extends Row implements ReportBlocksInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Report Blocks row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -105,6 +105,6 @@ public class ReportBlocksRow extends Row implements ReportBlocksInterface {
 	// load all
 	public static <T extends ReportBlocksRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Report Blocks\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

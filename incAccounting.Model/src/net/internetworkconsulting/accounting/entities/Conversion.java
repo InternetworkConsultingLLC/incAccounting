@@ -27,7 +27,7 @@ public class Conversion extends ConversionsRow {
 		stmt.getParameters().put("{LEFT}", left_guid);
 		stmt.getParameters().put("{RIGHT}", right_guid);
 
-		List<Conversion> lst = adapter.load(Conversion.class, stmt);
+		List<Conversion> lst = adapter.load(Conversion.class, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Conversion by left and right unit measures GUID!");
 

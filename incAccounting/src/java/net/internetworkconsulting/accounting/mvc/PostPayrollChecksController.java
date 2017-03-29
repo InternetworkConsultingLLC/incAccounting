@@ -20,7 +20,7 @@ public class PostPayrollChecksController  extends Controller {
 	public PostPayrollChecksController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/PostPayrollChecks.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PostPayrollChecks.html"), new HtmlSyntax()));
 
 		String status = getRequest().getParameter("Status");
 		if(status != null && status.equals("null"))
@@ -76,17 +76,15 @@ public class PostPayrollChecksController  extends Controller {
 
 			for(PostPayrollChecksLineController ppclc: lstControllers) {
 				boolean isChecked = ppclc.getIsPosted();
-				PayrollCheck pc = (PayrollCheck) ppclc.getModel();
-				boolean isPosted = pc.getAccountsGuid() != null && pc.getPostedTransactionsGuid() != null;
-				// Checked	WasPosted
-				//	T			T		==> Do Nothing
-				//	T			F		==> Post
-				//	F			T		==> Unpost
-				//	F			F		==> Do Nothing
-				if(isChecked && !isPosted)
-					pc.post(getUser().login());
-				if(!isChecked && isPosted)
-					pc.unpost(getUser().login());
+				PayrollCheck obj = (PayrollCheck) ppclc.getModel();
+				boolean isPosted = obj.getAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
+
+				if(isChecked) {
+					if(isPosted)
+						obj.unpost(getUser().login());
+					else
+						obj.post(getUser().login());
+				}
 			}
 			
 			getUser().login().commit(true);

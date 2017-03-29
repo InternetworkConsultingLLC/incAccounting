@@ -35,7 +35,7 @@ public class ReportController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Report objModel = (Report) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Report.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Report.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, Report.GUID);
 		txtGuid.setIsReadOnly(true);

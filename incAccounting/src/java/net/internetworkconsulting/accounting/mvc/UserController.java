@@ -36,7 +36,7 @@ public class UserController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {
 		User objModel = (User) handleNonPostbackActions(model);		
-		setDocument(new Template(read_url("~/templates/User.html"), new HtmlSyntax()));		
+		setDocument(new Template(readTemplate("~/templates/User.html"), new HtmlSyntax()));		
 
 		CheckTag chkIsAllowed = new CheckTag(this, User.IS_ALLOWED);
 		chkIsAllowed.bind(getModel(), User.IS_ALLOWED);

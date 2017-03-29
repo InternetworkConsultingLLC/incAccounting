@@ -54,7 +54,7 @@ public class Payment extends PaymentsRow {
 		stmt.getParameters().put("{Payment Types GUID}", getPaymentTypesGuid());
 		stmt.getParameters().put("{Payments GUID}", getGuid());
 		
-		lstPaymentApplicationSelection = adapter.load(PaymentApplicationSelection.class, stmt);
+		lstPaymentApplicationSelection = adapter.load(PaymentApplicationSelection.class, stmt, true);
 		return lstPaymentApplicationSelection;
 	}
 	
@@ -148,7 +148,6 @@ public class Payment extends PaymentsRow {
 		tran.setDate(getDate());
 		
 		List<TransactionLine> lstLines = tran.loadTransactionLines(adapter, TransactionLine.class, true);
-		
 		List<PaymentApplication> lstApps = loadPaymentApplications(adapter, PaymentApplication.class, true);
 		for(PaymentApplication app: lstApps) {
 			Document doc = app.loadDocument(adapter, Document.class, true);
@@ -157,13 +156,13 @@ public class Payment extends PaymentsRow {
 						
 			if(docType.getAccountsGuid() == null)
 				// cash accounting
-				lstLines.addAll(createCashLines(adapter, app, tran, doc, docType, tranType));
+				createCashLines(adapter, app, tran, doc, docType, tranType);
 			else {
 				// accural accouting
 				if(doc.getPostedAccountsGuid() == null || doc.getPostedTransactionsGuid() == null )
 					throw new Exception("The document must be posted in order to post a payment referencing that document!");
 
-				lstLines.addAll(createAccuralLines(adapter, app, tran, doc, docType, tranType));
+				createAccuralLines(adapter, app, tran, doc, docType, tranType);
 			}
 		}
 		
@@ -242,28 +241,28 @@ public class Payment extends PaymentsRow {
 			throw ex;
 		}
 	}
-	private List<TransactionLine> createCashLines(AdapterInterface adapter, PaymentApplication app, Transaction tran, Document doc, DocumentType docType, TransactionType tranType) throws Exception {
-		List<TransactionLine> lst = new LinkedList<>();
-		
-		BigDecimal dPercentagePaid = app.getAmount().divide(doc.getTotal(), RoundingMode.HALF_UP);
-		
-		List<TransactionLine> lstLines = doc.createPostLines(adapter, tran);
+	private void createCashLines(AdapterInterface adapter, PaymentApplication app, Transaction tran, Document doc, DocumentType docType, TransactionType tranType) throws Exception {
+		BigDecimal dPercentagePaid = app.getAmount().divide(doc.getTotal(), RoundingMode.HALF_UP);		
+
 		BigDecimal dTotalApplied = BigDecimal.ZERO;
-		for(int cnt = 0; cnt < lstLines.size() - 1; cnt++) {
-			BigDecimal dValue = lstLines.get(cnt).getDebit().multiply(dPercentagePaid);
+		List<TransactionLine> lstLines = doc.createPostLines(adapter, tran);
+		for(int cnt = 0; cnt < lstLines.size() - 1; cnt++) {			
+			TransactionLine line = lstLines.get(cnt);
+			
+			BigDecimal dValue = line.getDebit().multiply(dPercentagePaid);
 			dValue = Document.round(adapter, dValue, Document.SETTING_MONEY_DECIMALS);
-			lstLines.get(cnt).setDebit(dValue);
+			line.setDebit(dValue);
+			
 			dTotalApplied = dTotalApplied.add(dValue);
-			lst.add(lstLines.get(cnt));
-		}		
+		}
 		
-		if(dTotalApplied.compareTo(app.getAmount()) != 0)
+		lstLines.remove(lstLines.size() - 1);
+				
+		if(dTotalApplied.abs().compareTo(app.getAmount().abs()) != 0)
 			throw new Exception("The applied amount does not equal to the rounded document rows amounts!");
-		
-		return lst;
 	}
-	private List<TransactionLine> createAccuralLines(AdapterInterface adapter, PaymentApplication app, Transaction tran, Document doc, DocumentType docType, TransactionType tranType) throws Exception {
-		List<TransactionLine> lst = new LinkedList<>();
+	private void createAccuralLines(AdapterInterface adapter, PaymentApplication app, Transaction tran, Document doc, DocumentType docType, TransactionType tranType) throws Exception {
+		List<TransactionLine> lst = tran.loadTransactionLines(adapter, TransactionLine.class, true);
 
 		// Customer Payment
 		//Ref			Debit	Credit
@@ -294,8 +293,6 @@ public class Payment extends PaymentsRow {
 		line.setDebit(dAmount);
 		
 		lst.add(line);
-		
-		return lst;
 	}
 	
 	private boolean bSkipTransactionCheck = false;
@@ -325,7 +322,7 @@ public class Payment extends PaymentsRow {
 		if(!where.trim().equals("WHERE"))
 			stmt.setCommand(stmt.getCommand() + where);
 		
-		return adapter.load(Payment.class, stmt);		
+		return adapter.load(Payment.class, stmt, true);		
 	}
 	
 }

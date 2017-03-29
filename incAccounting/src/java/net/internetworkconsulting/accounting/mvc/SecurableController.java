@@ -33,7 +33,7 @@ public class SecurableController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Securable objModel = (Securable) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Securable.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Securable.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, Securable.GUID);
 		txtGuid.setIsReadOnly(true);

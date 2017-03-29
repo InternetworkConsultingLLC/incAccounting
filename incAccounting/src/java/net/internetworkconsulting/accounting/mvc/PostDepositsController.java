@@ -20,7 +20,7 @@ public class PostDepositsController extends Controller {
 	public PostDepositsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/PostDeposits.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PostDeposits.html"), new HtmlSyntax()));
 
 		String type_guid = Deposit.TRANSACTION_TYPE_GUID;
 		String status = getRequest().getParameter("Status");
@@ -82,15 +82,13 @@ public class PostDepositsController extends Controller {
 				boolean isChecked = controller.getIsPosted();
 				Deposit obj = (Deposit) controller.getModel();
 				boolean isPosted = obj.getPostedTransactionsGuid() != null;
-				// Checked	WasPosted
-				//	T			T		==> Do Nothing
-				//	T			F		==> Post
-				//	F			T		==> Unpost
-				//	F			F		==> Do Nothing
-				if(isChecked && !isPosted)
-					obj.post(getUser().login());
-				if(!isChecked && isPosted)
-					obj.unpost(getUser().login());
+
+				if(isChecked) {
+					if(isPosted)
+						obj.unpost(getUser().login());
+					else
+						obj.post(getUser().login());
+				}
 			}
 			
 			getUser().login().commit(true);

@@ -4,15 +4,16 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ public abstract class Controller implements ControllerInterface {
 		setRequest(controller.getRequest());
 		setResponse(controller.getResponse());
 		setSession(controller.getSession());
+		setContext(controller.getContext());
 
 		setRootUrl(controller.getRootUrl());
 
@@ -40,12 +42,13 @@ public abstract class Controller implements ControllerInterface {
 
 		controller.getControls().add(this);
 	}
-	public Controller(HttpServletRequest request, HttpServletResponse response, boolean is_postback) {
+	public Controller(HttpServletRequest request, HttpServletResponse response, ServletContext context, boolean is_postback) {
 		isPostback = is_postback;
 
 		setRequest(request);
 		setResponse(response);
 		setSession(request.getSession());
+		setContext(context);
 
 		if(getUser() == null)
 			setUser(new User());
@@ -140,6 +143,10 @@ public abstract class Controller implements ControllerInterface {
 	public void setSession(HttpSession value) {
 		mySession = value;
 	}
+	
+	private ServletContext myContext;
+	public ServletContext getContext() { return myContext; }
+	public void setContext(ServletContext value) { myContext = value; }
 
 	private List<ControllerInterface> myControls = new LinkedList<>();
 	public List<ControllerInterface> getControls() {
@@ -223,6 +230,12 @@ public abstract class Controller implements ControllerInterface {
 			if(ex.getMessage() != null && ex.getMessage().length() > 1 && ex.getMessage().equals("redirected"))
 				return;
 
+			if(ex.getMessage().equals("Login failure!")) {
+				try { redirect("~/incBootstrap?App=Login&Error=USER AUHENICATION REQUIED TO USE THIS APPLICATION!  Either you have not logged in, or your session mighthave expired."); }
+				catch(Exception exx) { /* do nothing */ }
+				return;
+			}
+			
 			Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
 			try {
 				getResponse().setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
@@ -273,16 +286,16 @@ public abstract class Controller implements ControllerInterface {
 	}
 
 	// helpers
-	public String read_url(String relative_url) throws Exception {		
+	public String readTemplate(String relative_url) throws Exception {		
 		// read the file
 		try {
-			String sUrl = relative_url.replace("~/", getRootUrl());
-			URL url = new URL(sUrl);
-			return Helper.InputStreamToString(url.openStream());
+			String sFile = relative_url.replace("~/", getContext().getRealPath("/"));
+			return Helper.FileToString(sFile);
 		} catch(Exception ex) {
 			throw new Exception("Could not locate file '" + relative_url + "'!\n\n" + ex.getMessage(), ex);
 		}
 	}
+	
 	public void redirect(String url) throws Exception {
 		getResponse().sendRedirect(url.replace("~/", getRootUrl()));
 		getResponse().flushBuffer();
@@ -450,6 +463,28 @@ public abstract class Controller implements ControllerInterface {
 		current.populateDocument();
 	}
 	protected void doOutput() throws Exception {
+		// form action
+		String sFormAction = getRequest().getRequestURL().toString();
+		String[] arrQuery = getRequest().getQueryString().split("\\&");
+		boolean bFirstPass = true;
+		for(String query : arrQuery) {
+			String[] arrKV = query.split("\\=");
+			if(arrKV.length > 0) {
+				if(arrKV[0].equals("Error"))
+					continue;
+				else if(bFirstPass) {
+					sFormAction = sFormAction + "?" + arrKV[0];
+					bFirstPass = false;
+				} else 
+					sFormAction = sFormAction + "&" + arrKV[0];
+			}
+			
+			if(arrKV.length > 1)
+				sFormAction = sFormAction + "=" + arrKV[1];
+		}
+		getDocument().set("Form Action", sFormAction);
+		
+		// error
 		String sMessage = getRequest().getParameter("Error");
 		if(sMessage != null)
 			addError("Notification", sMessage);
@@ -458,17 +493,24 @@ public abstract class Controller implements ControllerInterface {
 			sMessage += "<p class=\"error\"><b>" + key + "</b><br/>" + getErrors().get(key).replace("\n", "<br />") + "</p>";
 		getDocument().set("Error", sMessage);
 		
+		// hidden model
 		String sHiddenModel = "<input type=\"hidden\" name=\"HiddenModel\" value=\"%VALUE%\" />";
 		sHiddenModel += "<input type=\"hidden\" id=\"HiddenControl\" name=\"HiddenControl\" value=\"\" />";
 		sHiddenModel += "<input type=\"hidden\" id=\"HiddenEvent\" name=\"HiddenEvent\" value=\"\" />";
 		sHiddenModel = sHiddenModel.replace("%VALUE%", serialize(getModel()));
-		
 		getDocument().set("Hidden Model", sHiddenModel);
+		
+		// focus
+		if(getRequest().getParameter("HiddenControl") != null) {
+			String sOnLoad = "var sFocusAfterSender = \"" + getCamelCase(getRequest().getParameter("HiddenControl")) + "\";\n";
+			sOnLoad = sOnLoad + "window.addEventListener(\"load\", setFocusAfter, false);";
+			getDocument().set("OnLoad", sOnLoad);
+		}
+
+		// time stamp
 		getDocument().set("Time Stamp", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(java.util.Date.from(Instant.now())));
-		
-		if(getRequest().getParameter("HiddenControl") != null)
-			getDocument().set("OnLoad", "onload=\"setFocusAfter('" +  getCamelCase(getRequest().getParameter("HiddenControl")) + "')\"");
-		
+
+		// relating JS an CSS
 		String sApp = getRequest().getParameter("App");
 		String sCssFile = "~/css/" + sApp + ".css";
 		addHeader("<link rel=\"stylesheet\" href=\"" + sCssFile + "\"/>");
@@ -476,11 +518,13 @@ public abstract class Controller implements ControllerInterface {
 		addHeader("<script src=\"" + sScriptFile + "\" ></script>");
 		getDocument().set("Header", getHeader());
 		
+		// user stamp
 		if(getUser() != null && getUser().getDisplayName() != null)
 			getDocument().set("User", getUser().getDisplayName());
 		else
 			getDocument().set("User", "");
 		
+		// history
 		List<History> lstHistory = getHistory();
 		String sHistory = "";
 		for(History hist: lstHistory)
@@ -489,9 +533,11 @@ public abstract class Controller implements ControllerInterface {
 			sHistory = sHistory.substring(0, sHistory.length() - 6).trim();
 		getDocument().set("History", sHistory);
 		
+		// template generation
 		String sOutput = getDocument().generate();
 		sOutput = sOutput.replace("~/", getRootUrl());
 		
+		// output
 		//getResponse().setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
 		//getResponse().setHeader("Pragma", "no-cache");
 		getResponse().setHeader("Content-Type", "text/html");

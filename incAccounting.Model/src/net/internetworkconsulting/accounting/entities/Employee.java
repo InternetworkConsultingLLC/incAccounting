@@ -47,7 +47,7 @@ public class Employee extends EmployeesRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(Employee.class, "Employee.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

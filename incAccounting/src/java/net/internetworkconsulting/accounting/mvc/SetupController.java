@@ -1,9 +1,18 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import net.internetworkconsulting.accounting.entities.Setup;
-import net.internetworkconsulting.accounting.entities.User;
+import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
@@ -12,10 +21,14 @@ import net.internetworkconsulting.mvc.History;
 import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.HtmlSyntax;
 import net.internetworkconsulting.template.Template;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class SetupController extends Controller {
+	private HashMap<String, Node> hmValues;
 	public SetupController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
-	public boolean getEnforceSecurity() { return !getIsSetupAllowed(); }
+	public boolean getEnforceSecurity() { return false; }
 	List<SetupScriptsController> lstScripts = new LinkedList<>();
 
 	public Setup newModel() { return new Setup(); }
@@ -24,13 +37,17 @@ public class SetupController extends Controller {
 	}
 	
 	public void createControls(Template document, Object model) throws Exception {
-		checkAllowed();
-		setDocument(new Template(read_url("~/templates/Setup.html"), new HtmlSyntax()));
+		hmValues = loadConfig();				
+
+		setDocument(new Template(readTemplate("~/templates/Setup.html"), new HtmlSyntax()));
 		
 		Setup objModel = (Setup) model;
 		if(!getIsPostback()) {
 			objModel = newModel();
-			objModel.setSqlUser("root");
+
+			objModel.setSqlUser(hmValues.get("dbUser").getTextContent());		
+			objModel.setSqlServer(hmValues.get("dbServer").getTextContent());
+			objModel.setPassword(hmValues.get("dbPassword").getTextContent());
 		}
 		setModel(objModel);			
 		
@@ -73,17 +90,23 @@ public class SetupController extends Controller {
 		btnCreateAdministrator.setValue("Create Administrator");	
 		btnCreateAdministrator.addOnClickEvent(new Event() { public void handle() throws Exception { btnCreateAdministrator_OnClick(); } });
 	}
-	private void checkAllowed() throws Exception {
-		if(getUser() != null && getUser().getGuid() != null && getUser().getGuid().equals(User.ADMINISTRATOR_GUID))
-			return;
-
-		if(!getIsSetupAllowed())
-			throw new Exception("'Setup Allowed' is turned off or not defined in 'web.xml'!");
-	}
 	private void btnTestConnection_OnClick() throws Exception {
+		String msg = "";
+		
 		Setup model = (Setup) getModel();
 		model.testConnection();
-		addError("Connection", "Your connection was successful!");
+		msg = msg + "  Your connection was successful!  ";
+
+		boolean bConfigurable = (boolean) Statement.parseStringToValue(boolean.class, hmValues.get("configEditable").getTextContent());
+		if(bConfigurable) {
+			hmValues.get("dbServer").setTextContent(model.getSqlServer());
+			hmValues.get("dbUser").setTextContent(model.getSqlUser());
+			hmValues.get("dbPassword").setTextContent(model.getPassword());
+			saveConfig();		
+			msg = msg + "  System configuration has been updated - restart the application for the changesto take effect.  ";
+		}
+
+		addError("Connection", msg);
 	}
 	private void btnDropDatabase_OnClick() throws Exception {
 		Setup model = (Setup) getModel();
@@ -105,5 +128,48 @@ public class SetupController extends Controller {
 		Setup model = (Setup) getModel();
 		model.createAdministrator();
 		addError("Administrator Created", "The administrator account has been removed and recreated.");
+	}
+	
+	private Document doc = null;
+	private HashMap<String, Node> loadConfig() throws Exception {
+		String sFile = ("~/WEB-INF/web.xml").replace("~/", getContext().getRealPath("/"));		
+		File fXmlFile = new File(sFile);
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		doc = dBuilder.parse(fXmlFile);
+		
+		NodeList nodes = doc.getElementsByTagName("env-entry");
+		HashMap<String, Node> hmValues = new HashMap<>();
+		for(int entryCnt = 0; entryCnt < nodes.getLength(); entryCnt++) {
+			Node currEntry = nodes.item(entryCnt);
+			NodeList children = currEntry.getChildNodes();
+			
+			String sChildName = "";
+			Node nChildValue = null;
+			for(int childCnt = 0; childCnt < children.getLength(); childCnt++) {
+				Node currChild = children.item(childCnt);
+				if(("env-entry-name").equals(currChild.getNodeName()))
+					sChildName = currChild.getTextContent();
+				else if(("env-entry-value").equals(currChild.getNodeName()))
+					nChildValue = currChild;
+			}
+			
+			hmValues.put(sChildName, nChildValue);			
+		}
+		return hmValues;
+	}
+	private void saveConfig() throws Exception {
+		DOMSource domSource = new DOMSource(doc);
+		
+		StringWriter writer = new StringWriter();
+		StreamResult result = new StreamResult(writer);
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer = tf.newTransformer();
+		transformer.transform(domSource, result);
+
+		String sFile = ("~/WEB-INF/web.xml").replace("~/", getContext().getRealPath("/"));			
+		PrintWriter pw = new PrintWriter(sFile);
+		pw.write(writer.toString());
+		pw.close();
 	}
 }

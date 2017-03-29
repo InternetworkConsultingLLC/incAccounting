@@ -30,7 +30,7 @@ public class ContactType extends ContactTypesRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(ContactType.class, "ContactType.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

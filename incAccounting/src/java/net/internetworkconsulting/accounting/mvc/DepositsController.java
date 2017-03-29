@@ -37,7 +37,7 @@ public class DepositsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		objModel = (Deposit) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Deposit.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Deposit.html"), new HtmlSyntax()));
 
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
