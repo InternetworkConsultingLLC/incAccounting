@@ -1,8 +1,8 @@
 SELECT
-	CONCAT("Accounts"."Number", ' ', "Accounts"."Name") AS "Display",
+	CONCAT("Accounts"."Number", ' - ', "Accounts"."Nested Name") AS "Display",
 --	"Accounts"."Number" AS "Display",
 	"GUID" AS "Value"
 FROM "Accounts"
 ORDER BY
-	CONCAT("Accounts"."Number", ' - ', "Accounts"."Name")
+	CONCAT("Accounts"."Number", ' - ', "Accounts"."Nested Name")
 

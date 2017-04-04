@@ -32,13 +32,13 @@ import net.internetworkconsulting.template.CSyntax;
 import net.internetworkconsulting.template.Template;
 
 public class Generator {
-	private final String sDatabase = "ia-testing";
+	private final String sDatabase = "incllc";
 	private final String sServer = "localhost";
 	private final String sUser = "root";
 	private final String sPassword = "Welcome123";
 	
 	private final String sNamespace = "net.internetworkconsulting.accounting.data";
-	private final String sOutputFolder = "e:/NetBeans/incAccounting.Model/src/net/internetworkconsulting/accounting/data/";
+	private final String sOutputFolder = "E:\\Repositories\\NetBeans\\incAccounting.Model\\src\\net\\internetworkconsulting\\accounting\\data\\";
 	
 	private final Statement stmtTables = new Statement("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = {database};");
 	private final Statement stmtColumns = new Statement("SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = {table} AND TABLE_SCHEMA = {database};");

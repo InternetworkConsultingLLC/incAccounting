@@ -171,6 +171,8 @@ public class RegisterEntriesController extends Controller {
 				
 				if(line.getReconciliationsGuid() != null)
 					continue;
+				
+				lstLines.get(0).setDebit(lstLines.get(1).getDebit().multiply(new BigDecimal(-1)));
 
 				tran.setSkipDocumentCheck(true);
 				if(line.getIsDeleted()) {

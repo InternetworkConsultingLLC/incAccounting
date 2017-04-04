@@ -43,7 +43,10 @@ public class PostDocumentsLinesController extends Controller {
 	}
 	public History createHistory() throws Exception { return null; }
 	
-	public boolean getIsPosted() throws Exception {
+	public boolean setIsChecked(boolean value) throws Exception {
+		return chkIsPosted.setIsChecked(value);
+	}	
+	public boolean getIsChecked() throws Exception {
 		return chkIsPosted.getIsChecked();
 	}
 	private void btnOpen_OnClick() throws Exception {

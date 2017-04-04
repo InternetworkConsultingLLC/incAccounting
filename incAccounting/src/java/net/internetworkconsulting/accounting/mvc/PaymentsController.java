@@ -24,10 +24,17 @@ public class PaymentsController extends EditController {
 	public void handleDeleteRow(String guid) throws Exception {
 		objModel = Payment.loadByGuid(getUser().login(), Payment.class, guid);
 		objModel.setIsDeleted(true);
+		
+		Document objDocument = objModel.loadPrepaymentDocument(getUser().login(), false);
+		objDocument.setIsDeleted(true);
+		
 		getUser().login().save(Payment.TABLE_NAME, objModel);
 	}
 	public Object handleLoadRow(String guid) throws Exception {
-		return Payment.loadByGuid(getUser().login(), Payment.class, guid);
+		Payment objModel = Payment.loadByGuid(getUser().login(), Payment.class, guid);
+		Document docPrepayment = objModel.loadPrepaymentDocument(getUser().login(), false);
+		
+		return objModel;
 	}
 	public Object handleNewRow() throws Exception {
 		objModel = new Payment();
@@ -39,6 +46,8 @@ public class PaymentsController extends EditController {
 			objModel.handlePaymentType(getUser().login());
 		}
 		
+		Document docPrepayment = objModel.loadPrepaymentDocument(getUser().login(), false);
+
 		return objModel;
 	}
 	
@@ -106,29 +115,36 @@ public class PaymentsController extends EditController {
 		
 		cboBilingContact = new ComboTag(this, Payment.BILLING_CONTACTS_GUID, objModel);
 		cboBilingContact.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboBilingContact.addOnChangeEvent(new Event() { public void handle() throws Exception { cboBilingContact(); } });
-		
-		ButtonTag btnPost = new ButtonTag(this, "Post");
-		btnPost.addOnClickEvent(new Event() { public void handle() throws Exception { btnPost_OnClicked(); } });
-		if(objModel.getRowState() == RowState.Insert )
-			btnPost.setIsReadOnly(true);
-		else if(objModel.getPostedTransactionsGuid() != null)
-			btnPost.setValue("Unpost");
+		cboBilingContact.addOnChangeEvent(new Event() { public void handle() throws Exception { cboBilingContact_OnChange(); } });
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });
 
-		ButtonTag btnOpen = new ButtonTag(this, "Open Transaction");
-		btnOpen.setIsReadOnly(objModel.getPostedTransactionsGuid() == null);
-		btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClicked(); } });
-		if(objModel.getPostedTransactionsGuid() == null)
-			btnOpen.setIsReadOnly(true);
+		if(objModel.getOurNumber() == null || objModel.getOurNumber().isEmpty()) {
+			ButtonTag btnNumber = new ButtonTag(this, "Number");
+			btnNumber.addOnClickEvent(new Event() { public void handle() throws Exception { btnNumber_OnClicked(); } });			
+		}
+			
+		
+		if(objModel.getRowState() == RowState.NA && objModel.getOurNumber() != null && !objModel.getOurNumber().isEmpty()) {
+			ButtonTag btnPost = new ButtonTag(this, "Post");
+			btnPost.addOnClickEvent(new Event() { public void handle() throws Exception { btnPost_OnClicked(); } });
+			if(objModel.getRowState() == RowState.Insert )
+				btnPost.setIsReadOnly(true);
+			else if(objModel.getPostedTransactionsGuid() != null)
+				btnPost.setValue("Unpost");
+		}
 
-		ButtonTag btnPrint = new ButtonTag(this, "Print");
-		btnPrint.addOnClickEvent(new Event() { public void handle() throws Exception { btnPrint_OnClicked(); } });
-		if(objModel.getRowState() != RowState.NA)
-			btnPrint.setIsReadOnly(true);
+		if(objModel.getPostedTransactionsGuid() != null) {
+			ButtonTag btnOpen = new ButtonTag(this, "Open Transaction");
+			btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClicked(); } });
+		}
+
+		if(objModel.getOurNumber() != null && !objModel.getOurNumber().isEmpty() && objModel.getRowState() == RowState.NA) {
+			ButtonTag btnPrint = new ButtonTag(this, "Print");
+			btnPrint.addOnClickEvent(new Event() { public void handle() throws Exception { btnPrint_OnClicked(); } });
+		}		
 		
 		if(objModel.getPaymentTypesGuid() != null) {
 			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), false);
@@ -162,7 +178,11 @@ public class PaymentsController extends EditController {
 	}
 	private void cboContact_OnChange() throws Exception {		
 		objModel.handleContact(getUser().login());
-		LoadApplicationSelections();		
+		
+		objModel.setBillingContactsGuid(objModel.getContactsGuid());
+		objModel.handleBillingContact(getUser().login());
+		
+		LoadApplicationSelections();
 	}
 	private void LoadApplicationSelections() throws Exception {
 		this.removeAllControllers(PaymentsApplicationsController.class);
@@ -180,7 +200,7 @@ public class PaymentsController extends EditController {
 		}
 	}
 
-	private void cboBilingContact() throws Exception {
+	private void cboBilingContact_OnChange() throws Exception {
 		objModel.handleBillingContact(getUser().login());
 	}
 	
@@ -212,6 +232,8 @@ public class PaymentsController extends EditController {
 			objModel.calculate(getUser().login());
 			
 			getUser().login().save(Payment.TABLE_NAME, objModel);
+			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), false));
+			
 			objModel.savePaymentApplicationSelections(getUser().login());
 					
 			getUser().login().commit(true);
@@ -226,12 +248,33 @@ public class PaymentsController extends EditController {
 		redirect("~/incAccounting?App=Payment&GUID=" + objModel.getGuid() + "&Error=Saved!");
 	}
 	public void btnOpen_OnClicked() throws Exception {
-		Payment objModel = (Payment) getModel();
 		redirect("~/incAccounting?App=Transaction&GUID=" + objModel.getPostedTransactionsGuid());
 	}
 	public void btnPrint_OnClicked() throws Exception {
-		Payment objModel = (Payment) getModel();
 		redirect("~/incAccounting?App=PaymentPrint&GUID=" + objModel.getGuid());
+	}
+	public void btnNumber_OnClicked() throws Exception {
+		try {
+			getUser().login().begin(true);
+			
+			objModel.calculate(getUser().login());
+
+			objModel.handleAutoNumber(getUser().login());
+			
+			getUser().login().save(Payment.TABLE_NAME, objModel);
+			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), false));
+			
+			objModel.savePaymentApplicationSelections(getUser().login());
+					
+			getUser().login().commit(true);
+		} catch(Exception ex) {
+			getUser().login().rollback(true);
+			getUser().logExcpetion(ex, "6629d0a7ee974cc59f231658e30296cf");
+			addError("Save", ex.getMessage());
+			return;
+		}
+		
+		redirect("~/incAccounting?App=Payment&GUID=" + objModel.getGuid() + "&Error=Numbered!");	
 	}
 
 	public void beforePopulate() throws Exception {

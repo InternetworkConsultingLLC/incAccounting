@@ -1,21 +1,9 @@
 SELECT 
-	"Child"."GUID" AS "Value",
-	CASE
-		WHEN "Parent"."Display Name" IS NULL THEN "Child"."Display Name"
-		WHEN NOT "Parent"."Display Name" IS NULL THEN  CONCAT("Parent"."Display Name", ' - ', "Child"."Display Name")
-	END AS "Display"
+	"GUID" AS "Value",
+	"Display Name" AS "Display"
 FROM
-	"Contacts" "Child"
-	LEFT JOIN "Contacts" "Parent" ON "Child"."Parent Contacts GUID" = "Parent"."GUID"
+	"Contacts"
 WHERE
-	"Child"."Parent Contacts GUID" IS NULL
--- 	OR "Child"."Parent Contacts GUID" IN (
--- 		SELECT "GUID"
--- 		FROM "Contacts" "Filter"
--- 		WHERE "Filter"."Parent Contacts GUID" IS NULL
--- 	)
+	( "Parent Contacts GUID" IS NULL OR "Parent Contacts GUID" = 'fabca02484aa46eaa24c939c64779a2d' )
 ORDER BY
-	CASE
-		WHEN "Parent"."Display Name" IS NULL THEN "Child"."Display Name"
-		WHEN NOT "Parent"."Display Name" IS NULL THEN  CONCAT("Parent"."Display Name", ' - ', "Child"."Display Name")
-	END
+	"Display Name"

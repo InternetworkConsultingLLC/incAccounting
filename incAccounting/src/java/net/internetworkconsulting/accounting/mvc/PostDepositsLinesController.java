@@ -41,10 +41,12 @@ public class PostDepositsLinesController extends Controller {
 		btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClick(); } });
 	}
 	public History createHistory() throws Exception { return null; }
-	public boolean getIsPosted() throws Exception {
+	public boolean setIsChecked(boolean value) throws Exception {
+		return chkIsPosted.setIsChecked(value);
+	}
+	public boolean getIsChecked() throws Exception {
 		return chkIsPosted.getIsChecked();
 	}
-
 	private void btnOpen_OnClick() throws Exception {
 		Deposit objModel = (Deposit) getModel();
 		TransactionType objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, Deposit.TRANSACTION_TYPE_GUID);

@@ -25,6 +25,7 @@ public class AccountsChildrenController extends Controller {
 		
 		CheckTag chkDelete = new CheckTag(this, "Child", Account.IS_DELETED, objModel.getGuid(), objModel);
 		TextTag txtSegment = new TextTag(this, "Child", Account.SEGMENT, objModel.getGuid(), objModel);
+		TextTag txtLastNumber = new TextTag(this, "Child", Account.LAST_NUMBER, objModel.getGuid(), objModel);
 		TextTag txtNumber = new TextTag(this, "Child", Account.NUMBER, objModel.getGuid(), objModel);
 		txtNumber.setIsReadOnly(true);
 		TextTag txtName = new TextTag(this, "Child", Account.NAME, objModel.getGuid(), objModel);

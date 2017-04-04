@@ -52,6 +52,10 @@ public class AccountsRow extends Row implements AccountsInterface {
 	public boolean setIsAllowed(java.lang.Boolean value) throws Exception { return set(IS_ALLOWED, value); }
 	public java.lang.Boolean getIsAllowed() { return (java.lang.Boolean) get(IS_ALLOWED); }
 	
+	public static String LAST_NUMBER = "Last Number";
+	public boolean setLastNumber(java.lang.String value) throws Exception { return set(LAST_NUMBER, value); }
+	public java.lang.String getLastNumber() { return (java.lang.String) get(LAST_NUMBER); }
+	
 
 	// child loaders
 	
@@ -245,30 +249,6 @@ public class AccountsRow extends Row implements AccountsInterface {
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Accounts row by 'GUID': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends AccountsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Accounts\" WHERE \"Number\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt, true);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Accounts row by 'Number': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
-	public static <T extends AccountsRow> T loadByNestedName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Accounts\" WHERE \"Nested Name\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt, true);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Accounts row by 'Nested Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}

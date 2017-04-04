@@ -73,6 +73,7 @@ public class Document extends DocumentsRow {
 		Statement stmt = new Statement(" SELECT * FROM \"" + Document.TABLE_NAME + "\" ");
 		
 		String where = " WHERE ";
+		where += "\"" + Document.GUID + "\" NOT IN ( SELECT \"" + Payment.PREPAYMENT_DOCUMENTS_GUID + "\" FROM \"" + Payment.TABLE_NAME + "\" ) AND ";
 		if(type_guid != null && type_guid.length() == 32) {
 			where += " \"" + Document.DOCUMENT_TYPES_GUID + "\"={Type GUID} AND";
 			stmt.getParameters().put("{Type GUID}", type_guid);
@@ -220,7 +221,7 @@ public class Document extends DocumentsRow {
 			Setting bizSetting = Setting.loadByKey(adapter, Setting.class, sKey);		
 			String sMyNumber = bizSetting.getValue();
 			do {
-				sMyNumber = net.internetworkconsulting.data.Helper.Increment(bizSetting.getValue());
+				sMyNumber = net.internetworkconsulting.data.Helper.Increment(sMyNumber);
 			} while(!Document.isNumberAvailable(adapter, this.getDocumentTypesGuid(), sMyNumber));
 
 			this.setReferenceNumber(sMyNumber);
@@ -580,5 +581,12 @@ public class Document extends DocumentsRow {
 		
 		List<Document> lst = adapter.load(Document.class, stmt, true);
 		return lst.isEmpty();
+	}
+	public boolean getIsPrepayment(AdapterInterface adapter) throws Exception {
+		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={GUID}";
+		Statement stmt = new Statement(String.format(sql, Payment.TABLE_NAME, Payment.PREPAYMENT_DOCUMENTS_GUID));
+		stmt.getParameters().put("{GUID}", getGuid());
+		List<Document> lstDocs = adapter.load(Document.class, stmt, true);
+		return lstDocs.size() > 0;
 	}
  }

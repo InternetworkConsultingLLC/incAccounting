@@ -18,7 +18,6 @@ package net.internetworkconsulting.accounting.entities;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
-import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.BankDepositsRow;
 import net.internetworkconsulting.data.AdapterInterface;
@@ -26,6 +25,7 @@ import net.internetworkconsulting.data.mysql.Statement;
 
 public class Deposit extends BankDepositsRow {
 	public static String TRANSACTION_TYPE_GUID = "bbb9a35380834fe9976ad7184976f0d6";
+	public static String SETTING_LAST_NUMBER = "Deposit - Lastes Number";
 
 	private List<Payment> lstPayments = null;
 	public List<Payment> loadPaymentSelections(AdapterInterface adapter, boolean force) throws Exception {
@@ -66,6 +66,7 @@ public class Deposit extends BankDepositsRow {
 		
 		Transaction objTran = new Transaction();
 		objTran.initialize();
+		objTran.setDate(getDate());
 		objTran.setGuid(getGuid());
 		objTran.setReferenceNumber(getNumber());
 		objTran.setTransactionTypesGuid(Deposit.TRANSACTION_TYPE_GUID);
@@ -152,5 +153,30 @@ public class Deposit extends BankDepositsRow {
 	public void beforeSave(AdapterInterface adapter) throws Exception {
 		if(!bSkipTransactionCheck && getPostedTransactionsGuid() != null)
 			throw new Exception("You may not change a deposit that has been posted!");
+		
+		if(getNumber() == null || getNumber().isEmpty()) {
+			Setting bizSetting = Setting.loadByKey(adapter, Setting.class, Deposit.SETTING_LAST_NUMBER);		
+			String sMyNumber = bizSetting.getValue();
+			do {
+				sMyNumber = net.internetworkconsulting.data.Helper.Increment(sMyNumber);
+			} while(!Deposit.isNumberAvaiable(adapter, sMyNumber));
+
+			this.setNumber(sMyNumber);
+			bizSetting.setValue(sMyNumber);
+
+			adapter.save(Setting.TABLE_NAME, bizSetting);
+		}
 	}	
+
+	private static boolean isNumberAvaiable(AdapterInterface adapter, String number) throws Exception {
+		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={Reference}";
+		sql = String.format(sql, Payment.TABLE_NAME, Payment.PAYMENT_TYPES_GUID, Payment.OUR_NUMBER, Payment.POSTED_ACCOUNTS_GUID);
+		
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{Reference}", number);
+		
+		List<Deposit> lst = adapter.load(Deposit.class, stmt, true);
+		return lst.isEmpty();
+	}
+
 }

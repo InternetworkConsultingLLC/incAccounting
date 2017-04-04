@@ -112,18 +112,6 @@ public class DepartmentsRow extends Row implements DepartmentsInterface {
 		return lst.get(0);		
 	}
 	
-	public static <T extends DepartmentsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Departments\" WHERE \"Number\"={VALUE}";
-		Statement stmt = new Statement(sql);
-		stmt.getParameters().put("{VALUE}", value);
-
-		List<T> lst = adapter.load(model, stmt, true);
-		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Departments row by 'Number': " + Statement.convertObjectToString(value, null));
-
-		return lst.get(0);		
-	}
-	
 
 	// load all
 	public static <T extends DepartmentsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

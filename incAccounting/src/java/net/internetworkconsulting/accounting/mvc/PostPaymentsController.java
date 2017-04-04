@@ -57,36 +57,15 @@ public class PostPaymentsController extends Controller {
 			
 		ButtonTag btnFilter = new ButtonTag(this, "Filter");
 		btnFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnFilter_OnClick(); } });
+
+		ButtonTag btnInvert = new ButtonTag(this, "Invert");
+		btnInvert.addOnClickEvent(new Event() { public void handle() throws Exception { btnInvert_OnClick(); } });
 		
 		ButtonTag btnProcess = new ButtonTag(this, "Process");
 		btnProcess.addOnClickEvent(new Event() { public void handle() throws Exception { btnProcess_OnClick(); } });
 	}
 	public History createHistory() throws Exception {
-		String sDisplay = "";
-		
-		String type_guid = getRequest().getParameter("Payment Types GUID");
-		if(type_guid != null && type_guid.equals("null"))
-			type_guid = null;
-		String status = getRequest().getParameter("Status");
-		if(status != null && status.equals("null"))
-			status = null;
-
-		if(status == null || !status.equals("posted"))
-			if(type_guid == null)
-				sDisplay = "All Unposted";
-			else {
-				TransactionType objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Unposted " + objType.getName();
-			}
-		else
-			if(type_guid == null)
-				sDisplay = "All Posted";
-			else {
-				TransactionType objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Posted " + objType.getName();
-			}			
-		
-		return new History(sDisplay, getRequest(), getUser());
+		return new History("Post Payments", getRequest(), getUser());
 	}
 	
 	private void btnFilter_OnClick() throws Exception {		
@@ -97,7 +76,7 @@ public class PostPaymentsController extends Controller {
 			getUser().login().begin(true);
 
 			for(PostPaymentsLinesController pdlc: lstControllers) {
-				boolean isChecked = pdlc.getIsPosted();
+				boolean isChecked = pdlc.getIsChecked();
 				Payment obj = (Payment) pdlc.getModel();
 				boolean isPosted = obj.getPostedAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
 
@@ -119,6 +98,10 @@ public class PostPaymentsController extends Controller {
 		}
 		
 		btnFilter_OnClick();
+	}
+	private void btnInvert_OnClick() throws Exception {
+		for(PostPaymentsLinesController pdlc: lstControllers)
+			pdlc.setIsChecked(!pdlc.getIsChecked());
 	}
 	private PostPaymentsLinesController createController(Payment payment) {
 		PostPaymentsLinesController controller = new PostPaymentsLinesController(this, "Row");

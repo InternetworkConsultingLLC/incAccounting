@@ -26,6 +26,8 @@ import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Payment extends PaymentsRow {
+	public static String SETTING_LAST_SALES_RECEIPT_NUMBER = "Payment - Last Sales Receipt Number";
+
 	private transient AdapterInterface myAdapter = null;
  	public AdapterInterface getAdapter() { return myAdapter; }
 	public void setAdapter(AdapterInterface value) { myAdapter = value; }
@@ -55,6 +57,26 @@ public class Payment extends PaymentsRow {
 		stmt.getParameters().put("{Payments GUID}", getGuid());
 		
 		lstPaymentApplicationSelection = adapter.load(PaymentApplicationSelection.class, stmt, true);
+		
+		boolean bPrepayInvoice = false;
+		for(PaymentApplicationSelection pas : lstPaymentApplicationSelection)
+			if(pas.getDocumentsGuid().equals(this.getPrepaymentDocumentsGuid())) {
+				bPrepayInvoice = true;
+				pas.setName("Prepayment");
+			}
+		if(!bPrepayInvoice) {
+			PaymentApplicationSelection pas = new PaymentApplicationSelection();
+			pas.initialize();
+			pas.setAmount(BigDecimal.ZERO);
+			pas.setBalance(BigDecimal.ZERO);
+			pas.setDate(getDate());
+			pas.setIsCreditMemo(false);
+			pas.setDocumentsGuid(loadPrepaymentDocument(adapter, false).getGuid());
+			pas.setName("Prepayment");
+			pas.setPaymentsGuid(getGuid());
+			lstPaymentApplicationSelection.add(0, pas);
+		}
+		
 		return lstPaymentApplicationSelection;
 	}
 	
@@ -65,6 +87,12 @@ public class Payment extends PaymentsRow {
 		lstPaymentApplicationsChildren = null;
 
 		this.setPostedAccountsGuid(pt.getAccountsGuid());
+		
+		if(PaymentType.SALES_PAYMENT_GUID.equals(getPaymentTypesGuid()))
+			loadPrepaymentDocument(adapter, false).setDocumentTypesGuid(DocumentType.SALES_INVOICE_GUID);
+		else
+			loadPrepaymentDocument(adapter, false).setDocumentTypesGuid(DocumentType.PURCHASE_INVOICE_GUID);
+		loadPrepaymentDocument(adapter, false).handleDocumentTypesGuid(adapter);
 	}
 	public void handleContact(AdapterInterface adapter) throws Exception {
 		Contact contact = loadContact(adapter, Contact.class, true);
@@ -82,6 +110,10 @@ public class Payment extends PaymentsRow {
 		setBillingAddressState(null);
 		
 		this.setContactsDisplayName(contact.getDisplayName());
+		
+		loadPrepaymentDocument(adapter, false).setContactsGuid(getContactsGuid());
+		loadPrepaymentDocument(adapter, false).handleContactsGuid(adapter);
+
 	}
 	public void handleBillingContact(AdapterInterface adapter) throws Exception {
 		Contact contact = loadBillingContact(adapter, Contact.class, true);
@@ -109,7 +141,7 @@ public class Payment extends PaymentsRow {
 	public void savePaymentApplicationSelections(AdapterInterface adapter) throws Exception {
 		List<PaymentApplicationSelection> lstSelections = loadPaymentApplicationSelection(adapter, false);
 		for(PaymentApplicationSelection sel: lstSelections) {
-			if(sel.getRowState() == RowState.Update) {
+			if(sel.getRowState() == RowState.Update || sel.getRowState() == RowState.Insert) {
 				PaymentApplication app = null;
 				try { app = PaymentApplication.loadByDocumentAndPayment(adapter, sel.getDocumentsGuid(), sel.getPaymentsGuid()); }
 				catch(Exception ex) {
@@ -121,8 +153,12 @@ public class Payment extends PaymentsRow {
 					app.setPaymentsGuid(sel.getPaymentsGuid());
 				}
 
-				if(sel.getAmount() != null && sel.getBalance() != null && sel.getAmount().abs().compareTo(sel.getBalance().abs()) > 0)
-					throw new Exception("Your payment is more than the balance!");
+				if(
+					sel.getAmount() != null && sel.getBalance() != null && 
+					sel.getAmount().abs().compareTo(sel.getBalance().abs()) > 0 &&
+					!getPrepaymentDocumentsGuid().equals(sel.getDocumentsGuid())
+				)
+					throw new Exception("Your payment on " + sel.getName() + " " + sel.getReferenceNumber() + " is more than it's balance!");
 				
 				if(sel.getAmount() == null || sel.getAmount().compareTo(BigDecimal.ZERO) == 0)
 					app.setIsDeleted(true);
@@ -159,7 +195,10 @@ public class Payment extends PaymentsRow {
 				createCashLines(adapter, app, tran, doc, docType, tranType);
 			else {
 				// accural accouting
-				if(doc.getPostedAccountsGuid() == null || doc.getPostedTransactionsGuid() == null )
+				if(
+					(doc.getPostedAccountsGuid() == null || doc.getPostedTransactionsGuid() == null ) &&
+					!doc.getIsPrepayment(adapter)
+				)
 					throw new Exception("The document must be posted in order to post a payment referencing that document!");
 
 				createAccuralLines(adapter, app, tran, doc, docType, tranType);
@@ -262,7 +301,7 @@ public class Payment extends PaymentsRow {
 			throw new Exception("The applied amount does not equal to the rounded document rows amounts!");
 	}
 	private void createAccuralLines(AdapterInterface adapter, PaymentApplication app, Transaction tran, Document doc, DocumentType docType, TransactionType tranType) throws Exception {
-		List<TransactionLine> lst = tran.loadTransactionLines(adapter, TransactionLine.class, true);
+		List<TransactionLine> lst = tran.loadTransactionLines(adapter, TransactionLine.class, false);
 
 		// Customer Payment
 		//Ref			Debit	Credit
@@ -325,4 +364,77 @@ public class Payment extends PaymentsRow {
 		return adapter.load(Payment.class, stmt, true);		
 	}
 	
+	private Document docPrepayment = null;
+	public Document loadPrepaymentDocument(AdapterInterface adapter, boolean forced) throws Exception {
+		if(docPrepayment == null || forced) {
+			String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={GUID}";
+			Statement stmt = new Statement(String.format(sql, Document.TABLE_NAME, Document.GUID));
+			stmt.getParameters().put("{GUID}", getPrepaymentDocumentsGuid());
+			List<Document> lst = adapter.load(Document.class, stmt, true);
+			if(lst.size() != 1) {
+				docPrepayment = new Document();
+				docPrepayment.initialize(adapter);
+				docPrepayment.setReferenceNumber("Prepayment " + this.getGuid());
+
+				this.setPrepaymentDocumentsGuid(docPrepayment.getGuid());
+			} else
+				docPrepayment = lst.get(0);
+		}
+		
+		docPrepayment.setDate(this.getDate());
+		
+		return docPrepayment;
+	}
+
+	public void handleAutoNumber(AdapterInterface adapter) throws Exception {
+		adapter.begin(false);
+		try {
+			if(this.getPaymentTypesGuid().equals(PaymentType.SALES_PAYMENT_GUID))
+				handleSalesAutoNumber(adapter);
+			else
+				handlePurchaseAutoNumber(adapter);
+			adapter.commit(false);
+		} catch(Exception ex) {
+			adapter.rollback(false);
+			throw ex;
+		}
+	}
+	private void handleSalesAutoNumber(AdapterInterface adapter) throws Exception {
+		Setting bizSetting = Setting.loadByKey(adapter, Setting.class, Payment.SETTING_LAST_SALES_RECEIPT_NUMBER);		
+		String sMyNumber = bizSetting.getValue();
+		do {
+			sMyNumber = net.internetworkconsulting.data.Helper.Increment(sMyNumber);
+		} while(!Payment.isNumberAvaiable(adapter, getPaymentTypesGuid(), sMyNumber, getPostedAccountsGuid()));
+
+		this.setOurNumber(sMyNumber);
+		bizSetting.setValue(sMyNumber);
+
+		adapter.save(Setting.TABLE_NAME, bizSetting);
+		adapter.save(Payment.TABLE_NAME, this);
+	}
+	private void handlePurchaseAutoNumber(AdapterInterface adapter) throws Exception {
+		Account bizAccount = loadAccount(adapter, Account.class, false);
+		String sMyNumber = bizAccount.getLastNumber();
+		do {
+			sMyNumber = net.internetworkconsulting.data.Helper.Increment(sMyNumber);
+		} while(!Payment.isNumberAvaiable(adapter, getPaymentTypesGuid(), sMyNumber, getPostedAccountsGuid()));
+
+		this.setOurNumber(sMyNumber);
+		bizAccount.setLastNumber(sMyNumber);
+
+		adapter.save(Account.TABLE_NAME, bizAccount);
+		adapter.save(Payment.TABLE_NAME, this);
+	}
+	private static boolean isNumberAvaiable(AdapterInterface adapter, String type_guid, String number, String account_guid) throws Exception {
+		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={Type} AND \"%s\"={Reference} AND \"%s\"={Account}";
+		sql = String.format(sql, Payment.TABLE_NAME, Payment.PAYMENT_TYPES_GUID, Payment.OUR_NUMBER, Payment.POSTED_ACCOUNTS_GUID);
+		
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{Account}", account_guid);
+		stmt.getParameters().put("{Type}", type_guid);
+		stmt.getParameters().put("{Reference}", number);
+		
+		List<Payment> lst = adapter.load(Payment.class, stmt, true);
+		return lst.isEmpty();
+	}	
 }

@@ -57,6 +57,7 @@ public class AccountsController extends EditController {
 
 		TextTag txtName = new TextTag(this, Account.NAME, objModel);
 		CheckTag chkIsAllowed = new CheckTag(this, Account.IS_ALLOWED, objModel);
+		TextTag txtLastnumber = new TextTag(this, Account.LAST_NUMBER, objModel);
 
 		ComboTag cboAccountType = new ComboTag(this, Account.ACCOUNT_TYPES_GUID, objModel);
 		cboAccountType.setOptions(AccountType.loadOptions(getUser().login(), true));

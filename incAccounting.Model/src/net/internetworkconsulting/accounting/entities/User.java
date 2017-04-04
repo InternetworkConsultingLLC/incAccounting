@@ -15,7 +15,6 @@
  */
 package net.internetworkconsulting.accounting.entities;
 
-import java.math.BigInteger;
 import net.internetworkconsulting.data.SessionInterface;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
@@ -100,13 +99,13 @@ public class User extends UsersRow implements SessionInterface {
 		if(adapter != null && adapter.getConnection() != null && adapter.getSession() != null)
 			return adapter;
 		
+		return login(new Adapter(), new Adapter());
+	}
+	public AdapterInterface login(AdapterInterface tempAdapter, AdapterInterface tempLoggingAdapter) throws Exception {
 		if(getPassword() == null || getDatabase() == null)
 			throw new Exception("Login failure!");
 
-		AdapterInterface tempAdapter = new Adapter();
 		tempAdapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
-				
-		AdapterInterface tempLoggingAdapter = new Adapter();
 		tempLoggingAdapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
 		
 		if(isValidated) {
@@ -179,6 +178,7 @@ public class User extends UsersRow implements SessionInterface {
 		adapter = tempAdapter;
 		return adapter;
 	}
+	
 	public AdapterInterface unvalidatedLogin(String server, String user, String password) throws Exception { 
 		AdapterInterface adapter = new Adapter(server, "", user, password, true);
 		return adapter;
@@ -384,7 +384,7 @@ public class User extends UsersRow implements SessionInterface {
 	}
 	public void setSetting(String key, String value) { hmSettings.put(key, value); }
 	
-	public static String VersionNumber = "2017.3.18";
+	public static String VersionNumber = "2017.4.1";
 	public String getVersion() { return User.VersionNumber; }
 	public void checkVersion() throws Exception {
 		if(!hmSettings.containsKey(SETTING_VERSION_NUMBER))

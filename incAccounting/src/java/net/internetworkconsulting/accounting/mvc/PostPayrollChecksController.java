@@ -49,22 +49,14 @@ public class PostPayrollChecksController  extends Controller {
 		ButtonTag btnFilter = new ButtonTag(this, "Filter");
 		btnFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnFilter_OnClick(); } });
 		
+		ButtonTag btnInvert = new ButtonTag(this, "Invert");
+		btnInvert.addOnClickEvent(new Event() { public void handle() throws Exception { btnInvert_OnClick(); } });
+		
 		ButtonTag btnProcess = new ButtonTag(this, "Process");
 		btnProcess.addOnClickEvent(new Event() { public void handle() throws Exception { btnProcess_OnClick(); } });
 	}
 	public History createHistory() throws Exception {
-		String sDisplay = "";
-		
-		String status = getRequest().getParameter("Status");
-		if(status != null && status.equals("null"))
-			status = null;
-
-		if(status == null || !status.equals("posted"))
-			sDisplay = "All Unposted";
-		else
-			sDisplay = "All Posted";
-		
-		return new History(sDisplay, getRequest(), getUser());
+		return new History("Post Payroll", getRequest(), getUser());
 	}
 	
 	private void btnFilter_OnClick() throws Exception {		
@@ -75,7 +67,7 @@ public class PostPayrollChecksController  extends Controller {
 			getUser().login().begin(true);
 
 			for(PostPayrollChecksLineController ppclc: lstControllers) {
-				boolean isChecked = ppclc.getIsPosted();
+				boolean isChecked = ppclc.getIsChecked();
 				PayrollCheck obj = (PayrollCheck) ppclc.getModel();
 				boolean isPosted = obj.getAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
 
@@ -97,6 +89,10 @@ public class PostPayrollChecksController  extends Controller {
 		}
 		
 		btnFilter_OnClick();
+	}
+	private void btnInvert_OnClick() throws Exception {
+		for(PostPayrollChecksLineController ppclc: lstControllers)
+			ppclc.setIsChecked(!ppclc.getIsChecked());
 	}
 	private PostPayrollChecksLineController createController(PayrollCheck pc) {
 		PostPayrollChecksLineController pdlc = new PostPayrollChecksLineController(this, "Row");

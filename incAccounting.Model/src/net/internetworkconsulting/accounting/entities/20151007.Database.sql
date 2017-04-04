@@ -606,19 +606,19 @@ INSERT INTO "Contact Types" ("GUID", "Is Allowed", "Display Name") VALUES ('4134
 INSERT INTO "Contact Types" ("GUID", "Is Allowed", "Display Name") VALUES ('77c1c5bad818403f8ae836a3fc7fd84b',1,'Individual');
 INSERT INTO "Contact Types" ("GUID", "Is Allowed", "Display Name") VALUES ('7c85de861e784b9f8dcb4a456e267869',1,'Employee');
 
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('14a778aeb6e04b7fa1dd31e4445e9b18','Payroll Check','/incAccounting?App=PayrollCheck','/incAccounting?App=PayrollCheck',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('1d648ca26c9c40c59e1483aa262656c2','Transaction','/incAccounting?App=Transaction','/incAccounting?App=Transaction',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('276db4afcf634b6fbc4a5821c9858ab9','Sales Quote','/incAccounting?App=Document','/incAccounting?App=Document',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('2c12d6167d654604be3f533c38f1ad1e','Sales Payment','/incAccounting?App=Payment','/incAccounting?App=Payment',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('5f756fc5f7c5493ca0d86f2d0ead2fda','Sales Order','/incAccounting?App=Document','/incAccounting?App=Document',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('6632ec00f5824aeca4a49bf21cbdaece','Purchase Credit','/incAccounting?App=Document','/incAccounting?App=Document',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('81e2917ac5c34d1cb6f9d168cd0439db','Sales Invoice','/incAccounting?App=Document','/incAccounting?App=Document',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('86af180c412f40c5a660678e3895694b','Sales Credit','/incAccounting?App=Document','/incAccounting?App=Document',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('9d3821afd6fb47f9b2713d3cc574ceff','Purchase Invoice','/incAccounting?App=Document','/incAccounting?App=Document',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('a714a873202f4f12bb29a42ed8ed9b5c','Purchase Payment','/incAccounting?App=Payment','/incAccounting?App=Payment',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('bbb9a35380834fe9976ad7184976f0d6','Bank Deposit','/incAccounting?App=Deposit','/incAccounting?App=Deposit',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('dedf79eddf7c4e348918d42e25b53309','Purchase Quote','/incAccounting?App=Document','/incAccounting?App=Document',1);
-INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('e56b2b6aa42b479890085b74b69275f3','Purchase Order','/incAccounting?App=Document','/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('14a778aeb6e04b7fa1dd31e4445e9b18','Payroll Check','~/incAccounting?App=PayrollCheck','~/incAccounting?App=PayrollCheck',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('1d648ca26c9c40c59e1483aa262656c2','Transaction','~/incAccounting?App=Transaction','~/incAccounting?App=Transaction',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('276db4afcf634b6fbc4a5821c9858ab9','Sales Quote','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('2c12d6167d654604be3f533c38f1ad1e','Sales Payment','~/incAccounting?App=Payment','~/incAccounting?App=Payment',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('5f756fc5f7c5493ca0d86f2d0ead2fda','Sales Order','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('6632ec00f5824aeca4a49bf21cbdaece','Purchase Credit','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('81e2917ac5c34d1cb6f9d168cd0439db','Sales Invoice','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('86af180c412f40c5a660678e3895694b','Sales Credit','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('9d3821afd6fb47f9b2713d3cc574ceff','Purchase Invoice','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('a714a873202f4f12bb29a42ed8ed9b5c','Purchase Payment','~/incAccounting?App=Payment','~/incAccounting?App=Payment',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('bbb9a35380834fe9976ad7184976f0d6','Bank Deposit','~/incAccounting?App=Deposit','~/incAccounting?App=Deposit',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('dedf79eddf7c4e348918d42e25b53309','Purchase Quote','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
+INSERT INTO "Transaction Types" ("GUID", "Name", "Edit URL", "List URL", "Is Allowed") VALUES ('e56b2b6aa42b479890085b74b69275f3','Purchase Order','~/incAccounting?App=Document','~/incAccounting?App=Document',1);
 
 INSERT INTO "Document Types" ("GUID", "Is Sales Related", "Is Credit Memo", "Is Posting", "Accounts GUID") VALUES ('276db4afcf634b6fbc4a5821c9858ab9',1,0,0,NULL);
 INSERT INTO "Document Types" ("GUID", "Is Sales Related", "Is Credit Memo", "Is Posting", "Accounts GUID") VALUES ('5f756fc5f7c5493ca0d86f2d0ead2fda',1,0,0,NULL);
@@ -764,19 +764,19 @@ ALTER TABLE "Reports" ADD COLUMN "Auto Load" BIT;
 UPDATE "Reports" SET "Auto Load" = 0;
 ALTER TABLE "Reports" MODIFY COLUMN "Auto Load" BIT NOT NULL;
 
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=PayrollCheck', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Payroll Checks' WHERE "GUID"='14a778aeb6e04b7fa1dd31e4445e9b18';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Transaction', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Transactions' WHERE "GUID"='1d648ca26c9c40c59e1483aa262656c2';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Quotes' WHERE "GUID"='276db4afcf634b6fbc4a5821c9858ab9';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Payment', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Payments' WHERE "GUID"='2c12d6167d654604be3f533c38f1ad1e';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Orders' WHERE "GUID"='5f756fc5f7c5493ca0d86f2d0ead2fda';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Credit Memos' WHERE "GUID"='6632ec00f5824aeca4a49bf21cbdaece';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Invoices' WHERE "GUID"='81e2917ac5c34d1cb6f9d168cd0439db';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Credit Memos' WHERE "GUID"='86af180c412f40c5a660678e3895694b';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Invoices' WHERE "GUID"='9d3821afd6fb47f9b2713d3cc574ceff';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Payment', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Payments' WHERE "GUID"='a714a873202f4f12bb29a42ed8ed9b5c';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Deposit', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Bank Deposits' WHERE "GUID"='bbb9a35380834fe9976ad7184976f0d6';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Quotes' WHERE "GUID"='dedf79eddf7c4e348918d42e25b53309';
-UPDATE "Transaction Types" SET "Edit URL"='/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Orders' WHERE "GUID"='e56b2b6aa42b479890085b74b69275f3';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=PayrollCheck', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Payroll Checks' WHERE "GUID"='14a778aeb6e04b7fa1dd31e4445e9b18';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Transaction', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Transactions' WHERE "GUID"='1d648ca26c9c40c59e1483aa262656c2';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Quotes' WHERE "GUID"='276db4afcf634b6fbc4a5821c9858ab9';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Payment', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Payments' WHERE "GUID"='2c12d6167d654604be3f533c38f1ad1e';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Orders' WHERE "GUID"='5f756fc5f7c5493ca0d86f2d0ead2fda';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Credit Memos' WHERE "GUID"='6632ec00f5824aeca4a49bf21cbdaece';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Invoices' WHERE "GUID"='81e2917ac5c34d1cb6f9d168cd0439db';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Sales Credit Memos' WHERE "GUID"='86af180c412f40c5a660678e3895694b';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Invoices' WHERE "GUID"='9d3821afd6fb47f9b2713d3cc574ceff';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Payment', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Payments' WHERE "GUID"='a714a873202f4f12bb29a42ed8ed9b5c';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Deposit', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Bank Deposits' WHERE "GUID"='bbb9a35380834fe9976ad7184976f0d6';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Quotes' WHERE "GUID"='dedf79eddf7c4e348918d42e25b53309';
+UPDATE "Transaction Types" SET "Edit URL"='~/incAccounting?App=Document', "List URL"='~/incBootstrap?App=ReportView&Display Name=List - Accounting - Purchase Orders' WHERE "GUID"='e56b2b6aa42b479890085b74b69275f3';
 
 CREATE TABLE "Register Entries" (
 	"GUID" CHAR(32) NOT NULL PRIMARY KEY,

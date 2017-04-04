@@ -1,0 +1,18 @@
+input[type="text"],
+select
+{ 
+	width: 100%; 
+	margin: 0;
+}
+
+table.list > tbody > tr > td.right > input[type="text"] {
+	text-align: right;
+}
+
+table.list > tbody > tr:nth-child(1) > td.invert, table.list tr td.invert {
+	border-radius: 4px;
+	padding: 0.5em;
+	margin: 0;
+	background-color: #000;
+	color: #fff;
+}

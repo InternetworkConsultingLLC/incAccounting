@@ -57,36 +57,16 @@ public class PostDocumentsController extends Controller {
 			
 		ButtonTag btnFilter = new ButtonTag(this, "Filter");
 		btnFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnFilter_OnClick(); } });
+
+		ButtonTag btnInvert = new ButtonTag(this, "Invert");
+		btnInvert.addOnClickEvent(new Event() { public void handle() throws Exception { btnInvert_OnClick(); } });
+
 		
 		ButtonTag btnProcess = new ButtonTag(this, "Process");
 		btnProcess.addOnClickEvent(new Event() { public void handle() throws Exception { btnProcess_OnClick(); } });
 	}
 	public History createHistory() throws Exception {
-		String sDisplay = "";
-		
-		String type_guid = getRequest().getParameter("Document Types GUID");
-		if(type_guid != null && type_guid.equals("null"))
-			type_guid = null;
-		String status = getRequest().getParameter("Status");
-		if(status != null && status.equals("null"))
-			status = null;
-
-		if(status == null || !status.equals("posted"))
-			if(type_guid == null)
-				sDisplay = "All Unposted";
-			else {
-				TransactionTypesRow objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Unposted " + objType.getName();
-			}
-		else
-			if(type_guid == null)
-				sDisplay = "All Posted";
-			else {
-				TransactionTypesRow objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Posted " + objType.getName();
-			}			
-		
-		return new History(sDisplay, getRequest(), getUser());
+		return new History("Post Documents", getRequest(), getUser());
 	}
 	
 	private void btnFilter_OnClick() throws Exception {		
@@ -97,7 +77,7 @@ public class PostDocumentsController extends Controller {
 			getUser().login().begin(true);
 
 			for(PostDocumentsLinesController pdlc: lstControllers) {
-				boolean isChecked = pdlc.getIsPosted();
+				boolean isChecked = pdlc.getIsChecked();
 				Document obj = (Document) pdlc.getModel();
 				boolean isPosted = obj.getPostedAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
 
@@ -119,6 +99,10 @@ public class PostDocumentsController extends Controller {
 		}
 		
 		btnFilter_OnClick();
+	}
+	private void btnInvert_OnClick() throws Exception {
+		for(PostDocumentsLinesController pdlc: lstControllers)
+			pdlc.setIsChecked(!pdlc.getIsChecked());
 	}
 	private PostDocumentsLinesController createController(Document doc) {
 		PostDocumentsLinesController pdlc = new PostDocumentsLinesController(this, "Row");

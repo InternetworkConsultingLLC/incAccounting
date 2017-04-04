@@ -64,23 +64,24 @@ public class DepositsController extends EditController {
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });
-
-		ButtonTag btnPrint = new ButtonTag(this, "Print");
-		btnPrint.setIsReadOnly(objModel.getRowState() != RowState.NA);
-		btnPrint.addOnClickEvent(new Event() { public void handle() throws Exception { btnPrint_OnClick(); } });
 		
-		ButtonTag btnPost = new ButtonTag(this, "Post");
-		if(objModel.getRowState() == RowState.Insert)
-			btnPost.setIsReadOnly(true);
-		else if(objModel.getPostedTransactionsGuid() != null)
-			btnPost.setValue("Unpost");
-		btnPost.addOnClickEvent(new Event() { public void handle() throws Exception { btnPost_OnClick(); } });
+		if(objModel.getNumber() != null && objModel.getRowState() == RowState.NA) {
+			ButtonTag btnPrint = new ButtonTag(this, "Print");
+			btnPrint.setIsReadOnly(objModel.getRowState() != RowState.NA);
+			btnPrint.addOnClickEvent(new Event() { public void handle() throws Exception { btnPrint_OnClick(); } });		
 
-		ButtonTag btnOpen = new ButtonTag(this, "Open");
-		btnOpen.setValue("Open Transaction");
-		btnOpen.setIsReadOnly(objModel.getPostedTransactionsGuid() == null);
-		btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClick(); } });
-		
+			ButtonTag btnPost = new ButtonTag(this, "Post");
+			if(objModel.getPostedTransactionsGuid() != null)
+				btnPost.setValue("Unpost");
+			btnPost.addOnClickEvent(new Event() { public void handle() throws Exception { btnPost_OnClick(); } });		
+		}
+
+		if(objModel.getPostedTransactionsGuid() != null) {
+			ButtonTag btnOpen = new ButtonTag(this, "Open");
+			btnOpen.setValue("Open Transaction");
+			btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClick(); } });
+		}
+
 		List<Payment> lstPayments = objModel.loadPaymentSelections(getUser().login(), false);
 		for(Payment pay: lstPayments)
 			createController(pay);

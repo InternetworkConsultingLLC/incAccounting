@@ -20,7 +20,7 @@ import java.sql.Date;
 
 public class PaymentApplicationSelection extends PaymentApplication {
 	public static String IS_CREDIT_MEMO = "Is Credit Memo";
-	public void getIsCreditMemo(boolean value) throws Exception { 
+	public void setIsCreditMemo(boolean value) throws Exception { 
 		set(IS_CREDIT_MEMO, value); 
 	}
 	public boolean getIsCreditMemo() {

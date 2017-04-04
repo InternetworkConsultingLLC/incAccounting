@@ -11,8 +11,8 @@
 	padding: 0px;
 }
 .hidden { visibility: hidden; display: none; }
-.center {text-align: center; }
-.right {text-align: right; }
+.center { text-align: center; }
+.right { text-align: right; }
 .top { vertical-align: top; }
 .fill { width: 100%; }
 
@@ -31,9 +31,11 @@ h2, h4, h6 {
 	font-weight: normal;
 	font-style: italic;
 }
-h1 { font-size: 54px; }
-h2, h3 { font-size: 48px; }
-h4, h5 { font-size: 32px; }
+h1 { font-size: 48px; }
+h2 { font-size: 48px; }
+h3 { font-size: 24px; }
+h4 { font-size: 24px; }
+h5 { font-size: 16px; }
 h6 { font-size: 16px; }
 
 p + p, p + table, table + p, div + h2, div + p,
