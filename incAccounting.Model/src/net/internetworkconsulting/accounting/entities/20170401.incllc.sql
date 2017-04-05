@@ -1,3 +1,5 @@
+USE "%DATABASE%";
+
 INSERT INTO "Settings" ("GUID", "Users GUID", "Key", "Type", "Option Query", "Value") 
 VALUES ('2c1f10ede8134fb8b1bab2f3e12a026d', NULL, 'Payment - Last Sales Receipt Number', 'String', NULL, '100');
 INSERT INTO "Settings" ("GUID", "Users GUID", "Key", "Type", "Option Query", "Value") 

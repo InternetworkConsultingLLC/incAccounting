@@ -1,15 +1,12 @@
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('bbb9a35380834fe9976ad7184976f0d6','Bank Deposit');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('c8276ec6738a4fc0bb0fe7af7815f045','Control - Options');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('6632ec00f5824aeca4a49bf21cbdaece','Document - Purchase Credit');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('9d3821afd6fb47f9b2713d3cc574ceff','Document - Purchase Invoice');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('e56b2b6aa42b479890085b74b69275f3','Document - Purchase Order');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('dedf79eddf7c4e348918d42e25b53309','Document - Purchase Quote');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('86af180c412f40c5a660678e3895694b','Document - Sales Credit');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('81e2917ac5c34d1cb6f9d168cd0439db','Document - Sales Invoice');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('5f756fc5f7c5493ca0d86f2d0ead2fda','Document - Sales Order');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('276db4afcf634b6fbc4a5821c9858ab9','Document - Sales Quote');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('a714a873202f4f12bb29a42ed8ed9b5c','Payment - Purchase');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('2c12d6167d654604be3f533c38f1ad1e','Payment - Sales');
+USE "%DATABASE%";
+
+SET FOREIGN_KEY_CHECKS=0;
+
+DELETE FROM "Report Filters";
+DELETE FROM "Report Blocks";
+DELETE FROM "Reports";
+DELETE FROM "Securables" WHERE "Display Name" LIKE 'Report%';
+
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('f145f297e9724ce3b83a558b327a3112','Report - Graph - Accountng - Revenue vs Expenses');
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('f36ffc41ff32417caaded31c09ea34e2','Report - Hidden - Accounting - Transaction Types');
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('06db3e1b55e54bc2babf0424e0843d5b','Report - List - Accounting - Accounts');
@@ -57,34 +54,6 @@ INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('6d4ea7d4624e48509e915
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('cef027b31c704b17b9f97bc9489626cb','Report - Report - Security - Group Membership');
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('79b2fe6a9758417994b8fb59c25bc815','Report - Screen - Bootstrap - Not Implimented');
 INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('18afbfdf422246b1a549f34dad94f8b7','Report - Screen - Bootstrap - Splash');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('720cdbbebae7124d2c3fdc1b46664655','Table - Account Types');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('9b945efebb006547a94415eadaa12921','Table - Accounts');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('74296745c146fc4ffc4afda0f19f1f2c','Table - Contact Notes');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('2a85420faee85c0a1aa204a3ee713ba4','Table - Contact Types');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('9aa698f602b1e5694855cee73a683488','Table - Contacts');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('6332798b12e537b25b1c6ad254e14f54','Table - Conversions');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('c8cf2b64be19b0234578a5b582f86a87','Table - Departments');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('965f19fd66f3bbd02a54f47952b68083','Table - Document Lines');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('1c8d2e4380181d9b2c0429dce7378d38','Table - Document Types');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('f28128b38efbc6134dc40751ee21fd29','Table - Documents');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('a37ede293936e29279ed543129451ec3','Table - Groups');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('9dea4016dbcc290b773ab2fae678aaa8','Table - Items');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('12ceff2290bb9039beaa8f36d5dec226','Table - Jobs');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('b2d37ae1cedf42ff874289b721860af2','Table - Logs');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('a7a7b26872b3e2d00de7bb7b1452b5a8','Table - Memberships');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('d08ccf52b4cdd08e41cfb99ec42e0b29','Table - Permissions');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('4a8a1dc4a61260a1d51e3b9f8bb5f18f','Table - Reconciliations');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('66b3ea16f68c96570fad11647b1fba50','Table - Report Blocks');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('755a0e7f295f45dacc4af7776f5150f3','Table - Report Filters');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('c91c7b93c28cd18741b71f727ee81ee3','Table - Reports');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('aa0a678d8950cf58d676ff1df2aa08ce','Table - Sales Tax Memberships');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('b748fae7af491847c7a3fcb4db6e13b1','Table - Securables');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('f4f70727dc34561dfde1a3c529b6205c','Table - Settings');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('e4eed2a7d7b7558dfe63d4f4fd18ce67','Table - Transaction Lines');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('d1e2f3dc6323be332c0590e0496f63ac','Table - Transaction Types');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('31112aca11d0e9e6eb7db96f317dda49','Table - Transactions');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('7b75551eba1477306b17861d66595527','Table - Unit Measures');
-INSERT INTO "Securables" ("GUID", "Display Name") VALUES ('f9aae5fda8d810a29f12d1e61b4ab25f','Table - Users');
 
 INSERT INTO "Reports" ("GUID", "Display Name", "HTML Template", "Title", "Auto Load") VALUES ('01f2dff753214482b4a1ac02f6640914','Report - Accounting - Sales Tax - Accural','<style>\r\n    table a { text-decoration: none; }\r\n    div.ported { width: 100em; }\r\n</style>\r\n\r\n<table width=\"100%\">\r\n    <tr>\r\n        <td class=\"black\">Contact</td>\r\n        <td class=\"black\">Date</td>\r\n        <td class=\"black\">Type</td>\r\n        <td class=\"black\">Number</td>\r\n        <td class=\"black right\">Taxable</td>\r\n        <td class=\"black right\">Nontaxable</td>\r\n        <td class=\"black right\">Taxes</td>\r\n        <td class=\"black right\">Total</td>\r\n        <td class=\"black right\">Rate</td>\r\n        <td class=\"black\">Name</td>\r\n    </tr>\r\n    <!-- BEGIN Row -->\r\n    <tr>\r\n        <td><a href=\"{Edit URL}&GUID={GUID}\">{Contact}</a></td>\r\n        <td><a href=\"{Edit URL}&GUID={GUID}\">{Date}</a></td>\r\n        <td><a href=\"{Edit URL}&GUID={GUID}\">{Type}</a></td>\r\n        <td><a href=\"{Edit URL}&GUID={GUID}\">{Number}</a></td>\r\n        <td class=\"right\"><a href=\"{Edit URL}&GUID={GUID}\">{Taxable}</a></td>\r\n        <td class=\"right\"><a href=\"{Edit URL}&GUID={GUID}\">{Nontaxable}</a></td>\r\n        <td class=\"right\"><a href=\"{Edit URL}&GUID={GUID}\">{Taxes}</a></td>\r\n        <td class=\"right\"><a href=\"{Edit URL}&GUID={GUID}\">{Total}</a></td>\r\n        <td class=\"right\"><a href=\"{Edit URL}&GUID={GUID}\">{Tax Rate}</a></td>\r\n        <td class=\"\"><a href=\"{Edit URL}&GUID={GUID}\">{Tax Name}</a></td>\r\n    </tr>\r\n    <!-- END Row -->\r\n    <tr><td>&nbsp;</td></tr>\r\n    <!-- BEGIN Total -->\r\n    <tr>\r\n        <td colspan=\"4\" class=\"right black\">&nbsp;</td>\r\n        <td class=\"right black\">{Taxable}</td>\r\n        <td class=\"right black\">{Nontaxable}</td>\r\n        <td class=\"right black\">{Taxes}</td>\r\n        <td class=\"right black\">{Total}</td>\r\n        <td colspan=\"2\">&nbsp;</td>\r\n    </tr>\r\n    <!-- END Total -->    \r\n</table>','Sales Tax Accural','\0');
 INSERT INTO "Reports" ("GUID", "Display Name", "HTML Template", "Title", "Auto Load") VALUES ('06db3e1b55e54bc2babf0424e0843d5b','List - Accounting - Accounts','<table class=\"list\">\r\n    <tr>\r\n        <td><a href=\"~/incAccounting?App=Account\" class=\"add\">Add</a></td>\r\n        <td>Number</td>\r\n        <td>Name</td>\r\n        <td>Type</td>\r\n        <!--<td>Allowed</td>-->\r\n    </tr>\r\n    <!-- BEGIN Row -->\r\n    <tr>\r\n        <td class=\"top\"><a href=\"~/incAccounting?App=Account&GUID={GUID}&Action=Delete&Return=~%2FincBootstrap%3FApp%3DReportView%26GUID%3D06db3e1b55e54bc2babf0424e0843d5b\" class=\"delete\">Delete</a></td>\r\n        <td class=\"top\"><a href=\"~/incAccounting?App=Account&GUID={GUID}\">{Number}</a></td>\r\n        <td class=\"top\"><a href=\"~/incAccounting?App=Account&GUID={GUID}\">{Name}</a></td>\r\n        <td class=\"top\"><a href=\"~/incAccounting?App=Account&GUID={GUID}\">{Type}</a></td>\r\n        <!--<td class=\"top\"><a href=\"~/incAccounting?App=Account&GUID={GUID}\">{Allowed}</a></td>-->\r\n    </tr>\r\n    <!-- END Row -->\r\n</table>','Accounts','');
@@ -329,3 +298,5 @@ INSERT INTO "Report Blocks" ("GUID", "Reports GUID", "Parent Block GUID", "Prior
 INSERT INTO "Report Blocks" ("GUID", "Reports GUID", "Parent Block GUID", "Priority", "Name", "SQL Query") VALUES ('f8ecb7bab1cb4415b7ab56b185bc61e0','078c5cd40a024563bfde3641352d4e43',NULL,0,'Row','SELECT\r\n	\"Documents\".\"GUID\",\r\n	\"Documents\".\"Date\",\r\n	\"Documents\".\"Reference Number\" AS \"Number\",\r\n	\"Documents\".\"Contacts Display Name\" AS \"Contact\",\r\n	CAST(\"Documents\".\"Total\" AS DECIMAL(64,2)) AS \"Total\"\r\nFROM\r\n	\"Documents\"\r\nWHERE\r\n	\"Documents\".\"Document Types GUID\" = \'276db4afcf634b6fbc4a5821c9858ab9\'\r\n    AND DATE(\"Documents\".\"Date\") <= DATE({Ending})\r\n    AND DATE(\"Documents\".\"Date\") >= DATE({Starting})\r\n    AND \"Documents\".\"Contacts Display Name\" LIKE CONCAT(\'%\', IFNULL({Contact}, \'\'), \'%\')\r\n	AND \"Documents\".\"Reference Number\" LIKE CONCAT(\'%\', IFNULL({Number}, \'\'), \'%\')\r\nORDER BY\r\n    \"Documents\".\"Date\" DESC,\r\n    \"Documents\".\"Reference Number\"');
 INSERT INTO "Report Blocks" ("GUID", "Reports GUID", "Parent Block GUID", "Priority", "Name", "SQL Query") VALUES ('fc3644f970bd47cb91c89e44d71a5946','97c04a5ce5024ad4b2859908da8f6e1a',NULL,0,'Rows','SELECT\r\n	\"Documents\".\"GUID\",\r\n	\"Documents\".\"Date\",\r\n	\"Documents\".\"Reference Number\" AS \"Number\",\r\n	\"Documents\".\"Contacts Display Name\" AS \"Contact\",\r\n	CAST(\"Documents\".\"Total\" AS DECIMAL(64,2)) AS \"Total\"\r\nFROM\r\n	\"Documents\"\r\nWHERE\r\n	\"Documents\".\"Document Types GUID\" = \'5f756fc5f7c5493ca0d86f2d0ead2fda\'\r\n    AND DATE(\"Documents\".\"Date\") <= DATE({Ending})\r\n    AND DATE(\"Documents\".\"Date\") >= DATE({Starting})\r\n    AND \"Documents\".\"Contacts Display Name\" LIKE CONCAT(\'%\', IFNULL({Contact}, \'\'), \'%\')\r\n	AND \"Documents\".\"Reference Number\" LIKE CONCAT(\'%\', IFNULL({Number}, \'\'), \'%\')\r\nORDER BY\r\n    \"Documents\".\"Date\" DESC,\r\n    \"Documents\".\"Reference Number\"');
 INSERT INTO "Report Blocks" ("GUID", "Reports GUID", "Parent Block GUID", "Priority", "Name", "SQL Query") VALUES ('fdfa5f51a32c4dda806863d21a2622bb','6d4ea7d4624e48509e915e019ca1f7a9',NULL,9,'Footer','SELECT SUM(\"Transaction Lines\".\"Debit\") \r\nFROM \r\n  \"Transaction Lines\" \r\n  JOIN \"Transactions\" \r\n    ON \"Transactions\".\"GUID\" = \"Transaction Lines\".\"Transactions GUID\"\r\nWHERE \r\n  DATE(\"Transactions\".\"Date\") <= DATE({As Of Date})\r\n');
+
+SET FOREIGN_KEY_CHECKS=1;
