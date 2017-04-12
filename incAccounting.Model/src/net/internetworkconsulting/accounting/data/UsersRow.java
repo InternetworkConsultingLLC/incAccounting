@@ -44,6 +44,10 @@ public class UsersRow extends Row implements UsersInterface {
 	public boolean setPasswordHash(java.lang.String value) throws Exception { return set(PASSWORD_HASH, value); }
 	public java.lang.String getPasswordHash() { return (java.lang.String) get(PASSWORD_HASH); }
 	
+	public static String EMPLOYEES_GUID = "Employees GUID";
+	public boolean setEmployeesGuid(java.lang.String value) throws Exception { return set(EMPLOYEES_GUID, value); }
+	public java.lang.String getEmployeesGuid() { return (java.lang.String) get(EMPLOYEES_GUID); }
+	
 
 	// child loaders
 	
@@ -77,8 +81,41 @@ public class UsersRow extends Row implements UsersInterface {
 		return (List<T>) lstSettingsChildren;
 	}
 	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Users GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
+	}
+	
+	protected Object lstTimeSheetsChildren = null;
+	public <T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeSheetsChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Sheets\" WHERE \"Users GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeSheetsChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeSheetsChildren;
+	}
+	
 
 	// parent loaders
+	
+	protected Object rEmployeeParent = null;
+	public <T extends EmployeesRow> T loadEmployee(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(rEmployeeParent == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Employees\" WHERE \"GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getEmployeesGuid());
+			List<T> lst = adapter.load(model, stmt, true);
+			if(lst.size() != 1)
+				throw new Exception("Could not locate unique Employees row by GUID (" + Statement.convertObjectToString(this.getEmployeesGuid(), null) + ")!");
+			rEmployeeParent = lst.get(0);
+		}
+		return (T) rEmployeeParent;
+	}
 	
 
 	// unique key loaders
@@ -95,10 +132,34 @@ public class UsersRow extends Row implements UsersInterface {
 		return lst.get(0);		
 	}
 	
+	public static <T extends UsersRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Users\" WHERE \"Display Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Users row by 'Display Name': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends UsersRow> T loadByEmailAddress(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Users\" WHERE \"Email Address\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Users row by 'Email Address': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
 
 	// load all
 	public static <T extends UsersRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Settings\"");
+		Statement stmt = new Statement("SELECT * FROM \"Users\"");
 		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

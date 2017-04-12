@@ -94,6 +94,18 @@ public class ReportsRow extends Row implements ReportsInterface {
 		return lst.get(0);		
 	}
 	
+	public static <T extends ReportsRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Reports\" WHERE \"Display Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Reports row by 'Display Name': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
 
 	// load all
 	public static <T extends ReportsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

@@ -94,6 +94,10 @@ public interface ContactsInterface {
 	
 	<T extends SalesTaxesRow> List<T> loadSalesTaxes(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends ContactsRow> T loadParentContact(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

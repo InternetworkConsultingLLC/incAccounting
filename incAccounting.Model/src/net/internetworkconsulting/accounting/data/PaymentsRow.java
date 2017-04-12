@@ -213,6 +213,18 @@ public class PaymentsRow extends Row implements PaymentsInterface {
 		return lst.get(0);		
 	}
 	
+	public static <T extends PaymentsRow> T loadByPostedTransactionsGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Payments\" WHERE \"Posted Transactions GUID\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Payments row by 'Posted Transactions GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
 
 	// load all
 	public static <T extends PaymentsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {

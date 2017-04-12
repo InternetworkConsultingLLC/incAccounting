@@ -201,6 +201,16 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		return (List<T>) lstPaymentApplicationsChildren;
 	}
 	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Documents GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
+	}
+	
 
 	// parent loaders
 	

@@ -93,6 +93,26 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 		return (List<T>) lstPayrollChecksChildren;
 	}
 	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Employees GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
+	}
+	
+	protected Object lstUsersChildren = null;
+	public <T extends UsersRow> List<T> loadUsers(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstUsersChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Users\" WHERE \"Employees GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstUsersChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstUsersChildren;
+	}
+	
 
 	// parent loaders
 	

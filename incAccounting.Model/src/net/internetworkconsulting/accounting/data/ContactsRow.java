@@ -243,6 +243,26 @@ public class ContactsRow extends Row implements ContactsInterface {
 		return (List<T>) lstSalesTaxesChildren;
 	}
 	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Contacts GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
+	}
+	
+	protected Object lstTimeSheetsChildren = null;
+	public <T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeSheetsChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Sheets\" WHERE \"Employees GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeSheetsChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeSheetsChildren;
+	}
+	
 
 	// parent loaders
 	
@@ -296,6 +316,18 @@ public class ContactsRow extends Row implements ContactsInterface {
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Contacts row by 'GUID': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
+	public static <T extends ContactsRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Contacts\" WHERE \"Display Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Contacts row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}

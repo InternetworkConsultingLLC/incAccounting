@@ -91,6 +91,18 @@ public class TransactionTypesRow extends Row implements TransactionTypesInterfac
 		return lst.get(0);		
 	}
 	
+	public static <T extends TransactionTypesRow> T loadByName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
+		String sql = "SELECT * FROM \"Transaction Types\" WHERE \"Name\"={VALUE}";
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{VALUE}", value);
+
+		List<T> lst = adapter.load(model, stmt, true);
+		if(lst.size() != 1)
+			throw new Exception("Could not locate unique Transaction Types row by 'Name': " + Statement.convertObjectToString(value, null));
+
+		return lst.get(0);		
+	}
+	
 
 	// load all
 	public static <T extends TransactionTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
