@@ -5,3 +5,5 @@
 incAccounting/web/WEB-INF/lib/incLibraries.jar
 *.jar
 *.war
+build/
+dist/
