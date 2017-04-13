@@ -40,7 +40,7 @@ public class PaymentTypesRow extends Row implements PaymentTypesInterface {
 		if(lstPaymentTypesDocumentTypesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payment Types Document Types\" WHERE \"Payment Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPaymentTypesDocumentTypesChildren = adapter.load(model, stmt);
+			lstPaymentTypesDocumentTypesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPaymentTypesDocumentTypesChildren;
 	}
@@ -50,7 +50,7 @@ public class PaymentTypesRow extends Row implements PaymentTypesInterface {
 		if(lstPaymentsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payments\" WHERE \"Payment Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPaymentsChildren = adapter.load(model, stmt);
+			lstPaymentsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPaymentsChildren;
 	}
@@ -63,7 +63,7 @@ public class PaymentTypesRow extends Row implements PaymentTypesInterface {
 		if(rTransactionTypeParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transaction Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transaction Types row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
 			rTransactionTypeParent = lst.get(0);
@@ -76,7 +76,7 @@ public class PaymentTypesRow extends Row implements PaymentTypesInterface {
 		if(rAccountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
 			rAccountParent = lst.get(0);
@@ -92,7 +92,7 @@ public class PaymentTypesRow extends Row implements PaymentTypesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Payment Types row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -103,6 +103,6 @@ public class PaymentTypesRow extends Row implements PaymentTypesInterface {
 	// load all
 	public static <T extends PaymentTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Payment Types\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

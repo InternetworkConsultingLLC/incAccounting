@@ -35,4 +35,13 @@ WHERE
 		SELECT "Document Types GUID" FROM "Payment Types Document Types" WHERE "Payment Types GUID" = {Payment Types GUID}
 	)
 	AND "Documents"."Contacts GUID" = {Contacts GUID}
-	AND "Documents"."Total" - COALESCE("OtherPayments"."Amount", 0) <> 0
+	AND (
+		"Documents"."Total" - COALESCE("OtherPayments"."Amount", 0) <> 0 
+		OR "Documents"."GUID" = ( SELECT "Prepayment Documents GUID" FROM "Payments" WHERE "GUID"={Payments GUID} )
+	)
+ORDER BY 
+	"Documents"."Date",
+	CASE
+		WHEN "Document Types"."Is Credit Memo" = 1 THEN  ("Documents"."Total" - COALESCE("OtherPayments"."Amount", 0)) * - 1 
+		WHEN "Document Types"."Is Credit Memo" = 0 THEN  ("Documents"."Total" - COALESCE("OtherPayments"."Amount", 0)) * 1 
+	END

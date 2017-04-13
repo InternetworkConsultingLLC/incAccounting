@@ -1,26 +1,9 @@
-/*
- * Copyright (C) 2016 Internetwork Consulting LLC
- *
- * This program is free software: you can redistribute it and/or modify it 
- * under the terms of the GNU General Public License as published by the Free 
- * Software Foundation, version 3 of the License.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
- * more details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
- */
 package net.internetworkconsulting.accounting.entities;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.SalesTaxesRow;
-import net.internetworkconsulting.bootstrap.entities.Option;
-import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
@@ -37,7 +20,7 @@ public class SalesTax extends SalesTaxesRow {
 			return lstOptions;
 
 		Statement stmt = new Statement(adapter.getSession().readJar(SalesTax.class, "SalesTax.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -58,7 +41,7 @@ public class SalesTax extends SalesTaxesRow {
 
 		Statement stmt = new Statement(adapter.getSession().readJar(SalesTax.class, "SalesTax.loadMembershipOptions.sql"));	
 		stmt.getParameters().put("{Group GUID}", this.getGuid());
-		lstMembershipOptions = adapter.load(SalesTaxMembershipOption.class, stmt);
+		lstMembershipOptions = adapter.load(SalesTaxMembershipOption.class, stmt, true);
 		
 		return lstMembershipOptions;
 	}

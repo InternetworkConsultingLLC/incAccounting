@@ -5,8 +5,7 @@ import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.ContactNote;
 import net.internetworkconsulting.accounting.entities.ContactType;
 import net.internetworkconsulting.accounting.entities.SalesTax;
-import net.internetworkconsulting.bootstrap.entities.User;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
+import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.*;
@@ -56,7 +55,7 @@ public class ContactsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Contact objModel = (Contact) handleNonPostbackActions(model);
-		setDocument(new Template(read_url(getTemplateFile()), new HtmlSyntax()));
+		setDocument(new Template(readTemplate(getTemplateFile()), new HtmlSyntax()));
 
 		User.loadOptions(getUser().login(), true);
 		Contact.loadOptions(getUser().login(), true);

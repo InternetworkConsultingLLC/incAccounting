@@ -60,7 +60,7 @@ public class JobsRow extends Row implements JobsInterface {
 		if(lstDocumentLinesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"Jobs GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentLinesChildren = adapter.load(model, stmt);
+			lstDocumentLinesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentLinesChildren;
 	}
@@ -70,9 +70,19 @@ public class JobsRow extends Row implements JobsInterface {
 		if(lstChildrenChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Jobs\" WHERE \"Parent Jobs GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildrenChildren = adapter.load(model, stmt);
+			lstChildrenChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildrenChildren;
+	}
+	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Jobs GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
 	}
 	
 	protected Object lstTransactionLinesChildren = null;
@@ -80,7 +90,7 @@ public class JobsRow extends Row implements JobsInterface {
 		if(lstTransactionLinesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"Jobs GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTransactionLinesChildren = adapter.load(model, stmt);
+			lstTransactionLinesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstTransactionLinesChildren;
 	}
@@ -93,7 +103,7 @@ public class JobsRow extends Row implements JobsInterface {
 		if(rParentJobParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Jobs\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentJobsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Jobs row by GUID (" + Statement.convertObjectToString(this.getParentJobsGuid(), null) + ")!");
 			rParentJobParent = lst.get(0);
@@ -106,7 +116,7 @@ public class JobsRow extends Row implements JobsInterface {
 		if(rContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
@@ -122,7 +132,7 @@ public class JobsRow extends Row implements JobsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Jobs row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -134,7 +144,7 @@ public class JobsRow extends Row implements JobsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Jobs row by 'Number': " + Statement.convertObjectToString(value, null));
 
@@ -145,6 +155,6 @@ public class JobsRow extends Row implements JobsInterface {
 	// load all
 	public static <T extends JobsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Jobs\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

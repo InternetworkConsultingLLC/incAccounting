@@ -116,9 +116,19 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 		if(lstPayrollFieldValuesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payroll Field Values\" WHERE \"Payroll Checks GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPayrollFieldValuesChildren = adapter.load(model, stmt);
+			lstPayrollFieldValuesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPayrollFieldValuesChildren;
+	}
+	
+	protected Object lstTimeSheetsChildren = null;
+	public <T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeSheetsChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Sheets\" WHERE \"Payroll Checks GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeSheetsChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeSheetsChildren;
 	}
 	
 
@@ -129,7 +139,7 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 		if(rEmployeeGuidParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Employees\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getEmployeesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Employees row by GUID (" + Statement.convertObjectToString(this.getEmployeesGuid(), null) + ")!");
 			rEmployeeGuidParent = lst.get(0);
@@ -142,7 +152,7 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 		if(rAccountsGuidParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
 			rAccountsGuidParent = lst.get(0);
@@ -155,7 +165,7 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 		if(rTransactionParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transactions\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPostedTransactionsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transactions row by GUID (" + Statement.convertObjectToString(this.getPostedTransactionsGuid(), null) + ")!");
 			rTransactionParent = lst.get(0);
@@ -171,7 +181,7 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Payroll Checks row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -182,6 +192,6 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 	// load all
 	public static <T extends PayrollChecksRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Payroll Checks\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

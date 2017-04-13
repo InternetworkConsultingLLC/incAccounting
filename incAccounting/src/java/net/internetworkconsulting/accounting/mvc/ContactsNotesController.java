@@ -2,7 +2,7 @@ package net.internetworkconsulting.accounting.mvc;
 
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.accounting.entities.ContactNote;
-import net.internetworkconsulting.bootstrap.entities.User;
+import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.template.Template;
 
 public class ContactsNotesController extends Controller {

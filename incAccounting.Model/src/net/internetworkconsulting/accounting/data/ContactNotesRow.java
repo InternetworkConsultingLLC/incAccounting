@@ -55,7 +55,7 @@ public class ContactNotesRow extends Row implements ContactNotesInterface {
 		if(rContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
@@ -71,7 +71,7 @@ public class ContactNotesRow extends Row implements ContactNotesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Contact Notes row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -82,6 +82,6 @@ public class ContactNotesRow extends Row implements ContactNotesInterface {
 	// load all
 	public static <T extends ContactNotesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Contact Notes\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

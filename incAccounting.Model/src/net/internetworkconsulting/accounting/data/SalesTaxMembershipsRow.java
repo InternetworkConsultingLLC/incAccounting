@@ -39,7 +39,7 @@ public class SalesTaxMembershipsRow extends Row implements SalesTaxMembershipsIn
 		if(rParentSalesTaxParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Sales Taxes\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentSalesTaxesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Sales Taxes row by GUID (" + Statement.convertObjectToString(this.getParentSalesTaxesGuid(), null) + ")!");
 			rParentSalesTaxParent = lst.get(0);
@@ -52,7 +52,7 @@ public class SalesTaxMembershipsRow extends Row implements SalesTaxMembershipsIn
 		if(rChildSalesTaxParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Sales Taxes\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getChildSalesTaxesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Sales Taxes row by GUID (" + Statement.convertObjectToString(this.getChildSalesTaxesGuid(), null) + ")!");
 			rChildSalesTaxParent = lst.get(0);
@@ -67,6 +67,6 @@ public class SalesTaxMembershipsRow extends Row implements SalesTaxMembershipsIn
 	// load all
 	public static <T extends SalesTaxMembershipsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Sales Tax Memberships\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

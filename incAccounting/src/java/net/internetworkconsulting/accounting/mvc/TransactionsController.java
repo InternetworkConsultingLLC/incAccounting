@@ -8,12 +8,10 @@ import net.internetworkconsulting.accounting.entities.Job;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
 import net.internetworkconsulting.accounting.entities.TransactionType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.ComboTag;
-import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.DateTag;
 import net.internetworkconsulting.mvc.Event;
@@ -45,7 +43,7 @@ public class TransactionsController  extends EditController{
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Transaction objModel = (Transaction) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Transaction.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Transaction.html"), new HtmlSyntax()));
 		
 		Account.loadOptions(getUser().login(), true);
 		Job.loadOptions(getUser().login(), true);

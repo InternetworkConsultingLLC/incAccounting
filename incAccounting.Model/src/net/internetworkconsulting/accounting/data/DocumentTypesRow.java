@@ -48,7 +48,7 @@ public class DocumentTypesRow extends Row implements DocumentTypesInterface {
 		if(lstDocumentsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"Document Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentsChildren = adapter.load(model, stmt);
+			lstDocumentsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentsChildren;
 	}
@@ -58,7 +58,7 @@ public class DocumentTypesRow extends Row implements DocumentTypesInterface {
 		if(lstPaymentTypesDocumentTypesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payment Types Document Types\" WHERE \"Document Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPaymentTypesDocumentTypesChildren = adapter.load(model, stmt);
+			lstPaymentTypesDocumentTypesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPaymentTypesDocumentTypesChildren;
 	}
@@ -71,7 +71,7 @@ public class DocumentTypesRow extends Row implements DocumentTypesInterface {
 		if(rTransactionTypeParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transaction Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transaction Types row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
 			rTransactionTypeParent = lst.get(0);
@@ -84,7 +84,7 @@ public class DocumentTypesRow extends Row implements DocumentTypesInterface {
 		if(rAccountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
 			rAccountParent = lst.get(0);
@@ -100,7 +100,7 @@ public class DocumentTypesRow extends Row implements DocumentTypesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Document Types row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -111,6 +111,6 @@ public class DocumentTypesRow extends Row implements DocumentTypesInterface {
 	// load all
 	public static <T extends DocumentTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Document Types\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

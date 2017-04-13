@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2016 Internetwork Consulting LLC
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, version 3 of the License.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
- */
 package net.internetworkconsulting.generator.MySQL;
 
 import java.io.File;
@@ -26,53 +11,41 @@ import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.Helper;
 import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.RowInterface;
+import net.internetworkconsulting.data.mysql.Adapter;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.template.CSyntax;
 import net.internetworkconsulting.template.Template;
 
 public class Generator {
-	private final String sDatabase = "ia-incllc";
+	private final String sDatabase = "incllc";
+	private final String sServer = "localhost";
+	private final String sUser = "root";
+	private final String sPassword = "Welcome123";
+	
+	private final String sNamespace = "net.internetworkconsulting.accounting.data";
+	private final String sOutputFolder = "E:\\Repositories\\NetBeans\\incAccounting.Model\\src\\net\\internetworkconsulting\\accounting\\data\\";
+	
 	private final Statement stmtTables = new Statement("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = {database};");
 	private final Statement stmtColumns = new Statement("SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = {table} AND TABLE_SCHEMA = {database};");
 	private final Statement stmtForeignKeys = new Statement("SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {database} AND REFERENCED_TABLE_NAME IS NOT NULL;");
 	private final Statement stmtUniqueKeys = new Statement();
 	
-	private final AdapterInterface dbAdapter;	
+	private AdapterInterface dbAdapter;	
 	private List lstForeignKeys;
 	private List lstUniqueKeys;
 	private HashMap<String, String> hmFileNames;
 	private HashMap<String, Template> hmDocuments;
-	private HashMap<String, Config> hmTablesConfig;
 	private HashMap<String, Family> hmFamilies;
 	private HashMap<String, Row> hmTables;
 	
 	private HashSet<String> hsMethods = null;
 	
-	public Generator(AdapterInterface adapter) { 
-		dbAdapter = adapter; 
-	}	
 	public int execute() throws Exception {
+		dbAdapter = new Adapter(sServer, sDatabase, sUser, sPassword, false);
+
 		stmtUniqueKeys.setCommand(Helper.InputStreamToString(Generator.class.getResourceAsStream("SelectUniqueKeys.sql")));
-		//stmtUniqueKeys.setCommand(IOUtils.toString(Generator.class.getResourceAsStream("SelectUniqueKeys.sql"), "UTF-8"));
 		
-		
-		List<String> arrConfig = Helper.InputStreamToStringList(Generator.class.getResourceAsStream("tables.config"));
-		//List<String> arrConfig = IOUtils.readLines(Generator.class.getResourceAsStream("tables.config"));
-		hmTablesConfig = new HashMap<>();
-		for(String sLine : arrConfig) {
-			String[] arrColumns = sLine.split("\\|");			
-			if(arrColumns.length < 1)
-				continue;
-				
-			Config cfg = new Config();
-			cfg.Table = arrColumns[0];
-			cfg.NameSpace = arrColumns[1];
-			cfg.Folder = arrColumns[2];
-			hmTablesConfig.put(cfg.Table.toLowerCase(), cfg);
-		}
-		
-		arrConfig = Helper.InputStreamToStringList(Generator.class.getResourceAsStream("files.config"));
-		//arrConfig = IOUtils.readLines(Generator.class.getResourceAsStream("files.config"));
+		List<String> arrConfig = Helper.InputStreamToStringList(Generator.class.getResourceAsStream("files.config"));
 		hmFileNames = new HashMap<>();
 		for(String sLine : arrConfig) {
 			String[] arrColumns = sLine.split("\\|");			
@@ -83,29 +56,25 @@ public class Generator {
 		}
 		
 		stmtTables.getParameters().put("{database}", sDatabase);
-		List<Row> lstTables = dbAdapter.load(Row.class, stmtTables);
+		List<Row> lstTables = dbAdapter.load(Row.class, stmtTables, false);
 		hmTables = new HashMap<String, Row>();
 		for(Row table : lstTables)
 			hmTables.put(table.get("TABLE_NAME").toString(), table);
 						
 		stmtUniqueKeys.getParameters().put("{database}", sDatabase);
-		lstUniqueKeys = dbAdapter.load(Row.class, stmtUniqueKeys);
+		lstUniqueKeys = dbAdapter.load(Row.class, stmtUniqueKeys, false);
 		
 		stmtForeignKeys.getParameters().put("{database}", sDatabase);
-		lstForeignKeys = dbAdapter.load(Row.class, stmtForeignKeys);
+		lstForeignKeys = dbAdapter.load(Row.class, stmtForeignKeys, false);
 		
 		processRowsAndInterfaces(lstTables);
-		//processComposits();
-		
+	
 		return 0;
 	}
 
 	private void processRowsAndInterfaces(List<Row> lstTables) throws Exception {
 		for(int cnt = 0; cnt < lstTables.size(); cnt++) {
 			Row row = lstTables.get(cnt);
-			if(!hmTablesConfig.containsKey(row.get("TABLE_NAME").toString().toLowerCase()))
-				throw new Exception("Could not fine table (" + row.get("TABLE_NAME").toString() + ") in config!");
-			
 			hsMethods = new HashSet<>();
 			
 			// read templates
@@ -113,7 +82,7 @@ public class Generator {
 			
 			// populate with table meta data
 			addToDocument("database", sDatabase);
-			addToDocument("namespace", hmTablesConfig.get(row.get("TABLE_NAME").toString().toLowerCase()).NameSpace);			
+			addToDocument("namespace", sNamespace);			
 			addToDocument("table", row.get("TABLE_NAME").toString());
 		
 			processTable(row);			
@@ -136,7 +105,7 @@ public class Generator {
 		stmtColumns.getParameters().clear();
 		stmtColumns.getParameters().put("{table}", table.get("TABLE_NAME").toString());
 		stmtColumns.getParameters().put("{database}", sDatabase);
-		List<Row> lstColumns = dbAdapter.load(Row.class, stmtColumns);
+		List<Row> lstColumns = dbAdapter.load(Row.class, stmtColumns, false);
 		for(int cnt = 0; cnt < lstColumns.size(); cnt++) {
 			Row rColumn = lstColumns.get(cnt);
 			
@@ -345,16 +314,17 @@ public class Generator {
 	private void saveDocuments(String TABLE_NAME) throws Exception {
 		for(String template : hmFileNames.keySet()) {
 			String sFile;
-                        if(hmTablesConfig.get(TABLE_NAME.toLowerCase()).Folder.endsWith(File.separator))
-				sFile = hmTablesConfig.get(TABLE_NAME.toLowerCase()).Folder + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
+			if(sOutputFolder.endsWith(File.separator))
+				sFile = sOutputFolder + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
 			else
-                                sFile = hmTablesConfig.get(TABLE_NAME.toLowerCase()).Folder + File.separator + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
+				sFile = sOutputFolder + File.separator + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
 			File f = new File(sFile);
 			if(f.exists())
 				f.delete();
 			try {
 				f.createNewFile();
-			} catch(Exception ex) {
+			}
+			catch(Exception ex) {
 				System.err.println(ex.toString());
 			}
 

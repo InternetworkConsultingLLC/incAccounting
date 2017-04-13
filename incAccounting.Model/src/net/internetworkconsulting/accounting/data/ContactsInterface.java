@@ -90,7 +90,13 @@ public interface ContactsInterface {
 	
 	<T extends PaymentsRow> List<T> loadContactPayments(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
+	<T extends RegisterEntriesRow> List<T> loadRegisterEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	<T extends SalesTaxesRow> List<T> loadSalesTaxes(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	
 	<T extends ContactsRow> T loadParentContact(AdapterInterface adapter, Class biz, boolean force) throws Exception;

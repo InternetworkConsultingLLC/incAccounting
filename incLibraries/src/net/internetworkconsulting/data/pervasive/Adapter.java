@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2016 Internetwork Consulting LLC
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, version 3 of the License.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
- */
 package net.internetworkconsulting.data.pervasive;
 
 import java.sql.Connection;
@@ -52,7 +37,7 @@ public class Adapter implements AdapterInterface {
 	public boolean execute(Statement stmt, boolean log_query) throws Exception { 
 		return ptConnection.createStatement().execute(stmt.generate(getSession(), false));
 	}
-	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt) throws Exception {
+	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt, boolean log_query) throws Exception {
 		java.sql.ResultSet rs = ptConnection.createStatement().executeQuery(stmt.generate(getSession(), false));
 
 		List<R> newTable = new java.util.LinkedList<>();

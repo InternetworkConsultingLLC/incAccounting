@@ -3,7 +3,6 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Conversion;
 import net.internetworkconsulting.accounting.entities.UnitMeasure;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
@@ -35,7 +34,7 @@ public class UnitMeasureEditController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		UnitMeasure objModel = (UnitMeasure) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/UnitMeasure.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/UnitMeasure.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, UnitMeasure.GUID);
 		txtGuid.setIsReadOnly(true);

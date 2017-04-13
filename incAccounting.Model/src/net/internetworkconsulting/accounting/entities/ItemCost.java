@@ -9,7 +9,7 @@ public class ItemCost extends Row {
 	static List<ItemCost> loadForItem(AdapterInterface adapter, String item_guid) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(ItemCost.class, "ItemCost.loadForItem.sql"));		
 		stmt.getParameters().put("{Items GUID}", item_guid);
-		return adapter.load(ItemCost.class, stmt);
+		return adapter.load(ItemCost.class, stmt, true);
 	}
 	
 	public ItemCost() { 

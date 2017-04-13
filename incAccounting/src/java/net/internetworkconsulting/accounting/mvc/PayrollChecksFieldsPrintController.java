@@ -5,7 +5,7 @@ import net.internetworkconsulting.accounting.data.PayrollFieldsRow;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldValue;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.CheckTag;
 import net.internetworkconsulting.mvc.ComboTag;
 import net.internetworkconsulting.mvc.Controller;

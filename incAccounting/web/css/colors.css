@@ -30,7 +30,7 @@ button, input[type="text"], input[type="password"], textarea, a.add, a.delete {
 	background-color: #fff;
 	border-radius: 4px;
 }
-select, select > option, select * {
+select {
 	color: #888;
 	border: 1pt solid #888; 
 	background-color: #fff;

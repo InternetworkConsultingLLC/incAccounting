@@ -52,7 +52,7 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		if(lstDocumentsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"Sales Taxes GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentsChildren = adapter.load(model, stmt);
+			lstDocumentsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentsChildren;
 	}
@@ -62,7 +62,7 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		if(lstChildTaxMembershipsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Sales Tax Memberships\" WHERE \"Child Sales Taxes GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildTaxMembershipsChildren = adapter.load(model, stmt);
+			lstChildTaxMembershipsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildTaxMembershipsChildren;
 	}
@@ -72,7 +72,7 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		if(lstParentTaxMembershipsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Sales Tax Memberships\" WHERE \"Parent Sales Taxes GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstParentTaxMembershipsChildren = adapter.load(model, stmt);
+			lstParentTaxMembershipsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstParentTaxMembershipsChildren;
 	}
@@ -85,7 +85,7 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		if(rContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
@@ -98,7 +98,7 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		if(rAccountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getAccountsGuid(), null) + ")!");
 			rAccountParent = lst.get(0);
@@ -114,7 +114,7 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Sales Taxes row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -126,7 +126,7 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Sales Taxes row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
@@ -137,6 +137,6 @@ public class SalesTaxesRow extends Row implements SalesTaxesInterface {
 	// load all
 	public static <T extends SalesTaxesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Sales Taxes\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

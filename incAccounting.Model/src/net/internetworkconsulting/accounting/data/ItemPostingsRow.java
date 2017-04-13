@@ -47,7 +47,7 @@ public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 		if(rIncreasingDocumentLineParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getIncreasingDocumentLinesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Document Lines row by GUID (" + Statement.convertObjectToString(this.getIncreasingDocumentLinesGuid(), null) + ")!");
 			rIncreasingDocumentLineParent = lst.get(0);
@@ -60,7 +60,7 @@ public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 		if(rDecreasingDocumentLineParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDecreasingDocumentLinesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Document Lines row by GUID (" + Statement.convertObjectToString(this.getDecreasingDocumentLinesGuid(), null) + ")!");
 			rDecreasingDocumentLineParent = lst.get(0);
@@ -76,7 +76,7 @@ public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Item Postings row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -87,6 +87,6 @@ public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 	// load all
 	public static <T extends ItemPostingsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Item Postings\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

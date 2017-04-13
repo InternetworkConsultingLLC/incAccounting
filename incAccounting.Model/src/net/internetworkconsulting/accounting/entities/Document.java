@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2016 Internetwork Consulting LLC
- *
- * This program is free software: you can redistribute it and/or modify it 
- * under the terms of the GNU General Public License as published by the Free 
- * Software Foundation, version 3 of the License.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
- * more details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
- */
 package net.internetworkconsulting.accounting.entities;
 
 import java.math.BigDecimal;
@@ -23,9 +8,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.DocumentsRow;
-import net.internetworkconsulting.bootstrap.entities.Option;
-import net.internetworkconsulting.bootstrap.entities.Setting;
-import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
@@ -76,6 +58,7 @@ public class Document extends DocumentsRow {
 		Statement stmt = new Statement(" SELECT * FROM \"" + Document.TABLE_NAME + "\" ");
 		
 		String where = " WHERE ";
+		where += "\"" + Document.GUID + "\" NOT IN ( SELECT \"" + Payment.PREPAYMENT_DOCUMENTS_GUID + "\" FROM \"" + Payment.TABLE_NAME + "\" ) AND ";
 		if(type_guid != null && type_guid.length() == 32) {
 			where += " \"" + Document.DOCUMENT_TYPES_GUID + "\"={Type GUID} AND";
 			stmt.getParameters().put("{Type GUID}", type_guid);
@@ -91,7 +74,7 @@ public class Document extends DocumentsRow {
 		if(!where.trim().equals("WHERE"))
 			stmt.setCommand(stmt.getCommand() + where);
 		
-		return adapter.load(Document.class, stmt);		
+		return adapter.load(Document.class, stmt, true);		
 	}
 	
 	private static List<Option> lstOptions;
@@ -100,7 +83,7 @@ public class Document extends DocumentsRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(Document.class, "Document.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -223,7 +206,7 @@ public class Document extends DocumentsRow {
 			Setting bizSetting = Setting.loadByKey(adapter, Setting.class, sKey);		
 			String sMyNumber = bizSetting.getValue();
 			do {
-				sMyNumber = net.internetworkconsulting.data.Helper.Increment(bizSetting.getValue());
+				sMyNumber = net.internetworkconsulting.data.Helper.Increment(sMyNumber);
 			} while(!Document.isNumberAvailable(adapter, this.getDocumentTypesGuid(), sMyNumber));
 
 			this.setReferenceNumber(sMyNumber);
@@ -519,6 +502,9 @@ public class Document extends DocumentsRow {
 		return lstTranLines;		
 	}
 	private void createPostStandard(BigDecimal dMultiplier, DocumentLine docLine, Transaction objTran, AdapterInterface adapter) throws Exception {
+		if(docLine.getAccountsGuid() == null)
+			throw new Exception("Document line does not have an account!");
+		
 		TransactionLine objTranLine = new TransactionLine();
 		objTranLine.initialize(objTran, adapter);
 		//objTranLine.setGuid(docLine.getGuid());
@@ -578,7 +564,14 @@ public class Document extends DocumentsRow {
 		stmt.getParameters().put("{Type}", type_guid);
 		stmt.getParameters().put("{Reference}", number);
 		
-		List<Document> lst = adapter.load(Document.class, stmt);
+		List<Document> lst = adapter.load(Document.class, stmt, true);
 		return lst.isEmpty();
+	}
+	public boolean getIsPrepayment(AdapterInterface adapter) throws Exception {
+		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={GUID}";
+		Statement stmt = new Statement(String.format(sql, Payment.TABLE_NAME, Payment.PREPAYMENT_DOCUMENTS_GUID));
+		stmt.getParameters().put("{GUID}", getGuid());
+		List<Document> lstDocs = adapter.load(Document.class, stmt, true);
+		return lstDocs.size() > 0;
 	}
  }

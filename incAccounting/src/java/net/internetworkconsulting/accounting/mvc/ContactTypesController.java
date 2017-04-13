@@ -1,7 +1,6 @@
 package net.internetworkconsulting.accounting.mvc;
 
 import net.internetworkconsulting.accounting.entities.ContactType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
@@ -27,7 +26,7 @@ public class ContactTypesController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		ContactType objModel = (ContactType) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/ContactType.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/ContactType.html"), new HtmlSyntax()));
 		
 		TextTag txtGuid = new TextTag(this, ContactType.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

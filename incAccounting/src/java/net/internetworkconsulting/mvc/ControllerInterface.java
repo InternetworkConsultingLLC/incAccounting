@@ -2,10 +2,11 @@ package net.internetworkconsulting.mvc;
 
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import net.internetworkconsulting.bootstrap.entities.User;
+import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.template.Template;
 
 public interface ControllerInterface {
@@ -28,15 +29,12 @@ public interface ControllerInterface {
 	
 	HttpServletResponse getResponse();
 	void setResponse(HttpServletResponse value);
+
+	ServletContext getContext();
+	void setContext(ServletContext value);
 	
 	String getRootUrl();
 	void setRootUrl(String value);
-
-	String getSqlDatabase();
-	void setSqlDatabase(String value);
-	
-	String getSqlServer();
-	void setSqlServer(String value);
 	
 	HttpSession getSession();
 	void setSession(HttpSession value);
@@ -52,9 +50,6 @@ public interface ControllerInterface {
 	
 	boolean getIsDocumentBlock();
 	void setIsDocumentBlock(boolean value);
-	
-	boolean getIsSetupAllowed();
-	void setIsSetupAllowed(boolean value);
 
 	boolean getIsPostback();	
 	
@@ -84,6 +79,6 @@ public interface ControllerInterface {
 	void populateDocument() throws Exception;
 	
 	// helpers
-	String read_url(String file_name) throws Exception;
+	String readTemplate(String file_name) throws Exception;
 	void redirect(String url) throws Exception;
 }

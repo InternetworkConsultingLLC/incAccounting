@@ -43,7 +43,7 @@ public class PaymentApplicationsRow extends Row implements PaymentApplicationsIn
 		if(rPaymentParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payments\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPaymentsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Payments row by GUID (" + Statement.convertObjectToString(this.getPaymentsGuid(), null) + ")!");
 			rPaymentParent = lst.get(0);
@@ -56,7 +56,7 @@ public class PaymentApplicationsRow extends Row implements PaymentApplicationsIn
 		if(rDocumentParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDocumentsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Documents row by GUID (" + Statement.convertObjectToString(this.getDocumentsGuid(), null) + ")!");
 			rDocumentParent = lst.get(0);
@@ -71,6 +71,6 @@ public class PaymentApplicationsRow extends Row implements PaymentApplicationsIn
 	// load all
 	public static <T extends PaymentApplicationsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Payment Applications\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

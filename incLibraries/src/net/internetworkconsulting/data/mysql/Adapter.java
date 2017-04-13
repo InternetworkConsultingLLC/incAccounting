@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2016 Internetwork Consulting LLC
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, version 3 of the License.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
- */
 package net.internetworkconsulting.data.mysql;
 
 import java.sql.Connection;
@@ -20,20 +5,37 @@ import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.naming.InitialContext;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.SessionInterface;
 import net.internetworkconsulting.data.StatementInterface;
 
 public class Adapter implements AdapterInterface {
+	@Resource(name = "jdbc/incDatabase")
 
-	public Connection getConnection() {
-		return myConnection;
-	}
+	public Connection getConnection() { return myConnection; }
 	private java.sql.Connection myConnection = null;
 	private boolean bIsConnectionMine = false;
-	private static String SET_SESSION = "SET SESSION sql_mode = 'ANSI_QUOTES,NO_ZERO_DATE,STRICT_ALL_TABLES,TRADITIONAL;";
+	private static String SET_SESSION = "SET SESSION sql_mode = 'ANSI_QUOTES,NO_ZERO_DATE,STRICT_ALL_TABLES,TRADITIONAL';";
 
+	public Adapter() throws Exception {
+		InitialContext ctx = new InitialContext();
+		String server = (String) ctx.lookup("java:comp/env/dbServer");
+		String user = (String) ctx.lookup("java:comp/env/dbUser");
+		String password = (String) ctx.lookup("java:comp/env/dbPassword");
+		String database = "";
+		boolean ssl = true;
+
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=convertToNull";
+		if(ssl)
+			sUri = sUri + "&verifyServerCertificate=false&useSSL=true&requireSSL=true";
+		myConnection = DriverManager.getConnection(sUri, user, password);
+		bIsConnectionMine = true;
+		prepareConnection();
+	}
 	public Adapter(String server, String database, String user, String password, boolean ssl) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=convertToNull";
@@ -68,7 +70,8 @@ public class Adapter implements AdapterInterface {
 	}
 
 	public boolean execute(Statement stmt, boolean log_query) throws Exception {
-		return myConnection.createStatement().execute(stmt.generate(getSession(), log_query));
+		String sql = stmt.generate(getSession(), log_query);
+		return myConnection.createStatement().execute(sql);
 	}
 	public HashMap<String, String> loadColumns(String table) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"" + table + "\" WHERE 1<>1");
@@ -83,7 +86,7 @@ public class Adapter implements AdapterInterface {
 
 		return mapColumns;
 	}
-	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt) throws Exception {
+	public <R extends RowInterface> List<R> load(Class<R> cls, StatementInterface stmt, boolean log_query) throws Exception {
 		if(myUser != null) {
 			R ri = null;
 			try { ri = cls.newInstance(); }
@@ -91,7 +94,7 @@ public class Adapter implements AdapterInterface {
 			myUser.canRead(ri.getSqlSecurableGuid());
 		}
 
-		java.sql.ResultSet rs = myConnection.createStatement().executeQuery(stmt.generate(getSession(), false));
+		java.sql.ResultSet rs = myConnection.createStatement().executeQuery(stmt.generate(getSession(), log_query));
 
 		List<R> newTable = new java.util.LinkedList<>();
 
@@ -189,7 +192,7 @@ public class Adapter implements AdapterInterface {
 	public <R extends RowInterface> HashMap<String, String> getColumns(Class<R> cls, StatementInterface stmt) throws Exception {
 		String sql = "SELECT * FROM (" + stmt.getCommand() + ") TBL WHERE 1 <> 1";
 		stmt.setCommand(sql);
-		load(cls, stmt);
+		load(cls, stmt, false);
 		return mapColumns;
 	}
 

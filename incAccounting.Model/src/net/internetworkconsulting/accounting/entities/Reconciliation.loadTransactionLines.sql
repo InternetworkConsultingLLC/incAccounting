@@ -15,4 +15,6 @@ WHERE
 	("Reconciliations GUID"={RECONCILIATIONS GUID} OR "Reconciliations GUID" IS NULL)
 	AND "Date" <= {DATE}
     AND "Accounts GUID" = {ACCOUNTS GUID}
-ORDER BY "Debit" DESC
+ORDER BY 
+	"Date",
+	"Debit" DESC

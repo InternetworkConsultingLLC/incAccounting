@@ -5,8 +5,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.DocumentType;
 import net.internetworkconsulting.accounting.entities.TransactionType;
-import net.internetworkconsulting.bootstrap.entities.Option;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
@@ -31,7 +30,8 @@ public class DocumentTypesController extends EditController {
 	}
 	
 	public void createControls(Template document, Object model) throws Exception {		
-		DocumentType objModel = (DocumentType) handleNonPostbackActions(model);		setDocument(new Template(read_url("~/templates/DocumentType.html"), new HtmlSyntax()));
+		DocumentType objModel = (DocumentType) handleNonPostbackActions(model);		
+		setDocument(new Template(readTemplate("~/templates/DocumentType.html"), new HtmlSyntax()));
 		
 		TransactionType objTranType = null;
 		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false); }

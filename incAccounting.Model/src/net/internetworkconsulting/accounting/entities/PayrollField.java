@@ -1,25 +1,8 @@
-/*
- * Copyright (C) 2016 Internetwork Consulting LLC
- *
- * This program is free software: you can redistribute it and/or modify it 
- * under the terms of the GNU General Public License as published by the Free 
- * Software Foundation, version 3 of the License.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
- * more details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
- */
 package net.internetworkconsulting.accounting.entities;
 
 import java.util.HashMap;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.PayrollFieldsRow;
-import net.internetworkconsulting.bootstrap.entities.Option;
-import net.internetworkconsulting.bootstrap.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
@@ -35,7 +18,7 @@ public class PayrollField extends PayrollFieldsRow {
 			return lstOptions;
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(PayrollField.class, "PayrollField.loadOptions.sql"));		
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");
@@ -52,7 +35,7 @@ public class PayrollField extends PayrollFieldsRow {
 		
 		Statement stmt = new Statement(adapter.getSession().readJar(PayrollField.class, "PayrollField.loadOptionsByType.sql"));		
 		stmt.getParameters().put("{Type GUID}", type_guid);
-		List<Option> lst = adapter.load(Option.class, stmt);
+		List<Option> lst = adapter.load(Option.class, stmt, true);
 
 		Option opt = new Option();
 		opt.setDisplay("");

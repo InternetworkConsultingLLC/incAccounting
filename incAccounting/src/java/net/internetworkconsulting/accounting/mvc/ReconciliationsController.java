@@ -4,8 +4,8 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Reconciliation;
+import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.mvc.*;
@@ -39,7 +39,7 @@ public class ReconciliationsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Reconciliation objModel = (Reconciliation) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Reconciliation.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Reconciliation.html"), new HtmlSyntax()));
 
 		String sFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		
@@ -116,11 +116,16 @@ public class ReconciliationsController extends EditController {
 
 	private void btnSave_OnClick() throws Exception {
 		Reconciliation objModel = (Reconciliation) getModel();
+		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
+		for(TransactionLine line : lstLines) {
+			Transaction objTran = line.loadTransaction(getUser().login(), Transaction.class, false);
+			objTran.setSkipDocumentCheck(true);
+		}
 
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Reconciliation.TABLE_NAME, objModel);
-			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false));
+			getUser().login().save(TransactionLine.TABLE_NAME, lstLines);
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

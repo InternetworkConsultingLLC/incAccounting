@@ -40,7 +40,7 @@ public class AccountTypesRow extends Row implements AccountTypesInterface {
 		if(lstAccountsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"Account Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstAccountsChildren = adapter.load(model, stmt);
+			lstAccountsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstAccountsChildren;
 	}
@@ -56,7 +56,7 @@ public class AccountTypesRow extends Row implements AccountTypesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Account Types row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -68,7 +68,7 @@ public class AccountTypesRow extends Row implements AccountTypesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Account Types row by 'Name': " + Statement.convertObjectToString(value, null));
 
@@ -79,6 +79,6 @@ public class AccountTypesRow extends Row implements AccountTypesInterface {
 	// load all
 	public static <T extends AccountTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Accounts\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

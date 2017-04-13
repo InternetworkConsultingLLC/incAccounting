@@ -40,7 +40,7 @@ public class ContactTypesRow extends Row implements ContactTypesInterface {
 		if(lstContactsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"Contact Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstContactsChildren = adapter.load(model, stmt);
+			lstContactsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstContactsChildren;
 	}
@@ -56,7 +56,7 @@ public class ContactTypesRow extends Row implements ContactTypesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Contact Types row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -68,7 +68,7 @@ public class ContactTypesRow extends Row implements ContactTypesInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Contact Types row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
@@ -79,6 +79,6 @@ public class ContactTypesRow extends Row implements ContactTypesInterface {
 	// load all
 	public static <T extends ContactTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Contacts\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

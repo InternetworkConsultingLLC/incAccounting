@@ -3,7 +3,6 @@ package net.internetworkconsulting.accounting.mvc;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.ComboTag;
@@ -38,7 +37,7 @@ public class PayrollFieldsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		objModel = (PayrollField) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/PayrollField.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PayrollField.html"), new HtmlSyntax()));
 
 		TextTag txtGuid = new TextTag(this, PayrollField.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

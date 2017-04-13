@@ -23,7 +23,6 @@ public class PostPaymentsLinesController extends Controller {
 		TransactionType objType = objModel.loadPaymentType(getUser().login(), PaymentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false);
 
 		chkIsPosted = new CheckTag(this, "Row Posted");
-		chkIsPosted.setIsChecked(objModel.getPostedAccountsGuid() != null && objModel.getPostedTransactionsGuid() != null);				
 		chkIsPosted.setName("Posted" + objModel.getGuid());
 		
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
@@ -45,7 +44,10 @@ public class PostPaymentsLinesController extends Controller {
 	}
 	public History createHistory() throws Exception { return null; }
 	
-	public boolean getIsPosted() throws Exception {
+	public boolean setIsChecked(boolean value) throws Exception {
+		return chkIsPosted.setIsChecked(value);
+	}
+	public boolean getIsChecked() throws Exception {
 		return chkIsPosted.getIsChecked();
 	}
 	private void btnOpen_OnClick() throws Exception {

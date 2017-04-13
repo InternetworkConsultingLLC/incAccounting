@@ -176,7 +176,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(lstDocumentLinesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"Documents GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentLinesChildren = adapter.load(model, stmt);
+			lstDocumentLinesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentLinesChildren;
 	}
@@ -186,7 +186,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(lstChildDocumentsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"Parent Documents GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildDocumentsChildren = adapter.load(model, stmt);
+			lstChildDocumentsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildDocumentsChildren;
 	}
@@ -196,9 +196,19 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(lstPaymentApplicationsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payment Applications\" WHERE \"Documents GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPaymentApplicationsChildren = adapter.load(model, stmt);
+			lstPaymentApplicationsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPaymentApplicationsChildren;
+	}
+	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Documents GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
 	}
 	
 
@@ -209,7 +219,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rDocumentTypeParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDocumentTypesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Document Types row by GUID (" + Statement.convertObjectToString(this.getDocumentTypesGuid(), null) + ")!");
 			rDocumentTypeParent = lst.get(0);
@@ -222,7 +232,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rParentDocumentParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentDocumentsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Documents row by GUID (" + Statement.convertObjectToString(this.getParentDocumentsGuid(), null) + ")!");
 			rParentDocumentParent = lst.get(0);
@@ -235,7 +245,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rAccountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPostedAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getPostedAccountsGuid(), null) + ")!");
 			rAccountParent = lst.get(0);
@@ -248,7 +258,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rTransactionParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transactions\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPostedTransactionsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transactions row by GUID (" + Statement.convertObjectToString(this.getPostedTransactionsGuid(), null) + ")!");
 			rTransactionParent = lst.get(0);
@@ -261,7 +271,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
@@ -274,7 +284,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rBillingContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getBillingContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getBillingContactsGuid(), null) + ")!");
 			rBillingContactParent = lst.get(0);
@@ -287,7 +297,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rShippingContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getShippingContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getShippingContactsGuid(), null) + ")!");
 			rShippingContactParent = lst.get(0);
@@ -300,7 +310,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		if(rSalesTaxParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Sales Taxes\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getSalesTaxesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Sales Taxes row by GUID (" + Statement.convertObjectToString(this.getSalesTaxesGuid(), null) + ")!");
 			rSalesTaxParent = lst.get(0);
@@ -316,7 +326,7 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Documents row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -327,6 +337,6 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 	// load all
 	public static <T extends DocumentsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Documents\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

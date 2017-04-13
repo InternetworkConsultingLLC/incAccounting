@@ -32,7 +32,7 @@ public class __table_cc__Row extends Row implements __table_cc__Interface {
 		if(lst__load_children_cc__Children == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"__child_table_raw__\" WHERE \"__child_column_raw__\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.get__parent_column_cc__());
-			lst__load_children_cc__Children = adapter.load(model, stmt);
+			lst__load_children_cc__Children = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lst__load_children_cc__Children;
 	}
@@ -45,7 +45,7 @@ public class __table_cc__Row extends Row implements __table_cc__Interface {
 		if(r__load_parent_cc__Parent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"__parent_table_raw__\" WHERE \"__parent_column_raw__\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.get__child_column_cc__());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique __parent_table_raw__ row by __parent_column_raw__ (" + Statement.convertObjectToString(this.get__child_column_cc__(), null) + ")!");
 			r__load_parent_cc__Parent = lst.get(0);
@@ -61,7 +61,7 @@ public class __table_cc__Row extends Row implements __table_cc__Interface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique __table_raw__ row by '__column_raw__': " + Statement.convertObjectToString(value, null));
 
@@ -72,6 +72,6 @@ public class __table_cc__Row extends Row implements __table_cc__Interface {
 	// load all
 	public static <T extends __table_cc__Row> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"__child_table_raw__\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

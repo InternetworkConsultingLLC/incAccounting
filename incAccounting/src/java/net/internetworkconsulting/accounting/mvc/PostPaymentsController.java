@@ -5,7 +5,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Payment;
 import net.internetworkconsulting.accounting.entities.PaymentType;
 import net.internetworkconsulting.accounting.entities.TransactionType;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
@@ -19,7 +19,7 @@ public class PostPaymentsController extends Controller {
 	public PostPaymentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/PostPayments.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PostPayments.html"), new HtmlSyntax()));
 
 		String type_guid = getRequest().getParameter("Payment Types GUID");
 		if(type_guid != null && type_guid.equals("null"))
@@ -57,36 +57,15 @@ public class PostPaymentsController extends Controller {
 			
 		ButtonTag btnFilter = new ButtonTag(this, "Filter");
 		btnFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnFilter_OnClick(); } });
+
+		ButtonTag btnInvert = new ButtonTag(this, "Invert");
+		btnInvert.addOnClickEvent(new Event() { public void handle() throws Exception { btnInvert_OnClick(); } });
 		
 		ButtonTag btnProcess = new ButtonTag(this, "Process");
 		btnProcess.addOnClickEvent(new Event() { public void handle() throws Exception { btnProcess_OnClick(); } });
 	}
 	public History createHistory() throws Exception {
-		String sDisplay = "";
-		
-		String type_guid = getRequest().getParameter("Payment Types GUID");
-		if(type_guid != null && type_guid.equals("null"))
-			type_guid = null;
-		String status = getRequest().getParameter("Status");
-		if(status != null && status.equals("null"))
-			status = null;
-
-		if(status == null || !status.equals("posted"))
-			if(type_guid == null)
-				sDisplay = "All Unposted";
-			else {
-				TransactionType objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Unposted " + objType.getName();
-			}
-		else
-			if(type_guid == null)
-				sDisplay = "All Posted";
-			else {
-				TransactionType objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Posted " + objType.getName();
-			}			
-		
-		return new History(sDisplay, getRequest(), getUser());
+		return new History("Post Payments", getRequest(), getUser());
 	}
 	
 	private void btnFilter_OnClick() throws Exception {		
@@ -97,18 +76,16 @@ public class PostPaymentsController extends Controller {
 			getUser().login().begin(true);
 
 			for(PostPaymentsLinesController pdlc: lstControllers) {
-				boolean isChecked = pdlc.getIsPosted();
-				Payment doc = (Payment) pdlc.getModel();
-				boolean isPosted = doc.getPostedAccountsGuid() != null && doc.getPostedTransactionsGuid() != null;
-				// Checked	WasPosted
-				//	T			T		==> Do Nothing
-				//	T			F		==> Post
-				//	F			T		==> Unpost
-				//	F			F		==> Do Nothing
-				if(isChecked && !isPosted)
-					doc.post(getUser().login());
-				if(!isChecked && isPosted)
-					doc.unpost(getUser().login());
+				boolean isChecked = pdlc.getIsChecked();
+				Payment obj = (Payment) pdlc.getModel();
+				boolean isPosted = obj.getPostedAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
+
+				if(isChecked) {
+					if(isPosted)
+						obj.unpost(getUser().login());
+					else
+						obj.post(getUser().login());
+				}
 			}
 			
 			getUser().login().commit(true);
@@ -121,6 +98,10 @@ public class PostPaymentsController extends Controller {
 		}
 		
 		btnFilter_OnClick();
+	}
+	private void btnInvert_OnClick() throws Exception {
+		for(PostPaymentsLinesController pdlc: lstControllers)
+			pdlc.setIsChecked(!pdlc.getIsChecked());
 	}
 	private PostPaymentsLinesController createController(Payment payment) {
 		PostPaymentsLinesController controller = new PostPaymentsLinesController(this, "Row");

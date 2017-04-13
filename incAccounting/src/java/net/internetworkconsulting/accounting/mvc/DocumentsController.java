@@ -8,7 +8,6 @@ import net.internetworkconsulting.accounting.entities.DocumentLine;
 import net.internetworkconsulting.accounting.entities.DocumentType;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.Transaction;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
@@ -49,6 +48,7 @@ public class DocumentsController extends EditController {
 		String sDocuentTypesGuid = getRequest().getParameter(Document.DOCUMENT_TYPES_GUID);
 		if(sDocuentTypesGuid != null) {
 			objModel.setDocumentTypesGuid(sDocuentTypesGuid);
+			setModel(objModel);
 			cboDocType_OnChange();
 		}
 		
@@ -57,11 +57,13 @@ public class DocumentsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Document objModel = (Document) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Document.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Document.html"), new HtmlSyntax()));
 
 		objTransaction = null;
 		try { objTransaction = objModel.loadTransaction(getUser().login(), Transaction.class, false); }
 		catch(Exception ex) { }
+		
+		DocumentType objDocType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false);
 		
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
@@ -88,7 +90,7 @@ public class DocumentsController extends EditController {
 		cboDocType.addOnChangeEvent(new Event() { public void handle() throws Exception { cboDocType_OnChange(); } });
 		
 		ComboTag cboAccount = new ComboTag(this, Document.POSTED_ACCOUNTS_GUID, objModel);
-		cboAccount.setIsReadOnly(objTransaction != null);
+		cboAccount.setIsReadOnly(objTransaction != null || objDocType.getAccountsGuid() == null);
 		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
 
 		ComboTag cboContact = new ComboTag(this, Document.CONTACTS_GUID, objModel);
@@ -181,7 +183,7 @@ public class DocumentsController extends EditController {
 		lblTotal.setIsReadOnly(true);
 		lblTotal.setFormat(sMoneyFormat);
 
-		if(objModel.getReferenceNumber() != null && !objModel.getReferenceNumber().isEmpty()) {
+		if(objModel.getReferenceNumber() != null && !objModel.getReferenceNumber().isEmpty() && objDocType.getAccountsGuid() != null) {
 			ButtonTag btnPost = new ButtonTag(this, "Post");
 			btnPost.addOnClickEvent(new Event() { public void handle() throws Exception { btnPost_OnClick(); } });		
 			if(objTransaction == null)

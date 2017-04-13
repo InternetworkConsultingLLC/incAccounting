@@ -6,7 +6,6 @@ import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.SalesTaxMembership;
 import net.internetworkconsulting.accounting.entities.SalesTaxMembershipOption;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.data.pervasive.Statement;
 import net.internetworkconsulting.mvc.*;
@@ -40,7 +39,7 @@ public class SalesTaxesController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		SalesTax objModel = (SalesTax) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/SalesTax.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/SalesTax.html"), new HtmlSyntax()));
 		
 		TextTag txtGuid = new TextTag(this, SalesTax.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

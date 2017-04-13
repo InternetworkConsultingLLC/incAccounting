@@ -3,7 +3,6 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.AccountType;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
@@ -43,7 +42,7 @@ public class AccountsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Account objModel = (Account) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/Account.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Account.html"), new HtmlSyntax()));
 		
 		TextTag txtGuid = new TextTag(this, Account.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
@@ -58,6 +57,7 @@ public class AccountsController extends EditController {
 
 		TextTag txtName = new TextTag(this, Account.NAME, objModel);
 		CheckTag chkIsAllowed = new CheckTag(this, Account.IS_ALLOWED, objModel);
+		TextTag txtLastnumber = new TextTag(this, Account.LAST_NUMBER, objModel);
 
 		ComboTag cboAccountType = new ComboTag(this, Account.ACCOUNT_TYPES_GUID, objModel);
 		cboAccountType.setOptions(AccountType.loadOptions(getUser().login(), true));

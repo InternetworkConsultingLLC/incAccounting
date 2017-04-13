@@ -34,16 +34,16 @@ public class ReconciliationsLinesController extends Controller {
 				chkCleared.setIsChecked(true);
 		}
 				
-		TextTag litDate = new TextTag(this, "Line", Transaction.DATE, objModel.getGuid(), objTran);
+		LiteralTag litDate = new LiteralTag(this, "Line", Transaction.DATE, objModel.getGuid(), objTran);
 		litDate.setIsReadOnly(true);
-		TextTag litRef = new TextTag(this, "Line", Transaction.REFERENCE_NUMBER, objModel.getGuid(), objTran);
+		LiteralTag litRef = new LiteralTag(this, "Line", Transaction.REFERENCE_NUMBER, objModel.getGuid(), objTran);
 		litRef.setIsReadOnly(true);
-		TextTag litType = new TextTag(this, "Line", TransactionType.NAME, objModel.getGuid(), objType);
+		LiteralTag litType = new LiteralTag(this, "Line", TransactionType.NAME, objModel.getGuid(), objType);
 		litType.setIsReadOnly(true);
-		TextAreaTag litDescription = new TextAreaTag(this, "Line", TransactionLine.DESCRIPTION, objModel.getGuid(), objModel);
+		LiteralTag litDescription = new LiteralTag(this, "Line", TransactionLine.DESCRIPTION, objModel.getGuid(), objModel);
 		litDescription.setIsReadOnly(true);
 
-		TextTag litDebit = new TextTag(this, "Line", TransactionLine.DEBIT, objModel.getGuid(), objModel);
+		LiteralTag litDebit = new LiteralTag(this, "Line", TransactionLine.DEBIT, objModel.getGuid(), objModel);
 		litDebit.setIsReadOnly(true);
 		litDebit.setFormat(sFormat);
 	}

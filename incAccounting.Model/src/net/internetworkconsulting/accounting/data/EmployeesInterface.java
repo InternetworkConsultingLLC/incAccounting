@@ -53,6 +53,10 @@ public interface EmployeesInterface {
 	
 	<T extends PayrollChecksRow> List<T> loadPayrollChecks(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends UsersRow> List<T> loadUsers(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends ContactsRow> T loadContact(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

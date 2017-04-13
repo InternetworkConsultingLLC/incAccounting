@@ -34,6 +34,8 @@ public interface JobsInterface {
 	
 	<T extends JobsRow> List<T> loadChildren(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	<T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	

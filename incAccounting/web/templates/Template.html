@@ -22,13 +22,13 @@
 				<a href="~/incBootstrap?App=ReportView&GUID=18afbfdf422246b1a549f34dad94f8b7">Splash Screen</a><br/>
 				<a href="~/incBootstrap?App=Login">User Login</a><br/>	
 				<a href="~/incAccounting?App=Setup">Database Setup</a><br/>
+				<a href="~/incAccounting?App=ImportSage50">Import Sage 50</a><br/>
 				<a href="~/incBootstrap?App=ChangePassword">Change Password</a><br/>	
 
 				<h1>Security</h1>
 				<a href="~/incBootstrap?App=ReportView&GUID=33abdf4f68f44d73b23fabe400280576">Users</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=290198ebc76e43cbb7be15de3e3d0ad7">Groups</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=bdcddb7c80a34302a83a23ac1ed5d309">Securables</a><br/>	
-				<a href="~/incBootstrap?App=ReportView&GUID=dd57e42a165047a38c5655dcc1b76576">Computers</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=c545d2f279be49e9a471a43033d01c7f">Settings</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=767a1911c68b4878a2ffc8dfd6974bc5">Logs</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=75ecee50436c4a7d8095b30f794f87f9">Reports</a><br/>	
@@ -39,10 +39,12 @@
 				<a href="~/incBootstrap?App=ReportView&GUID=ee4f00312ff44e3d941c6a3445bf93b0">Account Ledger</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=f6c1313616f24bcd827863490e2a661b">Profit or Loss</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=ea6fdeb8d76247aa876dcab709b5de6e">Net Worth</a><br/>	
-				<!--<a href="~/incBootstrap?App=ReportView&GUID=ea6fdeb8d76247aa876dcab709b5de6e">Aged Payables*</a><br/>	
-				<a href="~/incBootstrap?App=ReportView&GUID=ea6fdeb8d76247aa876dcab709b5de6e">Aged Receivables*</a><br/>	
-				<a href="~/incBootstrap?App=ReportView&GUID=ea6fdeb8d76247aa876dcab709b5de6e">Payroll History*</a><br/>	
-				<a href="~/incBootstrap?App=ReportView&GUID=ea6fdeb8d76247aa876dcab709b5de6e">Inventory Valuation*</a><br/>-->
+				<a href="~/incBootstrap?App=ReportView&GUID=08f4949be17a4d90a6a3a75b05b17fdf">Aged Payables</a><br/>	
+				<a href="~/incBootstrap?App=ReportView&GUID=b88b0031fc2844eb874c5be27f8be003">Aged Receivables</a><br/>	
+				<a href="~/incBootstrap?App=ReportView&GUID=01f2dff753214482b4a1ac02f6640914">Sales Tax Accural</a><br/>	
+				<a href="~/incBootstrap?App=ReportView&GUID=f64ba5f5752a4473a5946fe68ddde21f">Sales Tax Cash</a><br/>	
+				<a href="~/incBootstrap?App=ReportView&GUID=490b638915b74aecb816c888dea125e9">Payroll History</a><br/>
+				<a href="~/incBootstrap?App=ReportView&GUID=ea6fdeb8d76247aa876dcab709b5de6e">Inventory Valuation</a><br/>
 
 				<h1>Lists</h1>
 				<a href="~/incBootstrap?App=ReportView&GUID=06db3e1b55e54bc2babf0424e0843d5b">Accounts</a><br/>	
@@ -62,8 +64,9 @@
 				<h1>Accounting</h1>			
 				<a href="~/incBootstrap?App=ReportView&GUID=a92a85f5192e4dbb80cba3a67ad31448">Transactions</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=84c704545c9140fb96ee5b9610fe632b">Deposits</a><br/>	
-				<a href="~/incBootstrap?App=ReportView&GUID=06db3e1b55e54bc2babf0424e0843d5b">Payroll Checks</a><br/>	
+				<a href="~/incBootstrap?App=ReportView&GUID=6eeab128b44446b6b67556f7418298ba">Payroll Checks</a><br/>	
 				<a href="~/incBootstrap?App=ReportView&GUID=7788774678b84145b3681511b0cc9d40">Reconciliations</a><br/>
+				<a href="~/incBootstrap?App=RegisterEntries">Account Register</a><br/>
 
 				<h1>Sales</h1>			
 				<a href="~/incBootstrap?App=ReportView&GUID=078c5cd40a024563bfde3641352d4e43">Sales Quotes</a><br/> 
@@ -87,15 +90,13 @@
 			</div>
 		</div>
 		<div id="body" class="ported">
-			<form id="form" method="post" onsubmit="beforeSubmit(); return true;">
+			<form id="form" method="post" action="{Form Action}" onsubmit="beforeSubmit(); return true;">
 				<div id="hiddenmodel">{Hidden Model}</div>
 				<div id="error">{Error}</div>
 				{Body}
 			</form>
 		</div>
 		<script>
-			{OnLoad}
-			
 			var bMenuActive = false;
 			function toggleMenu() {
 				if(bMenuActive === false) {
@@ -141,6 +142,13 @@
 				elm = document.getElementById("form");
 				elm.submit();
 			}
+			
+			function setFocusAfter() {
+				elm = document.getElementById(sFocusAfterSender);
+				elm.scrollIntoView();
+				elm.focus();
+			}
+			{OnLoad}
 		</script>
 	</body>
 </html>

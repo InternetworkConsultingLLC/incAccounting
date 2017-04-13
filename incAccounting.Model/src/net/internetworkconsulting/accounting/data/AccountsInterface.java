@@ -29,6 +29,9 @@ public interface AccountsInterface {
 	boolean setIsAllowed(java.lang.Boolean value) throws Exception;
 	java.lang.Boolean getIsAllowed();
 	
+	boolean setLastNumber(java.lang.String value) throws Exception;
+	java.lang.String getLastNumber();
+	
 	
 	<T extends AccountsRow> List<T> loadChildren(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

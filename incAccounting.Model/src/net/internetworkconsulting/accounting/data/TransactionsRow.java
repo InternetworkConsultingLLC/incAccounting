@@ -44,7 +44,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 		if(lstBankDepositChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Bank Deposits\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstBankDepositChildren = adapter.load(model, stmt);
+			lstBankDepositChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstBankDepositChildren;
 	}
@@ -54,7 +54,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 		if(lstDocumentChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentChildren = adapter.load(model, stmt);
+			lstDocumentChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentChildren;
 	}
@@ -64,7 +64,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 		if(lstPaymentChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payments\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPaymentChildren = adapter.load(model, stmt);
+			lstPaymentChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPaymentChildren;
 	}
@@ -74,7 +74,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 		if(lstPayrollChecksChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payroll Checks\" WHERE \"Posted Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPayrollChecksChildren = adapter.load(model, stmt);
+			lstPayrollChecksChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPayrollChecksChildren;
 	}
@@ -84,7 +84,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 		if(lstTransactionLinesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"Transactions GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTransactionLinesChildren = adapter.load(model, stmt);
+			lstTransactionLinesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstTransactionLinesChildren;
 	}
@@ -97,7 +97,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 		if(rTransactionTypeParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transaction Types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getTransactionTypesGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transaction Types row by GUID (" + Statement.convertObjectToString(this.getTransactionTypesGuid(), null) + ")!");
 			rTransactionTypeParent = lst.get(0);
@@ -113,7 +113,7 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Transactions row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -124,6 +124,6 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	// load all
 	public static <T extends TransactionsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Transactions\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

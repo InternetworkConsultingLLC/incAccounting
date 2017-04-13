@@ -56,7 +56,7 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 		if(lstPaymentsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Payments\" WHERE \"Bank Deposits GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstPaymentsChildren = adapter.load(model, stmt);
+			lstPaymentsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPaymentsChildren;
 	}
@@ -69,7 +69,7 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 		if(rTransactionParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Transactions\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPostedTransactionsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Transactions row by GUID (" + Statement.convertObjectToString(this.getPostedTransactionsGuid(), null) + ")!");
 			rTransactionParent = lst.get(0);
@@ -85,7 +85,7 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Bank Deposits row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -97,7 +97,7 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Bank Deposits row by 'Number': " + Statement.convertObjectToString(value, null));
 
@@ -108,6 +108,6 @@ public class BankDepositsRow extends Row implements BankDepositsInterface {
 	// load all
 	public static <T extends BankDepositsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Bank Deposits\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

@@ -8,7 +8,6 @@ import net.internetworkconsulting.accounting.entities.PayrollCheck;
 import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldType;
 import net.internetworkconsulting.accounting.entities.PayrollFieldValue;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
@@ -45,7 +44,7 @@ public class PayrollChecksController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		objModel = (PayrollCheck) handleNonPostbackActions(model);
-		setDocument(new Template(read_url("~/templates/PayrollCheck.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PayrollCheck.html"), new HtmlSyntax()));
 
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";

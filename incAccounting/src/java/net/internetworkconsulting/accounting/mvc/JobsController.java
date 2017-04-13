@@ -2,12 +2,10 @@ package net.internetworkconsulting.accounting.mvc;
 
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Job;
-import net.internetworkconsulting.bootstrap.mvc.EditController;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
 import net.internetworkconsulting.mvc.ComboTag;
-import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
@@ -35,7 +33,7 @@ public class JobsController extends EditController {
 	
 	public void createControls(Template document, Object model) throws Exception {		
 		Job objModel = (Job) handleNonPostbackActions(model);		
-		setDocument(new Template(read_url("~/templates/Job.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/Job.html"), new HtmlSyntax()));
 	
 		TextTag txtGuid = new TextTag(this, Job.GUID, objModel);
 		txtGuid.setIsReadOnly(true);

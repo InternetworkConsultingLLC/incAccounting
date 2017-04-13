@@ -1,0 +1,11 @@
+.cleared {
+	background-color: #cfc;
+}
+
+td, table.list tr td {
+	border-radius: 4px;
+	padding: 0;
+	margin: 0;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}

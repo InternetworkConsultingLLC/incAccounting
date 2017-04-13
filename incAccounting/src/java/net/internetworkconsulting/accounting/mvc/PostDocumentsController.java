@@ -6,7 +6,7 @@ import net.internetworkconsulting.accounting.data.TransactionTypesRow;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.DocumentType;
 import net.internetworkconsulting.accounting.entities.TransactionType;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
@@ -19,7 +19,7 @@ public class PostDocumentsController extends Controller {
 	public PostDocumentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
-		setDocument(new Template(read_url("~/templates/PostDocuments.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PostDocuments.html"), new HtmlSyntax()));
 
 		String type_guid = getRequest().getParameter("Document Types GUID");
 		if(type_guid != null && type_guid.equals("null"))
@@ -57,36 +57,16 @@ public class PostDocumentsController extends Controller {
 			
 		ButtonTag btnFilter = new ButtonTag(this, "Filter");
 		btnFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnFilter_OnClick(); } });
+
+		ButtonTag btnInvert = new ButtonTag(this, "Invert");
+		btnInvert.addOnClickEvent(new Event() { public void handle() throws Exception { btnInvert_OnClick(); } });
+
 		
 		ButtonTag btnProcess = new ButtonTag(this, "Process");
 		btnProcess.addOnClickEvent(new Event() { public void handle() throws Exception { btnProcess_OnClick(); } });
 	}
 	public History createHistory() throws Exception {
-		String sDisplay = "";
-		
-		String type_guid = getRequest().getParameter("Document Types GUID");
-		if(type_guid != null && type_guid.equals("null"))
-			type_guid = null;
-		String status = getRequest().getParameter("Status");
-		if(status != null && status.equals("null"))
-			status = null;
-
-		if(status == null || !status.equals("posted"))
-			if(type_guid == null)
-				sDisplay = "All Unposted";
-			else {
-				TransactionTypesRow objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Unposted " + objType.getName();
-			}
-		else
-			if(type_guid == null)
-				sDisplay = "All Posted";
-			else {
-				TransactionTypesRow objType = TransactionType.loadByGuid(getUser().login(), TransactionType.class, type_guid);
-				sDisplay = "Posted " + objType.getName();
-			}			
-		
-		return new History(sDisplay, getRequest(), getUser());
+		return new History("Post Documents", getRequest(), getUser());
 	}
 	
 	private void btnFilter_OnClick() throws Exception {		
@@ -97,18 +77,16 @@ public class PostDocumentsController extends Controller {
 			getUser().login().begin(true);
 
 			for(PostDocumentsLinesController pdlc: lstControllers) {
-				boolean isChecked = pdlc.getIsPosted();
-				Document doc = (Document) pdlc.getModel();
-				boolean isPosted = doc.getPostedAccountsGuid() != null && doc.getPostedTransactionsGuid() != null;
-				// Checked	WasPosted
-				//	T			T		==> Do Nothing
-				//	T			F		==> Post
-				//	F			T		==> Unpost
-				//	F			F		==> Do Nothing
-				if(isChecked && !isPosted)
-					doc.post(getUser().login());
-				if(!isChecked && isPosted)
-					doc.unpost(getUser().login());
+				boolean isChecked = pdlc.getIsChecked();
+				Document obj = (Document) pdlc.getModel();
+				boolean isPosted = obj.getPostedAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
+
+				if(isChecked) {
+					if(isPosted)
+						obj.unpost(getUser().login());
+					else
+						obj.post(getUser().login());
+				}
 			}
 			
 			getUser().login().commit(true);
@@ -121,6 +99,10 @@ public class PostDocumentsController extends Controller {
 		}
 		
 		btnFilter_OnClick();
+	}
+	private void btnInvert_OnClick() throws Exception {
+		for(PostDocumentsLinesController pdlc: lstControllers)
+			pdlc.setIsChecked(!pdlc.getIsChecked());
 	}
 	private PostDocumentsLinesController createController(Document doc) {
 		PostDocumentsLinesController pdlc = new PostDocumentsLinesController(this, "Row");

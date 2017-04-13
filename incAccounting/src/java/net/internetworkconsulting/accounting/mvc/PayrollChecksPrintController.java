@@ -9,7 +9,7 @@ import net.internetworkconsulting.accounting.entities.PayrollCheck;
 import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldType;
 import net.internetworkconsulting.accounting.entities.PayrollFieldValue;
-import net.internetworkconsulting.bootstrap.entities.Option;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
@@ -34,7 +34,7 @@ public class PayrollChecksPrintController extends Controller {
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 
-		setDocument(new Template(read_url("~/templates/PayrollCheckPrint.html"), new HtmlSyntax()));
+		setDocument(new Template(readTemplate("~/templates/PayrollCheckPrint.html"), new HtmlSyntax()));
 		
 		objModel = (PayrollCheck) model;
 		if(!getIsPostback()) {

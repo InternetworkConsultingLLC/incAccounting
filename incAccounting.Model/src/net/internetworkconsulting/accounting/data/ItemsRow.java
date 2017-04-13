@@ -100,7 +100,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(lstDocumentLinesChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"Items GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstDocumentLinesChildren = adapter.load(model, stmt);
+			lstDocumentLinesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstDocumentLinesChildren;
 	}
@@ -110,7 +110,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(lstChildItemsChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Items\" WHERE \"Parent Items GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstChildItemsChildren = adapter.load(model, stmt);
+			lstChildItemsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildItemsChildren;
 	}
@@ -123,7 +123,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(rParentItemParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Items\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentItemsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Items row by GUID (" + Statement.convertObjectToString(this.getParentItemsGuid(), null) + ")!");
 			rParentItemParent = lst.get(0);
@@ -136,7 +136,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(rSalesAcountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getSalesAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getSalesAccountsGuid(), null) + ")!");
 			rSalesAcountParent = lst.get(0);
@@ -149,7 +149,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(rPurchaseAcountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPurchaseAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getPurchaseAccountsGuid(), null) + ")!");
 			rPurchaseAcountParent = lst.get(0);
@@ -162,7 +162,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(rPurchaseContactParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPurchaseContactsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getPurchaseContactsGuid(), null) + ")!");
 			rPurchaseContactParent = lst.get(0);
@@ -175,7 +175,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(rInventoryUnitMeasureParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Unit Measures\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getInventoryUnitMeasuresGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Unit Measures row by GUID (" + Statement.convertObjectToString(this.getInventoryUnitMeasuresGuid(), null) + ")!");
 			rInventoryUnitMeasureParent = lst.get(0);
@@ -188,7 +188,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		if(rInventoryAccountParent == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getInventoryAccountsGuid());
-			List<T> lst = adapter.load(model, stmt);
+			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
 				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getInventoryAccountsGuid(), null) + ")!");
 			rInventoryAccountParent = lst.get(0);
@@ -204,7 +204,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Items row by 'GUID': " + Statement.convertObjectToString(value, null));
 
@@ -216,7 +216,7 @@ public class ItemsRow extends Row implements ItemsInterface {
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
-		List<T> lst = adapter.load(model, stmt);
+		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
 			throw new Exception("Could not locate unique Items row by 'Number': " + Statement.convertObjectToString(value, null));
 
@@ -227,6 +227,6 @@ public class ItemsRow extends Row implements ItemsInterface {
 	// load all
 	public static <T extends ItemsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Items\"");
-		return (List<T>) adapter.load(model, stmt);
+		return (List<T>) adapter.load(model, stmt, true);
 	}
 }

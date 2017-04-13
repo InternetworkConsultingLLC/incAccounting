@@ -1,0 +1,59 @@
+<h1>Account Register</h1>
+
+<div class="block">
+	<div class="field"><label>Starting:</label><div>{Starting}</div></div>
+	<div class="field"><label>Ending:</label><div>{Ending}</div></div>
+	<div class="field"><label>Account:</label><div>{Account}</div></div>
+</div>
+
+<p>{Load} {Save} {Add}</p>
+
+<table class="list" width="100%">
+<!--	<tr>
+		<td width="2%" class="invert center">Del & Date</td>
+		<td width="1%" class="invert center">Number</td>
+		<td width="1%" class="invert center">Account</td>
+		<td width="1%" class="invert center">Debit</td>
+		<td width="1%" class="invert center">Balance</td>
+	</tr>
+	<tr>
+		<td colspan="5" class="invert center">Description</td>
+	</tr>
+	<tr>
+		<td colspan="1" class="invert center">Contact</td>
+		<td colspan="2" class="invert center">Job</td>
+		<td colspan="2" class="invert center">Department</td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>-->
+	<tr><td colspan="4" class="right">Beginning Balance:</td><td colspan="1" class="right">{Beginning Balance}</td></tr>
+	<!-- BEGIN Row -->
+	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td width="2%">{Row Is Deleted} {Row Date}</td>
+		<td width="1%">{Row Reference Number}</td>
+		<td width="1%">{Row Type Combo}</td>
+		<td width="1%" class="right">{Row Debit}</td>
+		<td width="1%" class="right">{Row Balance}</td>
+	</tr>
+	<tr>
+		<td colspan="5" class="black center">{Row Description}</td>
+	</tr>
+	<tr>
+		<td colspan="1" class="black center">{Row Contacts GUID}</td>
+		<td colspan="2" class="black center">{Row Jobs GUID}</td>
+		<td colspan="2" class="black center">{Row Departments GUID}</td>
+	</tr>
+	<!-- END Row -->
+	<tr><td>&nbsp;</td></tr>
+	<tr><td colspan="4" class="right black">Ending Balance:</td><td colspan="1" class="right">{Ending Balance}</td></tr>
+	
+</table>
+
+<p>{Save} {Add}</p>
+
+<script>
+	var nSettingDocumentMoneyDecimals = {Money Decimals};
+
+	pageLoaded();
+	pageChanged();
+</script>
