@@ -27,9 +27,7 @@ public class TransactionsController  extends EditController{
 	public boolean getEnforceSecurity() { return false; }
 
 	public void handleDeleteRow(String guid) throws Exception {
-		Transaction objModel = Transaction.loadByGuid(getUser().login(), Transaction.class, guid);
-		objModel.setIsDeleted(true);
-		getUser().login().save(Transaction.TABLE_NAME, objModel);
+		throw new Exception("You must open the item and click the 'Delete' button!");
 	}
 	public Object handleLoadRow(String guid) throws Exception {
 		return Transaction.loadByGuid(getUser().login(), Transaction.class, guid);
@@ -50,10 +48,8 @@ public class TransactionsController  extends EditController{
 		Department.loadOptions(getUser().login(), true);
 		
 		bReadOnly = objModel.getTransactionTypesGuid() != null && !objModel.getTransactionTypesGuid().equals(TransactionType.TRANSACTION_GUID);
-		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
-		for(TransactionLine line: lstLines)
-			if(line.getReconciliationsGuid() != null)
-				bReadOnly = true;		
+		if(objModel.isReconciled(getUser().login()))		
+			bReadOnly = true;
 		
 		TextTag txtGuid = new TextTag(this, Transaction.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
@@ -85,6 +81,11 @@ public class TransactionsController  extends EditController{
 		btnOpen.setIsReadOnly(!bReadOnly);
 		btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClick(); } });
 
+		ButtonTag btnDelete = new ButtonTag(this, "Delete");
+		btnDelete.setIsReadOnly(bReadOnly);
+		btnDelete.addOnClickEvent(new Event() { public void handle() throws Exception { btnDelete_OnClick(); } });
+
+		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
 		for(TransactionLine line: lstLines)
 			createController(line);
 	}
@@ -128,7 +129,7 @@ public class TransactionsController  extends EditController{
 		}
 		catch(Exception ex) {
 			getUser().login().rollback(true);
-			getUser().logExcpetion(ex, sHeader);
+			getUser().logExcpetion(ex, "f9f18fdc7c9a45a5b6466cf499628f48");
 			addError("Save", ex.getMessage());
 			return;
 		}
@@ -145,5 +146,35 @@ public class TransactionsController  extends EditController{
 		
 		TransactionsLinesController controller = createController(line);
 		doCreateControls(controller, false);
+	}
+	private void btnDelete_OnClick() throws Exception {
+		Transaction objModel = (Transaction) getModel();
+		TransactionType objType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false);
+		
+		try {
+			if(objModel.getRowState() != RowState.NA)
+				throw new Exception("You can only delete items that are not new and have not been modifited!");
+			if(objModel.isReconciled(getUser().login()))
+				throw new Exception("You cannot delete an item that has been reconciled!");
+
+			List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class , false);
+			for(TransactionLine objLine : lstLines)
+				objLine.setIsDeleted(true);
+
+			objModel.setIsDeleted(true);
+			
+			getUser().login().begin(true);
+			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false));
+			getUser().login().save(Transaction.TABLE_NAME, objModel);
+			getUser().login().commit(true);			
+		}
+		catch(Exception ex) {
+			getUser().login().rollback(true);
+			getUser().logExcpetion(ex, "4b83eb064b1946ca8de60b53414704ad");
+			addError("Delete", ex.getMessage());
+			return;
+		}
+
+		redirect(objType.getListUrl());
 	}
 }

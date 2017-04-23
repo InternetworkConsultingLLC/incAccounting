@@ -70,4 +70,15 @@ public class Transaction extends TransactionsRow {
 		sql = String.format(sql, TransactionLine.TABLE_NAME, TransactionLine.DEBIT);
 		adapter.execute(new Statement(sql), false);
 	}
+
+	public boolean isReconciled(AdapterInterface adapter) throws Exception {
+		boolean ret = false;
+		
+		List<TransactionLine> lstLines = loadTransactionLines(adapter, TransactionLine.class, false);
+		for(TransactionLine line : lstLines)
+			if(line.getReconciliationsGuid() != null)
+				ret = true;
+		
+		return ret;
+	}
 }

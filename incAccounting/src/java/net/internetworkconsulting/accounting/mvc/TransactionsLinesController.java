@@ -22,9 +22,6 @@ public class TransactionsLinesController extends Controller{
 		
 		TransactionLine objModel = (TransactionLine) getModel();
 		
-		CheckTag chkDeleted = new CheckTag(this, "Line", TransactionLine.IS_DELETED, objModel.getGuid(), objModel);
-		chkDeleted.setIsReadOnly(bReadOnly);
-
 		ComboTag cboAccount = new ComboTag(this, "Line", TransactionLine.ACCOUNTS_GUID, objModel.getGuid(), objModel);
 		cboAccount.setIsReadOnly(bReadOnly);
 		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
