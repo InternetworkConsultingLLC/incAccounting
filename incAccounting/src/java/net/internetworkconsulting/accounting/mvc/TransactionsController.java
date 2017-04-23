@@ -50,6 +50,10 @@ public class TransactionsController  extends EditController{
 		Department.loadOptions(getUser().login(), true);
 		
 		bReadOnly = objModel.getTransactionTypesGuid() != null && !objModel.getTransactionTypesGuid().equals(TransactionType.TRANSACTION_GUID);
+		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
+		for(TransactionLine line: lstLines)
+			if(line.getReconciliationsGuid() != null)
+				bReadOnly = true;		
 		
 		TextTag txtGuid = new TextTag(this, Transaction.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
@@ -80,9 +84,7 @@ public class TransactionsController  extends EditController{
 		ButtonTag btnOpen = new ButtonTag(this, "Open Document");
 		btnOpen.setIsReadOnly(!bReadOnly);
 		btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClick(); } });
-		
-		
-		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
+
 		for(TransactionLine line: lstLines)
 			createController(line);
 	}
@@ -104,7 +106,7 @@ public class TransactionsController  extends EditController{
 	}
 	public void beforePopulate() throws Exception {
 		Transaction objModel = (Transaction) getModel();
-		 BigDecimal dBalance = objModel.calculate(getUser().login());
+		BigDecimal dBalance = objModel.calculate(getUser().login());
 		String sMoneyFormat = "%." + getUser().getSetting(TransactionLine.SETTING_DEBIT_DECIMALS) + "f";
 		txtBalance.setValue(Statement.convertObjectToString(dBalance, sMoneyFormat));
 	}

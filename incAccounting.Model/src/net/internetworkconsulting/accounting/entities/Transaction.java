@@ -43,8 +43,6 @@ public class Transaction extends TransactionsRow {
 			if(tl.getDebit() != null && tl.getDebit().compareTo(BigDecimal.ZERO) != 0) {
 				dBalance = dBalance.add(tl.getDebit());
 				sDebitsAndCredits = sDebitsAndCredits + tl.getDescription() + " $ " + tl.getDebit() + "\n";
-			} else {
-				tl.setIsDeleted(true);
 			}
 		}
 		sDebitsAndCredits = sDebitsAndCredits + "Balance $ " + dBalance;

@@ -42,7 +42,7 @@ public class PayrollCheck extends PayrollChecksRow {
 	}
 
 	public static PayrollCheck loadTemplate(AdapterInterface adapter, String employees_guid) throws Exception {
-		Statement stmt = new Statement(adapter.getSession().readJar(PayrollCheck.class, "PayrollCheck.loadTemplate.sql"));
+		Statement stmt = new Statement(User.readJarFile(PayrollCheck.class, "PayrollCheck.loadTemplate.sql"));
 		stmt.getParameters().put("{Employees GUID}", employees_guid);
 		List<PayrollCheck> lstChecks = adapter.load(PayrollCheck.class, stmt, true);
 		
@@ -52,11 +52,11 @@ public class PayrollCheck extends PayrollChecksRow {
 		return lstChecks.get(0);
 	}
 	public static List<PayrollCheck> loadByPosted(AdapterInterface adapter, boolean is_posted) throws Exception {
-		String sql = "SELECT * FROM \"TABLE\" WHERE \"COL\" IS NOT NULL";
-		sql = sql.replace("TABLE", PayrollCheck.TABLE_NAME);
-		sql = sql.replace("COL", PayrollCheck.POSTED_TRANSACTIONS_GUID);
-		if(!is_posted)
-			sql = sql.replace(" NOT ", " ");
+		String sql = User.readJarFile(PayrollCheck.class, "PayrollCheck.loadByPosted.sql");
+		if(is_posted)
+			sql = sql.replace("{Nullable}", "NOT NULL");
+		else
+			sql = sql.replace("{Nullable}", "NULL");
 
 		Statement stmt = new Statement(sql);
 		List<PayrollCheck> lstValues = adapter.load(PayrollCheck.class, stmt, true);
@@ -65,7 +65,7 @@ public class PayrollCheck extends PayrollChecksRow {
 	}	
 	
 	public List<PayrollFieldValue> loadValues(AdapterInterface adapter, String type_guid) throws Exception {
-		Statement stmt = new Statement(adapter.getSession().readJar(PayrollCheck.class, "PayrollCheck.loadValues.sql"));
+		Statement stmt = new Statement(User.readJarFile(PayrollCheck.class, "PayrollCheck.loadValues.sql"));
 		stmt.getParameters().put("{Payroll Checks GUID}", this.getGuid());
 		stmt.getParameters().put("{Payroll Field Types GUID}", type_guid);
 		List<PayrollFieldValue> lstValues = adapter.load(PayrollFieldValue.class, stmt, true);
