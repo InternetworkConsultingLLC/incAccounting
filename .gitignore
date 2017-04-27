@@ -4,6 +4,5 @@
 *.war
 build/
 dist/
-private.xml
-incAccounting.Model/nbproject/private/private.xml
+*/private.xml
 *.properties
