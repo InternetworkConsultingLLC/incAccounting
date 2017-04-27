@@ -6,3 +6,4 @@ build/
 dist/
 private.xml
 incAccounting.Model/nbproject/private/private.xml
+*.properties
