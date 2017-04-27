@@ -223,8 +223,8 @@ div.block.row + div.block.row, div.block.row + div.block.final {
 		padding-top: 3px;
 	}
 
-	input[type="text"] { width: 355px; }
-	input[type="password"] { width: 355px; }
+	input[type="text"] { width: 354px; }
+	input[type="password"] { width: 354px; }
 	textarea { width: 354px; }
 	select { width: 365px; }
 	

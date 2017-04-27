@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="scripts/library.js" ></script>
+	</head>
+	<body>
+		<script>
+			var response = null;
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState === 4 && xhr.status === 200) {
+					var xml = xhr.responseXML;
+					response = new Response(xml);
+				}
+			};
+			this.xhr.open("POST", "http://localhost:8080/incAccounting/incBootstrapRest", true);
+			this.xhr.send("<?xml version=\"1.0\" encoding=\"UTF-8\"?><java version=\"1.8.0_91\" class=\"java.beans.XMLDecoder\"> <object class=\"net.internetworkconsulting.rest.Request\">  <void property=\"function\">   <string>login</string>  </void>  <void property=\"model\">   <object class=\"net.internetworkconsulting.bootstrap.entities.User\" id=\"User0\">    <void property=\"changes\">     <void method=\"put\">      <string>SQL User</string>      <string>administrator</string>     </void>    </void>    <void property=\"database\">     <string>ibs</string>    </void>    <void property=\"password\">     <string>Welcome123</string>    </void>    <void property=\"sqlServer\">     <string>localhost</string>    </void>   </object>  </void>  <void property=\"parameters\">   <array class=\"java.lang.Object\" length=\"1\">    <void index=\"0\">     <boolean>true</boolean>    </void>   </array>  </void> </object></java>");
+		</script>
+		<pre id="text">
+			
+		</pre>
+	</body>
+</html>
