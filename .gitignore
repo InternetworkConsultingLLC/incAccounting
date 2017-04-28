@@ -4,13 +4,13 @@
 *.war
 *.ear
 
-Documentation/nbproject/private/private.properties
-incAccounting.Model/nbproject/private/private.properties
-incAccounting/nbproject/private/private.properties
-incAccounting/web/WEB-INF/web.xml
-incGenerator/nbproject/private/private.properties
-incLibraries/nbproject/private/private.properties
-incAccounting.Model/build/
-incAccounting.Model/dist/
-incAccounting/build/
-incLibraries/build/
+/Documentation/nbproject/private/private.properties
+/incAccounting.Model/nbproject/private/private.properties
+/incAccounting/nbproject/private/private.properties
+/incAccounting/web/WEB-INF/web.xml
+/incGenerator/nbproject/private/private.properties
+/incLibraries/nbproject/private/private.properties
+/incAccounting.Model/build/
+/incAccounting.Model/dist/
+/incAccounting/build/
+/incLibraries/build/
