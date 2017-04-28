@@ -23,7 +23,7 @@
     <env-entry>
         <env-entry-name>dbServer</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>localhost</env-entry-value>
+        <env-entry-value>svr2012-apps</env-entry-value>
     </env-entry>
     <env-entry>
         <env-entry-name>dbUser</env-entry-name>
@@ -33,7 +33,7 @@
     <env-entry>
         <env-entry-name>dbPassword</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>Welcome123</env-entry-value>
+        <env-entry-value>INC4BigBiz</env-entry-value>
     </env-entry>
     <env-entry>
         <env-entry-name>configEditable</env-entry-name>
