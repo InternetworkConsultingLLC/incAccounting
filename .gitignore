@@ -4,10 +4,10 @@
 *.war
 *.ear
 
-**/private/
-**/build/
-**/dist/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 incAccounting/incAccounting/web/WEB-INF/web.xml
-incAccounting/nbproject/private/private.properties
-incGenerator/nbproject/private/private.properties
-incLibraries/nbproject/private/private.properties
