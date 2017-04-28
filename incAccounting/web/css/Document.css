@@ -28,11 +28,11 @@ div.block.single + h2.newline {
 @media screen and (min-width: 961px) {
 	input[type="text"].BillingAddressCity { width: 160px; }
 	input[type="text"].BillingAddressState { width: 25px; }
-	input[type="text"].BillingAddressPostalCode { width: 100px; }
+	input[type="text"].BillingAddressPostalCode { width: 98px; }
 
 	input[type="text"].ShippingAddressCity { width: 160px; }
 	input[type="text"].ShippingAddressState { width: 25px; }
-	input[type="text"].ShippingAddressPostalCode { width: 100px; }
+	input[type="text"].ShippingAddressPostalCode { width: 98px; }
 	
 	.RowDescription { height: 3em; }
 }
