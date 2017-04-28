@@ -139,9 +139,9 @@ div.block.row + div.block.row, div.block.row + div.block.final {
 		clear: left;
 		display: block;
 	}
-	input[type="text"] { width: 275px; }
-	input[type="password"] { width: 275px; }
-	textarea { width: 275px; }
+	input[type="text"] { width: 274px; }
+	input[type="password"] { width: 274px; }
+	textarea { width: 274px; }
 	select { width: 285px; }
 	
 	div.block > div.field.blank { visibility: hidden; display: none; }
@@ -171,9 +171,9 @@ div.block.row + div.block.row, div.block.row + div.block.final {
 		width: 205px;
 	}
 
-	input[type="text"] { width: 195px ; }
-	input[type="password"] { width: 195px ; }
-	textarea { width: 195px; }
+	input[type="text"] { width: 194px ; }
+	input[type="password"] { width: 194px ; }
+	textarea { width: 194px; }
 	select { width: 205px; }
 	
 	input[type="text"].City { width: 80px; }
@@ -224,7 +224,7 @@ div.block.row + div.block.row, div.block.row + div.block.final {
 	}
 
 	input[type="text"] { width: 354px; }
-	input[type="password"] { width: 355px; }
+	input[type="password"] { width: 354px; }
 	textarea { width: 354px; }
 	select { width: 365px; }
 	

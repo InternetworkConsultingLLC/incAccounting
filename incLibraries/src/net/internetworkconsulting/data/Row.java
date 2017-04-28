@@ -2,6 +2,7 @@ package net.internetworkconsulting.data;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class Row implements RowInterface, Serializable {
@@ -59,12 +60,28 @@ public class Row implements RowInterface, Serializable {
 		Object original = mapOriginals.containsKey(name) ? mapOriginals.get(name) : null;
 		Object change = mapChanges.containsKey(name) ? mapChanges.get(name) : null;
 
-		boolean isOriginal =  mapOriginals.containsKey(name) && (
-					(original == null && value == null) || (original != null && value != null && original.equals(value))
-				);
-		boolean isChanged = mapChanges.containsKey(name) && (
-					(change == null && value == null) || (change != null && value != null && change.equals(value))
-				);
+		boolean isChanged = false;
+		boolean isOriginal =  false;
+
+		if(original instanceof BigDecimal && value instanceof BigDecimal) {
+			BigDecimal dOriginal = (BigDecimal) original;
+			BigDecimal dValue = (BigDecimal) value;			
+			isOriginal = dValue.compareTo(dOriginal) == 0;
+		} else {
+			isOriginal = mapOriginals.containsKey(name) && (
+						(original == null && value == null) || (original != null && value != null && original.equals(value))
+					);		
+		}
+		
+		if(change instanceof BigDecimal && value instanceof BigDecimal) {
+			BigDecimal dChanged = (BigDecimal) change;
+			BigDecimal dValue = (BigDecimal) value;			
+			isChanged = dValue.compareTo(dChanged) == 0;
+		} else {
+			isChanged = mapChanges.containsKey(name) && (
+						(change == null && value == null) || (change != null && value != null && change.equals(value))
+					);
+		}
 
 		if(!isOriginal && !isChanged) {
 			mapChanges.put(name, value);

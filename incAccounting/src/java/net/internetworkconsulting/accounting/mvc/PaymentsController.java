@@ -121,12 +121,11 @@ public class PaymentsController extends EditController {
 		btnSave.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });
 
-		if(objModel.getOurNumber() == null || objModel.getOurNumber().isEmpty()) {
+		if((objModel.getOurNumber() == null || objModel.getOurNumber().isEmpty()) && objModel.getRowState() != RowState.Insert) {
 			ButtonTag btnNumber = new ButtonTag(this, "Number");
 			btnNumber.addOnClickEvent(new Event() { public void handle() throws Exception { btnNumber_OnClicked(); } });			
 		}
 			
-		
 		if(objModel.getRowState() == RowState.NA && objModel.getOurNumber() != null && !objModel.getOurNumber().isEmpty()) {
 			ButtonTag btnPost = new ButtonTag(this, "Post");
 			btnPost.addOnClickEvent(new Event() { public void handle() throws Exception { btnPost_OnClicked(); } });

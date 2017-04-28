@@ -3,11 +3,9 @@
 *.jar
 *.war
 *.ear
-
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
-incAccounting/incAccounting/web/WEB-INF/web.xml
+*.exe
+**/nbproject/private/**
+**/build/**
+**/nbbuild/**
+**/dist/**
+**/nbdist/**
