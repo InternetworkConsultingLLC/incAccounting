@@ -22,7 +22,7 @@ public class User extends UsersRow implements SessionInterface {
 	public static String ADMINISTRATOR_GUID = "86b41969e95143c090fd93a4819c58a2";
 	public static String SETTING_PASSWORD_AGE = "Password Age (Days)";
 	public static String SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
-	public static String SETTING_PASSWORD_LENGTH = "Password Length (1-4)";
+	public static String SETTING_PASSWORD_LENGTH = "Password Length";
 	public static String SETTING_VERSION_NUMBER = "Version Number";
 
 	public static String newGuid() { return UUID.randomUUID().toString().replace("-", ""); }
@@ -189,18 +189,31 @@ public class User extends UsersRow implements SessionInterface {
 		resetSqlPassword(adapter, password, confirm, true);
 	}
 	public void changePassword(AdapterInterface adapter, String password, String confirm) throws Exception {
+		//SessionInterface session = adapter.getSession();
 		resetSqlPassword(adapter, password, confirm, false);
 	}
-	private void resetSqlPassword(AdapterInterface adapter, String password, String confirm, boolean force_change) throws Exception {
+	private void resetSqlPassword(AdapterInterface adapter, String password, String confirm, boolean reset) throws Exception {
 		validatePassword(adapter, password, confirm);
 
 		this.setPasswordHash(hashPassword(password));
-		if(force_change)
+		if(reset)
 			this.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
 		else
 			this.setPasswordDate(new java.sql.Date((new Date()).getTime()));
 		
+		SessionInterface si = adapter.getSession();
+		if(!reset) {
+			User objUser = (User) si;
+			if(!this.getGuid().equals(objUser.getGuid()))
+				throw new Exception("A user cannot change another users password!");
+			
+			adapter.setSession(null);
+		}
+		
 		adapter.save(User.TABLE_NAME, this);		
+
+		if(!reset)
+			adapter.setSession(si);
 	}
 	private void validatePassword(AdapterInterface adapter, String password, String confirm) throws Exception {
 		if (password == null || confirm == null)
@@ -263,36 +276,52 @@ public class User extends UsersRow implements SessionInterface {
 	private HashMap<String, Securable> hmSecurables;
 	private HashMap<String, Permission> hmPermissionsBySecurable;
 	public void canCreate(String securable_guid) throws Exception {
-		if (getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
+		if(getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
 			return;
-		if (!hmPermissionsBySecurable.containsKey(securable_guid))
-			throw new Exception("Unknown securable GUID: " + securable_guid + "!");
-		if (!hmPermissionsBySecurable.get(securable_guid).getCanCreate())
-			throw new Exception("You do not have create permissions to " + hmSecurables.get(securable_guid).getDisplayName() + "!");
+		if(hmPermissionsBySecurable.containsKey(securable_guid) && hmPermissionsBySecurable.get(securable_guid).getCanCreate())
+			return;
+		
+		String sName = "";
+		try { sName = Securable.loadByGuid(this.login(), Securable.class, securable_guid).getDisplayName(); }
+		catch(Exception ex) { throw new Exception("Could not locate securable by GUID ('" + securable_guid + "') for can create error!", ex); }
+		
+		throw new Exception("You do not have create permissions to '" + sName + "'!");
 	}
 	public void canRead(String securable_guid) throws Exception {
-		if (getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
+		if(getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
 			return;
-		if (!hmPermissionsBySecurable.containsKey(securable_guid))
-			throw new Exception("Unknown securable GUID: " + securable_guid + "!");
-		if (!hmPermissionsBySecurable.get(securable_guid).getCanRead())
-			throw new Exception("You do not have read permissions to " + hmSecurables.get(securable_guid).getDisplayName() + "!");
+		if(hmPermissionsBySecurable.containsKey(securable_guid) && hmPermissionsBySecurable.get(securable_guid).getCanRead())
+			return;
+		
+		String sName = "";
+		try { sName = Securable.loadByGuid(this.login(), Securable.class, securable_guid).getDisplayName(); }
+		catch(Exception ex) { throw new Exception("Could not locate securable by GUID ('" + securable_guid + "') for can read error!", ex); }
+		
+		throw new Exception("You do not have read permissions to '" + sName + "'!");
 	}
 	public void canUpdate(String securable_guid) throws Exception {
-		if (getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
+		if(getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
 			return;
-		if (!hmPermissionsBySecurable.containsKey(securable_guid))
-			throw new Exception("Unknown securable GUID: " + securable_guid + "!");
-		if (!hmPermissionsBySecurable.get(securable_guid).getCanUpdate())
-			throw new Exception("You do not have update permissions to " + hmSecurables.get(securable_guid).getDisplayName() + "!");
+		if(hmPermissionsBySecurable.containsKey(securable_guid) && hmPermissionsBySecurable.get(securable_guid).getCanUpdate())
+			return;
+		
+		String sName = "";
+		try { sName = Securable.loadByGuid(this.login(), Securable.class, securable_guid).getDisplayName(); }
+		catch(Exception ex) { throw new Exception("Could not locate securable by GUID ('" + securable_guid + "') for can update error!", ex); }
+		
+		throw new Exception("You do not have update permissions to '" + sName + "'!");
 	}
 	public void canDelete(String securable_guid) throws Exception {
-		if (getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
+		if(getGuid().equals(User.ADMINISTRATOR_GUID) || bIsAdministrator)
 			return;
-		if (!hmPermissionsBySecurable.containsKey(securable_guid))
-			throw new Exception("Unknown securable GUID: " + securable_guid + "!");
-		if (!hmPermissionsBySecurable.get(securable_guid).getCanDelete())
-			throw new Exception("You do not have read permissions to " + hmSecurables.get(securable_guid).getDisplayName() + "!");
+		if(hmPermissionsBySecurable.containsKey(securable_guid) && hmPermissionsBySecurable.get(securable_guid).getCanDelete())
+			return;
+		
+		String sName = "";
+		try { sName = Securable.loadByGuid(this.login(), Securable.class, securable_guid).getDisplayName(); }
+		catch(Exception ex) { throw new Exception("Could not locate securable by GUID ('" + securable_guid + "') for can delete error!", ex); }
+		
+		throw new Exception("You do not have delete permissions to '" + sName + "'!");
 	}
 
 	public void logEvent(String message, String code_guid) {

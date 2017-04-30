@@ -52,7 +52,7 @@ public class Report extends ReportsRow {
 			sql = String.format(sql, ReportBlock.TABLE_NAME, ReportBlock.REPORTS_GUID, ReportBlock.PRIORITY);
 			Statement stmt = new Statement(sql);
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstBlocksChildren = adapter.load(model, stmt, true);
+			lstBlocksChildren = adapter.load(model, stmt, false);
 		}
 		return (List<T>) lstBlocksChildren;
 	}
@@ -60,7 +60,7 @@ public class Report extends ReportsRow {
 		if(lstFiltersChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Report Filters\" WHERE \"Reports GUID\"={PRIMARYKEY} ORDER BY \"Priority\"");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstFiltersChildren = adapter.load(model, stmt, true);
+			lstFiltersChildren = adapter.load(model, stmt, false);
 		}
 		return (List<T>) lstFiltersChildren;
 	}

@@ -37,16 +37,13 @@ public class ChangePasswordController extends Controller {
 	}
 	
 	private void btnSave_OnClick() throws Exception {
-		User currentUser = getUser();
-		currentUser.changePassword(getUser().login(), txtPassword.getValue(), txtConfirm.getValue());
-
-		SessionInterface si = getUser().login().getSession();
-		//getUser().login().setSession(null);
-		getUser().login().save(net.internetworkconsulting.accounting.entities.User.TABLE_NAME, currentUser);
-		//getUser().login().setSession(si);
+		try {
+			getUser().changePassword(getUser().login(), txtPassword.getValue(), txtConfirm.getValue());
+		}
+		catch(Exception ex) {
+			addError("Error", ex.getMessage());
+		}
 		
-		
-
-		addError("Notice", "Password changed!");
+		redirect("~/incBootstrap?App=Login&Error=You password has been changed.  Please login using yor new password.");
 	}
 }

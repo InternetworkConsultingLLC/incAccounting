@@ -96,7 +96,7 @@ public class UserController extends EditController {
 	private void btnReset_OnClick() throws Exception {
 		User objModel = (User) getModel();
 		objModel.resetSqlPassword(getUser().login(), txtConfirm.getValue(), txtPassword.getValue());
-		addError("Error", "Reset!");
+		addError("Reset!", "The users password has been reset.  The password date has been set to the epoch -- the user will be forced to change their password on login.");
 	}
 
 }

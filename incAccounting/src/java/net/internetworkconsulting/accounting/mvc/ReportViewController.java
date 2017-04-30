@@ -82,8 +82,6 @@ public class ReportViewController extends Controller {
 		}
 	}
 
-	
-	
 	public void btnLoad_OnClick() throws Exception {				
 		Report objModel = (Report) getModel();		
 		litOutput.setValue(objModel.generate(getUser().login()));		
