@@ -31,4 +31,13 @@ public class Group extends net.internetworkconsulting.accounting.data.GroupsRow 
 	}
 
 	public Group() { super(); }
+
+	private static List<Securable> lstSecurables;
+	public static List<Securable> loadSecurables(AdapterInterface adapter, boolean forced) throws Exception {
+		if(!forced && lstSecurables != null)
+			return lstSecurables;
+		
+		lstSecurables = Securable.loadAll(adapter, Securable.class);
+		return lstSecurables;
+	}
 }

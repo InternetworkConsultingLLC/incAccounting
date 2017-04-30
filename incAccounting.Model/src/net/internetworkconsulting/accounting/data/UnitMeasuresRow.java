@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class UnitMeasuresRow extends Row implements UnitMeasuresInterface {
 	public UnitMeasuresRow() { 
 		super(); 
-		setSqlTableName("Unit Measures");
-		setSqlSecurableGuid("7b75551eba1477306b17861d66595527");
+		setSqlTableName("unit measures");
+		setSqlSecurableGuid("454eeaad96288cdc110527bf62a0f3c1");
 	}
-	public static String TABLE_NAME = "Unit Measures";
+	public static String TABLE_NAME = "unit measures";
 
 	// columns
 	
@@ -42,7 +42,7 @@ public class UnitMeasuresRow extends Row implements UnitMeasuresInterface {
 	protected Object lstLeftConversionsChildren = null;
 	public <T extends ConversionsRow> List<T> loadLeftConversions(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstLeftConversionsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Conversions\" WHERE \"Left Unit Measures GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"conversions\" WHERE \"Left Unit Measures GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstLeftConversionsChildren = adapter.load(model, stmt, true);
 		}
@@ -52,7 +52,7 @@ public class UnitMeasuresRow extends Row implements UnitMeasuresInterface {
 	protected Object lstRightConversionsChildren = null;
 	public <T extends ConversionsRow> List<T> loadRightConversions(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstRightConversionsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Conversions\" WHERE \"Right Unit Measures GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"conversions\" WHERE \"Right Unit Measures GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstRightConversionsChildren = adapter.load(model, stmt, true);
 		}
@@ -62,7 +62,7 @@ public class UnitMeasuresRow extends Row implements UnitMeasuresInterface {
 	protected Object lstDocumentLinesChildren = null;
 	public <T extends DocumentLinesRow> List<T> loadDocumentLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstDocumentLinesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"Unit Measures GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"document lines\" WHERE \"Unit Measures GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstDocumentLinesChildren = adapter.load(model, stmt, true);
 		}
@@ -72,7 +72,7 @@ public class UnitMeasuresRow extends Row implements UnitMeasuresInterface {
 	protected Object lstItemsChildren = null;
 	public <T extends ItemsRow> List<T> loadItems(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstItemsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Items\" WHERE \"Inventory Unit Measures GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"items\" WHERE \"Inventory Unit Measures GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstItemsChildren = adapter.load(model, stmt, true);
 		}
@@ -86,45 +86,39 @@ public class UnitMeasuresRow extends Row implements UnitMeasuresInterface {
 	// unique key loaders
 	
 	public static <T extends UnitMeasuresRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Unit Measures\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"unit measures\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Unit Measures row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique unit measures row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends UnitMeasuresRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Unit Measures\" WHERE \"Display Name\"={VALUE}";
+		String sql = "SELECT * FROM \"unit measures\" WHERE \"Display Name\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Unit Measures row by 'Display Name': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique unit measures row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends UnitMeasuresRow> T loadByAbbreviation(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Unit Measures\" WHERE \"Abbreviation\"={VALUE}";
+		String sql = "SELECT * FROM \"unit measures\" WHERE \"Abbreviation\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Unit Measures row by 'Abbreviation': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique unit measures row by 'Abbreviation': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends UnitMeasuresRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Items\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

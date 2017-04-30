@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class AccountsRow extends Row implements AccountsInterface {
 	public AccountsRow() { 
 		super(); 
-		setSqlTableName("Accounts");
-		setSqlSecurableGuid("9b945efebb006547a94415eadaa12921");
+		setSqlTableName("accounts");
+		setSqlSecurableGuid("7a90e38a211ece1c346928e7d1f3e968");
 	}
-	public static String TABLE_NAME = "Accounts";
+	public static String TABLE_NAME = "accounts";
 
 	// columns
 	
@@ -62,7 +62,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstChildrenChildren = null;
 	public <T extends AccountsRow> List<T> loadChildren(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstChildrenChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"Parent Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"accounts\" WHERE \"Parent Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstChildrenChildren = adapter.load(model, stmt, true);
 		}
@@ -72,7 +72,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstDocumentLinesChildren = null;
 	public <T extends DocumentLinesRow> List<T> loadDocumentLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstDocumentLinesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"document lines\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstDocumentLinesChildren = adapter.load(model, stmt, true);
 		}
@@ -82,7 +82,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstDocumentTypesChildren = null;
 	public <T extends DocumentTypesRow> List<T> loadDocumentTypes(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstDocumentTypesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Document Types\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"document types\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstDocumentTypesChildren = adapter.load(model, stmt, true);
 		}
@@ -92,7 +92,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstDocumentsChildren = null;
 	public <T extends DocumentsRow> List<T> loadDocuments(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstDocumentsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"Posted Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"documents\" WHERE \"Posted Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstDocumentsChildren = adapter.load(model, stmt, true);
 		}
@@ -102,7 +102,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstInventoryItemsChildren = null;
 	public <T extends ItemsRow> List<T> loadInventoryItems(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstInventoryItemsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Items\" WHERE \"Inventory Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"items\" WHERE \"Inventory Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstInventoryItemsChildren = adapter.load(model, stmt, true);
 		}
@@ -112,7 +112,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstPurchaseItemsChildren = null;
 	public <T extends ItemsRow> List<T> loadPurchaseItems(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPurchaseItemsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Items\" WHERE \"Purchase Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"items\" WHERE \"Purchase Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPurchaseItemsChildren = adapter.load(model, stmt, true);
 		}
@@ -122,7 +122,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstSalesItemsChildren = null;
 	public <T extends ItemsRow> List<T> loadSalesItems(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstSalesItemsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Items\" WHERE \"Sales Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"items\" WHERE \"Sales Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstSalesItemsChildren = adapter.load(model, stmt, true);
 		}
@@ -132,7 +132,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstPaymentTypesChildren = null;
 	public <T extends PaymentTypesRow> List<T> loadPaymentTypes(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPaymentTypesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payment Types\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payment types\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPaymentTypesChildren = adapter.load(model, stmt, true);
 		}
@@ -142,7 +142,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstPaymentsChildren = null;
 	public <T extends PaymentsRow> List<T> loadPayments(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPaymentsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payments\" WHERE \"Posted Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payments\" WHERE \"Posted Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPaymentsChildren = adapter.load(model, stmt, true);
 		}
@@ -152,7 +152,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstPayrollChecksChildren = null;
 	public <T extends PayrollChecksRow> List<T> loadPayrollChecks(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPayrollChecksChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payroll Checks\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payroll checks\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstPayrollChecksChildren = adapter.load(model, stmt, true);
 		}
@@ -162,7 +162,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstCreditPayrollFieldsChildren = null;
 	public <T extends PayrollFieldsRow> List<T> loadCreditPayrollFields(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstCreditPayrollFieldsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payroll Fields\" WHERE \"Credit Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payroll fields\" WHERE \"Credit Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstCreditPayrollFieldsChildren = adapter.load(model, stmt, true);
 		}
@@ -172,7 +172,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstDebitPayrollFieldsChildren = null;
 	public <T extends PayrollFieldsRow> List<T> loadDebitPayrollFields(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstDebitPayrollFieldsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payroll Fields\" WHERE \"Debit Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payroll fields\" WHERE \"Debit Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstDebitPayrollFieldsChildren = adapter.load(model, stmt, true);
 		}
@@ -182,7 +182,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstReconciliationsChildren = null;
 	public <T extends ReconciliationsRow> List<T> loadReconciliations(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstReconciliationsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Reconciliations\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"reconciliations\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstReconciliationsChildren = adapter.load(model, stmt, true);
 		}
@@ -192,7 +192,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstSalesTaxesChildren = null;
 	public <T extends SalesTaxesRow> List<T> loadSalesTaxes(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstSalesTaxesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Sales Taxes\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"sales taxes\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstSalesTaxesChildren = adapter.load(model, stmt, true);
 		}
@@ -202,7 +202,7 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object lstTransactionLinesChildren = null;
 	public <T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTransactionLinesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"transaction lines\" WHERE \"Accounts GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstTransactionLinesChildren = adapter.load(model, stmt, true);
 		}
@@ -215,11 +215,11 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object rAccountTypeParent = null;
 	public <T extends AccountTypesRow> T loadAccountType(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rAccountTypeParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Account Types\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"account types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getAccountTypesGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Account Types row by GUID (" + Statement.convertObjectToString(this.getAccountTypesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique account types row by GUID (" + Statement.convertObjectToString(this.getAccountTypesGuid(), null) + ")!");
 			rAccountTypeParent = lst.get(0);
 		}
 		return (T) rAccountTypeParent;
@@ -228,11 +228,11 @@ public class AccountsRow extends Row implements AccountsInterface {
 	protected Object rParentAccountParent = null;
 	public <T extends AccountsRow> T loadParentAccount(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rParentAccountParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Accounts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"accounts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getParentAccountsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Accounts row by GUID (" + Statement.convertObjectToString(this.getParentAccountsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique accounts row by GUID (" + Statement.convertObjectToString(this.getParentAccountsGuid(), null) + ")!");
 			rParentAccountParent = lst.get(0);
 		}
 		return (T) rParentAccountParent;
@@ -242,45 +242,39 @@ public class AccountsRow extends Row implements AccountsInterface {
 	// unique key loaders
 	
 	public static <T extends AccountsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Accounts\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"accounts\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Accounts row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique accounts row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends AccountsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Accounts\" WHERE \"Number\"={VALUE}";
+		String sql = "SELECT * FROM \"accounts\" WHERE \"Number\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Accounts row by 'Number': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique accounts row by 'Number': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends AccountsRow> T loadByNestedName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Accounts\" WHERE \"Nested Name\"={VALUE}";
+		String sql = "SELECT * FROM \"accounts\" WHERE \"Nested Name\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Accounts row by 'Nested Name': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique accounts row by 'Nested Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends AccountsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Accounts\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

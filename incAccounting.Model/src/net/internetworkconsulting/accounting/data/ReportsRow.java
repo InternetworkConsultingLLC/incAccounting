@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class ReportsRow extends Row implements ReportsInterface {
 	public ReportsRow() { 
 		super(); 
-		setSqlTableName("Reports");
-		setSqlSecurableGuid("c91c7b93c28cd18741b71f727ee81ee3");
+		setSqlTableName("reports");
+		setSqlSecurableGuid("a8445719836f2d5e8b51986410e14728");
 	}
-	public static String TABLE_NAME = "Reports";
+	public static String TABLE_NAME = "reports";
 
 	// columns
 	
@@ -56,7 +56,7 @@ public class ReportsRow extends Row implements ReportsInterface {
 	protected Object lstFiltersChildren = null;
 	public <T extends ReportFiltersRow> List<T> loadFilters(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstFiltersChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Report Filters\" WHERE \"Reports GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"report filters\" WHERE \"Reports GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstFiltersChildren = adapter.load(model, stmt, true);
 		}
@@ -69,11 +69,11 @@ public class ReportsRow extends Row implements ReportsInterface {
 	protected Object rSecurableParent = null;
 	public <T extends SecurablesRow> T loadSecurable(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rSecurableParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Securables\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"securables\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Securables row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
+				throw new Exception("Could not locate unique securables row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
 			rSecurableParent = lst.get(0);
 		}
 		return (T) rSecurableParent;
@@ -83,33 +83,27 @@ public class ReportsRow extends Row implements ReportsInterface {
 	// unique key loaders
 	
 	public static <T extends ReportsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Reports\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"reports\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Reports row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique reports row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends ReportsRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Reports\" WHERE \"Display Name\"={VALUE}";
+		String sql = "SELECT * FROM \"reports\" WHERE \"Display Name\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Reports row by 'Display Name': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique reports row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends ReportsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Report Filters\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

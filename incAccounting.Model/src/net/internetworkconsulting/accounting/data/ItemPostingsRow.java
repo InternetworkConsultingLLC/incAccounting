@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 	public ItemPostingsRow() { 
 		super(); 
-		setSqlTableName("Item Postings");
-		setSqlSecurableGuid("73959ce86f1e21271e60f96ba411b5ef");
+		setSqlTableName("item postings");
+		setSqlSecurableGuid("28ddf80f4299a9e010faa595cbc6647c");
 	}
-	public static String TABLE_NAME = "Item Postings";
+	public static String TABLE_NAME = "item postings";
 
 	// columns
 	
@@ -45,11 +45,11 @@ public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 	protected Object rIncreasingDocumentLineParent = null;
 	public <T extends DocumentLinesRow> T loadIncreasingDocumentLine(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rIncreasingDocumentLineParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"document lines\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getIncreasingDocumentLinesGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Document Lines row by GUID (" + Statement.convertObjectToString(this.getIncreasingDocumentLinesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique document lines row by GUID (" + Statement.convertObjectToString(this.getIncreasingDocumentLinesGuid(), null) + ")!");
 			rIncreasingDocumentLineParent = lst.get(0);
 		}
 		return (T) rIncreasingDocumentLineParent;
@@ -58,11 +58,11 @@ public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 	protected Object rDecreasingDocumentLineParent = null;
 	public <T extends DocumentLinesRow> T loadDecreasingDocumentLine(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rDecreasingDocumentLineParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Document Lines\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"document lines\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDecreasingDocumentLinesGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Document Lines row by GUID (" + Statement.convertObjectToString(this.getDecreasingDocumentLinesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique document lines row by GUID (" + Statement.convertObjectToString(this.getDecreasingDocumentLinesGuid(), null) + ")!");
 			rDecreasingDocumentLineParent = lst.get(0);
 		}
 		return (T) rDecreasingDocumentLineParent;
@@ -72,21 +72,15 @@ public class ItemPostingsRow extends Row implements ItemPostingsInterface {
 	// unique key loaders
 	
 	public static <T extends ItemPostingsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Item Postings\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"item postings\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Item Postings row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique item postings row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends ItemPostingsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Item Postings\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

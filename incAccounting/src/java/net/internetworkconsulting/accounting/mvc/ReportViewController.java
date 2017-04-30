@@ -23,6 +23,8 @@ public class ReportViewController extends Controller {
 		Report objModel = loadModel();
 		setDocument(new Template(readTemplate("~/templates/ReportView.html"),  new HtmlSyntax()));
 
+		getUser().canRead(objModel.getGuid());
+
 		LiteralTag litTitle = new LiteralTag(this, Report.TITLE);
 		litTitle.setValue(objModel.getTitle());
 

@@ -6,6 +6,8 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Group;
 import net.internetworkconsulting.accounting.entities.Membership;
 import net.internetworkconsulting.accounting.entities.Option;
+import net.internetworkconsulting.accounting.entities.Permission;
+import net.internetworkconsulting.accounting.entities.Securable;
 import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
@@ -19,6 +21,7 @@ import net.internetworkconsulting.template.HtmlSyntax;
 
 public class GroupController extends EditController {
 	private LinkedList<GroupMembershipController> lstMemberships;
+	private List<GroupPermissionsController> lstPermisssionControllers;
 
 	public GroupController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
@@ -85,6 +88,16 @@ public class GroupController extends EditController {
 			lstMemberships.add(gemc);
 		}
 		
+		// permissions
+		lstPermisssionControllers = new LinkedList<>();
+		List<Securable> lstSecurables = Group.loadSecurables(getUser().login(), false);
+		for(Securable securable: lstSecurables) {
+			GroupPermissionsController gpc = new GroupPermissionsController(this, "Securable");
+			gpc.setModel(securable);
+			gpc.setIsDocumentBlock(true);
+			gpc.setGroup(objModel);
+			lstPermisssionControllers.add(gpc);
+		}
 	}
 	public History createHistory() throws Exception {
 		Group objModel = (Group) getModel();
@@ -105,15 +118,22 @@ public class GroupController extends EditController {
 			Membership mbr = (Membership) gemc.getModel();
 			if(mbr != null)
 				lstMembershipsToSave.add(mbr);
-		}				
+		}	
+		
+		List<Permission> lstPerms = new LinkedList<>();
+		for(GroupPermissionsController gpc : lstPermisssionControllers)
+			lstPerms.add(gpc.getPermission());
 		
 		// save
 		try {
 			getUser().login().begin(true);
 
 			getUser().login().save(Group.TABLE_NAME, objModel);
+
 			if(!objModel.getGuid().equals(Group.EVERYONE_GUID))
 				getUser().login().save(Membership.TABLE_NAME, lstMembershipsToSave);
+
+			getUser().login().save(Permission.TABLE_NAME, lstPerms);
 
 			getUser().login().commit(true);
 		}

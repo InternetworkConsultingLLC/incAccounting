@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class SettingsRow extends Row implements SettingsInterface {
 	public SettingsRow() { 
 		super(); 
-		setSqlTableName("Settings");
-		setSqlSecurableGuid("f4f70727dc34561dfde1a3c529b6205c");
+		setSqlTableName("settings");
+		setSqlSecurableGuid("2e5d8aa3dfa8ef34ca5131d20f9dad51");
 	}
-	public static String TABLE_NAME = "Settings";
+	public static String TABLE_NAME = "settings";
 
 	// columns
 	
@@ -53,11 +53,11 @@ public class SettingsRow extends Row implements SettingsInterface {
 	protected Object rUserParent = null;
 	public <T extends UsersRow> T loadUser(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rUserParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Users\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"users\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getUsersGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
+				throw new Exception("Could not locate unique users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
 			rUserParent = lst.get(0);
 		}
 		return (T) rUserParent;
@@ -67,21 +67,15 @@ public class SettingsRow extends Row implements SettingsInterface {
 	// unique key loaders
 	
 	public static <T extends SettingsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Settings\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"settings\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Settings row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique settings row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends SettingsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Settings\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

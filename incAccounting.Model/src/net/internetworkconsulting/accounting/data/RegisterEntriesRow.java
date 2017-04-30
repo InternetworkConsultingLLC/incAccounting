@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class RegisterEntriesRow extends Row implements RegisterEntriesInterface {
 	public RegisterEntriesRow() { 
 		super(); 
-		setSqlTableName("Register Entries");
-		setSqlSecurableGuid("84e3a6b6fa39c6856bca9ef58c28a03e");
+		setSqlTableName("register entries");
+		setSqlSecurableGuid("7923e2236718b15ef351571df61bc02b");
 	}
-	public static String TABLE_NAME = "Register Entries";
+	public static String TABLE_NAME = "register entries";
 
 	// columns
 	
@@ -37,11 +37,11 @@ public class RegisterEntriesRow extends Row implements RegisterEntriesInterface 
 	protected Object rTransactionLineParent = null;
 	public <T extends TransactionLinesRow> T loadTransactionLine(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rTransactionLineParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Transaction Lines\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"transaction lines\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Transaction Lines row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
+				throw new Exception("Could not locate unique transaction lines row by GUID (" + Statement.convertObjectToString(this.getGuid(), null) + ")!");
 			rTransactionLineParent = lst.get(0);
 		}
 		return (T) rTransactionLineParent;
@@ -50,11 +50,11 @@ public class RegisterEntriesRow extends Row implements RegisterEntriesInterface 
 	protected Object rContactParent = null;
 	public <T extends ContactsRow> T loadContact(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rContactParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
 		}
 		return (T) rContactParent;
@@ -64,21 +64,15 @@ public class RegisterEntriesRow extends Row implements RegisterEntriesInterface 
 	// unique key loaders
 	
 	public static <T extends RegisterEntriesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Register Entries\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"register entries\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Register Entries row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique register entries row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends RegisterEntriesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Register Entries\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

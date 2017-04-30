@@ -3,6 +3,7 @@ package net.internetworkconsulting.accounting.mvc;
 import net.internetworkconsulting.accounting.entities.Membership;
 import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.User;
+import net.internetworkconsulting.accounting.entities.Group;
 import net.internetworkconsulting.mvc.CheckTag;
 import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
@@ -13,8 +14,7 @@ import net.internetworkconsulting.template.Template;
 public class GroupMembershipController extends Controller {
 	private LiteralTag lblUser;
 	private CheckTag chkIncluded;
-	public GroupMembershipController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
-	public boolean getEnforceSecurity() { return true; }
+
 	private Option myOptionUser = null;
 	void setModelUser(Option value) { myOptionUser = value; }
 
@@ -22,6 +22,8 @@ public class GroupMembershipController extends Controller {
 	public String getGroupGuid() { return sGroupGuid; }
 	public void setGroupGuid(String value) { sGroupGuid = value; }
 
+	public GroupMembershipController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
+	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
 		Membership objModel = (Membership) super.getModel();
@@ -36,6 +38,9 @@ public class GroupMembershipController extends Controller {
 			chkIncluded.setIsChecked(false);
 		else
 			chkIncluded.setIsChecked(true);
+		
+		if(Group.EVERYONE_GUID.equals(sGroupGuid))
+			chkIncluded.setIsChecked(true);			
 	}
 	public History createHistory() throws Exception { return null; }
 		

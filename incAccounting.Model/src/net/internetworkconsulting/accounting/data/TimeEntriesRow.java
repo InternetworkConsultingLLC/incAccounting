@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	public TimeEntriesRow() { 
 		super(); 
-		setSqlTableName("Time Entries");
-		setSqlSecurableGuid("27e2f0ae59b731288b84735ed617cab9");
+		setSqlTableName("time entries");
+		setSqlSecurableGuid("48ea885d9d11f339d943378ce30def9c");
 	}
-	public static String TABLE_NAME = "Time Entries";
+	public static String TABLE_NAME = "time entries";
 
 	// columns
 	
@@ -77,11 +77,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rTimeEntryTypeParent = null;
 	public <T extends TimeEntryTypesRow> T loadTimeEntryType(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rTimeEntryTypeParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Time Entry Types\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"time entry types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getEntryTypesGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Time Entry Types row by GUID (" + Statement.convertObjectToString(this.getEntryTypesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique time entry types row by GUID (" + Statement.convertObjectToString(this.getEntryTypesGuid(), null) + ")!");
 			rTimeEntryTypeParent = lst.get(0);
 		}
 		return (T) rTimeEntryTypeParent;
@@ -90,11 +90,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rUserParent = null;
 	public <T extends UsersRow> T loadUser(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rUserParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Users\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"users\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getUsersGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
+				throw new Exception("Could not locate unique users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
 			rUserParent = lst.get(0);
 		}
 		return (T) rUserParent;
@@ -103,11 +103,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rEmployeeParent = null;
 	public <T extends EmployeesRow> T loadEmployee(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rEmployeeParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Employees\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"employees\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getEmployeesGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Employees row by GUID (" + Statement.convertObjectToString(this.getEmployeesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique employees row by GUID (" + Statement.convertObjectToString(this.getEmployeesGuid(), null) + ")!");
 			rEmployeeParent = lst.get(0);
 		}
 		return (T) rEmployeeParent;
@@ -116,11 +116,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rContactParent = null;
 	public <T extends ContactsRow> T loadContact(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rContactParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
 		}
 		return (T) rContactParent;
@@ -129,11 +129,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rTimeSheetParent = null;
 	public <T extends TimeSheetsRow> T loadTimeSheet(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rTimeSheetParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Time Sheets\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"time sheets\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getTimeSheetsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Time Sheets row by GUID (" + Statement.convertObjectToString(this.getTimeSheetsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique time sheets row by GUID (" + Statement.convertObjectToString(this.getTimeSheetsGuid(), null) + ")!");
 			rTimeSheetParent = lst.get(0);
 		}
 		return (T) rTimeSheetParent;
@@ -142,11 +142,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rDocumentParent = null;
 	public <T extends DocumentsRow> T loadDocument(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rDocumentParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Documents\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"documents\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDocumentsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Documents row by GUID (" + Statement.convertObjectToString(this.getDocumentsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique documents row by GUID (" + Statement.convertObjectToString(this.getDocumentsGuid(), null) + ")!");
 			rDocumentParent = lst.get(0);
 		}
 		return (T) rDocumentParent;
@@ -155,11 +155,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rJobParent = null;
 	public <T extends JobsRow> T loadJob(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rJobParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Jobs\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"jobs\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getJobsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Jobs row by GUID (" + Statement.convertObjectToString(this.getJobsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique jobs row by GUID (" + Statement.convertObjectToString(this.getJobsGuid(), null) + ")!");
 			rJobParent = lst.get(0);
 		}
 		return (T) rJobParent;
@@ -168,11 +168,11 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	protected Object rDepartmentParent = null;
 	public <T extends DepartmentsRow> T loadDepartment(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rDepartmentParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Departments\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"departments\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDepartmentsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Departments row by GUID (" + Statement.convertObjectToString(this.getDepartmentsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique departments row by GUID (" + Statement.convertObjectToString(this.getDepartmentsGuid(), null) + ")!");
 			rDepartmentParent = lst.get(0);
 		}
 		return (T) rDepartmentParent;
@@ -182,21 +182,15 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	// unique key loaders
 	
 	public static <T extends TimeEntriesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Time Entries\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"time entries\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Time Entries row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique time entries row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends TimeEntriesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Time Entries\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

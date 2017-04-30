@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInterface {
 	public PayrollFieldValuesRow() { 
 		super(); 
-		setSqlTableName("Payroll Field Values");
-		setSqlSecurableGuid("9fcafb487a8d4398d2a2493b34a67235");
+		setSqlTableName("payroll field values");
+		setSqlSecurableGuid("50bf8e044c9f5839b79cca0a5716d728");
 	}
-	public static String TABLE_NAME = "Payroll Field Values";
+	public static String TABLE_NAME = "payroll field values";
 
 	// columns
 	
@@ -53,11 +53,11 @@ public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInte
 	protected Object rPayrollCheckParent = null;
 	public <T extends PayrollChecksRow> T loadPayrollCheck(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rPayrollCheckParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payroll Checks\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payroll checks\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPayrollChecksGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Payroll Checks row by GUID (" + Statement.convertObjectToString(this.getPayrollChecksGuid(), null) + ")!");
+				throw new Exception("Could not locate unique payroll checks row by GUID (" + Statement.convertObjectToString(this.getPayrollChecksGuid(), null) + ")!");
 			rPayrollCheckParent = lst.get(0);
 		}
 		return (T) rPayrollCheckParent;
@@ -66,11 +66,11 @@ public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInte
 	protected Object rPayrollFieldParent = null;
 	public <T extends PayrollFieldsRow> T loadPayrollField(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rPayrollFieldParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payroll Fields\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payroll fields\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPayrollFieldsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Payroll Fields row by GUID (" + Statement.convertObjectToString(this.getPayrollFieldsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique payroll fields row by GUID (" + Statement.convertObjectToString(this.getPayrollFieldsGuid(), null) + ")!");
 			rPayrollFieldParent = lst.get(0);
 		}
 		return (T) rPayrollFieldParent;
@@ -80,21 +80,15 @@ public class PayrollFieldValuesRow extends Row implements PayrollFieldValuesInte
 	// unique key loaders
 	
 	public static <T extends PayrollFieldValuesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Payroll Field Values\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"payroll field values\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Payroll Field Values row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique payroll field values row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends PayrollFieldValuesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Payroll Field Values\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

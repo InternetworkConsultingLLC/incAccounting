@@ -81,7 +81,14 @@ public class Report extends ReportsRow {
 		if(sec != null) {
 			sec.setDisplayName("Report - " + this.getDisplayName());
 			adapter.save(Securable.TABLE_NAME, sec);			
-		}	
+		}
+		
+		if(getRowState() == RowState.Insert)
+			adapter.getSession().canCreate(this.getGuid());
+		else if(getRowState() == RowState.Update)
+			adapter.getSession().canUpdate(this.getGuid());
+		else if(getRowState() == RowState.Delete)
+			adapter.getSession().canDelete(this.getGuid());
 	}
 	public void afterSave(AdapterInterface adapter) throws Exception {
 		if(getRowState() == RowState.Delete) {
@@ -90,7 +97,7 @@ public class Report extends ReportsRow {
 			adapter.save(Securable.TABLE_NAME, sec);			
 		}		
 	}
-
+	
 	public String generate(AdapterInterface adapter) throws Exception {
 		Template document;
 		try { document = new Template(getHtmlTemplate(), new HtmlSyntax()); }

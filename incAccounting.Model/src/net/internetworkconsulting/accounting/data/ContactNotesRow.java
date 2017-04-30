@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class ContactNotesRow extends Row implements ContactNotesInterface {
 	public ContactNotesRow() { 
 		super(); 
-		setSqlTableName("Contact Notes");
-		setSqlSecurableGuid("74296745c146fc4ffc4afda0f19f1f2c");
+		setSqlTableName("contact notes");
+		setSqlSecurableGuid("80ef67ed22b4f70d72acbaa15dead392");
 	}
-	public static String TABLE_NAME = "Contact Notes";
+	public static String TABLE_NAME = "contact notes";
 
 	// columns
 	
@@ -53,11 +53,11 @@ public class ContactNotesRow extends Row implements ContactNotesInterface {
 	protected Object rContactParent = null;
 	public <T extends ContactsRow> T loadContact(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rContactParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"contacts\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getContactsGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
+				throw new Exception("Could not locate unique contacts row by GUID (" + Statement.convertObjectToString(this.getContactsGuid(), null) + ")!");
 			rContactParent = lst.get(0);
 		}
 		return (T) rContactParent;
@@ -67,21 +67,15 @@ public class ContactNotesRow extends Row implements ContactNotesInterface {
 	// unique key loaders
 	
 	public static <T extends ContactNotesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Contact Notes\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"contact notes\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Contact Notes row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique contact notes row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends ContactNotesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Contact Notes\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

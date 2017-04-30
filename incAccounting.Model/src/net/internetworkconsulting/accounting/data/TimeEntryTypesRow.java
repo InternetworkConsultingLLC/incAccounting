@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class TimeEntryTypesRow extends Row implements TimeEntryTypesInterface {
 	public TimeEntryTypesRow() { 
 		super(); 
-		setSqlTableName("Time Entry Types");
-		setSqlSecurableGuid("c6a513d20da942be1e819b9c43497cde");
+		setSqlTableName("time entry types");
+		setSqlSecurableGuid("cae6d3b208d93f1fc8ddb0059e278804");
 	}
-	public static String TABLE_NAME = "Time Entry Types";
+	public static String TABLE_NAME = "time entry types";
 
 	// columns
 	
@@ -38,7 +38,7 @@ public class TimeEntryTypesRow extends Row implements TimeEntryTypesInterface {
 	protected Object lstTimeEntriesChildren = null;
 	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTimeEntriesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Entry Types GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"time entries\" WHERE \"Entry Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstTimeEntriesChildren = adapter.load(model, stmt, true);
 		}
@@ -52,33 +52,27 @@ public class TimeEntryTypesRow extends Row implements TimeEntryTypesInterface {
 	// unique key loaders
 	
 	public static <T extends TimeEntryTypesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Time Entry Types\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"time entry types\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Time Entry Types row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique time entry types row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends TimeEntryTypesRow> T loadByDescription(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Time Entry Types\" WHERE \"Description\"={VALUE}";
+		String sql = "SELECT * FROM \"time entry types\" WHERE \"Description\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Time Entry Types row by 'Description': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique time entry types row by 'Description': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends TimeEntryTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Time Entries\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

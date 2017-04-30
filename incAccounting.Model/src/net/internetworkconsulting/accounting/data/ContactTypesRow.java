@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class ContactTypesRow extends Row implements ContactTypesInterface {
 	public ContactTypesRow() { 
 		super(); 
-		setSqlTableName("Contact Types");
-		setSqlSecurableGuid("2a85420faee85c0a1aa204a3ee713ba4");
+		setSqlTableName("contact types");
+		setSqlSecurableGuid("7c61fdef99c1454ce4e7f3defb9ce094");
 	}
-	public static String TABLE_NAME = "Contact Types";
+	public static String TABLE_NAME = "contact types";
 
 	// columns
 	
@@ -38,7 +38,7 @@ public class ContactTypesRow extends Row implements ContactTypesInterface {
 	protected Object lstContactsChildren = null;
 	public <T extends ContactsRow> List<T> loadContacts(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstContactsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Contacts\" WHERE \"Contact Types GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"contacts\" WHERE \"Contact Types GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstContactsChildren = adapter.load(model, stmt, true);
 		}
@@ -52,33 +52,27 @@ public class ContactTypesRow extends Row implements ContactTypesInterface {
 	// unique key loaders
 	
 	public static <T extends ContactTypesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Contact Types\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"contact types\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Contact Types row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique contact types row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends ContactTypesRow> T loadByDisplayName(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Contact Types\" WHERE \"Display Name\"={VALUE}";
+		String sql = "SELECT * FROM \"contact types\" WHERE \"Display Name\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Contact Types row by 'Display Name': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique contact types row by 'Display Name': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends ContactTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Contacts\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

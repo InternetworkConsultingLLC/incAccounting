@@ -21,11 +21,11 @@ class Node {
 	private Node(SyntaxInterface syntax) {
 		Syntax = syntax;
 	}
-	public Node(SyntaxInterface syntax, String contents) {
+	public Node(SyntaxInterface syntax, String contents) throws Exception {
 		Syntax = syntax;
 		Initialize(contents);
 	}
-	private void Initialize(String value) {
+	private void Initialize(String value) throws Exception {
 		String contents = value;
 
 		// find next variable
@@ -81,7 +81,7 @@ class Node {
 			int iCloseStart = -1;
 			int iCloseEnd = -1;
 			if(bOpenFind) {
-				sCloseGroup = mClose.group();
+				sCloseGroup = mClose.group();				
 				iCloseStart = mClose.start();
 				iCloseEnd = mClose.end();
 			}

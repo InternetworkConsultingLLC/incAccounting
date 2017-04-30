@@ -52,4 +52,12 @@ ALTER TABLE "Time Entries" ADD CONSTRAINT "Time Entries>Document" FOREIGN KEY ("
 ALTER TABLE "Time Entries" ADD CONSTRAINT "Time Entries>Job" FOREIGN KEY ("Jobs GUID") REFERENCES "Jobs" ("GUID");
 ALTER TABLE "Time Entries" ADD CONSTRAINT "Time Entries>Department" FOREIGN KEY ("Departments GUID") REFERENCES "Departments" ("GUID");
 
+UPDATE "Settings" SET "Key" = 'Password Length' WHERE "GUID" = 'ac17f9e7262b4d05ad137948a437a59a';
+
+DELETE FROM "Permissions" WHERE "Securables GUID" IN (SELECT "GUID" FROM "Securables" WHERE "Display Name" LIKE 'Table - %');
+DELETE FROM "Securables" WHERE "Display Name" LIKE 'Table - %';
+
+INSERT INTO "Securables" ("Display Name", "GUID")
+SELECT CONCAT('Table - ', LOWER(TABLE_NAME)), MD5(LOWER(TABLE_NAME)) FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%DATABASE%';
+
 UPDATE "Settings" SET "Value" = '2017.4.7' WHERE "Key" = 'Version Number';

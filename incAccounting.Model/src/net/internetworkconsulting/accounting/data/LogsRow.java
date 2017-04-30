@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class LogsRow extends Row implements LogsInterface {
 	public LogsRow() { 
 		super(); 
-		setSqlTableName("Logs");
-		setSqlSecurableGuid("b2d37ae1cedf42ff874289b721860af2");
+		setSqlTableName("logs");
+		setSqlSecurableGuid("2165e4fa5bddb65a31f6a0c495c2fa37");
 	}
-	public static String TABLE_NAME = "Logs";
+	public static String TABLE_NAME = "logs";
 
 	// columns
 	
@@ -53,11 +53,11 @@ public class LogsRow extends Row implements LogsInterface {
 	protected Object rUserParent = null;
 	public <T extends UsersRow> T loadUser(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rUserParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Users\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"users\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getUsersGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
+				throw new Exception("Could not locate unique users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
 			rUserParent = lst.get(0);
 		}
 		return (T) rUserParent;
@@ -67,21 +67,15 @@ public class LogsRow extends Row implements LogsInterface {
 	// unique key loaders
 	
 	public static <T extends LogsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Logs\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"logs\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Logs row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique logs row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
-
-	// load all
-	public static <T extends LogsRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Logs\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

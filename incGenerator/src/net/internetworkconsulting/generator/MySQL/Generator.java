@@ -180,6 +180,9 @@ public class Generator {
 		}
 	}
 
+	private String formatTableName(String input) throws Exception {
+		return input.toLowerCase();
+	}
 	private String formatCamelCase(String input) throws Exception {
 		if(input.length() <= 1)
 			throw new Exception("Cannot process " + input);
@@ -269,7 +272,8 @@ public class Generator {
 		throw new Exception("Unknown type!");
 	}
 	private String formatMd5(String value) throws Exception {
-		byte[] arr = MessageDigest.getInstance("MD5").digest(value.getBytes("UTF-8"));
+		String sLower = value.toLowerCase();
+		byte[] arr = MessageDigest.getInstance("MD5").digest(sLower.getBytes("UTF-8"));
 		String sRet = "";
 		for(int cnt = 0; cnt < arr.length; cnt++)
 			sRet += String.format("%02x", arr[cnt]);
@@ -290,6 +294,7 @@ public class Generator {
 	}
 	private void addToDocument(String name, String value) throws Exception {
 		setDocumentsValue(name + "_raw", value);
+		setDocumentsValue(name + "_tn", formatTableName(value));
 		setDocumentsValue(name + "_md5", formatMd5(value));
 		setDocumentsValue(name + "_qs", formatQuotedString(value));
 		setDocumentsValue(name + "_cc", formatCamelCase(value));

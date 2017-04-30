@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class __table_cc__Row extends Row implements __table_cc__Interface {
 	public __table_cc__Row() { 
 		super(); 
-		setSqlTableName("__table_raw__");
+		setSqlTableName("__table_tn__");
 		setSqlSecurableGuid("__table_md5__");
 	}
-	public static String TABLE_NAME = "__table_raw__";
+	public static String TABLE_NAME = "__table_tn__";
 
 	// columns
 	// BEGIN COLUMNS
@@ -68,10 +68,4 @@ public class __table_cc__Row extends Row implements __table_cc__Interface {
 		return lst.get(0);		
 	}
 	// END LOADER
-
-	// load all
-	public static <T extends __table_cc__Row> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"__child_table_raw__\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }

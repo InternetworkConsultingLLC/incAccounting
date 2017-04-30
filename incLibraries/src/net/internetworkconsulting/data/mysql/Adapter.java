@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.naming.InitialContext;
 import net.internetworkconsulting.data.AdapterInterface;
+import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.SessionInterface;
 import net.internetworkconsulting.data.StatementInterface;
@@ -91,7 +92,9 @@ public class Adapter implements AdapterInterface {
 			R ri = null;
 			try { ri = cls.newInstance(); }
 			catch(Exception ex) { throw new Exception("A call to 'load()' threw an exception.  This is probably because the 'class' supplied is not assignable to the specified variable (type miss-match).", ex); }
-			myUser.canRead(ri.getSqlSecurableGuid());
+			
+			if(!(ri instanceof Row))
+				myUser.canRead(ri.getSqlSecurableGuid());
 		}
 
 		java.sql.ResultSet rs = myConnection.createStatement().executeQuery(stmt.generate(getSession(), log_query));

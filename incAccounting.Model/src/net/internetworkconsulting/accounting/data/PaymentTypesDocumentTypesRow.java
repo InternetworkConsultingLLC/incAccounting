@@ -13,10 +13,10 @@ import net.internetworkconsulting.data.mysql.*;
 public class PaymentTypesDocumentTypesRow extends Row implements PaymentTypesDocumentTypesInterface {
 	public PaymentTypesDocumentTypesRow() { 
 		super(); 
-		setSqlTableName("Payment Types Document Types");
-		setSqlSecurableGuid("7dabc46ab8f75f3d1915616830db350f");
+		setSqlTableName("payment types document types");
+		setSqlSecurableGuid("095457a38a232af2890dbcba82c18d0f");
 	}
-	public static String TABLE_NAME = "Payment Types Document Types";
+	public static String TABLE_NAME = "payment types document types";
 
 	// columns
 	
@@ -37,11 +37,11 @@ public class PaymentTypesDocumentTypesRow extends Row implements PaymentTypesDoc
 	protected Object rDocumentTypesParent = null;
 	public <T extends DocumentTypesRow> T loadDocumentTypes(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rDocumentTypesParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Document Types\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"document types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getDocumentTypesGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Document Types row by GUID (" + Statement.convertObjectToString(this.getDocumentTypesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique document types row by GUID (" + Statement.convertObjectToString(this.getDocumentTypesGuid(), null) + ")!");
 			rDocumentTypesParent = lst.get(0);
 		}
 		return (T) rDocumentTypesParent;
@@ -50,11 +50,11 @@ public class PaymentTypesDocumentTypesRow extends Row implements PaymentTypesDoc
 	protected Object rPaymentTypeParent = null;
 	public <T extends PaymentTypesRow> T loadPaymentType(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(rPaymentTypeParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Payment Types\" WHERE \"GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"payment types\" WHERE \"GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getPaymentTypesGuid());
 			List<T> lst = adapter.load(model, stmt, true);
 			if(lst.size() != 1)
-				throw new Exception("Could not locate unique Payment Types row by GUID (" + Statement.convertObjectToString(this.getPaymentTypesGuid(), null) + ")!");
+				throw new Exception("Could not locate unique payment types row by GUID (" + Statement.convertObjectToString(this.getPaymentTypesGuid(), null) + ")!");
 			rPaymentTypeParent = lst.get(0);
 		}
 		return (T) rPaymentTypeParent;
@@ -63,10 +63,4 @@ public class PaymentTypesDocumentTypesRow extends Row implements PaymentTypesDoc
 
 	// unique key loaders
 	
-
-	// load all
-	public static <T extends PaymentTypesDocumentTypesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
-		Statement stmt = new Statement("SELECT * FROM \"Payment Types Document Types\"");
-		return (List<T>) adapter.load(model, stmt, true);
-	}
 }
