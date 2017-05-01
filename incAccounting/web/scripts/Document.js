@@ -123,7 +123,7 @@ function invoiceChanged() {
 	nTaxes = nTaxable * nTaxRate;
 	nTotal = nSubtotal + nTaxes;
 	
-	document.getElementById("TaxableSubtotal").value = new Number(nTaxable).toFixed(nSettingDocumentMoneyDecimals);
+	document.getElementById("TaxableSubtotal").value = new Number(round(nTaxable, nSettingDocumentMoneyDecimals));
 	document.getElementById("NontaxableSubtotal").value = new Number(nNonTaxable).toFixed(nSettingDocumentMoneyDecimals);
 	document.getElementById("Subtotal").value = new Number(nSubtotal).toFixed(nSettingDocumentMoneyDecimals);
 	document.getElementById("Taxes").value = new Number(nTaxes).toFixed(nSettingDocumentMoneyDecimals);
