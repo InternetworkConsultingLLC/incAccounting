@@ -81,7 +81,8 @@ SELECT * FROM
 			SQ2."Total"
 	) SQ3
 WHERE
-	SQ3."Balance" <> 0
+	SQ3."Balance" <> 0 
+    OR SQ3."Documents GUID" = ( SELECT "Prepayment Documents GUID" FROM "Payments" WHERE "GUID" = @PaymentsGUID )
 ORDER BY
 	SQ3."Date" ASC,
     SQ3."Name",
