@@ -33,7 +33,10 @@ public class Adapter implements AdapterInterface {
 		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=convertToNull";
 		if(ssl)
 			sUri = sUri + "&verifyServerCertificate=false&useSSL=true&requireSSL=true";
-		myConnection = DriverManager.getConnection(sUri, user, password);
+		
+                try {  myConnection = DriverManager.getConnection(sUri, user, password); }
+                catch(Exception ex) { throw new Exception("Problem loading your MySQL driver!", ex); }
+                
 		bIsConnectionMine = true;
 		prepareConnection();
 	}
