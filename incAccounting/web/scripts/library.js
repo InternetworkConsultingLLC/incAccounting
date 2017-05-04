@@ -5,6 +5,10 @@ function pad(num, size) {
     return s;
 }
 function round (number, precision) {
-    var roundedNum = (Math.round(number * 10 ^ precision) / 10 ^ precision).toFixed(precision);
-    return roundedNum;
+    var multiplier = Math.pow( 10, precision );
+    var multipliedNum = number * multiplier;
+    var roundedNum = Math.round(multipliedNum);
+    var rootNumBeforeRound = roundedNum / multiplier;    
+    var toFixedRoundedNum = rootNumBeforeRound.toFixed(precision);
+    return toFixedRoundedNum;
 }

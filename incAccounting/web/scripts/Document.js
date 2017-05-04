@@ -123,11 +123,11 @@ function invoiceChanged() {
 	nTaxes = nTaxable * nTaxRate;
 	nTotal = nSubtotal + nTaxes;
 	
-	document.getElementById("TaxableSubtotal").value = new Number(round(nTaxable, nSettingDocumentMoneyDecimals));
-	document.getElementById("NontaxableSubtotal").value = new Number(nNonTaxable).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("Subtotal").value = new Number(nSubtotal).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("Taxes").value = new Number(nTaxes).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("Total").value = new Number(nTotal).toFixed(nSettingDocumentMoneyDecimals);		
+	document.getElementById("TaxableSubtotal").value = round(nTaxable, nSettingDocumentMoneyDecimals);
+	document.getElementById("NontaxableSubtotal").value = round(nNonTaxable, nSettingDocumentMoneyDecimals);
+	document.getElementById("Subtotal").value = round(nSubtotal, nSettingDocumentMoneyDecimals);
+	document.getElementById("Taxes").value = round(nTaxes, nSettingDocumentMoneyDecimals);
+	document.getElementById("Total").value = round(nTotal, nSettingDocumentMoneyDecimals);		
 }
 
 function pageLoaded() {
