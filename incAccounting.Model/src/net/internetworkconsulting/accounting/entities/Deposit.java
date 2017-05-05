@@ -155,7 +155,7 @@ public class Deposit extends BankDepositsRow {
 
 	private static boolean isNumberAvaiable(AdapterInterface adapter, String number) throws Exception {
 		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={Reference}";
-		sql = String.format(sql, Payment.TABLE_NAME, Payment.PAYMENT_TYPES_GUID, Payment.OUR_NUMBER, Payment.POSTED_ACCOUNTS_GUID);
+		sql = String.format(sql, Deposit.TABLE_NAME, Deposit.NUMBER);
 		
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{Reference}", number);
