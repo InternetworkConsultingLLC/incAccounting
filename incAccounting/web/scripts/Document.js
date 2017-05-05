@@ -34,9 +34,10 @@ function changedQuantity() {
 	if(!isFinite(nPrice))
 		return;	
 
-	nQty = new Number(nQty).toFixed(nSettingDocumentQuantityDecimals);
-	nPrice = new Number(nPrice).toFixed(nSettingDocumentMoneyDecimals);
-	nExt = new Number(nQty * nPrice).toFixed(nSettingDocumentMoneyDecimals);
+	nQty = round(nQty, nSettingDocumentQuantityDecimals);
+	nPrice = round(nPrice, nSettingDocumentMoneyDecimals);
+        var extdPrice = nQty * nPrice;
+	nExt = round(extdPrice, nSettingDocumentMoneyDecimals);
 	
 	document.getElementById("RowQuantity" + sGuid).value = nQty;
 	document.getElementById("RowUnitPrice" + sGuid).value = nPrice;
@@ -61,9 +62,10 @@ function changedPrice() {
 	if(!isFinite(nQty))
 		return;	
 
-	nQty = new Number(nQty).toFixed(nSettingDocumentQuantityDecimals);
-	nPrice = new Number(nPrice).toFixed(nSettingDocumentMoneyDecimals);
-	nExt = new Number(nQty * nPrice).toFixed(nSettingDocumentMoneyDecimals);
+	nQty = round(nQty, nSettingDocumentQuantityDecimals);
+	nPrice = round(nPrice, nSettingDocumentMoneyDecimals);
+        var extdPrice = nQty * nPrice;
+	nExt = round(extdPrice, nSettingDocumentMoneyDecimals);
 	
 	document.getElementById("RowQuantity" + sGuid).value = nQty;
 	document.getElementById("RowUnitPrice" + sGuid).value = nPrice;
@@ -89,10 +91,11 @@ function changedExtension() {
 		nQty = 1;
 	if(!isFinite(nQty))
 		return;	
-
-	nQty = new Number(nQty).toFixed(nSettingDocumentQuantityDecimals);
-	nPrice = new Number(nExt / nQty).toFixed(nSettingDocumentMoneyDecimals);
-	nExt = new Number(nExt).toFixed(nSettingDocumentMoneyDecimals);
+       
+	nQty = round(nQty, nSettingDocumentQuantityDecimals);
+        var priceEach = nExt / nQty;
+	nPrice = round(priceEach, nSettingDocumentMoneyDecimals);
+	nExt = new Number(nExt, nSettingDocumentMoneyDecimals);
 	
 	document.getElementById("RowQuantity" + sGuid).value = nQty;
 	document.getElementById("RowUnitPrice" + sGuid).value = nPrice;
