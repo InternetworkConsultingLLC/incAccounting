@@ -9,9 +9,10 @@ function calculatePrice() {
 	if(!isFinite(nCost) || !isFinite(nMarkup))
 		return;
 
-	nCost = new Number(nCost).toFixed(nSettingDocumentQuantityDecimals);
-	nMarkup = new Number(nMarkup).toFixed(nSettingDocumentRateDecimals);
-	nPrice = new Number(nCost * nMarkup).toFixed(nSettingDocumentMoneyDecimals);
+	nCost = round(nCost, nSettingDocumentQuantityDecimals);
+	nMarkup = round(nMarkup, nSettingDocumentRateDecimals);
+        var preroundPrice = nCost * nMarkup;
+	nPrice = round(preroundPrice, nSettingDocumentMoneyDecimals);
 	
 	document.getElementById("LastUnitCost").value = nCost;
 	document.getElementById("SalesMarkUp").value = nMarkup;

@@ -137,7 +137,7 @@ function pageLoaded() {
 	document.getElementById("DateMonth").onchange = changedDate;
 	document.getElementById("DateDay").onchange = changedDate;
 	document.getElementById("DateYear").onchange = changedDate;
-
+        
 	var arrControls = document.getElementsByClassName("RowQuantity");
 	for (var cnt = 0; cnt < arrControls.length; cnt++)
 		arrControls[cnt].onchange = changedQuantity;

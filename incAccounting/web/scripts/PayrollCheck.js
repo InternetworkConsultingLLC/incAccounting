@@ -32,12 +32,12 @@ function calculateQuantity(id) {
 	
 	if(!isFinite(nPrice))
 		return;	
-
-	nTotal = new Number(nQty * nRate).toFixed(nSettingDocumentMoneyDecimals);
+        var preroundTotal = nQty * nRate;
+	nTotal = round(preroundTotal, nSettingDocumentMoneyDecimals);
 	
-	document.getElementById(sPrefix + "Quantity" + sGuid).value = new Number(nQty).toFixed(nSettingDocumentQuantityDecimals);
-	document.getElementById(sPrefix + "Rate" + sGuid).value = new Number(nRate).toFixed(nSettingDocumentQuantityDecimals);
-	document.getElementById(sPrefix + "Total" + sGuid).value = new Number(nTotal).toFixed(nSettingDocumentQuantityDecimals);
+	document.getElementById(sPrefix + "Quantity" + sGuid).value = round(nQty, nSettingDocumentQuantityDecimals);
+	document.getElementById(sPrefix + "Rate" + sGuid).value = round(nRate, nSettingDocumentQuantityDecimals);
+	document.getElementById(sPrefix + "Total" + sGuid).value = round(nTotal, nSettingDocumentQuantityDecimals);
 	
 	documentChanged();
 }
@@ -72,14 +72,15 @@ function calculateRate(id) {
 	if(!isFinite(nQty))
 		return;	
 
-	nQty = new Number(nQty).toFixed(nSettingDocumentQuantityDecimals);
-	nPrice = new Number(nRate).toFixed(nSettingDocumentMoneyDecimals);
-	nTotal = new Number(nQty * nRate).toFixed(nSettingDocumentMoneyDecimals);
-	
-	document.getElementById(sPrefix + "Quantity" + sGuid).value = new Number(nQty).toFixed(nSettingDocumentQuantityDecimals);
-	document.getElementById(sPrefix + "Rate" + sGuid).value = new Number(nRate).toFixed(nSettingDocumentQuantityDecimals);
-	document.getElementById(sPrefix + "Total" + sGuid).value = new Number(nTotal).toFixed(nSettingDocumentQuantityDecimals);
-	
+	nQty = round(nQty, nSettingDocumentQuantityDecimals);
+	nPrice = round(nRate, nSettingDocumentMoneyDecimals);
+        var preroundedTotal = nQty * nRate;
+	nTotal = round(preroundedTotal, nSettingDocumentMoneyDecimals);
+        
+	document.getElementById(sPrefix + "Quantity" + sGuid).value = round(nQty, nSettingDocumentQuantityDecimals);
+	document.getElementById(sPrefix + "Rate" + sGuid).value = round(nRate, nSettingDocumentQuantityDecimals);
+	document.getElementById(sPrefix + "Total" + sGuid).value = round(nTotal, nSettingDocumentQuantityDecimals);
+		
 	documentChanged();
 }
 
@@ -119,18 +120,18 @@ function documentChanged() {
 	var nTakeHome = nAdjGross - nWithheld;
 	var nTotalExpenses = nGross + nCompany;
 	
-	document.getElementById("Gross").value = new Number(nGross).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("Adjusted").value = new Number(nAdjGross).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("Withheld").value = new Number(nWithheld).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("Company").value = new Number(nCompany).toFixed(nSettingDocumentMoneyDecimals);
+	document.getElementById("Gross").value = round(nGross, nSettingDocumentMoneyDecimals);
+	document.getElementById("Adjusted").value = round(nAdjGross, nSettingDocumentMoneyDecimals);
+	document.getElementById("Withheld").value = round(nWithheld, nSettingDocumentMoneyDecimals);
+	document.getElementById("Company").value = round(nCompany, nSettingDocumentMoneyDecimals);
 	
-	document.getElementById("span-Adjusted-Gross").textContent = new Number(nAdjGross).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("span-Employee-Paid").textContent = new Number(nWithheld).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("span-Paycheck-Amount").textContent = new Number(nTakeHome).toFixed(nSettingDocumentMoneyDecimals);
+	document.getElementById("span-Adjusted-Gross").textContent = round(nAdjGross, nSettingDocumentMoneyDecimals);
+	document.getElementById("span-Employee-Paid").textContent = round(nWithheld, nSettingDocumentMoneyDecimals);
+	document.getElementById("span-Paycheck-Amount").textContent = round(nTakeHome, nSettingDocumentMoneyDecimals);
 	
-	document.getElementById("span-Compensation").textContent = new Number(nGross).toFixed(nSettingDocumentMoneyDecimals);
-	document.getElementById("span-Company-Paid").textContent = new Number(nCompany).toFixed(nSettingDocumentMoneyDecimals);		
-	document.getElementById("span-Total-Costs").textContent = new Number(nTotalExpenses).toFixed(nSettingDocumentMoneyDecimals);
+	document.getElementById("span-Compensation").textContent = round(nGross, nSettingDocumentMoneyDecimals);
+	document.getElementById("span-Company-Paid").textContent = round(nCompany, nSettingDocumentMoneyDecimals);		
+	document.getElementById("span-Total-Costs").textContent = round(nTotalExpenses, nSettingDocumentMoneyDecimals);
 	
 	bSkip = false;
 }
