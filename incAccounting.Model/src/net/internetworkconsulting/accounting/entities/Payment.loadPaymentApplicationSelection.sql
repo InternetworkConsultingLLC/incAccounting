@@ -68,6 +68,7 @@ SELECT * FROM
 						LEFT JOIN "Transaction Types" PTTT ON PT."GUID" = PTTT."GUID"
 					WHERE
 						D."Contacts GUID" = @ContactsGUID
+						AND D."Document Types GUID" NOT IN ( SELECT "GUID" FROM "Transaction Types" WHERE "Name" LIKE '%quote%' OR "Name" LIKE '%order%' ) 
 				) SQ1
 			) SQ2
 		GROUP BY

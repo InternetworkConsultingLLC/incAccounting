@@ -10,10 +10,10 @@ function pageChanged() {
 		var nDebit = new Number(document.getElementById("RowDebit" + sGuid).value);
 		var nBalance = nBalance + nDebit;
 		
-		document.getElementById("RowBalance" + sGuid).value = new Number(nBalance).toFixed(nSettingDocumentMoneyDecimals)
+		document.getElementById("RowBalance" + sGuid).value = round(nBalance, nSettingDocumentMoneyDecimals);
 	}
 	
-	document.getElementById("EndingBalance").value = new Number(nBalance).toFixed(nSettingDocumentMoneyDecimals);
+	document.getElementById("EndingBalance").value = round(nBalance, nSettingDocumentMoneyDecimals);
 }
 
 function pageLoaded() {
