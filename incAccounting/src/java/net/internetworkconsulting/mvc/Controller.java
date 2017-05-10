@@ -6,7 +6,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -19,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.data.Helper;
+import net.internetworkconsulting.data.RowInterface;
+import net.internetworkconsulting.data.pervasive.Statement;
 import static net.internetworkconsulting.mvc.TemplateController.serialize;
 import net.internetworkconsulting.template.Template;
 
@@ -543,5 +544,26 @@ public abstract class Controller implements ControllerInterface {
 		getResponse().setHeader("Content-Type", "text/html");
 		//getResponse().setDateHeader("Expires", -1);
 		getResponse().getWriter().write(sOutput);
+	}
+	
+	// json processing
+//	<R extends RowInterface> String toJson(Class<R> cls, List<R> model, String var_name) throws Exception {
+	public static String toJson(List model) throws Exception {
+		String ret = "[\n";
+		for(Object obj : model) {
+			if(!(obj instanceof RowInterface))
+				throw new Exception("This will only make JSON of RowInterfaces!");
+			RowInterface ri = (RowInterface) obj;
+
+			ret += "\t{ \n";
+			ret += "\t\t\"_SERIAL_\":\"" + serialize(ri) + "\",\n";
+			for(String col : ri.getColumns().keySet())
+				ret += "\t\t\"" + col + "\":\"" + Statement.convertObjectToString(ri.get(col), null) + "\",\n";
+
+			ret = ret.substring(0, ret.length() - 2) + "\n},\n";
+		}
+		
+		ret = ret.substring(0, ret.length() - 2) + "\n]";
+		return ret;
 	}
 }

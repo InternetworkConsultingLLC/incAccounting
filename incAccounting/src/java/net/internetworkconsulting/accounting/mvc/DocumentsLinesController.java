@@ -13,6 +13,7 @@ import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 
 public class DocumentsLinesController extends Controller {
+	private ComboTag cboItem;
 	public DocumentsLinesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return false; }
 
@@ -38,10 +39,10 @@ public class DocumentsLinesController extends Controller {
 		txtQty.setFormat(sQtyFormat);
 		//txtQty.addOnChangeEvent(new Event() { public void handle() throws Exception { txtQty_OnChange(); } });
 		
-		ComboTag cboItem = new ComboTag(this, "Row", DocumentLine.ITEMS_GUID, objModel.getGuid(), objModel);
+		cboItem = new ComboTag(this, "Row", DocumentLine.ITEMS_GUID, objModel.getGuid(), objModel);
 		cboItem.setIsReadOnly(objTransaction != null);
 		cboItem.setOptions(Item.loadOptions(getUser().login(), true));
-		cboItem.addOnChangeEvent(new Event() { public void handle() throws Exception { cboItem_OnChange(); } });
+		//cboItem.addOnChangeEvent(new Event() { public void handle() throws Exception { cboItem_OnChange(); } });
 
 		ComboTag cboUm = new ComboTag(this, "Row", DocumentLine.UNIT_MEASURES_GUID, objModel.getGuid(), objModel);
 		cboUm.setIsReadOnly(objTransaction != null);
@@ -103,5 +104,8 @@ public class DocumentsLinesController extends Controller {
 	private void txtExtension_OnChange() throws Exception {
 		DocumentLine objModel = (DocumentLine) getModel();
 		objModel.handleExtension(getUser().login(), myParentDocument);
+	}
+	void setFocus() {
+		this.getRequest().getParameterMap().put("HiddenControl", new String[] {cboItem.getName()} );
 	}
 }

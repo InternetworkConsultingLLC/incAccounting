@@ -6,6 +6,7 @@ import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.DocumentLine;
 import net.internetworkconsulting.accounting.entities.DocumentType;
+import net.internetworkconsulting.accounting.entities.Item;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.data.RowInterface.RowState;
@@ -80,7 +81,7 @@ public class DocumentsController extends EditController {
 				
 		LiteralTag litQuantityDecimals = new LiteralTag(this, "Quantity Decimals");
 		litQuantityDecimals.setValue(getUser().getSetting(Document.SETTING_QUANITY_DECIMALS));
-		
+	
 		TextTag txtGuid = new TextTag(this, Document.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
 
@@ -248,6 +249,10 @@ public class DocumentsController extends EditController {
 		List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false);
 		for(DocumentLine line: lstLines)
 			createController(line);
+		
+		LiteralTag litItems = new LiteralTag(this, "Items");
+		List<Item> lstItems = Item.loadAll(getUser().login(), false);
+		litItems.setValue(Controller.toJson(lstItems));
 	}
 	public History createHistory() throws Exception {
 		Document objModel = (Document) getModel();
@@ -338,6 +343,8 @@ public class DocumentsController extends EditController {
 		//doUpdateControls(delc);
 		doBeforeHandle(delc);
 		doHandleEvents(delc);
+		
+		delc.setFocus();
 		
 		objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false).add(line);
 	}

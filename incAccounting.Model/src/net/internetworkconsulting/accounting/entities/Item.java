@@ -55,6 +55,18 @@ public class Item extends ItemsRow {
 		lstOptions = lst;
 		return lst;
 	}
+	
+	private static List<Item> lstItems;
+	public static List<Item> loadAll(AdapterInterface adapter, boolean force) throws Exception {
+		if(lstItems != null && !force)
+			return lstItems;
+		
+		Statement stmt = new Statement("SELECT * FROM \"" + TABLE_NAME + "\" ORDER BY \"" + NUMBER + "\"");
+		lstItems = adapter.load(Item.class, stmt, true);
+		
+		return lstItems;
+	}
+
 
 	public void beforeSave(AdapterInterface adapter) throws Exception {
 		Item parent;

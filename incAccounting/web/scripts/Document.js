@@ -1,6 +1,7 @@
 function ignoreerror() { return true; }
 window.onerror=ignoreerror();
 
+
 function changedDate() {
 	var nDateMonth = parseInt(document.getElementById("DateMonth").value, 10) - 1;
 	var nDateDay = parseInt(document.getElementById("DateDay").value, 10);
@@ -17,6 +18,61 @@ function changedDate() {
 	document.getElementById("DueDateYear").value = (dtDate.getYear() + 1900) + "";
 }
 
+function changedItem() {
+	if(!this.id.startsWith("RowItemsGuid"))
+		return;
+	var sGuid = this.id.replace("RowItemsGuid", "");	
+
+	var objItem = null;
+	for(var cnt = 0; cnt < arrInventoryItems.length; cnt++) {
+		if(arrInventoryItems[cnt]["GUID"] == this.value)
+			objItem = arrInventoryItems[cnt];
+	}
+	if(objItem == null)
+		return;
+	
+	var ctlRowIsTaxed = document.getElementById("RowIsTaxed" + sGuid);
+	if(objItem["Inventory Unit Measures GUID"].length > 0 && String.toLocaleString(objItem["Inventory Unit Measures GUID"][0]) == "t")
+		ctlRowIsTaxed.checked = true;
+	else
+		ctlRowIsTaxed.checked = false;
+		
+	var ctlRowUnitMeasuresGuid = document.getElementById("RowUnitMeasuresGuid" + sGuid);			
+	ctlRowUnitMeasuresGuid.value = objItem["Inventory Unit Measures GUID"];
+
+	var ctlRowAccountsGuid = document.getElementById("RowAccountsGuid" + sGuid);
+	ctlRowAccountsGuid.value = objItem["Sales Accounts GUID"];
+
+	var ctlRowDescription = document.getElementById("RowDescription" + sGuid);
+	if(ctlRowDescription.value == null || ctlRowDescription.value.length == 0)
+		ctlRowDescription.value = objItem["Sales Description"];
+	else {
+		if(confirm("Do you want to overwrite the description?"))
+			ctlRowDescription.value = objItem["Sales Description"];
+	}
+
+	var ctlRowQuantity = document.getElementById("RowQuantity" + sGuid);
+	if(isFinite(ctlRowQuantity.value))
+		ctlRowQuantity.value = 0;
+	var nQty = round(Number(ctlRowQuantity.value), nSettingDocumentQuantityDecimals);
+	ctlRowQuantity.value = nQty;
+
+	var ctlRowUnitPrice = document.getElementById("RowUnitPrice" + sGuid);
+	ctlRowUnitPrice.value = objItem["Sales Unit Price"];
+	if(!ctlRowUnitPrice.value)
+		ctlRowUnitPrice.value = "0.00";
+	var nPrice = round(Number(ctlRowUnitPrice.value), nSettingDocumentMoneyDecimals);
+	ctlRowUnitPrice.value = nPrice;
+
+	if(!isFinite(nPrice))
+		return;	
+	
+	var nExt = round(nQty * nPrice, nSettingDocumentMoneyDecimals);
+	var ctlRowExtension = document.getElementById("RowExtension" + sGuid);
+	ctlRowExtension.value = nExt;
+	
+	invoiceChanged();
+}
 function changedQuantity() {
 	if(!this.id.startsWith("RowQuantity"))
 		return;
@@ -137,7 +193,11 @@ function pageLoaded() {
 	document.getElementById("DateMonth").onchange = changedDate;
 	document.getElementById("DateDay").onchange = changedDate;
 	document.getElementById("DateYear").onchange = changedDate;
-        
+
+	var arrControls = document.getElementsByClassName("RowItemsGuid");
+	for (var cnt = 0; cnt < arrControls.length; cnt++)
+		arrControls[cnt].onchange = changedItem;
+	
 	var arrControls = document.getElementsByClassName("RowQuantity");
 	for (var cnt = 0; cnt < arrControls.length; cnt++)
 		arrControls[cnt].onchange = changedQuantity;
