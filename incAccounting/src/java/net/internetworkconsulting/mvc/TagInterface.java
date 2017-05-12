@@ -27,6 +27,8 @@ public interface TagInterface extends ControllerInterface {
 	int getTabOrder();
 	void setTabOrder(int value);
 	
+	public String getID() throws Exception;
+	
 	HashSet<Event> getOnChangeEvents();
 	void setOnChangeEvents(HashSet<Event> value);
 	void addOnChangeEvent(Event value);

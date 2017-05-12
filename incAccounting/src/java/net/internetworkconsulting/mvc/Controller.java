@@ -215,6 +215,15 @@ public abstract class Controller implements ControllerInterface {
 	public boolean getIsPostback() {
 		return isPostback;
 	}
+	
+	private String sFocus = null;
+	public void setFocus(String value) {
+		Controller root = this;
+		while(root.getController() != null)
+			root = (Controller) root.getController();
+		
+		root.sFocus = value;
+	}
 
 	public void execute() {
 		try {
@@ -502,8 +511,8 @@ public abstract class Controller implements ControllerInterface {
 		getDocument().set("Hidden Model", sHiddenModel);
 		
 		// focus
-		if(getRequest().getParameter("HiddenControl") != null) {
-			String sOnLoad = "var sFocusAfterSender = \"" + getCamelCase(getRequest().getParameter("HiddenControl")) + "\";\n";
+		if(sFocus != null) {
+			String sOnLoad = "var sFocusAfterSender = \"" + sFocus + "\";\n";
 			sOnLoad = sOnLoad + "window.addEventListener(\"load\", setFocusAfter, false);";
 			getDocument().set("OnLoad", sOnLoad);
 		}

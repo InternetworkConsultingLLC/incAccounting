@@ -127,6 +127,8 @@ public abstract class Tag extends Controller implements TagInterface {
 	private boolean isRequired = false;
 	public boolean getIsRequired() { return isRequired; }
 	public void setIsRequired(boolean value) { isRequired = value; }
+	
+	public String getID() throws Exception { return getCamelCase(getName()); }
 
 	protected String generateAttributes(boolean allows_name) throws Exception {
 		getClasses().add(getCamelCase(getDocumentKeyword()));

@@ -106,6 +106,6 @@ public class DocumentsLinesController extends Controller {
 		objModel.handleExtension(getUser().login(), myParentDocument);
 	}
 	void setFocus() {
-		this.getRequest().getParameterMap().put("HiddenControl", new String[] {cboItem.getName()} );
+		this.setFocus(cboItem.getID());
 	}
 }

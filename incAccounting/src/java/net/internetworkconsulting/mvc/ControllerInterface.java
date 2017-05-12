@@ -60,6 +60,8 @@ public interface ControllerInterface {
 	String getHeader();
 	void setHeader(String value);
 	
+	void setFocus(String value);
+	
 	// The following is the controllers life
 	// cycle.  These functions should be called
 	// in this order depending on if the request
