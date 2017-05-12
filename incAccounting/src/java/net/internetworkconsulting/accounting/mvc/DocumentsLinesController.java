@@ -105,7 +105,7 @@ public class DocumentsLinesController extends Controller {
 		DocumentLine objModel = (DocumentLine) getModel();
 		objModel.handleExtension(getUser().login(), myParentDocument);
 	}
-	void setFocus() {
+	void setFocus() throws Exception {
 		this.setFocus(cboItem.getID());
 	}
 }
