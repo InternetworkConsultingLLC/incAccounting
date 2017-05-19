@@ -1,27 +1,46 @@
-<h1>Transaction</h1>
-
+<h1>Time Sheet</h1>
 <div class="block">
 	<div class="field"><label>GUID:</label><div>{GUID}</div></div>
-	<div class="field"><label>Type:</label><div>{Transaction Types GUID}</div></div>
-	<div class="field"><label>Date:</label><div>{Date}</div></div>
-	<div class="field"><label>Reference:</label><div>{Reference Number}</div></div>
+	<div class="field"><label>Number:</label><div>{Number}</div></div>
+	<div class="field"><label>Employee:</label><div>{Employees GUID}</div></div>
+	<div class="field"><label>Ending:</label><div>{Period Ending}</div></div>
 </div>
 
-<h2>Lines</h2>
+<table width="100%">
+	<tr>
+		<td class="black">Inc</td>
+		<td class="black">Started</td>
+		<td class="black">Ended</td>
+		<td class="black">Hours</td>
+		<td class="black">Type</td>
+		<td class="black">Contact</td>
+	</tr>
 <!-- BEGIN Line -->
-<div class="block row">
-	<div class="field"><label>Delete:</label><div>{Line Is Deleted}</div></div>
-	<div class="field"><label>Job:</label><div>{Line Jobs GUID}</div></div>
-	<div class="field"><label>Depart:</label><div>{Line Departments GUID}</div></div>
-	<div class="field double"><label>Descript:</label><div class="double">{Line Description}</div></div>
-	<div class="field"><label>Account:</label><div>{Line Accounts GUID}</div></div>
-	<div class="field"><label>Debit:</label><div>{Line Debit}</div></div>
-</div>
+	<tr>
+		<td>{Line Is Included}</td>
+		<td>{Line Started}</td>
+		<td>{Line Ended}</td>
+		<td>{Line Hours}</td>
+		<td>{Line Types}</td>
+		<td>{Line Contact}</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td colspan="4">{Line Description}</td>
+	</tr>
 <!-- END Line -->
+</table>
 
-<div class="block final">
-	<div class="field blank"><label></label><div></div></div>
-	<div class="field"><label>Balance:</label><div>{Balance}</div></div>
+<div class="block">
+	<div class="field"><label>Total:</label><div>{Total Hours}</div></div>
 </div>
 
-<p>{Add} {Save} {Open Document}</p>
+<p>{Save}</p>
+
+<script>
+	var arrTimeEntries = {TimeEntries};	
+	var nSettingDocumentQuantityDecimals = {Quantity Decimals};
+	
+	pageLoaded();
+	changedCheck();
+</script>

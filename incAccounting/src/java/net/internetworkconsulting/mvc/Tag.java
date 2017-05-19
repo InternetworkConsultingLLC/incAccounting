@@ -22,6 +22,11 @@ public abstract class Tag extends Controller implements TagInterface {
 		setName(prefix + property + unique_key);
 		bind(model, property);
 	}
+	public Tag(ControllerInterface controller, String prefix, String property, String unique_key) throws Exception {
+		super(controller, prefix + " " + property);
+		setDocument(controller.getDocument());
+		setName(prefix + property + unique_key);
+	}
 
 	public boolean getEnforceSecurity() { return false; }
 	

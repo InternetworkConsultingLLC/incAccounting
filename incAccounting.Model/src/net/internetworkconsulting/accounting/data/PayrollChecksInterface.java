@@ -74,8 +74,6 @@ public interface PayrollChecksInterface {
 	
 	<T extends PayrollFieldValuesRow> List<T> loadPayrollFieldValues(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
-	<T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
 	
 	<T extends EmployeesRow> T loadEmployeeGuid(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

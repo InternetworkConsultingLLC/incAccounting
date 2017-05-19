@@ -46,7 +46,7 @@ public class ReportsRow extends Row implements ReportsInterface {
 	protected Object lstBlocksChildren = null;
 	public <T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstBlocksChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Report Blocks\" WHERE \"Reports GUID\"={PRIMARYKEY}");
+			Statement stmt = new Statement("SELECT * FROM \"report blocks\" WHERE \"Reports GUID\"={PRIMARYKEY}");
 			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
 			lstBlocksChildren = adapter.load(model, stmt, true);
 		}

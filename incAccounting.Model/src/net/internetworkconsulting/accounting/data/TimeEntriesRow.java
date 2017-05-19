@@ -28,10 +28,6 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	public boolean setEntryTypesGuid(java.lang.String value) throws Exception { return set(ENTRY_TYPES_GUID, value); }
 	public java.lang.String getEntryTypesGuid() { return (java.lang.String) get(ENTRY_TYPES_GUID); }
 	
-	public static String USERS_GUID = "Users GUID";
-	public boolean setUsersGuid(java.lang.String value) throws Exception { return set(USERS_GUID, value); }
-	public java.lang.String getUsersGuid() { return (java.lang.String) get(USERS_GUID); }
-	
 	public static String EMPLOYEES_GUID = "Employees GUID";
 	public boolean setEmployeesGuid(java.lang.String value) throws Exception { return set(EMPLOYEES_GUID, value); }
 	public java.lang.String getEmployeesGuid() { return (java.lang.String) get(EMPLOYEES_GUID); }
@@ -85,19 +81,6 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 			rTimeEntryTypeParent = lst.get(0);
 		}
 		return (T) rTimeEntryTypeParent;
-	}
-	
-	protected Object rUserParent = null;
-	public <T extends UsersRow> T loadUser(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(rUserParent == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"users\" WHERE \"GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getUsersGuid());
-			List<T> lst = adapter.load(model, stmt, true);
-			if(lst.size() != 1)
-				throw new Exception("Could not locate unique users row by GUID (" + Statement.convertObjectToString(this.getUsersGuid(), null) + ")!");
-			rUserParent = lst.get(0);
-		}
-		return (T) rUserParent;
 	}
 	
 	protected Object rEmployeeParent = null;
@@ -182,13 +165,13 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	// unique key loaders
 	
 	public static <T extends TimeEntriesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"time entries\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"Time Entries\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique time entries row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique Time Entries row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}

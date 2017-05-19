@@ -9,6 +9,7 @@ public class CheckTag  extends Tag {
 	
 	public CheckTag(ControllerInterface controller, String property, Object model) throws Exception { super(controller, property, model); }
 	public CheckTag(ControllerInterface controller, String prefix, String property, String unique_key, Object model) throws Exception { super(controller, prefix, property, unique_key, model); }
+	public CheckTag(ControllerInterface controller, String prefix, String property, String unique_key) throws Exception { super(controller, prefix, property, unique_key); }
 	public CheckTag(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public void createControls(Template document, Object model) throws Exception { }
 

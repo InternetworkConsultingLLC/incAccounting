@@ -33,10 +33,6 @@ public interface UsersInterface {
 	
 	<T extends SettingsRow> List<T> loadSettings(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
-	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
-	<T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
 	
 	<T extends EmployeesRow> T loadEmployee(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

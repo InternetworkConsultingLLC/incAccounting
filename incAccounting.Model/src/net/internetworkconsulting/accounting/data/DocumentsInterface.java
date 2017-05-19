@@ -117,13 +117,13 @@ public interface DocumentsInterface {
 	java.math.BigDecimal getTotal();
 	
 	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	<T extends DocumentLinesRow> List<T> loadDocumentLines(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends DocumentsRow> List<T> loadChildDocuments(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends PaymentApplicationsRow> List<T> loadPaymentApplications(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
-	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	
 	<T extends DocumentTypesRow> T loadDocumentType(AdapterInterface adapter, Class biz, boolean force) throws Exception;

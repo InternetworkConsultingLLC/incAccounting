@@ -177,6 +177,10 @@ public class Servlet extends net.internetworkconsulting.mvc.Servlet {
 			template = new TemplateController(req, resp, context, is_postback) { public void loadChildControls() {
 				new TimeEntryController(this, TemplateController.BLOCK_BODY);
 			} };
+		else if(sApp.equals("TimeEntryType"))
+			template = new TemplateController(req, resp, context, is_postback) { public void loadChildControls() {
+				new TimeEntryTypeController(this, TemplateController.BLOCK_BODY);
+			} };
 		else if(sApp.equals("TimeSheet"))
 			template = new TemplateController(req, resp, context, is_postback) { public void loadChildControls() {
 				new TimeSheetController(this, TemplateController.BLOCK_BODY);

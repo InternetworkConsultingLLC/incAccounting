@@ -121,16 +121,6 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 		return (List<T>) lstPayrollFieldValuesChildren;
 	}
 	
-	protected Object lstTimeSheetsChildren = null;
-	public <T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(lstTimeSheetsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"time sheets\" WHERE \"Payroll Checks GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTimeSheetsChildren = adapter.load(model, stmt, true);
-		}
-		return (List<T>) lstTimeSheetsChildren;
-	}
-	
 
 	// parent loaders
 	

@@ -1,13 +1,23 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import net.internetworkconsulting.accounting.data.TimeEntriesRow;
+import net.internetworkconsulting.accounting.entities.Contact;
+import net.internetworkconsulting.accounting.entities.Department;
 import net.internetworkconsulting.accounting.entities.Document;
+import net.internetworkconsulting.accounting.entities.Employee;
+import net.internetworkconsulting.accounting.entities.Job;
 import net.internetworkconsulting.accounting.entities.TimeEntry;
+import net.internetworkconsulting.accounting.entities.TimeEntryType;
+import net.internetworkconsulting.accounting.entities.TimeSheet;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.ComboTag;
 import net.internetworkconsulting.mvc.ControllerInterface;
+import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
 import net.internetworkconsulting.mvc.Tag;
+import net.internetworkconsulting.mvc.TextAreaTag;
 import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.HtmlSyntax;
 import net.internetworkconsulting.template.Template;
@@ -39,27 +49,84 @@ public class TimeEntryController extends EditController {
 		objModel = (TimeEntry) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/TimeEntry.html"), new HtmlSyntax()));
 
-		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
-		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
-		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
+//		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
+//		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
+//		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 		
 		Tag tagGuid = new TextTag(this, TimeEntry.GUID, objModel);
-		Tag tagContact = new ComboTag(this, TimeEntry.CONTACTS_GUID, objModel);
-		Tag tagEmploye = new ComboTag(this, TimeEntry.EMPLOYEES_GUID, objModel);
-		Tag tgUser = new ComboTag(this, TimeEntry.USERS_GUID, objModel);
 
-		Tag tagJob = new ComboTag(this, TimeEntry.JOBS_GUID, objModel);
-		Tag tagDepartment = new ComboTag(this, TimeEntry.DEPARTMENTS_GUID, objModel);
+		TextTag tagStarted = new TextTag(this, TimeEntry.STARTED, objModel);
+		tagStarted.setPlaceHolder("yyyy-mm-dd hh:mm:ss");
 
-		Tag tagTimeSheet = new ComboTag(this, TimeEntry.TIME_SHEETS_GUID, objModel);
-		Tag tagDocument = new ComboTag(this, TimeEntry.DOCUMENTS_GUID, objModel);
+		TextTag tagEnded = new TextTag(this, TimeEntry.ENDED, objModel);
+		tagEnded.setPlaceHolder("yyyy-mm-dd hh:mm:ss");
 
-		Tag tagType = new ComboTag(this, TimeEntry.ENTRY_TYPES_GUID, objModel);
-		Tag tagStarted = new TextTag(this, TimeEntry.STARTED, objModel);
-		Tag tagEnded = new TextTag(this, TimeEntry.ENDED, objModel);
-		Tag tagDescription = new TextTag(this, TimeEntry.DESCRIPTION, objModel);
+		Tag tagDescription = new TextAreaTag(this, TimeEntry.DESCRIPTION, objModel);
 		
-		ButtonTag tagSave = new ButtonTag(this, "Save");
-		ButtonTag tagEnd = new ButtonTag(this, "End");
+		ComboTag tagContact = new ComboTag(this, TimeEntry.CONTACTS_GUID, objModel);
+		tagContact.setOptions(Contact.loadOptions(getUser().login(), false));
+		
+		ComboTag tagEmploye = new ComboTag(this, TimeEntry.EMPLOYEES_GUID, objModel);
+		tagEmploye.setOptions(Employee.loadOptions(getUser().login(), false));
+		
+		ComboTag tagJob = new ComboTag(this, TimeEntry.JOBS_GUID, objModel);
+		tagJob.setOptions(Job.loadOptions(getUser().login(), false));
+		
+		ComboTag tagDepartment = new ComboTag(this, TimeEntry.DEPARTMENTS_GUID, objModel);
+		tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+		
+		ComboTag tagTimeSheet = new ComboTag(this, TimeEntry.TIME_SHEETS_GUID, objModel);
+		tagTimeSheet.setOptions(TimeSheet.loadOptions(getUser().login(), false));
+		
+		ComboTag tagDocument = new ComboTag(this, TimeEntry.DOCUMENTS_GUID, objModel);
+		tagDocument.setOptions(Document.loadOptions(getUser().login(), false));
+		
+		ComboTag tagType = new ComboTag(this, TimeEntry.ENTRY_TYPES_GUID, objModel);
+		tagType.setOptions(TimeEntryType.loadOptions(getUser().login(), false));
+
+		ButtonTag btnSave = new ButtonTag(this, "Save");
+		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });
+		
+		if(objModel.getEnded() == null) {
+			ButtonTag btnEnd = new ButtonTag(this, "End");
+			btnEnd.addOnClickEvent(new Event() { public void handle() throws Exception { btnEnd_OnClicked(); } });
+		}
+	}
+
+	private void btnSave_OnClicked() throws Exception { 
+		try {
+			getUser().login().begin(true);
+			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
+			getUser().login().commit(true);
+		} catch(Exception ex) {
+			getUser().login().rollback(true);
+			getUser().logExcpetion(ex, "dbe463ec959f4cdb8810985b9c4a85f1");
+			addError("Save", ex.getMessage());
+			return;
+		}
+		
+		redirect("~/incAccounting?App=TimeEntry&GUID=" + objModel.getGuid() + "&Error=Saved!");	
+	}
+	private void btnEnd_OnClicked() throws Exception { 
+		TimeEntry objNext = new TimeEntry();
+		try {
+			getUser().login().begin(true);
+			objModel.setEnded(new Timestamp(Calendar.getInstance().getTimeInMillis()));			
+			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
+			
+			objNext.initialize();
+			objNext.setEmployeesGuid(objModel.getEmployeesGuid());
+			getUser().login().save(TimeEntry.TABLE_NAME, objNext);
+			
+			getUser().login().commit(true);
+		}
+		catch(Exception ex) {
+			getUser().login().rollback(true);
+			getUser().logExcpetion(ex, "c8e2c8639da14947aefc496f14ea14b9");
+			addError("Save", ex.getMessage());
+			return;
+		}
+
+		redirect("~/incAccounting?App=TimeEntry&GUID=" + objNext.getGuid() + "&Error=Saved and created new entry.");	
 	}
 }

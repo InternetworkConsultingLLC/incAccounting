@@ -81,26 +81,6 @@ public class UsersRow extends Row implements UsersInterface {
 		return (List<T>) lstSettingsChildren;
 	}
 	
-	protected Object lstTimeEntriesChildren = null;
-	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(lstTimeEntriesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"time entries\" WHERE \"Users GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTimeEntriesChildren = adapter.load(model, stmt, true);
-		}
-		return (List<T>) lstTimeEntriesChildren;
-	}
-	
-	protected Object lstTimeSheetsChildren = null;
-	public <T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(lstTimeSheetsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"time sheets\" WHERE \"Users GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTimeSheetsChildren = adapter.load(model, stmt, true);
-		}
-		return (List<T>) lstTimeSheetsChildren;
-	}
-	
 
 	// parent loaders
 	

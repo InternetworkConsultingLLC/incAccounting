@@ -5,6 +5,7 @@ import net.internetworkconsulting.template.Template;
 public class LiteralTag extends Tag {
 	public LiteralTag(ControllerInterface controller, String property, Object model) throws Exception { super(controller, property, model); }
 	public LiteralTag(ControllerInterface controller, String prefix, String property, String unique_key, Object model) throws Exception { super(controller, prefix, property, unique_key, model); }
+	public LiteralTag(ControllerInterface controller, String prefix, String property, String unique_key) throws Exception { super(controller, prefix, property, unique_key); }
 	public LiteralTag(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 
 	public void createControls(Template document, Object model) throws Exception { }

@@ -66,6 +66,10 @@ public interface ContactsInterface {
 	java.lang.String getContactTypesGuid();
 	
 	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	<T extends ContactNotesRow> List<T> loadContactNotes(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends ContactsRow> List<T> loadShippingParentContact(AdapterInterface adapter, Class biz, boolean force) throws Exception;
@@ -93,10 +97,6 @@ public interface ContactsInterface {
 	<T extends RegisterEntriesRow> List<T> loadRegisterEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends SalesTaxesRow> List<T> loadSalesTaxes(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
-	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
-	<T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	
 	<T extends ContactsRow> T loadParentContact(AdapterInterface adapter, Class biz, boolean force) throws Exception;

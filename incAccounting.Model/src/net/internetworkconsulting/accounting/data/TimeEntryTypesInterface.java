@@ -11,11 +11,14 @@ public interface TimeEntryTypesInterface {
 	boolean setDescription(java.lang.String value) throws Exception;
 	java.lang.String getDescription();
 	
-	boolean setPayable(java.lang.Boolean value) throws Exception;
-	java.lang.Boolean getPayable();
+	boolean setItemsGuid(java.lang.String value) throws Exception;
+	java.lang.String getItemsGuid();
+	
+	boolean setIsPaid(java.lang.Boolean value) throws Exception;
+	java.lang.Boolean getIsPaid();
 	
 	
-	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
+	<T extends ItemsRow> T loadItem(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 }

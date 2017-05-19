@@ -103,6 +103,26 @@ public class ContactsRow extends Row implements ContactsInterface {
 
 	// child loaders
 	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Entries\" WHERE \"Contacts GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
+	}
+	
+	protected Object lstTimeSheetsChildren = null;
+	public <T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeSheetsChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"Time Sheets\" WHERE \"Employees GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeSheetsChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeSheetsChildren;
+	}
+	
 	protected Object lstContactNotesChildren = null;
 	public <T extends ContactNotesRow> List<T> loadContactNotes(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstContactNotesChildren == null || force) {
@@ -241,26 +261,6 @@ public class ContactsRow extends Row implements ContactsInterface {
 			lstSalesTaxesChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstSalesTaxesChildren;
-	}
-	
-	protected Object lstTimeEntriesChildren = null;
-	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(lstTimeEntriesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"time entries\" WHERE \"Contacts GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTimeEntriesChildren = adapter.load(model, stmt, true);
-		}
-		return (List<T>) lstTimeEntriesChildren;
-	}
-	
-	protected Object lstTimeSheetsChildren = null;
-	public <T extends TimeSheetsRow> List<T> loadTimeSheets(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(lstTimeSheetsChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"time sheets\" WHERE \"Employees GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTimeSheetsChildren = adapter.load(model, stmt, true);
-		}
-		return (List<T>) lstTimeSheetsChildren;
 	}
 	
 

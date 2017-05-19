@@ -241,7 +241,7 @@ public abstract class Controller implements ControllerInterface {
 				return;
 
 			if(ex.getMessage() != null && ex.getMessage().equals("Login failure!")) {
-				try { redirect("~/incBootstrap?App=Login&Error=USER AUHENICATION REQUIED TO USE THIS APPLICATION!  Either you have not logged in, or your session mighthave expired."); }
+				try { redirect("~/incBootstrap?App=Login&Error=USER AUHENICATION REQUIED TO USE THIS APPLICATION!  Either you have not logged in, or your session might have expired."); }
 				catch(Exception exx) { /* do nothing */ }
 				return;
 			}
@@ -558,6 +558,9 @@ public abstract class Controller implements ControllerInterface {
 	// json processing
 //	<R extends RowInterface> String toJson(Class<R> cls, List<R> model, String var_name) throws Exception {
 	public static String toJson(List model) throws Exception {
+		if(model.size() < 1)
+			return "[]";
+		
 		String ret = "[\n";
 		for(Object obj : model) {
 			if(!(obj instanceof RowInterface))

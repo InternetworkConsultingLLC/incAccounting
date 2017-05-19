@@ -1,27 +1,25 @@
-<h1>Transaction</h1>
-
+<h1>Time Entry</h1>
 <div class="block">
 	<div class="field"><label>GUID:</label><div>{GUID}</div></div>
-	<div class="field"><label>Type:</label><div>{Transaction Types GUID}</div></div>
-	<div class="field"><label>Date:</label><div>{Date}</div></div>
-	<div class="field"><label>Reference:</label><div>{Reference Number}</div></div>
+	<div class="field"><label>Type:</label><div>{Entry Types GUID}</div></div>
+	<div class="field"><label>Time Sht:</label><div>{Time Sheets GUID}</div></div>
+	<div class="field"><label>Document:</label><div>{Departments GUID}</div></div>
 </div>
 
-<h2>Lines</h2>
-<!-- BEGIN Line -->
-<div class="block row">
-	<div class="field"><label>Delete:</label><div>{Line Is Deleted}</div></div>
-	<div class="field"><label>Job:</label><div>{Line Jobs GUID}</div></div>
-	<div class="field"><label>Depart:</label><div>{Line Departments GUID}</div></div>
-	<div class="field double"><label>Descript:</label><div class="double">{Line Description}</div></div>
-	<div class="field"><label>Account:</label><div>{Line Accounts GUID}</div></div>
-	<div class="field"><label>Debit:</label><div>{Line Debit}</div></div>
-</div>
-<!-- END Line -->
-
-<div class="block final">
-	<div class="field blank"><label></label><div></div></div>
-	<div class="field"><label>Balance:</label><div>{Balance}</div></div>
+<div class="block">
+	<div class="field"><label>Started:</label><div>{Started}</div></div>
+	<div class="field"><label>Ended:</label><div>{Ended}</div></div>
 </div>
 
-<p>{Add} {Save} {Open Document}</p>
+<div class="block">
+	<div class="field"><label>Employee:</label><div>{Employees GUID}</div></div>
+	<div class="field"><label>Deptmnt:</label><div>{Departments GUID}</div></div>
+	<div class="field"><label>Bill To:</label><div>{Contacts GUID}</div></div>
+	<div class="field"><label>Job:</label><div>{Jobs GUID}</div></div>
+</div>
+
+<div class="block">
+	<div class="field double"><label>Descr:</label><div class="double">{Description}</div></div>
+</div>
+
+<p>{Save} {End}</p>

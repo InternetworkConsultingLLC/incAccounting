@@ -47,6 +47,16 @@ public class ReportBlocksRow extends Row implements ReportBlocksInterface {
 
 	// child loaders
 	
+	protected Object lstChildrenChildren = null;
+	public <T extends ReportBlocksRow> List<T> loadChildren(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstChildrenChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"report blocks\" WHERE \"Parent Block GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstChildrenChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstChildrenChildren;
+	}
+	
 
 	// parent loaders
 	
@@ -80,13 +90,13 @@ public class ReportBlocksRow extends Row implements ReportBlocksInterface {
 	// unique key loaders
 	
 	public static <T extends ReportBlocksRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Report Blocks\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"report blocks\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Report Blocks row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique report blocks row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}

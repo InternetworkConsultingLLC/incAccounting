@@ -11,9 +11,6 @@ public interface TimeEntriesInterface {
 	boolean setEntryTypesGuid(java.lang.String value) throws Exception;
 	java.lang.String getEntryTypesGuid();
 	
-	boolean setUsersGuid(java.lang.String value) throws Exception;
-	java.lang.String getUsersGuid();
-	
 	boolean setEmployeesGuid(java.lang.String value) throws Exception;
 	java.lang.String getEmployeesGuid();
 	
@@ -44,8 +41,6 @@ public interface TimeEntriesInterface {
 	
 	
 	<T extends TimeEntryTypesRow> T loadTimeEntryType(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
-	<T extends UsersRow> T loadUser(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends EmployeesRow> T loadEmployee(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

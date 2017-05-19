@@ -24,6 +24,8 @@ public interface ReportBlocksInterface {
 	java.lang.String getSqlQuery();
 	
 	
+	<T extends ReportBlocksRow> List<T> loadChildren(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends ReportsRow> T loadReport(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
