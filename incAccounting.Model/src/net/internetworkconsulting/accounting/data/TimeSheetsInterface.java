@@ -20,6 +20,9 @@ public interface TimeSheetsInterface {
 	boolean setTotalHours(java.math.BigDecimal value) throws Exception;
 	java.math.BigDecimal getTotalHours();
 	
+	boolean setPeriodStarting(java.sql.Date value) throws Exception;
+	java.sql.Date getPeriodStarting();
+	
 	
 	
 	<T extends ContactsRow> T loadEmployee(AdapterInterface adapter, Class biz, boolean force) throws Exception;

@@ -53,8 +53,7 @@ public class TimeSheetLineController extends Controller {
 		}
 
 		LiteralTag tagType = new LiteralTag(this, "Line", TimeEntry.ENTRY_TYPES_GUID, objModel.getGuid());
-		if(objModel.getEntryTypesGuid()!= null)
-			tagType.setValue(objModel.loadTimeEntryType(getUser().login(), TimeEntryType.class, false).getDescription());
+		tagType.setValue(objModel.loadTimeEntryType(getUser().login(), TimeEntryType.class, false).getDescription());
 
 		LiteralTag tagJob = new LiteralTag(this, "Line", TimeEntry.JOBS_GUID, objModel.getGuid());
 		if(objModel.getJobsGuid() != null) {

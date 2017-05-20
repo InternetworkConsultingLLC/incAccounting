@@ -61,14 +61,15 @@ public class TimeSheetController extends EditController {
 		cboEmployee.addOnChangeEvent(new Event() { public void handle() throws Exception { cboEmployee_Changed(); } });
 		
 		DateTag tagEnding = new DateTag(this, TimeSheet.PERIOD_ENDING, objModel);
+		tagEnding.addOnChangeEvent(new Event() { public void handle() throws Exception { cboEmployee_Changed(); } });
+		
+		DateTag tagStarting = new DateTag(this, TimeSheet.PERIOD_STARTING, objModel);
+		tagStarting.addOnChangeEvent(new Event() { public void handle() throws Exception { cboEmployee_Changed(); } });
 		
 		TextTag txtNumber = new TextTag(this, TimeSheet.NUMBER, objModel);
 
 		TextTag tagTotalHours = new TextTag(this, TimeSheet.TOTAL_HOURS, objModel);
 		tagTotalHours.setIsReadOnly(true);
-
-		ButtonTag btnUpdateTotals = new ButtonTag(this, "Update Totals");
-		btnUpdateTotals.addOnClickEvent(new Event() { public void handle() throws Exception { btnUpdateTotals_OnClicked(); } });
 
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });
@@ -88,6 +89,9 @@ public class TimeSheetController extends EditController {
 	}
 
 	private void cboEmployee_Changed() throws Exception {
+		if(objModel.getPeriodStarting() == null || objModel.getPeriodEnding() == null || objModel.getEmployeesGuid() == null)
+			return;
+		
 		objModel.clearTimEntries();
 		
 		for(TimeSheetLineController tlc : lstLineControllers)
@@ -103,8 +107,6 @@ public class TimeSheetController extends EditController {
 			doBeforeHandle(cont);
 			doHandleEvents(cont);
 		}
-	}
-	private void btnUpdateTotals_OnClicked() throws Exception {
 	}
 	private void btnSave_OnClicked() throws Exception { 
 		try {

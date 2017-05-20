@@ -40,6 +40,10 @@ public class TimeSheetsRow extends Row implements TimeSheetsInterface {
 	public boolean setTotalHours(java.math.BigDecimal value) throws Exception { return set(TOTAL_HOURS, value); }
 	public java.math.BigDecimal getTotalHours() { return (java.math.BigDecimal) get(TOTAL_HOURS); }
 	
+	public static String PERIOD_STARTING = "Period Starting";
+	public boolean setPeriodStarting(java.sql.Date value) throws Exception { return set(PERIOD_STARTING, value); }
+	public java.sql.Date getPeriodStarting() { return (java.sql.Date) get(PERIOD_STARTING); }
+	
 
 	// child loaders
 	

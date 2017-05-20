@@ -2,8 +2,6 @@ package net.internetworkconsulting.accounting.entities;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.TimeSheetsRow;
@@ -30,7 +28,7 @@ public class TimeSheet extends TimeSheetsRow {
 	
 	public void initialize() throws Exception {
 		this.setGuid(User.newGuid());
-		this.setPeriodEnding(new Date(Calendar.getInstance().getTimeInMillis()));
+		//this.setPeriodEnding(new Date(Calendar.getInstance().getTimeInMillis()));
 	}
 
 	private List lstTimeEntries;
@@ -40,6 +38,8 @@ public class TimeSheet extends TimeSheetsRow {
 			Statement stmt = new Statement(sql);
 			stmt.getParameters().put("@EmployeesGUID", this.getEmployeesGuid());
 			stmt.getParameters().put("@TimeSheetsGUID", this.getGuid());
+			stmt.getParameters().put("@Starting", this.getPeriodStarting());
+			stmt.getParameters().put("@Ending", this.getPeriodEnding());
 			
 			lstTimeEntries = adapter.load(model, stmt, true);
 		}

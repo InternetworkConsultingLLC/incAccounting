@@ -1,8 +1,10 @@
 <h1>Time Sheet</h1>
 <div class="block">
 	<div class="field"><label>GUID:</label><div>{GUID}</div></div>
+	<div class="field blank"><label>&nbsp;</label><div></div></div>
 	<div class="field"><label>Number:</label><div>{Number}</div></div>
 	<div class="field"><label>Employee:</label><div>{Employees GUID}</div></div>
+	<div class="field"><label>Starting:</label><div>{Period Starting}</div></div>
 	<div class="field"><label>Ending:</label><div>{Period Ending}</div></div>
 </div>
 
@@ -21,13 +23,14 @@
 		<td>{Line Started}</td>
 		<td>{Line Ended}</td>
 		<td>{Line Hours}</td>
-		<td>{Line Types}</td>
-		<td>{Line Contact}</td>
+		<td>{Line Entry Types GUID}</td>
+		<td>{Line Contacts GUID}</td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
 		<td colspan="4">{Line Description}</td>
 	</tr>
+	<tr><td>&nbsp;</td></tr>
 <!-- END Line -->
 </table>
 

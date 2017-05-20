@@ -93,7 +93,7 @@ public class TimeEntryController extends EditController {
 		}
 	}
 
-	private void btnSave_OnClicked() throws Exception { 
+	private void btnSave_OnClicked() throws Exception {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
@@ -108,6 +108,11 @@ public class TimeEntryController extends EditController {
 		redirect("~/incAccounting?App=TimeEntry&GUID=" + objModel.getGuid() + "&Error=Saved!");	
 	}
 	private void btnEnd_OnClicked() throws Exception { 
+		if(objModel.getEntryTypesGuid() == null || "d99313c888db4f71bd45c43cd09b492a".equals(objModel.getEntryTypesGuid())) {
+			addError("Save", "You must set the type to something other than imcomplete!");
+			return;	
+		}
+
 		TimeEntry objNext = new TimeEntry();
 		try {
 			getUser().login().begin(true);
