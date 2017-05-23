@@ -19,6 +19,7 @@ public class TimeSheetLineController extends Controller {
 	private String sQtyFormat;
 	
 	public boolean getIsIncluded() throws Exception { return chkIsIncluded.getIsChecked(); }
+	public void setIsIncluded(boolean value) throws Exception { chkIsIncluded.setIsChecked(value); }
 	
 	public TimeSheetLineController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return false; }

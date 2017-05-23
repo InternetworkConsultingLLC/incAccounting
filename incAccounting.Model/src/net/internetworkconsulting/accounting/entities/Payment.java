@@ -1,11 +1,13 @@
 package net.internetworkconsulting.accounting.entities;
 
+import com.ibm.icu.text.RuleBasedNumberFormat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import net.internetworkconsulting.accounting.data.PaymentsRow;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
@@ -115,6 +117,10 @@ public class Payment extends PaymentsRow {
 		this.setBillingAddressCountry(contact.getCountry());
 	}
 
+	public String getTotalAsText() {
+		return net.internetworkconsulting.data.Helper.numberToText("EN", "US", "dollars", getTotal());
+	}	
+	
 	public void calculate(AdapterInterface adapter) throws Exception {
 		BigDecimal bTotal = BigDecimal.ZERO;
 		

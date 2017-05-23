@@ -12,15 +12,10 @@ import net.internetworkconsulting.accounting.entities.PayrollFieldValue;
 import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
-import net.internetworkconsulting.mvc.CheckTag;
-import net.internetworkconsulting.mvc.ComboTag;
 import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
-import net.internetworkconsulting.mvc.DateTag;
-import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
 import net.internetworkconsulting.mvc.LiteralTag;
-import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.HtmlSyntax;
 import net.internetworkconsulting.template.Template;
 
@@ -111,6 +106,9 @@ public class PayrollChecksPrintController extends Controller {
 
 		for(PayrollFieldValue pfv: lstCompanyPaid)
 			createFieldController(pfv, "Company", PayrollFieldType.TYPE_COMPANY_PAID_GUID);
+		
+		LiteralTag litAmountAsText = new LiteralTag(this, "Amount as Text");
+		litAmountAsText.setValue(objModel.getPaycheckAmountAsText());				
 	}
 	private PayrollChecksFieldsPrintController createFieldController(PayrollFieldValue objField, String sBlock, String sFieldTypeLimit) throws Exception {
 		if(sFieldTypeLimit == null)

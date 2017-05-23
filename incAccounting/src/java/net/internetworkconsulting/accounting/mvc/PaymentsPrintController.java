@@ -82,6 +82,10 @@ public class PaymentsPrintController extends Controller {
 			for(PaymentApplicationSelection app: lstApplications)
 				createApplicationController(app);
 		}
+		
+		LiteralTag litAmountAsText = new LiteralTag(this, "Amount as Text");
+		litAmountAsText.setValue(objModel.getTotalAsText());				
+
 	}
 	public History createHistory() throws Exception {
 		String sDisplay = "New Payment";
@@ -117,13 +121,5 @@ public class PaymentsPrintController extends Controller {
 				doHandleEvents(paec);
 			}
 		}
-	}
-	public void beforePopulate() throws Exception {
-//		if(objModel.getContactsGuid() != null) {
-//			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, false);
-//			cboBilingContact.setOptions(cntct.loadChildOptions(getUser().login(), false));
-//		}
-		
-//		objModel.calculate(getUser().login());
 	}
 }

@@ -40,6 +40,10 @@ public class SetupController extends Controller {
 		hmValues = loadConfig();				
 
 		setDocument(new Template(readTemplate("~/templates/Setup.html"), new HtmlSyntax()));
+
+		boolean bConfigurable = (boolean) Statement.parseStringToValue(boolean.class, hmValues.get("configEditable").getTextContent());
+		if(!bConfigurable)
+			throw new Exception("You must change the 'web.xml' so that 'configEditable' is 'true'.");
 		
 		Setup objModel = (Setup) model;
 		if(!getIsPostback()) {
@@ -97,14 +101,11 @@ public class SetupController extends Controller {
 		model.testConnection();
 		msg = msg + "  Your connection was successful!  ";
 
-		boolean bConfigurable = (boolean) Statement.parseStringToValue(boolean.class, hmValues.get("configEditable").getTextContent());
-		if(bConfigurable) {
-			hmValues.get("dbServer").setTextContent(model.getSqlServer());
-			hmValues.get("dbUser").setTextContent(model.getSqlUser());
-			hmValues.get("dbPassword").setTextContent(model.getPassword());
-			saveConfig();		
-			msg = msg + "  System configuration has been updated - restart the application for the changesto take effect.  ";
-		}
+		hmValues.get("dbServer").setTextContent(model.getSqlServer());
+		hmValues.get("dbUser").setTextContent(model.getSqlUser());
+		hmValues.get("dbPassword").setTextContent(model.getPassword());
+		saveConfig();		
+		msg = msg + "  System configuration has been updated - restart the application for the changesto take effect.  ";
 
 		addError("Connection", msg);
 	}

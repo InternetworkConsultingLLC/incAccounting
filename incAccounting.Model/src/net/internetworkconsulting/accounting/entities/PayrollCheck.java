@@ -1,9 +1,13 @@
 package net.internetworkconsulting.accounting.entities;
 
+import com.ibm.icu.text.RuleBasedNumberFormat;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import net.internetworkconsulting.accounting.data.PayrollChecksRow;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
@@ -39,6 +43,10 @@ public class PayrollCheck extends PayrollChecksRow {
 		lstOptions.add(new Option("Annually", "7"));
 		lstOptions.add(new Option("Daily", "8"));
 		return lstOptions;
+	}
+	
+	public String getPaycheckAmountAsText() {
+		return net.internetworkconsulting.data.Helper.numberToText("EN", "US", "dollars", getPaycheckAmount());
 	}
 
 	public static PayrollCheck loadTemplate(AdapterInterface adapter, String employees_guid) throws Exception {

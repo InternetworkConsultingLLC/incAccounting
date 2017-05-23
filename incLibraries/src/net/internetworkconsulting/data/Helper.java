@@ -1,12 +1,17 @@
 package net.internetworkconsulting.data;
 
+import com.ibm.icu.lang.UCharacter;
+import com.ibm.icu.text.RuleBasedNumberFormat;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class Helper {
 	public static String InputStreamToString(InputStream input_stream) throws Exception {
@@ -64,5 +69,20 @@ public class Helper {
 	public static String Increment(String value) {
 		BigInteger bi = new BigInteger(value, 10);
 		return bi.add(BigInteger.ONE).toString(10);
+	}
+	public static String numberToText(String language, String country, String currency, BigDecimal amount) {
+		BigDecimal dWholeNumbers = amount.divide(BigDecimal.ONE, 0, RoundingMode.FLOOR);
+		BigDecimal dFraction = amount.subtract(dWholeNumbers).multiply(BigDecimal.valueOf(100)).divide(BigDecimal.ONE, 0, RoundingMode.HALF_UP);
+
+		RuleBasedNumberFormat ruleBasedNumberFormat = new RuleBasedNumberFormat(new Locale(language, country), RuleBasedNumberFormat.SPELLOUT);
+
+
+		String sOutput = ruleBasedNumberFormat.format(dWholeNumbers) + " " + currency;
+		sOutput = UCharacter.toTitleCase(new Locale(language, country), sOutput, null, 0);
+
+		if(dFraction.compareTo(BigDecimal.ZERO) != 0)
+			sOutput += " & " + String.format("%2.0f", dFraction) + "/100ths";
+		
+		return sOutput;
 	}
 }

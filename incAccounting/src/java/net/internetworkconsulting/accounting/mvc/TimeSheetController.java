@@ -73,6 +73,9 @@ public class TimeSheetController extends EditController {
 
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });
+
+		ButtonTag btnAuto = new ButtonTag(this, "Auto");
+		btnAuto.addOnClickEvent(new Event() { public void handle() throws Exception { btnAuto_OnClicked(); } });
 		
 		lstLines = objModel.loadTimeEntries(getUser().login(), TimeEntry.class, false);		
 		for(TimeEntry line: lstLines)
@@ -138,6 +141,17 @@ public class TimeSheetController extends EditController {
 		}
 		
 		redirect("~/incAccounting?App=TimeSheet&GUID=" + objModel.getGuid() + "&Error=Saved!");	
+	}
+	
+	private void btnAuto_OnClicked() throws Exception {
+		for(TimeSheetLineController telc : lstLineControllers) {
+			TimeEntry te = (TimeEntry) telc.getModel();
+			
+			if(te.loadTimeEntryType(getUser().login(), TimeEntryTypeController.class, false).getIsPaid())
+				telc.setIsIncluded(true);
+			else
+				telc.setIsIncluded(false);				
+		}
 	}
 
 	public void beforePopulate() throws Exception {

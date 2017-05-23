@@ -107,7 +107,7 @@ public class PayrollChecksController extends EditController {
 		
 		DateTag dtEnding = new DateTag(this, PayrollCheck.ENDING, objModel);
 		dtEnding.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		
+				
 		LiteralTag litCompensation = new LiteralTag(this, PayrollCheck.COMPENSATION, objModel);
 		litCompensation.setFormat(sMoneyFormat);
 		LiteralTag litAdjGross = new LiteralTag(this, PayrollCheck.ADJUSTED_GROSS, objModel);
@@ -224,7 +224,7 @@ public class PayrollChecksController extends EditController {
 		if(!objModel.loadEmployeePaidValues(getUser().login(), false).isEmpty())
 			btnTemplate.setIsReadOnly(true);
 		if(!objModel.loadGrossExepnseValues(getUser().login(), false).isEmpty())
-			btnTemplate.setIsReadOnly(true);			
+			btnTemplate.setIsReadOnly(true);
 	}
 	
 	private void cboEmployeeGuid_OnChange() throws Exception {
