@@ -30,8 +30,11 @@ public class PayrollFieldValue extends PayrollFieldValuesRow {
 		return pf.getPayrollFieldTypesGuid() != null && pf.getPayrollFieldTypesGuid().equals(PayrollFieldType.TYPE_GROSS_EXPENSE_GUID);
 	}
 	
-	public void calculate() throws Exception {
-		if(getRate() != null && getQuantity() != null)
-			setTotal(getQuantity().multiply(getRate()));
+	public void calculate(AdapterInterface adapter) throws Exception {
+		if(getRate() == null || getQuantity() == null)
+			setTotal(BigDecimal.ZERO);
+		
+		BigDecimal dValue = Document.round(adapter, getQuantity().multiply(getRate()), Document.SETTING_MONEY_DECIMALS);
+		setTotal(dValue);
 	}
 }

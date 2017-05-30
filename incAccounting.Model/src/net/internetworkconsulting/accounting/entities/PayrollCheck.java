@@ -127,7 +127,7 @@ public class PayrollCheck extends PayrollChecksRow {
 		
 		// gross compensation
 		for(PayrollFieldValue pfv: loadGrossExepnseValues(adapter, false)) {
-			pfv.calculate();
+			pfv.calculate(adapter);
 			if(pfv.getTotal() != null) {
 				if(pfv.getTotal().compareTo(BigDecimal.ZERO) > 0)
 					dCompensation = dCompensation.add(pfv.getTotal());
@@ -137,14 +137,14 @@ public class PayrollCheck extends PayrollChecksRow {
 		
 		// company paid
 		for(PayrollFieldValue pfv: loadCompanyPaidValues(adapter, false)) {
-			pfv.calculate();
+			pfv.calculate(adapter);
 			if(pfv.getTotal() != null)
 				dCompanyPaid = dCompanyPaid.add(pfv.getTotal());
 		}
 		
 		// employee paid
 		for(PayrollFieldValue pfv: loadEmployeePaidValues(adapter, false)) {
-			pfv.calculate();
+			pfv.calculate(adapter);
 			if(pfv.getTotal() != null)
 				dEmployeePaid = dEmployeePaid.add(pfv.getTotal());	
 		}
@@ -229,6 +229,7 @@ public class PayrollCheck extends PayrollChecksRow {
 			throw ex;
 		}
 	}
+	
 	private List<TransactionLine> createPostLines(AdapterInterface adapter, Transaction objTran) throws Exception {
 		List<PayrollFieldValue> lstValues = new LinkedList<>();
 		lstValues.addAll(this.loadCompanyPaidValues(adapter, false));
