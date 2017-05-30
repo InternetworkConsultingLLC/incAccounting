@@ -74,7 +74,7 @@ function calculateRate(id) {
 
 	nQty = round(nQty, nSettingDocumentQuantityDecimals);
 	nPrice = round(nRate, nSettingDocumentMoneyDecimals);
-        var preroundedTotal = nQty * nRate;
+	var preroundedTotal = ((nQty * 10) * (nRate * 10)) / 100;
 	nTotal = round(preroundedTotal, nSettingDocumentMoneyDecimals);
         
 	document.getElementById(sPrefix + "Quantity" + sGuid).value = round(nQty, nSettingDocumentQuantityDecimals);
