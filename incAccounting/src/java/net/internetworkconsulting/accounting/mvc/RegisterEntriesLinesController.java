@@ -30,6 +30,7 @@ public class RegisterEntriesLinesController extends Controller {
 	private TransactionType objTransactionType = null;
 	private ContactsRow objContact = null;
 	private List<TransactionLine> lstTransactionLines;
+	private DateTag tagDate;
 
 	public RegisterEntriesLinesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return false; }
@@ -71,7 +72,7 @@ public class RegisterEntriesLinesController extends Controller {
 			tagDeleteLabel.setValue("blank");
 		}
 		
-		DateTag tagDate = new DateTag(this, "Row", Transaction.DATE, objModel.getGuid(), objTransaction);
+		tagDate = new DateTag(this, "Row", Transaction.DATE, objModel.getGuid(), objTransaction);
 		tagDate.setIsReadOnly(bReadonly);
 		
 		TextTag tagNumber = new TextTag(this, "Row", Transaction.REFERENCE_NUMBER, objModel.getGuid(), objTransaction);
@@ -146,5 +147,8 @@ public class RegisterEntriesLinesController extends Controller {
 		
 		objExpense.setDebit(objModel.getDebit().multiply(new BigDecimal(-1)));
 		objModel.setDescription(objExpense.getDescription());
+	}
+	void setFocus() throws Exception {
+		tagDate.setFocus();
 	}
 }

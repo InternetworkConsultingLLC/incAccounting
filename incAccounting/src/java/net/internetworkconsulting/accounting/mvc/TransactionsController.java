@@ -146,6 +146,7 @@ public class TransactionsController  extends EditController{
 		
 		TransactionsLinesController controller = createController(line);
 		doCreateControls(controller, false);
+		controller.setFocus();
 	}
 	private void btnDelete_OnClick() throws Exception {
 		Transaction objModel = (Transaction) getModel();

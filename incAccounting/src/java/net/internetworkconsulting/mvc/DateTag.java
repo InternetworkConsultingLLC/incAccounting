@@ -91,5 +91,8 @@ public class DateTag extends Tag {
 		cboDay.setValue(sDay);
 		txtYear.setValue(sYear);
 	}
+	public void setFocus() throws Exception {
+		setFocus(cboMonth.getID());
+	}
 	
 }

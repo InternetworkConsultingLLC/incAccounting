@@ -134,6 +134,8 @@ public abstract class Tag extends Controller implements TagInterface {
 	public void setIsRequired(boolean value) { isRequired = value; }
 	
 	public String getID() throws Exception { return getCamelCase(getName()); }
+	
+	public void setFocus() throws Exception { this.setFocus(getID()); }
 
 	protected String generateAttributes(boolean allows_name) throws Exception {
 		getClasses().add(getCamelCase(getDocumentKeyword()));

@@ -217,6 +217,7 @@ public class RegisterEntriesController extends Controller {
 		doBeforeUpdate(relc);
 		doBeforeHandle(relc);
 		doHandleEvents(relc);
+		relc.setFocus();
 	}
 
 	public void beforePopulate() throws Exception {

@@ -17,6 +17,7 @@ import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
 
 public class TransactionsLinesController extends Controller{
+	private TextAreaTag txtDescription;
 	public TransactionsLinesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return false; }
 	public void createControls(Template document, Object model) throws Exception { 
@@ -24,11 +25,13 @@ public class TransactionsLinesController extends Controller{
 		
 		TransactionLine objModel = (TransactionLine) getModel();
 		
+		CheckTag chkDelete = new CheckTag(this, "Line", TransactionLine.IS_DELETED, objModel.getGuid(), objModel);
+		
 		ComboTag cboAccount = new ComboTag(this, "Line", TransactionLine.ACCOUNTS_GUID, objModel.getGuid(), objModel);
 		cboAccount.setIsReadOnly(bReadOnly);
 		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 
-		TextAreaTag txtDescription = new TextAreaTag(this, "Line", TransactionLine.DESCRIPTION, objModel.getGuid(), objModel);
+		txtDescription = new TextAreaTag(this, "Line", TransactionLine.DESCRIPTION, objModel.getGuid(), objModel);
 		txtDescription.setIsReadOnly(bReadOnly);
 		txtDescription.setMaxLength("255");
 
@@ -40,7 +43,7 @@ public class TransactionsLinesController extends Controller{
 		cboDepartments.setIsReadOnly(bReadOnly);
 		cboDepartments.setOptions(Department.loadOptions(getUser().login(), false));
                 
-                LiteralTag litMoneyDecimals = new LiteralTag(this, "Money Decimals");
+        LiteralTag litMoneyDecimals = new LiteralTag(this, "Money Decimals");
 		litMoneyDecimals.setValue(getUser().getSetting(Document.SETTING_MONEY_DECIMALS));
 
 		String sMoneyFormat = "%." + getUser().getSetting(TransactionLine.SETTING_DEBIT_DECIMALS) + "f";
@@ -53,6 +56,7 @@ public class TransactionsLinesController extends Controller{
 	public History createHistory() throws Exception { return null; }
 	
 	private boolean bReadOnly = false;
-	void setIsReadOnly(boolean value) { bReadOnly = value; }
+	public void setIsReadOnly(boolean value) { bReadOnly = value; }
+	public void setFocus() throws Exception { txtDescription.setFocus(); }
 	
 }
