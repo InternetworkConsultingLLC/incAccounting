@@ -24,6 +24,8 @@ public interface TimeSheetsInterface {
 	java.sql.Date getPeriodStarting();
 	
 	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends ContactsRow> T loadEmployee(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

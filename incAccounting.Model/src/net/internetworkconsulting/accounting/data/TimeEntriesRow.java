@@ -165,13 +165,13 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	// unique key loaders
 	
 	public static <T extends TimeEntriesRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Time Entries\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"time entries\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Time Entries row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique time entries row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}

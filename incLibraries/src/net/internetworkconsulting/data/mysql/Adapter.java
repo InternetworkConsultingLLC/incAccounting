@@ -99,9 +99,10 @@ public class Adapter implements AdapterInterface {
 			if(!(ri instanceof Row))
 				myUser.canRead(ri.getSqlSecurableGuid());
 		}
-
-		java.sql.ResultSet rs = myConnection.createStatement().executeQuery(stmt.generate(getSession(), log_query));
-
+		
+		String sql = stmt.generate(getSession(), log_query);
+		java.sql.ResultSet rs = myConnection.createStatement().executeQuery(sql);
+		
 		List<R> newTable = new java.util.LinkedList<>();
 
 		mapColumns = new HashMap<>();

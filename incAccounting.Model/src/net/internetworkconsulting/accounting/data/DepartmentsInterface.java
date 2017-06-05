@@ -27,11 +27,11 @@ public interface DepartmentsInterface {
 	java.lang.Boolean getIsAllowed();
 	
 	
-	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
 	<T extends DepartmentsRow> List<T> loadChildren(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends DocumentLinesRow> List<T> loadDocumentLines(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

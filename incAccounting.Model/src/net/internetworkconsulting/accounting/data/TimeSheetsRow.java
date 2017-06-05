@@ -47,6 +47,16 @@ public class TimeSheetsRow extends Row implements TimeSheetsInterface {
 
 	// child loaders
 	
+	protected Object lstTimeEntriesChildren = null;
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntriesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"time entries\" WHERE \"Time Sheets GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntriesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntriesChildren;
+	}
+	
 
 	// parent loaders
 	
@@ -67,25 +77,25 @@ public class TimeSheetsRow extends Row implements TimeSheetsInterface {
 	// unique key loaders
 	
 	public static <T extends TimeSheetsRow> T loadByGuid(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Time Sheets\" WHERE \"GUID\"={VALUE}";
+		String sql = "SELECT * FROM \"time sheets\" WHERE \"GUID\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Time Sheets row by 'GUID': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique time sheets row by 'GUID': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}
 	
 	public static <T extends TimeSheetsRow> T loadByNumber(AdapterInterface adapter, Class model, java.lang.String value) throws Exception {
-		String sql = "SELECT * FROM \"Time Sheets\" WHERE \"Number\"={VALUE}";
+		String sql = "SELECT * FROM \"time sheets\" WHERE \"Number\"={VALUE}";
 		Statement stmt = new Statement(sql);
 		stmt.getParameters().put("{VALUE}", value);
 
 		List<T> lst = adapter.load(model, stmt, true);
 		if(lst.size() != 1)
-			throw new Exception("Could not locate unique Time Sheets row by 'Number': " + Statement.convertObjectToString(value, null));
+			throw new Exception("Could not locate unique time sheets row by 'Number': " + Statement.convertObjectToString(value, null));
 
 		return lst.get(0);		
 	}

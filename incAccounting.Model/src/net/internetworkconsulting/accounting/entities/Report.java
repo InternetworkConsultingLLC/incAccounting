@@ -46,6 +46,7 @@ public class Report extends ReportsRow {
 		return lst.get(0);
 	}
 	
+	private List lstBlocksChildren;
 	public <T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstBlocksChildren == null || force) {
 			String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={PRIMARYKEY} ORDER BY \"%s\"";
@@ -56,6 +57,8 @@ public class Report extends ReportsRow {
 		}
 		return (List<T>) lstBlocksChildren;
 	}
+	
+	private List lstFiltersChildren;
 	public <T extends ReportFiltersRow> List<T> loadFilters(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstFiltersChildren == null || force) {
 			Statement stmt = new Statement("SELECT * FROM \"Report Filters\" WHERE \"Reports GUID\"={PRIMARYKEY} ORDER BY \"Priority\"");
@@ -109,6 +112,17 @@ public class Report extends ReportsRow {
 		HashMap<String, String> hmValues = new HashMap<>();
 		for(ReportFilter rf: lstFilters)
 			hmValues.put(rf.getPrompt(), rf.getValue());
+		
+		if(getQuery() != null) {
+			String sql = getQuery();
+			String arrCmds[] = sql.split(";");
+			for(String cmd : arrCmds) {
+				Statement stmt = new Statement(cmd);
+				for(String key: hmValues.keySet())
+					stmt.getParameters().put("{" + key + "}", hmValues.get(key));
+				adapter.execute(stmt, true);
+			}
+		}
 		
 		List<ReportBlock> lstBlocks = loadBlocks(adapter, ReportBlock.class, true);
 		for(ReportBlock rb: lstBlocks) {
@@ -164,6 +178,50 @@ public class Report extends ReportsRow {
 		}
 
 		adapter.commit(false);
+	}
+
+	public String generateSql(AdapterInterface adapter) throws Exception {
+		Securable sec = this.loadSecurable(adapter, Securable.class, false);
+		List<ReportFilter> lstFilters = loadFilters(adapter, ReportFilter.class, false);
+		List<ReportBlock> lstBlocks = loadBlocks(adapter, ReportBlock.class, false);
+
+		String sql = "";
+		sql += "SET FOREIGN_KEY_CHECKS=0;\n";
+		sql += "DELETE FROM \"" + TABLE_NAME + "\" WHERE \"" + GUID + "\"=" + Statement.convertObjectToSql(this.getGuid()) + ";\n";
+
+		sql += sec.generateSqlDeletes(adapter);
+		
+		for(ReportFilter rf: lstFilters)
+			sql += rf.generateSqlDeletes(adapter);
+
+		for(ReportBlock rb: lstBlocks)
+			sql += rb.generateSqlDeletes(adapter);
+		
+		sql += "INSERT INTO \"" + TABLE_NAME + "\" (";
+		sql += " \"" + AUTO_LOAD + "\", ";
+		sql += " \"" + DISPLAY_NAME + "\", ";
+		sql += " \"" + GUID + "\", ";
+		sql += " \"" + HTML_TEMPLATE + "\", ";
+		sql += " \"" + QUERY + "\", ";
+		sql += " \"" + TITLE + "\" ) VALUES (";
+		sql += Statement.convertObjectToSql(this.getAutoLoad()) + ", ";
+		sql += Statement.convertObjectToSql(this.getDisplayName()) + ", ";
+		sql += Statement.convertObjectToSql(this.getGuid()) + ", ";
+		sql += Statement.convertObjectToSql(this.getHtmlTemplate()) + ", ";
+		sql += Statement.convertObjectToSql(this.getQuery()) + ", ";
+		sql += Statement.convertObjectToSql(this.getTitle()) + " );\n";
+
+		sql += sec.generateSqlInserts(adapter);
+		
+		for(ReportFilter rf: lstFilters)
+			sql += rf.generateSqlInserts(adapter);
+
+		for(ReportBlock rb: lstBlocks)
+			sql += rb.generateSqlInserts(adapter);
+
+		sql += "SET FOREIGN_KEY_CHECKS=1\n";
+	
+		return sql;
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.ReportFiltersRow;
 import net.internetworkconsulting.data.AdapterInterface;
+import net.internetworkconsulting.data.mysql.Statement;
 
 public class ReportFilter extends ReportFiltersRow {
 
@@ -44,5 +45,29 @@ public class ReportFilter extends ReportFiltersRow {
 		objNew.setGuid(User.newGuid());
 		
 		return objNew;
+	}
+	
+	public String generateSqlInserts(AdapterInterface adapter) throws Exception {
+		String sql = "";
+		sql += "INSERT INTO \"" + TABLE_NAME + "\" (";
+		sql += " \"" + DATA_TYPE + "\", ";
+		sql += " \"" + GUID + "\", ";
+		sql += " \"" + PRIORITY + "\", ";
+		sql += " \"" + PROMPT + "\", ";
+		sql += " \"" + QUERY + "\", ";
+		sql += " \"" + REPORTS_GUID + "\" ) VALUES (";
+		sql += Statement.convertObjectToSql(this.getDataType()) + ", ";
+		sql += Statement.convertObjectToSql(this.getGuid()) + ", ";
+		sql += Statement.convertObjectToSql(this.getPriority()) + ", ";
+		sql += Statement.convertObjectToSql(this.getPrompt()) + ", ";
+		sql += Statement.convertObjectToSql(this.getQuery()) + ", ";
+		sql += Statement.convertObjectToSql(this.getReportsGuid()) + " );\n";
+
+		return sql;
+	}
+	public String generateSqlDeletes(AdapterInterface adapter) throws Exception {
+		String sql = "";
+		sql += "DELETE FROM \"" + TABLE_NAME + "\" WHERE \"" + GUID + "\"=" + Statement.convertObjectToSql(this.getGuid()) + ";\n";
+		return sql;
 	}	
 }

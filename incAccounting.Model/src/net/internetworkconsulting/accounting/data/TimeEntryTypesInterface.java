@@ -18,6 +18,8 @@ public interface TimeEntryTypesInterface {
 	java.lang.Boolean getIsPaid();
 	
 	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends ItemsRow> T loadItem(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
+import net.internetworkconsulting.accounting.data.TimeEntriesRow;
 import net.internetworkconsulting.accounting.data.TimeSheetsRow;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
@@ -32,7 +33,7 @@ public class TimeSheet extends TimeSheetsRow {
 	}
 
 	private List lstTimeEntries;
-	public <T extends TimeEntry> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
+	public <T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTimeEntries == null || force) {
 			String sql = adapter.getSession().readJar(TimeSheet.class, "TimeSheet.loadTimeEntries.sql");
 			Statement stmt = new Statement(sql);

@@ -95,16 +95,6 @@ public class ItemsRow extends Row implements ItemsInterface {
 
 	// child loaders
 	
-	protected Object lstTimeEntryTypesChildren = null;
-	public <T extends TimeEntryTypesRow> List<T> loadTimeEntryTypes(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(lstTimeEntryTypesChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Time Entry Types\" WHERE \"Items GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstTimeEntryTypesChildren = adapter.load(model, stmt, true);
-		}
-		return (List<T>) lstTimeEntryTypesChildren;
-	}
-	
 	protected Object lstDocumentLinesChildren = null;
 	public <T extends DocumentLinesRow> List<T> loadDocumentLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstDocumentLinesChildren == null || force) {
@@ -123,6 +113,16 @@ public class ItemsRow extends Row implements ItemsInterface {
 			lstChildItemsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstChildItemsChildren;
+	}
+	
+	protected Object lstTimeEntryTypesChildren = null;
+	public <T extends TimeEntryTypesRow> List<T> loadTimeEntryTypes(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstTimeEntryTypesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"time entry types\" WHERE \"Items GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstTimeEntryTypesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstTimeEntryTypesChildren;
 	}
 	
 

@@ -95,4 +95,37 @@ public class ReportBlock extends ReportBlocksRow {
 		for(ReportBlock block : lstBlocks)
 			block.handleSave(adapter);
 	}	
+	
+	public String generateSqlInserts(AdapterInterface adapter) throws Exception {
+		String sql = "";
+		sql += "INSERT INTO \"" + TABLE_NAME + "\" (";
+		sql += " \"" + GUID + "\", ";
+		sql += " \"" + NAME + "\", ";
+		sql += " \"" + PARENT_BLOCK_GUID + "\", ";
+		sql += " \"" + PRIORITY + "\", ";
+		sql += " \"" + REPORTS_GUID + "\", ";
+		sql += " \"" + SQL_QUERY + "\" ) VALUES (";
+		sql += Statement.convertObjectToSql(this.getGuid()).replace("\n", "\\n") + ", ";
+		sql += Statement.convertObjectToSql(this.getName()).replace("\n", "\\n") + ", ";
+		sql += Statement.convertObjectToSql(this.getParentBlockGuid()).replace("\n", "\\n") + ", ";
+		sql += Statement.convertObjectToSql(this.getPriority()).replace("\n", "\\n") + ", ";
+		sql += Statement.convertObjectToSql(this.getReportsGuid()).replace("\n", "\\n") + ", ";
+		sql += Statement.convertObjectToSql(this.getSqlQuery()).replace("\n", "\\n") + " );\n";
+
+		List<ReportBlock> lstBlocks = loadChildren(adapter, ReportBlock.class, false);
+		for(ReportBlock rb: lstBlocks)
+			sql += rb.generateSqlInserts(adapter);
+		
+		return sql;
+	}
+	public String generateSqlDeletes(AdapterInterface adapter) throws Exception {
+		String sql = "";
+		sql += "DELETE FROM \"" + TABLE_NAME + "\" WHERE \"" + GUID + "\"=" + Statement.convertObjectToSql(this.getGuid()) + ";\n";
+
+		List<ReportBlock> lstBlocks = loadChildren(adapter, ReportBlock.class, false);
+		for(ReportBlock rb: lstBlocks)
+			sql += rb.generateSqlDeletes(adapter);
+
+		return sql;
+	}	
 }

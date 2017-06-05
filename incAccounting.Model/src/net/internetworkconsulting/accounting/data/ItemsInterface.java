@@ -60,11 +60,11 @@ public interface ItemsInterface {
 	java.lang.Boolean getIsSerialized();
 	
 	
-	<T extends TimeEntryTypesRow> List<T> loadTimeEntryTypes(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
 	<T extends DocumentLinesRow> List<T> loadDocumentLines(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends ItemsRow> List<T> loadChildItems(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends TimeEntryTypesRow> List<T> loadTimeEntryTypes(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	
 	<T extends ItemsRow> T loadParentItem(AdapterInterface adapter, Class biz, boolean force) throws Exception;

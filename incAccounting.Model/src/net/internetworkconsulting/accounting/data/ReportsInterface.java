@@ -20,10 +20,9 @@ public interface ReportsInterface {
 	boolean setAutoLoad(java.lang.Boolean value) throws Exception;
 	java.lang.Boolean getAutoLoad();
 	
+	boolean setQuery(java.lang.String value) throws Exception;
+	java.lang.String getQuery();
 	
-	<T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
-	<T extends ReportFiltersRow> List<T> loadFilters(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	
 	<T extends SecurablesRow> T loadSecurable(AdapterInterface adapter, Class biz, boolean force) throws Exception;

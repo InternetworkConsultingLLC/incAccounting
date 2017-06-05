@@ -10,6 +10,7 @@ import net.internetworkconsulting.mvc.CheckTag;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.Event;
 import net.internetworkconsulting.mvc.History;
+import net.internetworkconsulting.mvc.LiteralTag;
 import net.internetworkconsulting.mvc.TextAreaTag;
 import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
@@ -47,6 +48,9 @@ public class ReportController extends EditController {
 		TextTag txtTitle = new TextTag(this, Report.TITLE);
 		txtTitle.bind(objModel, Report.TITLE);
 		
+		TextAreaTag txtQuery = new TextAreaTag(this, Report.QUERY);
+		txtQuery.bind(objModel, Report.QUERY);
+
 		TextAreaTag txtTemplate = new TextAreaTag(this, Report.HTML_TEMPLATE);
 		txtTemplate.bind(objModel, Report.HTML_TEMPLATE);
 		
@@ -67,8 +71,12 @@ public class ReportController extends EditController {
 		
 		ButtonTag btnAddFilter = new ButtonTag(this, "Add Filter");
 		btnAddFilter.setValue("Add Filter");
-		btnAddFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnAddFilter_OnClick(); } });		
+		btnAddFilter.addOnClickEvent(new Event() { public void handle() throws Exception { btnAddFilter_OnClick(); } });
 
+		ButtonTag btnSQL = new ButtonTag(this, "Export SQL");
+		btnSQL.setValue("Export SQL");
+		btnSQL.addOnClickEvent(new Event() { public void handle() throws Exception { btnSQL_OnClick(); } });		
+		
 		if(objModel.getRowState() == RowState.NA) {
 			ButtonTag btnCopy = new ButtonTag(this, "Copy");
 			btnCopy.setValue("Copy");
@@ -151,4 +159,10 @@ public class ReportController extends EditController {
 
 		redirect("~/incBootstrap?App=Report&GUID=" + objCopy.getGuid());
 	}
+	private void btnSQL_OnClick() throws Exception {
+		Report objModel = (Report) getModel();
+		TextAreaTag litSQL = new TextAreaTag(this, "SQL");
+		litSQL.setValue(objModel.generateSql(getUser().login()));
+	}
+	
 }

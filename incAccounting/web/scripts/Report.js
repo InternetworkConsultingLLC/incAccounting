@@ -1,5 +1,6 @@
 function pageLoaded() {
 	aceLoad("HtmlTemplate", "HtmlEditor", "html");
+	aceLoad("Query", "QueryEditor", "mysql");
 	
 	arrControls = document.getElementsByClassName("FilterQuery");
 	for(var cnt = 0; cnt < arrControls.length; cnt++) {
@@ -12,6 +13,7 @@ function pageLoaded() {
 
 function saveEditors() {
 	aceSave("HtmlTemplate", "HtmlEditor");
+	aceSave("Query", "QueryEditor");
 
 	arrControls = document.getElementsByClassName("FilterQuery");
 	for(var cnt = 0; cnt < arrControls.length; cnt++) {

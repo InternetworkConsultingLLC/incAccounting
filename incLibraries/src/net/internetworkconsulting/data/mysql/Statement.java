@@ -193,7 +193,7 @@ public class Statement implements StatementInterface {
 				if(((String) value).length() == 0)
 					return "NULL";
 				else
-					return "'" + value.toString().replace("'", "''") + "'";
+					return "'" + value.toString().replace("'", "''").replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t") + "'";
 			case "float":
 			case "double":
 			case "java.math.BigDecimal":

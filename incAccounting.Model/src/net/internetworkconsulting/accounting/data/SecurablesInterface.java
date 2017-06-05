@@ -12,9 +12,9 @@ public interface SecurablesInterface {
 	java.lang.String getDisplayName();
 	
 	
-	<T extends PermissionsRow> List<T> loadPermissions(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
 	<T extends ReportsRow> List<T> loadReport(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends PermissionsRow> List<T> loadPermissions(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	
 }

@@ -43,5 +43,21 @@ public class Securable extends net.internetworkconsulting.accounting.data.Secura
 	public static <T extends SecurablesRow> List<T> loadAll(AdapterInterface adapter, Class model) throws Exception {
 		Statement stmt = new Statement("SELECT * FROM \"Securables\" ORDER BY \"Display Name\"");
 		return (List<T>) adapter.load(model, stmt, true);
+	}
+	
+	public String generateSqlInserts(AdapterInterface adapter) throws Exception {
+		String sql = "";
+		sql += "INSERT INTO \"" + TABLE_NAME + "\" (";
+		sql += " \"" + DISPLAY_NAME + "\", ";
+		sql += " \"" + GUID + "\" ) VALUES (";
+		sql += Statement.convertObjectToSql(this.getDisplayName()) + ", ";
+		sql += Statement.convertObjectToSql(this.getGuid()) + ");\n";
+		
+		return sql;
+	}	
+	public String generateSqlDeletes(AdapterInterface adapter) throws Exception {
+		String sql = "";
+		sql += "DELETE FROM \"" + TABLE_NAME + "\" WHERE \"" + GUID + "\"=" + Statement.convertObjectToSql(this.getGuid()) + ";\n";
+		return sql;
 	}	
 }

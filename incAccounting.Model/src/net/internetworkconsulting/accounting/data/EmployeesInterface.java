@@ -51,9 +51,9 @@ public interface EmployeesInterface {
 	java.lang.Boolean getVacation();
 	
 	
-	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
-	
 	<T extends PayrollChecksRow> List<T> loadPayrollChecks(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
 	<T extends UsersRow> List<T> loadUsers(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	
