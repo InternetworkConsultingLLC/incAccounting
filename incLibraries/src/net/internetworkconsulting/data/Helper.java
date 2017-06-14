@@ -41,8 +41,7 @@ public class Helper {
 	}
 	public static String[] InputStreamToStringArray(InputStream input_stream) throws Exception {
 		return InputStreamToStringList(input_stream).toArray(new String[0]);
-	}
-	
+	}	
 	public static String FileToString(String file_name) throws Exception {
 		FileInputStream fis = new FileInputStream(file_name);
 		return InputStreamToString(fis);
@@ -76,12 +75,11 @@ public class Helper {
 
 		RuleBasedNumberFormat ruleBasedNumberFormat = new RuleBasedNumberFormat(new Locale(language, country), RuleBasedNumberFormat.SPELLOUT);
 
-
-		String sOutput = ruleBasedNumberFormat.format(dWholeNumbers) + " " + currency;
+		String sOutput = ruleBasedNumberFormat.format(dWholeNumbers);
 		sOutput = UCharacter.toTitleCase(new Locale(language, country), sOutput, null, 0);
 
 		if(dFraction.compareTo(BigDecimal.ZERO) != 0)
-			sOutput += " & " + String.format("%2.0f", dFraction) + "/100ths";
+			sOutput += " and " + String.format("%2.0f", dFraction) + "/100ths " + currency;
 		
 		return sOutput;
 	}

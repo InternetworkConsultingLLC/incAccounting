@@ -21,11 +21,16 @@ public class CheckTag  extends Tag {
 		return getValue() != null && getValue().length() > 0 && (getValue().toLowerCase().startsWith("t") ||getValue().toLowerCase().startsWith("y")); 
 	}
 	public boolean setIsChecked(boolean value) throws Exception {
+		boolean bOldValue = getIsChecked();
+		
 		if(value)
-			return setValue("true");
+			setValue("true");
 		else
-			return setValue("false");
-	}
+			setValue("false");
+
+		boolean bNewValue = getIsChecked();
+		return bOldValue != bNewValue;
+}
 
 	public void updateControls() throws Exception {
 		if(getIsReadOnly())

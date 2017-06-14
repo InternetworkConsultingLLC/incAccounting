@@ -72,16 +72,25 @@ public class TimeSheet extends TimeSheetsRow {
 	private List<TimeEntry> combineTimeEntries(List<TimeEntry> lstOriginals) throws Exception {
 		List<TimeEntry> lstCombined = new LinkedList<>();
 		for(TimeEntry teOriginal : lstOriginals) {
+			long nOriginalStart = teOriginal.getStarted().getTime();
+			long nOriginalEnd = teOriginal.getEnded().getTime();
+			
 			boolean bHandled = false;
 			for(TimeEntry teCombined : lstCombined) {
-				long lBufferedStarted = teCombined.getStarted().getTime() - (5 * 60 * 1000);
-				long lBufferedEnded = teCombined.getEnded().getTime() + (5 * 60 * 1000);
-				if(teOriginal.getStarted().getTime() < lBufferedEnded && teOriginal.getEnded().getTime() > lBufferedStarted) {
-					if(teOriginal.getStarted().getTime() < teCombined.getStarted().getTime())
-						teCombined.setStarted(teOriginal.getStarted());
-					if(teOriginal.getEnded().getTime() > teCombined.getEnded().getTime())
+				long nCombinedStart = teCombined.getStarted().getTime();
+				long nCombinedEnd = teCombined.getEnded().getTime();
+				
+				if(nCombinedStart <= nOriginalStart && nOriginalStart <= nCombinedEnd) {
+					if(nOriginalEnd > nCombinedEnd) {
 						teCombined.setEnded(teOriginal.getEnded());
-					bHandled = true;
+						bHandled = true;
+					}
+				}
+				if(nCombinedStart <= nOriginalEnd && nOriginalEnd <= nCombinedEnd) {
+					if(nOriginalStart < nCombinedStart) {
+						teCombined.setStarted(teOriginal.getStarted());
+						bHandled = true;
+					}
 				}
 			}
 			if(!bHandled) {

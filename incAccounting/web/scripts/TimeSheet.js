@@ -29,33 +29,37 @@ function changedCheck() {
 }
 
 function simplifyTimeEntries(arrOriginals) {
-	var arrChanges = [];	
+	var arrSimplified = [];	
 	for(var originalCnt = 0; originalCnt < arrOriginals.length; originalCnt++) {
-		var nOriginalStarted = getDate(arrOriginals[originalCnt].Started);
-		var nOriginalEnded = getDate(arrOriginals[originalCnt].Ended);
+		var nOriginalStarted = arrOriginals[originalCnt].Started;
+		var nOriginalEnded = arrOriginals[originalCnt].Ended;
 
 		var bHandled = false;
-		for(var changesCnt = 0; changesCnt < arrChanges.length; changesCnt++) {
-			var nChangedStarted = getDate(arrChanges[changesCnt].Started);
-			var nChangedEnded = getDate(arrChanges[changesCnt].Ended);
-			var nBufferedStarted = nChangedStarted - (5 * 60 * 100);
-			var nBufferedEnded = nChangedEnded + (5 * 60 * 100);			
-			if(nBufferedStarted <= nOriginalEnded && nBufferedEnded >= nOriginalStarted) {
-				if(nOriginalStarted < nChangedStarted)
-					arrChanges[changesCnt].Started = arrOriginals[originalCnt].Started;
-				if(nOriginalEnded > nChangedEnded)
-					arrChanges[changesCnt].Ended = arrOriginals[originalCnt].Ended;
-				bHandled = true;
+		for(var changesCnt = 0; changesCnt < arrSimplified.length; changesCnt++) {
+			var nSimplifiedStarted = arrSimplified[changesCnt].Started;
+			var nSimplifiedEnded = arrSimplified[changesCnt].Ended;
+			
+			if(nSimplifiedStarted <= nOriginalStarted && nOriginalStarted <= nSimplifiedEnded) {
+				if(nOriginalEnded > nSimplifiedEnded) {
+					arrSimplified[changesCnt].Ended = arrOriginals[originalCnt].Ended;
+					bHandled = true;
+				}
+			}
+			if(nSimplifiedStarted <= nOriginalEnded && nOriginalEnded <= nSimplifiedEnded) {
+				if(nOriginalStarted < nSimplifiedStarted) {
+					arrSimplified[changesCnt].Started = arrOriginals[originalCnt].Started;
+					bHandled = true;
+				}
 			}
 		}
 		if(!bHandled) {
 			var objNew = [];
 			objNew.Started = arrOriginals[originalCnt].Started;
 			objNew.Ended = arrOriginals[originalCnt].Ended;
-			arrChanges.push(objNew);
+			arrSimplified.push(objNew);
 		}
 	}
-	return arrChanges;
+	return arrSimplified;
 }
 
 function getTimeEntryByGuid(guid) {
@@ -70,12 +74,12 @@ function getDate(value) {
 	// 012345678901234567890
 	// 2017-05-15 12:07:00
 	
-	var sYear = value.substring(0, 4);
-	var sMonth = value.substring(5, 7);
-	var sDay = value.substring(8, 10);
-	var sHour = value.substring(11, 13);
-	var sMinute = value.substring(14, 16);
-	var sSecond = value.substring(17);
+	var sYear = Number(value.substring(0, 4));
+	var sMonth = Number(value.substring(5, 7));
+	var sDay = Number(value.substring(8, 10));
+	var sHour = Number(value.substring(11, 13));
+	var sMinute = Number(value.substring(14, 16));
+	var sSecond = Number(value.substring(17));
 	
 	return Date.UTC(sYear, sMonth, sDay, sHour, sMinute, sSecond);
 }

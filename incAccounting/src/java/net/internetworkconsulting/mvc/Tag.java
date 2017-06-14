@@ -142,7 +142,7 @@ public abstract class Tag extends Controller implements TagInterface {
 		
 		String html = "";
 		if(getName() != null && getName().length() > 0) {
-			html += " id=\"" + getCamelCase(getName()) + "\" ";
+			html += " id=\"" + getID() + "\" ";
 			if(allows_name)
 				html += " name=\"" + getName() + "\" ";
 		}
@@ -162,9 +162,9 @@ public abstract class Tag extends Controller implements TagInterface {
 			html += " required ";
 		
 		if(getOnChangeEvents().size() > 0)
-			html += " onchange=\"return sendEvent('" + getName().replace("'", "\\'") + "', 'onchange');\" ";
+			html += " onchange=\"return sendEvent('" + getID().replace("'", "\\'") + "', 'onchange');\" ";
 		if(getOnClickEvents().size() > 0)
-			html += " onclick=\"return sendEvent('" + getName().replace("'", "\\'") + "', 'onclick');\" ";
+			html += " onclick=\"return sendEvent('" + getID().replace("'", "\\'") + "', 'onclick');\" ";
 
 		return html;
 	}
@@ -196,13 +196,13 @@ public abstract class Tag extends Controller implements TagInterface {
 				e.handle();
 	}
 	protected void handleClick() throws Exception {
-		if(getName() == null || getName().length() < 1)
+		if(getID() == null || getID().length() < 1)
 			return;
 		
 		String sHiddenControl = getRequest().getParameter(Controller.HIDDEN_CONTROL);
 		if (sHiddenControl == null)
 			return;
-		if (!sHiddenControl.equals(getName()))
+		if (!sHiddenControl.equals(getID()))
 			return;
 
 		String sHiddenEvent = getRequest().getParameter(Controller.HIDDEN_EVENT);

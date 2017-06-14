@@ -56,5 +56,7 @@ public class ReconciliationsLinesController extends Controller {
 			objModel.setReconciliationsGuid(objReconciliation.getGuid());
 		else
 			objModel.setReconciliationsGuid(null);
+		
+		chkCleared.setFocus(getRequest().getParameter("HiddenControl"));
 	}
 }

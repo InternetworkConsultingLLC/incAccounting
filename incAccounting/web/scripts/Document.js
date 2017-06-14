@@ -32,7 +32,7 @@ function changedItem() {
 		return;
 	
 	var ctlRowIsTaxed = document.getElementById("RowIsTaxed" + sGuid);
-	if(objItem["Inventory Unit Measures GUID"].length > 0 && String.toLocaleString(objItem["Inventory Unit Measures GUID"][0]) == "t")
+	if(objItem != null & objItem["Is Sales Taxed"] != null && objItem["Is Sales Taxed"].length > 0 && objItem["Is Sales Taxed"][0] == "t")
 		ctlRowIsTaxed.checked = true;
 	else
 		ctlRowIsTaxed.checked = false;
