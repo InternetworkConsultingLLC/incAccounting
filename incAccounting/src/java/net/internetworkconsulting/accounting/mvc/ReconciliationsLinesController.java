@@ -26,7 +26,7 @@ public class ReconciliationsLinesController extends Controller {
 		
 		chkCleared = new CheckTag(this, "Line Cleared");
 		chkCleared.setName("Cleared" + objModel.getGuid());
-		chkCleared.addOnChangeEvent(new Event() { public void handle() throws Exception { chkCleared_OnChange(); } });
+		chkCleared.addOnClickEvent(new Event() { public void handle() throws Exception { chkCleared_OnChange(); } });
 		if(!getIsPostback()) {
 			if(objModel.getReconciliationsGuid() == null)
 				chkCleared.setIsChecked(false);
