@@ -9,9 +9,11 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import org.w3c.dom.Node;
 
 public class Helper {
 	public static String InputStreamToString(InputStream input_stream) throws Exception {
@@ -82,5 +84,23 @@ public class Helper {
 			sOutput += " and " + String.format("%2.0f", dFraction) + "/100ths " + currency;
 		
 		return sOutput;
+	}
+
+	public static List<Node> getXmlNodes(Node start, String target) { return null; }
+	public static String getXmlName(Node item) {
+		String sName = "";
+		
+		Node nCurrent = item;
+		sName = ":" + nCurrent.getNodeName() + sName;
+		
+		while(nCurrent.getParentNode() != null) {
+			nCurrent = nCurrent.getParentNode();
+			sName = ":" + nCurrent.getNodeName() + sName;
+		}
+		
+		return sName.replace(":#document:", "");
+	}
+	public static String getXmlValue(Node start, String target) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 }

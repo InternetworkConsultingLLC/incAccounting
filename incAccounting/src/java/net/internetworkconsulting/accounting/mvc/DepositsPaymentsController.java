@@ -40,20 +40,25 @@ public class DepositsPaymentsController extends Controller {
 		chkIncluded = new CheckTag(this, "Payment Included");
 		chkIncluded.setIsReadOnly(isReadOnly);
 		chkIncluded.setName("Payment Included" + objModel.getGuid());
-		chkIncluded.addOnChangeEvent(new Event() { public void handle() throws Exception { chkIncluded_Changed(); } });
+		chkIncluded.addOnClickEvent(new Event() { public void handle() throws Exception { chkIncluded_Clicked(); } });
 		
 		if(!getIsPostback())
 			chkIncluded.setIsChecked(objModel.getBankDepositsGuid() != null);
 	}
 
 	public History createHistory() throws Exception { return null; }
-	private void chkIncluded_Changed() throws Exception {
+
+	public void beforePopulate() throws Exception {
 		if(chkIncluded.getIsChecked())
 			objModel.setBankDepositsGuid(objDeposit.getGuid());
 		else
 			objModel.setBankDepositsGuid(null);
 	}
 
+	public void chkIncluded_Clicked() throws Exception {
+		chkIncluded.setFocus();
+	}
+	
 	private Deposit objDeposit = null;
 	void setDeposit(Deposit value) { objDeposit = value; }
 	

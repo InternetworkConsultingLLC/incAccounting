@@ -18,7 +18,16 @@ public class CheckTag  extends Tag {
 	public void setInputType(String value) { sType = value; }
 
 	public boolean getIsChecked() throws Exception { 
-		return getValue() != null && getValue().length() > 0 && (getValue().toLowerCase().startsWith("t") ||getValue().toLowerCase().startsWith("y")); 
+		if(getValue() == null)
+			return false;
+		if(getValue().length() < 1)
+			return false;
+		if(getValue().toLowerCase().startsWith("t"))
+			return true;
+		if(getValue().toLowerCase().startsWith("y"))
+			return true;
+		
+		return false;
 	}
 	public boolean setIsChecked(boolean value) throws Exception {
 		boolean bOldValue = getIsChecked();
