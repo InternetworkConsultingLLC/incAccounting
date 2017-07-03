@@ -1,6 +1,7 @@
 .svn/
 *.class
 *.war
+*.jar
 *.ear
 *.exe
 **/nbproject/private/**
