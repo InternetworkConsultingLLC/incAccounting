@@ -1,13 +1,17 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.sql.Date;
 import java.util.List;
+import javax.servlet.http.Part;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Reconciliation;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
+import net.internetworkconsulting.data.Helper;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.mysql.Statement;
+import net.internetworkconsulting.data.ofx.OFX;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
@@ -20,6 +24,10 @@ public class ReconciliationsController extends EditController {
 	private TextTag litLedgerBalance;
 	private DateTag dtDate;
 	private ComboTag cboAccount;
+	private DateTag dtStarting;
+	private DateTag dtEnding;
+	private TextTag tagFile;
+	
 	public ReconciliationsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -83,6 +91,12 @@ public class ReconciliationsController extends EditController {
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });
+
+		tagFile = new TextTag(this, "File");
+		tagFile.setInputType(TextTag.TYPE_FILE);
+		
+		ButtonTag btnImport = new ButtonTag(this, "Import");
+		btnImport.addOnClickEvent(new Event() { public void handle() throws Exception { btnImport_OnClick(); } });		
 		
 		if(objModel.getAccountsGuid() != null) {		
 			List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
@@ -136,6 +150,33 @@ public class ReconciliationsController extends EditController {
 		}
 
 		redirect("~/incAccounting?App=Reconciliation&GUID=" + objModel.getGuid() + "&Error=Saved!");
+	}
+	private void btnImport_OnClick() throws Exception {
+		Part filePart = getRequest().getPart("File");
+		String uploaded = Helper.InputStreamToString(filePart.getInputStream());
+		OFX obj = new OFX(uploaded);
+		
+		Reconciliation objModel = (Reconciliation) getModel();
+		objModel.setOFX(obj);
+		
+		Date dtLastReconcile = objModel.getLastReconcileDate(getUser().login());
+			
+		for(net.internetworkconsulting.data.ofx.Transaction tran : obj.getStatements().get(0).getTransactions()) {
+			if(tran.getPosted().equals(dtLastReconcile) || tran.getPosted().before(dtLastReconcile))
+				continue;
+			if(tran.getPosted().after(objModel.getDate()))
+				continue;
+			
+			ReconciliationsImportsController controller = new ReconciliationsImportsController(this, "Import");
+			controller.setModel(tran);
+			controller.setIsDocumentBlock(true);
+
+			doCreateControls(controller, false);
+			doBeforeUpdate(controller);
+			doUpdateControls(controller);
+			doBeforeHandle(controller);
+			doHandleEvents(controller);			
+		}
 	}
 	private void cboAccount_OnChange() throws Exception { reloadLines(); }
 	private void dtDate_OnChange() throws Exception { reloadLines(); }

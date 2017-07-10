@@ -6,8 +6,38 @@
 	<div class="field"><label>Date:</label><div>{Date}</div></div>
 	<div class="field"><label>Account:</label><div>{Accounts GUID}</div></div>
 </div>
-	
-<!--<p><button>Import OFX</button></p>-->
+
+<h2>Import OFX</h2>
+<p>Click browse and select the OFX file downloaded from you bank for the selected 
+account.  The transactions in the OFX file are from the day after the last 
+reconciliation through the date of this reconciliation.</p>
+<div class="block">
+	<div class="field"><label>File:</label><div>{File}</div></div>
+</div>
+<p>{Import}</p>
+
+<table width="100%" class="list">
+	<tr>
+		<!--<td>ID</td>-->
+		<td>Posted</td>
+		<!--<td>Type</td>-->
+		<td>Number</td>
+		<td>Name & Memo</td>
+		<td class="right">Amount</td>
+		<td class="center">Match</td>
+	</tr>
+<!-- BEGIN Import -->
+	<tr>
+		<!--<td class="top">{Import Identifier}</td>-->
+		<td class="top">{Import Posted}</td>
+		<!--<td class="top">{Import TransactionType}</td>-->
+		<td class="top">{Import CheckNumber}</td>
+		<td class="top">{Import Name}</td>
+		<td class="top right">{Import Amount}</td>
+		<td class="top center">{Import Matched}</td>
+	</tr>
+<!-- END Import -->
+</table>
 
 <h2>Transactions</h2>
 <table width="100%" class="list">
@@ -18,6 +48,7 @@
 		<td>Number</td>
 		<td>Description</td>
 		<td class="right">Debit</td>
+		<td class="center">Match</td>		
 	</tr>
 	<!-- BEGIN Line -->
 	<tr>
@@ -27,6 +58,7 @@
 		<td>{Line Reference Number}</td>
 		<td>{Line Description}</td>
 		<td class="right">{Line Debit}</td>
+		<td class="center">{Import Matched}</td>
 	</tr>
 	<!-- END Line -->
 </table>

@@ -1,12 +1,13 @@
-package xmlparser;
+package net.internetworkconsulting.data.ofx;
 
+import java.io.Serializable;
 import net.internetworkconsulting.data.Helper;
 import org.w3c.dom.Node;
 
 // OFX:BANKMSGSRSV1:STMTTRNRS:STATUS
 // OFX:SIGNONMSGSRSV1:SONRS:STATUS
-public class Status {
-	Status(Node parent, String target) {
+public class Status implements Serializable {
+	Status(Node parent, String target) throws Exception {
 		Code = Helper.getXmlValue(parent, target + ":CODE");
 		Severity = Helper.getXmlValue(parent, target + ":SEVERITY");
 	}

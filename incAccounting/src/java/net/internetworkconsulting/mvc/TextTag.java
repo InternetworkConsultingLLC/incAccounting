@@ -21,6 +21,7 @@ public class TextTag extends Tag {
 	public static String TYPE_TIME = "time";
 	public static String TYPE_URL = "url";
 	public static String TYPE_WEEK = "week";
+	public static String TYPE_FILE = "file";
 	
 	public TextTag(ControllerInterface controller, String property, Object model) throws Exception { super(controller, property, model); }
 	public TextTag(ControllerInterface controller, String prefix, String property, String unique_key, Object model) throws Exception { super(controller, prefix, property, unique_key, model); }

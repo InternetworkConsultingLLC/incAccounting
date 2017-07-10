@@ -265,6 +265,10 @@ public class Statement implements StatementInterface {
 				java.sql.Timestamp objTs = (java.sql.Timestamp) value;
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return sdf.format(objTs);
+			case "java.util.Date":
+				java.util.Date dt = (java.util.Date) value;
+				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				return sdf.format(dt);				
 			case "java.util.GregorianCalendar":
 				java.util.Calendar cal = (java.util.Calendar) value;
 				java.sql.Timestamp objTsCal = new Timestamp(cal.toInstant().toEpochMilli());

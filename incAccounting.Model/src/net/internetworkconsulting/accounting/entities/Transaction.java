@@ -58,8 +58,8 @@ public class Transaction extends TransactionsRow {
 			throw new Exception("You cannot edit this transaction - it's a document!");
 		
 		List<TransactionLine> lstLines = loadTransactionLines(adapter, TransactionLine.class, false);
-		if(lstLines.size() < 1)
-			throw new Exception("Cannot save a transaction with no lines!");
+//		if(lstLines.size() < 1)
+//			throw new Exception("Cannot save a transaction with no lines!");
 		
 		BigDecimal dBalance = calculate(adapter);
 		if(dBalance.compareTo(BigDecimal.ZERO) != 0)

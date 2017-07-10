@@ -10,6 +10,7 @@ import net.internetworkconsulting.accounting.data.TransactionLinesRow;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.Row;
 import net.internetworkconsulting.data.mysql.Statement;
+import net.internetworkconsulting.data.ofx.OFX;
 
 public class Reconciliation extends ReconciliationsRow {
 
@@ -50,6 +51,10 @@ public class Reconciliation extends ReconciliationsRow {
 		
 		return (List<T>) lstTransactionLinesChildren;
 	}
+	
+	private OFX ofxImport;
+	public OFX getOFX() { return ofxImport; }
+	public void setOFX(OFX value) { ofxImport = value; }
 	
 	public void beforeSave(AdapterInterface adapter) throws Exception {
 		this.calculateBalanceOffBy(adapter);
@@ -108,5 +113,18 @@ public class Reconciliation extends ReconciliationsRow {
 	}
 	public BigDecimal calculateLedgerBalance(AdapterInterface adapter) throws Exception {
 		return calculateBeginningBalance(adapter).add(calculateUncleared(adapter)).add(calculateCleared(adapter));
+	}
+
+	public Date getLastReconcileDate(AdapterInterface adapter) throws Exception {		
+		String sql = adapter.getSession().readJar(Reconciliation.class, "Reconciliation.getLastReconcileDate.sql");
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("@Account", getAccountsGuid());
+		stmt.getParameters().put("@Date", getDate());
+		List<Row> lst = adapter.load(Row.class, stmt, true);
+		
+		if(lst.size() != 1)
+			return null;
+		
+		return (Date) lst.get(0).get("Value");
 	}
 }

@@ -1,7 +1,7 @@
-package xmlparser;
+package net.internetworkconsulting.data.ofx;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.Exception;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -9,7 +9,7 @@ import java.util.List;
 import net.internetworkconsulting.data.Helper;
 import org.w3c.dom.Node;
 
-public class Statement {
+public class Statement implements Serializable {
 	Statement(Node statement) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 

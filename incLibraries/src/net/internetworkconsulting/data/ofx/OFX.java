@@ -1,15 +1,39 @@
-package xmlparser;
+package net.internetworkconsulting.data.ofx;
 
+import java.io.Serializable;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import net.internetworkconsulting.data.Helper;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
-public class OFX {
-	@SuppressWarnings("OverridableMethodCallInConstructor")
-	OFX(Node ofx) throws Exception {
+public class OFX implements Serializable {
+	private String sStructure = "";
+	public String getStructure() { return sStructure; }
+	
+	public OFX(String sFile) throws Exception {
+		//String sFile = net.internetworkconsulting.data.Helper.FileToString(filename);
+
+		int iStart = sFile.indexOf("<OFX>");
+		int iEnd = sFile.indexOf("</OFX>");
+		sFile = sFile.substring(iStart, iEnd + 6);
+
+		DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		InputSource is = new InputSource();
+		is.setCharacterStream(new StringReader(sFile));
+
+		Document doc = db.parse(is);
+		sStructure = outputStructure(doc.getElementsByTagName("OFX").item(0));
+
+		Node ofx = doc.getElementsByTagName("OFX").item(0);
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 		String sDate = Helper.getXmlValue(ofx, "OFX:SIGNONMSGSRSV1:SONRS:DTSERVER").substring(0, 14);
 		
@@ -27,6 +51,24 @@ public class OFX {
 			Statements.add(stmt);
 		}
 	}
+
+	private static String outputStructure(Node item) {
+		String out = "";
+		
+		if(item == null)
+			return "";
+		if(item.getNodeName().equals("#text"))
+			return "";
+		
+		String sNode = Helper.getXmlName(item);
+		out += sNode + "\n";
+		
+		NodeList nlChildren = item.getChildNodes();
+		for(int cnt = 0; cnt < nlChildren.getLength(); cnt++)
+			out += outputStructure(nlChildren.item(cnt));
+		
+		return out;
+	}	
 
 	// OFX:SIGNONMSGSRSV1:SONRS:DTSERVER
 	// 20170613233458.687[-5]

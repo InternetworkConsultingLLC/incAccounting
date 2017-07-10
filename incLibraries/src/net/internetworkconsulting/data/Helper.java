@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class Helper {
 	public static String InputStreamToString(InputStream input_stream) throws Exception {
@@ -86,7 +87,24 @@ public class Helper {
 		return sOutput;
 	}
 
-	public static List<Node> getXmlNodes(Node start, String target) { return null; }
+	public static List<Node> getXmlNodes(Node start, String target) {
+		List<Node> lstRet = new LinkedList<Node>();
+		
+		if(Helper.getXmlName(start) == null)
+			return lstRet;
+		
+		if(target == null)
+			return lstRet;
+		
+		if(Helper.getXmlName(start).endsWith(target))
+			lstRet.add(start);
+		
+		NodeList nlChildren = start.getChildNodes();
+		for(int cnt = 0; cnt < nlChildren.getLength(); cnt++)
+			lstRet.addAll(getXmlNodes(nlChildren.item(cnt), target));
+		
+		return lstRet;
+	}
 	public static String getXmlName(Node item) {
 		String sName = "";
 		
@@ -100,7 +118,20 @@ public class Helper {
 		
 		return sName.replace(":#document:", "");
 	}
-	public static String getXmlValue(Node start, String target) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	public static String getXmlValue(Node start, String target) throws Exception {
+		List<Node> lstNodes = getXmlNodes(start, target);
+		if(lstNodes.size() < 1)
+			return null;
+		if(lstNodes.size() > 1)
+			throw new Exception("Could not locate unique node!");
+		
+		if(lstNodes.get(0).getFirstChild() == null)
+			return null;
+		
+		String sValue = lstNodes.get(0).getFirstChild().getNodeValue();
+		String sName = lstNodes.get(0).getFirstChild().getNodeName();
+		short iType = lstNodes.get(0).getFirstChild().getNodeType();
+		
+		return sValue;
 	}
 }
