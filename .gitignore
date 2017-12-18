@@ -9,3 +9,4 @@
 **/nbbuild/**
 **/dist/**
 **/nbdist/**
+**/nbproject/genfiles.properties
