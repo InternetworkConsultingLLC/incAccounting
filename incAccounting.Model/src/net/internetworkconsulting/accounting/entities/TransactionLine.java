@@ -50,5 +50,14 @@ public class TransactionLine extends TransactionLinesRow {
 		stmt.getParameters().put("{Ending}", ending_date);
 		return adapter.load(model, stmt, true);
 	}
+	public boolean isAvailable(AdapterInterface adapter, String target_number) throws Exception {
+		boolean isAvailable = true;
+		isAvailable = Payment.isNumberAvaiable(adapter, PaymentType.PURCHASE_PAYMENT_GUID, target_number, getAccountsGuid());
+		isAvailable = isAvailable && PayrollCheck.isNumberAvailable(adapter, target_number, getAccountsGuid());
+		isAvailable = isAvailable && Transaction.isNumberAvailable(adapter, target_number, getAccountsGuid());
+		return isAvailable;
+	}
+	
+
 
 }

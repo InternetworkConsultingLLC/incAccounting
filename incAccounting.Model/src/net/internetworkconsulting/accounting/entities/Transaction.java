@@ -10,6 +10,7 @@ import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class Transaction extends TransactionsRow {	
+	public static String SETTING_LAST_REFERENCE_NUMBER = "Transaction - Last Number";
 	private Object lstTransactionLinesChildren = null;
 	public <T extends TransactionLinesRow> List<T> loadTransactionLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstTransactionLinesChildren == null || force) {
@@ -81,6 +82,34 @@ public class Transaction extends TransactionsRow {
 		
 		return ret;
 	}
+	
+	public void handleAutoNumber(AdapterInterface adapter) throws Exception {
+		adapter.begin(false);
+		try {
+			boolean isAvailable = true;
+			Setting bizSetting = Setting.loadByKey(adapter, Setting.class , Transaction.SETTING_LAST_REFERENCE_NUMBER);
+			String sMyNumber = bizSetting.getValue();
+			do {
+				sMyNumber =net.internetworkconsulting.data.Helper.Increment(sMyNumber);
+				isAvailable = true;
+				List<TransactionLine> lstLines = this.loadTransactionLines(adapter, TransactionLine.class, false);
+				for (int cnt = 0; cnt < lstLines.size(); cnt++) {
+					TransactionLine currentLine = lstLines.get(cnt);
+					isAvailable = isAvailable && currentLine.isAvailable(adapter, sMyNumber);				
+				}
+			} while(!isAvailable);
+			
+			this.setReferenceNumber(sMyNumber);
+			bizSetting.setValue(sMyNumber);
+			
+			adapter.save(Setting.TABLE_NAME, bizSetting);
+			adapter.commit(false);
+		}catch(Exception ex) {
+			adapter.rollback(false);
+			throw ex;
+		}
+	}
+			
 	public static boolean isNumberAvailable(AdapterInterface adapter, String reference_number, String account_guid) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Transaction.class, "Transaction.isAvailable.sql"));
 		stmt.getParameters().put("@Account", account_guid);
