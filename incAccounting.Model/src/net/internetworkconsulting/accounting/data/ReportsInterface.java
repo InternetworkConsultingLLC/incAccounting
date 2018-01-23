@@ -24,6 +24,10 @@ public interface ReportsInterface {
 	java.lang.String getQuery();
 	
 	
+	<T extends ReportBlocksRow> List<T> loadBlocks(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
+	<T extends ReportFiltersRow> List<T> loadFilters(AdapterInterface adapter, Class biz, boolean force) throws Exception;
+	
 	
 	<T extends SecurablesRow> T loadSecurable(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

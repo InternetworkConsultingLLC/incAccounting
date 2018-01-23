@@ -261,4 +261,41 @@ public class PayrollCheck extends PayrollChecksRow {
 		line.setSortOrder(order);
 		return line;
 	}
+	public void handleAutoNumber(AdapterInterface adapter) throws Exception {
+		adapter.begin(false);
+		try {
+			Account bizAccount = this.loadAccountsGuid(adapter, Account.class, false);
+			String sMyNumber = bizAccount.getLastNumber();
+			boolean isAvailable = false;
+			do {
+				sMyNumber = net.internetworkconsulting.data.Helper.Increment(sMyNumber);
+				isAvailable = Payment.isNumberAvaiable(adapter, PaymentType.PURCHASE_PAYMENT_GUID, sMyNumber, getAccountsGuid());
+				isAvailable = isAvailable &&  PayrollCheck.isNumberAvailable(adapter, sMyNumber, getAccountsGuid());
+				isAvailable = isAvailable && Transaction.isNumberAvailable(adapter, sMyNumber, getAccountsGuid());
+			} while(!isAvailable);
+			
+			this.setNumber(sMyNumber);
+			bizAccount.setLastNumber(sMyNumber);
+			
+			adapter.save(Account.TABLE_NAME, bizAccount);
+			adapter.save(PayrollCheck.TABLE_NAME, this);			
+			adapter.commit(false);
+		} catch(Exception ex) {
+			adapter.rollback(false);
+			throw ex;
+		}
+	}
+	
+	
+	public static boolean isNumberAvailable(AdapterInterface adapter, String number, String accounts_guid) throws Exception {
+		String sql = "SELECT * FROM  \"%s\" WHERE \"%s\"={AccountsGuid} AND \"%s\"={Number}";
+		sql = String.format(sql, PayrollCheck.TABLE_NAME, PayrollCheck.ACCOUNTS_GUID, PayrollCheck.NUMBER);
+		
+		Statement stmt = new Statement(sql);
+		stmt.getParameters().put("{AccountsGuid}", accounts_guid);
+		stmt.getParameters().put("{Number}", number);
+		
+		List<PayrollCheck> lst = adapter.load(PayrollCheck.class, stmt, true);
+		return lst.isEmpty();
+	}
 }

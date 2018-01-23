@@ -73,6 +73,7 @@ public class PaymentsController extends EditController {
 
 		TextTag txtOurNumber = new TextTag(this, Payment.OUR_NUMBER, objModel);
 		txtOurNumber.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
+		
 		DateTag dtDate = new DateTag(this, Payment.DATE, objModel);
 		dtDate.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		TextTag txtName = new TextTag(this, Payment.CONTACTS_DISPLAY_NAME, objModel);

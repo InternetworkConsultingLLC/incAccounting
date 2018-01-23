@@ -31,16 +31,6 @@ public class SecurablesRow extends Row implements SecurablesInterface {
 
 	// child loaders
 	
-	protected Object lstReportChildren = null;
-	public <T extends ReportsRow> List<T> loadReport(AdapterInterface adapter, Class model, boolean force) throws Exception {
-		if(lstReportChildren == null || force) {
-			Statement stmt = new Statement("SELECT * FROM \"Reports\" WHERE \"GUID\"={PRIMARYKEY}");
-			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
-			lstReportChildren = adapter.load(model, stmt, true);
-		}
-		return (List<T>) lstReportChildren;
-	}
-	
 	protected Object lstPermissionsChildren = null;
 	public <T extends PermissionsRow> List<T> loadPermissions(AdapterInterface adapter, Class model, boolean force) throws Exception {
 		if(lstPermissionsChildren == null || force) {
@@ -49,6 +39,16 @@ public class SecurablesRow extends Row implements SecurablesInterface {
 			lstPermissionsChildren = adapter.load(model, stmt, true);
 		}
 		return (List<T>) lstPermissionsChildren;
+	}
+	
+	protected Object lstReportChildren = null;
+	public <T extends ReportsRow> List<T> loadReport(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstReportChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"reports\" WHERE \"GUID\"={PRIMARYKEY}");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstReportChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstReportChildren;
 	}
 	
 

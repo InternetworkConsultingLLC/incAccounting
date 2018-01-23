@@ -4,6 +4,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Employee;
+import net.internetworkconsulting.accounting.entities.Payment;
 import net.internetworkconsulting.accounting.entities.PayrollCheck;
 import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldType;
@@ -166,6 +167,12 @@ public class PayrollChecksController extends EditController {
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });
 		btnSave.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		
+		if((objModel.getNumber() == null || objModel.getNumber().isEmpty()) && objModel.getRowState() != RowState.Insert) {
+			ButtonTag btnNumber = new ButtonTag(this, "Number Button");
+			btnNumber.setValue("Number");
+			btnNumber.addOnClickEvent(new Event() {public void handle() throws Exception { btnNumber_OnClicked(); } });
+		}
+		
 		ButtonTag btnPost = new ButtonTag(this, "Post");
 		btnPost.addOnClickEvent(new Event() { public void handle() throws Exception { btnPost_OnClick(); } });		
 		if(objModel.getPostedTransactionsGuid() != null)
@@ -301,6 +308,26 @@ public class PayrollChecksController extends EditController {
 		}
 		
 		redirect("~/incAccounting?App=PayrollCheck&GUID=" + objModel.getGuid());
+	}
+	public void btnNumber_OnClicked() throws Exception {
+		try {
+			getUser().login().begin(true);
+			
+			objModel.calculate(getUser().login());
+
+			objModel.handleAutoNumber(getUser().login());
+			
+			getUser().login().save(PayrollCheck.TABLE_NAME, objModel);
+					
+			getUser().login().commit(true);
+		} catch(Exception ex) {
+			getUser().login().rollback(true);
+			getUser().logExcpetion(ex, "43f331254d644592ab3ba412a224636a");
+			addError("Save", ex.getMessage());
+			return;
+		}
+		
+		redirect("~/incAccounting?App=PayrollCheck&GUID=" + objModel.getGuid() + "&Error=Numbered!");	
 	}
 	private void btnPost_OnClick() throws Exception {
 		String sAction = "";

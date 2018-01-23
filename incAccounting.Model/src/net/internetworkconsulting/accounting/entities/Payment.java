@@ -409,9 +409,15 @@ public class Payment extends PaymentsRow {
 	private void handlePurchaseAutoNumber(AdapterInterface adapter) throws Exception {
 		Account bizAccount = loadAccount(adapter, Account.class, false);
 		String sMyNumber = bizAccount.getLastNumber();
+		boolean isAvailable = false;
 		do {
 			sMyNumber = net.internetworkconsulting.data.Helper.Increment(sMyNumber);
-		} while(!Payment.isNumberAvaiable(adapter, getPaymentTypesGuid(), sMyNumber, getPostedAccountsGuid()));
+			isAvailable = Payment.isNumberAvaiable(adapter, getPaymentTypesGuid(), sMyNumber, getPostedAccountsGuid());
+			/// isAvailable = isAvailable && payrollCheck.isAvailable
+			isAvailable = isAvailable && PayrollCheck.isNumberAvailable(adapter, sMyNumber, getPostedAccountsGuid());
+			// isAvailable= isAvailable && transaction.isNumberAvailable
+			isAvailable = isAvailable && Transaction.isNumberAvailable(adapter, sMyNumber, getPostedAccountsGuid());
+		} while(!isAvailable);
 
 		this.setOurNumber(sMyNumber);
 		bizAccount.setLastNumber(sMyNumber);
@@ -419,7 +425,7 @@ public class Payment extends PaymentsRow {
 		adapter.save(Account.TABLE_NAME, bizAccount);
 		adapter.save(Payment.TABLE_NAME, this);
 	}
-	private static boolean isNumberAvaiable(AdapterInterface adapter, String type_guid, String number, String account_guid) throws Exception {
+	public static boolean isNumberAvaiable(AdapterInterface adapter, String type_guid, String number, String account_guid) throws Exception {
 		String sql = "SELECT * FROM \"%s\" WHERE \"%s\"={Type} AND \"%s\"={Reference} AND \"%s\"={Account}";
 		sql = String.format(sql, Payment.TABLE_NAME, Payment.PAYMENT_TYPES_GUID, Payment.OUR_NUMBER, Payment.POSTED_ACCOUNTS_GUID);
 		

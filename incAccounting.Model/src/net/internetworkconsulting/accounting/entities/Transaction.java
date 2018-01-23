@@ -81,4 +81,12 @@ public class Transaction extends TransactionsRow {
 		
 		return ret;
 	}
+	public static boolean isNumberAvailable(AdapterInterface adapter, String reference_number, String account_guid) throws Exception {
+		Statement stmt = new Statement(adapter.getSession().readJar(Transaction.class, "Transaction.isAvailable.sql"));
+		stmt.getParameters().put("@Account", account_guid);
+		stmt.getParameters().put("@Reference", reference_number);
+		
+		List<Transaction> lst = adapter.load(Transaction.class, stmt, true);
+		return lst.isEmpty();				
+	}
 }
