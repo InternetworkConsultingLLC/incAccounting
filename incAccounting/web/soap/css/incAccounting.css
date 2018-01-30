@@ -1,0 +1,39 @@
+.hidden, .trTemplate {
+	visibility: hidden;
+	display: none;
+}
+
+#imgMenuIcon {
+	width: 3em;
+	height: 3em;
+	vertical-align: middle;
+}
+
+#divMenuBar {
+	background-color: black;
+}
+
+#spanMenuTitle {
+	color: white;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+#divMenuOptions, #divContent {
+	padding: 1em;
+}
+
+input, button {
+	margin-top: 1px; 
+	margin-bottom: 1px;
+}
+
+label {
+	display: block;
+}
+input {
+	width: 100%;
+}

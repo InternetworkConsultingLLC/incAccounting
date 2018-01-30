@@ -1,0 +1,8 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns:return xmlns:ns="http://localhost/">
+			<ns:status>STATUS_OK</ns:status>
+			<ns:message>FAKE SOAP RESPONSE!</ns:message>
+		</ns:return>
+	</soap:Body>
+</soap:Envelope>

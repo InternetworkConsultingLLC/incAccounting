@@ -1,0 +1,139 @@
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>jQuery.soap demo page</title>
+		<link rel='stylesheet' type='text/css' href='main.css' />
+		<!-- jquery from cdn at (mt) Media Temple -->
+		<script type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.js'></script>
+		<script type='text/javascript' src='./../jquery.soap.js'></script>
+		<!-- script type='text/javascript' src='https://github.com/doedje/jquery.soap/raw/1.3.8/jquery.soap.js'></script-->
+
+		<script type='text/javascript' src='demo.js'></script>
+		<!-- doedje | sparkbuzz | fyneworks -->
+		<script type='text/javascript' src='jquery.doedje.xml2json.js'></script>
+	</head>
+	<body>
+		<header>
+			<h1>jQuery.soap demo page</h1>
+			In this demo you can test all features of jQuery.soap version 1.7.2
+		</header>
+		<hr />
+		<form>
+			<fieldset>
+				<label>url:</label>
+				<input type='text' id='url' value='xml/fake-soap-response.xml?' size='70' /><br />
+				<label></label><span style='font-size: 0.9em; margin-left: 3px;'>Keep in mind you're bound by <a href='https://github.com/doedje/jquery.soap#same-origin-policy'>same origin policy</a>!</span>
+			</fieldset>
+			<fieldset>
+				<label>method:</label>
+				<input type='text' id='method' value='helloWorld' />
+			</fieldset>
+			<fieldset>
+				<label>appendMethodToURL:</label>
+				<input type='checkbox' id='appendMethodToURL' class='no_width' checked='checked' />
+			</fieldset>
+			<fieldset>
+				<label>SOAPAction:</label>
+				<input type='text' id='SOAPAction' value='' />
+			</fieldset>
+			<fieldset>
+				<label>soap12:</label>
+				<input type='checkbox' id='soap12' class='no_width' />
+			</fieldset>
+			<fieldset>
+				<label>async:</label>
+				<input type='checkbox' id='async' class='no_width' checked='checked' />
+			</fieldset>
+			<fieldset>
+				<label>withCredentials:</label>
+				<input type='checkbox' id='withCredentials' class='no_width' checked='checked' />
+			</fieldset>
+			<fieldset>
+				<label>timeout (ms):</label>
+				<input type='text' id='timeout' value='5000' />
+			</fieldset>
+			<fieldset>
+				<label>HTTPHeaders:</label>
+				<textarea id='HTTPHeaders' rows='5' cols='50'>{
+  // Authentication: 'Basic ' + btoa('test:test')
+}</textarea>
+			</fieldset>
+			<fieldset>
+				<label>envAttributes:</label>
+				<textarea id='envAttributes' rows='5' cols='50'>{
+  'xmlns:test': 'http://www.test.org/'
+}</textarea>
+			</fieldset>
+			<fieldset>
+				<label>SOAPHeader:</label>
+				<select id='SOAPHeaderType'>
+					<option value='xml'>XML String</option>
+					<option value='json'>JSON</option>
+				</select>
+			</fieldset>
+			<fieldset>
+				<label>XML String:<br />&lt;test&gt;some text here...&lt;/test&gt;<br /><br />JSON example:<br />{ test: 'some text here...' }</label>
+				<textarea id='SOAPHeader' rows='5' cols='50'><test>some text here...</test></textarea>
+			</fieldset>
+			<fieldset>
+				<label>data:</label>
+				<select id='dataType'>
+					<option value='xml'>XML String</option>
+					<option value='json'>JSON</option>
+				</select>
+			</fieldset>
+			<fieldset>
+				<label>XML String:<br />&lt;test&gt;some text here...&lt;/test&gt;<br /><br />JSON example:<br />{ test: 'some text here...' }</label>
+				<textarea id='data' rows='10' cols='50'><test>some text here...</test></textarea>
+			</fieldset>
+			<fieldset>
+				<label>namespace:</label>
+				<input type='text' id='namespaceQualifier' value='myns' class='no_width' size='5' />
+				<input type='text' id='namespaceURL' value='urn://service.my.server.com' class='no_width' size='30' />
+			</fieldset>
+			<fieldset>
+				<label>noPrefix:</label>
+				<input type='checkbox' id='noPrefix' class='no_width' />
+			</fieldset>
+			<fieldset>
+				<label>elementName:</label>
+				<input type='text' id='elementName' value='' />
+			</fieldset>
+			<fieldset>
+				<label>enableLogging:</label>
+				<input type='checkbox' id='enableLogging' class='no_width' checked='checked' />
+			</fieldset>
+			<h2>WSS</h2>
+			<fieldset>
+				<label>enableWSS:</label>
+				<input type='checkbox' id='enableWSS' class='no_width' />
+			</fieldset>
+			<fieldset>
+				<label>username:</label>
+				<input type='text' id='wssUsername' value='' />
+			</fieldset>
+			<fieldset>
+				<label>password:</label>
+				<input type='text' id='wssPassword' value='' />
+			</fieldset>
+			<fieldset>
+				<label>&nbsp;</label>
+				<button id='test'>Start jQuery.soap Test!!</button>
+			</fieldset>
+		</form>
+		<div id='feedbackpanel'>
+			<pre id='soapcall'></pre>
+			<pre id='requestXML'></pre>
+
+			<hr />
+			<h2 id='feedbackHeader'></h2>
+			<pre id='feedback'></pre>
+		</div>
+		<footer>
+			<hr />
+			More info on this plugin at <a href='https://github.com/doedje/jquery.soap'>github.com/doedje/jquery.soap</a>
+		</footer>
+	</body>
+</html>

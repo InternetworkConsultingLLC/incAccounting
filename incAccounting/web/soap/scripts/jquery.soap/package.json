@@ -1,0 +1,56 @@
+{
+  "_from": "jquery.soap",
+  "_id": "jquery.soap@1.7.2",
+  "_inBundle": false,
+  "_integrity": "sha1-HrIwPQnuvwRKnavIU0HftPbcm3k=",
+  "_location": "/jquery.soap",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "jquery.soap",
+    "name": "jquery.soap",
+    "escapedName": "jquery.soap",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery.soap/-/jquery.soap-1.7.2.tgz",
+  "_shasum": "1eb2303d09eebf044a9dabc85341dfb4f6dc9b79",
+  "_spec": "jquery.soap",
+  "_where": "E:\\Repositories\\NetBeans\\incAccounting\\web\\angular",
+  "author": {
+    "name": "Remy Blom",
+    "email": "remy.blom@hku.nl"
+  },
+  "bugs": {
+    "url": "https://github.com/doedje/jquery.soap"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "jquery": ">=1.9.0"
+  },
+  "deprecated": false,
+  "description": "jQuery plugin for communicating with a web service using SOAP. This script uses $.ajax to send the SOAP message. It can take XML DOM, XML string or JSON as input and the response can be returned as either XML DOM, XML string or JSON too. Big thanx to everybody that contributed! Let's $.soap()!",
+  "homepage": "https://github.com/doedje/jquery.soap#readme",
+  "keywords": [
+    "jquery",
+    "soap",
+    "ajax",
+    "wss",
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "license": "GPL-3.0+",
+  "main": "jquery.soap.js",
+  "name": "jquery.soap",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/doedje/jquery.soap.git"
+  },
+  "version": "1.7.2"
+}

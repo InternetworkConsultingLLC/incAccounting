@@ -1,0 +1,55 @@
+/*==========================
+main.css - https://github.com/doedje/jquery.soap
+part of the jQuery.soap distribution version: 1.7.2
+
+this file contains the css for the jQuery.soap demo
+===========================*/
+
+body {
+	background: #E0E0E0;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+	font-size: 10px;
+}
+h1, h2 {
+	padding: 15px 0px;
+}
+form {
+	width: 40%;
+	float: left;
+}
+div#feedbackpanel {
+	width: 59%;
+	float: right;
+}
+fieldset {
+	border: 0;
+	padding: 3px 15px 3px 0px;
+}
+label {
+	display: inline-block;
+	width: 20%;
+}
+input, textarea, select, button {
+	width: 75%;
+}
+input.no_width {
+	width: auto;
+}
+pre, code {
+	font-size: 14px;
+	font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	webkit-box-sizing:border-box;
+	display:block; 
+	white-space: pre-wrap;  
+	white-space: -moz-pre-wrap; 
+	white-space: -pre-wrap; 
+	white-space: -o-pre-wrap; 
+	word-wrap: break-word; 
+	width:100%;
+	overflow-x:auto;
+}
+footer {
+	clear: both;
+}
