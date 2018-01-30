@@ -20,27 +20,32 @@ var DomHelper = (new function() {
 var XmlHelper = (new function() {	
 	var _log_text = "";
 
-	var _log = function(node) {
-		if(typeof node === "undefined") 
-			return;
-		else if(node.nodeType === Node.DOCUMENT_NODE) {
-			_log_text += " document { ";
-			for(var idx = 0; idx < node.childNodes.length; idx++)
-				_log(node.childNodes[idx]);
-			_log_text += " } ";
-		} else if(node.nodeType === Node.ELEMENT_NODE) {
-			_log_text += " " + node.nodeName + " { ";
-			for(var idx = 0; idx < node.childNodes.length; idx++)
-				_log(node.childNodes[idx]);
-			_log_text += " } ";
-		} else if(node.nodeType === Node.TEXT_NODE) {
-			_log_text += " " + node.nodeValue + " ";
-		}
+	var _log = function(node, nested) {
+//		if(typeof nested !== "string")
+//			nested = "";
+//			
+//		if(typeof node === "undefined") 
+//			return;
+//		else if(node.nodeType === Node.DOCUMENT_NODE) {
+//			_log_text += "document {\n";
+//			for(var idx = 0; idx < node.childNodes.length; idx++)
+//				_log(node.childNodes[idx], nested);
+//			_log_text += "}";
+//		} else if(node.nodeType === Node.ELEMENT_NODE) {
+//			_log_text += nested + node.nodeName + "{\n";
+//			for(var idx = 0; idx < node.childNodes.length; idx++)
+//				_log(node.childNodes[idx], nested + "    ");
+//			_log_text += nested + "}\n";
+//		} else if(node.nodeType === Node.TEXT_NODE) {
+//			_log_text += nested + node.nodeValue + "\n";
+//		}
+
+		console.log((new XMLSerializer()).serializeToString(node));
 	};
 	var _nsResolver = function(prefix) {
 		var ns = {
 		  "S": "http://schemas.xmlsoap.org/soap/envelope/",
-		  "ns2": "http://rest.accounting.internetworkconsulting.net/"
+		  "ns2": "http://ws.accounting.internetworkconsulting.net/"
 		};
 		return ns[prefix] || null;		
 	};
@@ -48,7 +53,7 @@ var XmlHelper = (new function() {
 	return (new function() {
 		this.log = function(document) {
 			_log_text = "";
-			_log(document);
+			_log(document, "");
 			console.log(_log_text);
 		};
 		this.getByPath = function(doc, xpath, type, log) {
@@ -70,6 +75,21 @@ var XmlHelper = (new function() {
 					throw new Error("Invalid node type!");
 			}
 		};
+		this.callSoap = function(service, method, data, response) {
+			$.soap({
+				url: baseUrl + "/" + service,
+				appendMethodToURL: false,
+				method: method,
+				elementName: "ws:" + method,
+				SOAPAction: "\"\"",
+				envAttributes: { "xmlns:ws": "http://ws.accounting.internetworkconsulting.net/" },
+				data: data,
+				success: response,
+				error: function(soapResponse) {
+					alert("The SOAP call failed!\n\n" + soapResponse.httpCode + " - " + soapResponse.httpText);
+				}
+			});			
+		};
 	});	
 });
 XmlHelper.NUMBER_TYPE = 1; // A result containing a single number. This is useful for example, in an XPath expression using the count() function.
@@ -84,6 +104,67 @@ XmlHelper.FIRST_ORDERED_NODE_TYPE = 9; // A result node-set containing the first
 
 ////////////////////////////////////////////////////////////////////////////////
 
+var Row = function() {
+	var mapChanges = {};
+	var mapOriginals = {};	
+	var mapColumns = {};
+	var sSecurableGuid = "";
+	var bIsDeleted = false;
+	var sSqlTableName = "";
+	
+	return (new function() {
+		this.getSqlSecurableGuid = function() { return sSecurableGuid; };
+		this.setSqlSecurableGuid = function(value) { sSecurableGuid = value; };
+
+		this.getColumns = function() { return mapColumns; };
+		this.setColumns = function(value) { mapColumns = value; };
+		
+		this.getChanges = function() { return mapChanges; };
+		this.setChanges = function(value) { mapChanges = value; };
+
+		this.getOriginals = function() { return mapOriginals; };
+		this.setOriginals = function(value) { mapOriginals = value; };
+
+		this.setIsDeleted = function(value) { bIsDeleted = value; };
+		this.getIsDeleted = function() { return bIsDeleted; };
+
+		this.getSqlTableName = function() { return sSqlTableName; };
+		this.setSqlTableName = function(value) { sSqlTableName = value; };
+		
+		this.get = function(key) {
+			if(mapChanges.hasOwnProperty(key) && typeof mapChanges[key] !== "undefined")
+				return mapChanges[key];
+			else if(mapOriginals.hasOwnProperty(key) && typeof mapOriginals[key] !== "undefined")
+				return mapOriginals[key];
+			else
+				return null;
+		};
+		this.set = function(key, value) { mapChanges[key] = value; };
+
+		this.reset = function() {
+			mapChanges = null;
+			mapChanges = {};
+		};
+
+		this.getRowState = function() {			
+			if(bIsDeleted === true)
+				return Row.STATE_DELETE;
+			else if(Object.keys(mapOriginals).length === 0)
+				return Row.STATE_INSERT;
+			else if(Object.keys(mapChanges).length > 0)
+				return Row.STATE_UPDATE;
+
+			return Row.STATE_ORIGINAL;			
+		};
+	});
+};
+Row.STATE_ORIGINAL = 0;
+Row.STATE_INSERT = 1;
+Row.STATE_UPDATE = 2;
+Row.STATE_DELETE = 3;
+
+////////////////////////////////////////////////////////////////////////////////
+
 var User = function() {
 	// private functions
 	var lstLogs = null;
@@ -92,12 +173,20 @@ var User = function() {
 	var objEmployee = null;
 
 	return (new function() {
-		// public properties
-		this.GUID = ""; // string
-		this.IsAllowed = false; // boolean
-		this.DisplayName = ""; // string
-		this.EmailAddress = ""; // string
+		this.getGuid = function() {};
+		this.setGuid = function(value) {};
+
+		this.getIsAllowed = false; // boolean
+		this.setIsAllowed = false; // boolean
+
+		this.getDisplayName = ""; // string
+		this.setDisplayName = ""; // string
+
+		this.getEmailAddress = ""; // string
+		this.setEmailAddress = ""; // string
+
 		this.PasswordDate = Date.now(); // date time
+
 		this.PasswordHash = ""; // string
 		this.EmployeesGUID = ""; // string
 
@@ -110,32 +199,33 @@ var User = function() {
 		this.loadEmployee = function(force) {};
 
 		this.login = function(callback) {
-			$.soap({
-				url: baseUrl + "/User",
-				appendMethodToURL: false,
-				method: "login",
-				elementName: "rest:login",
-				SOAPAction: "\"\"",
-				envAttributes: { "xmlns:rest": "http://rest.accounting.internetworkconsulting.net/" },
-				data: {
-					EmailAddress: this.EmailAddress,
-					Password: this.Password,
-					Database: this.Database
-				},
-				success: function (soapResponse) {
-					var ret = XmlHelper.getByPath(soapResponse.toXML(), "/S:Envelope/S:Body/ns2:loginResponse/return/text()", XmlHelper.STRING_TYPE, true);
-					callback(ret);
-				},
-				error: function (soapResponse) {
-					callback(soapResponse.httpCode + " - " + soapResponse.httpText);
-				}
-			});		
+			var data = {
+				EmailAddress: this.EmailAddress,
+				Password: this.Password,
+				Database: this.Database
+			};
+			var response = function(soapResponse) {
+				var ret = XmlHelper.getByPath(soapResponse.toXML(), "/S:Envelope/S:Body/ns2:loginResponse/return/text()", XmlHelper.STRING_TYPE, true);
+				callback(ret);
+			};
+			XmlHelper.callSoap("User", "login", data, response);
 		};		
 	});
 };
 User.loadByGuid = function(GUID) {};
 User.loadByDisplayName = function(DisplayName) {};
 User.loadByEmailAddress = function(EmailAddress) {};
+User.loadSearch = function(DisplayName, Status, callback) {
+	var data = {
+		DisplayName: DisplayName,
+		Status: Status
+	};
+	var response = function (soapResponse) {
+		var ret = XmlHelper.getByPath(soapResponse.toXML(), "/S:Envelope/S:Body/ns2:loginResponse/return/text()", XmlHelper.STRING_TYPE, true);
+		callback(ret);
+	};
+	XmlHelper.callSoap("User", "loadSearch", data, response);
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -63,6 +63,14 @@ public class User extends UsersRow implements SessionInterface {
 		
 		return lst.get(0);
 	}
+	
+	public static <T extends UsersRow> List<T> loadSearch(AdapterInterface adapter, Class biz, String DisplayName, String Status) throws Exception {
+		Statement stmt = new Statement(adapter.getSession().readJar(User.class, "User.loadSearch.sql"));
+		stmt.getParameters().put("@Name", DisplayName);
+		stmt.getParameters().put("@Status", Status);
+		List<T> lst = adapter.load(biz, stmt, true);
+		return lst;
+	}
 
 	public static String DATABASE = "Database";
 	private String sDatabase;

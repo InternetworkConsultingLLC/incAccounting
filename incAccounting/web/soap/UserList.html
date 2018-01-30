@@ -2,32 +2,28 @@
 <html>
 	<head>
 		<title>incAccounting - User List</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script src="node_modules/jquery/dist/jquery.min.js"></script>
-		<script src="node_modules/jquery.soap/jquery.soap.js"></script>
 		<script src="scripts/UserListController.js"></script>
-		<script src="scripts/MenuController.js"></script>
-		<script src="scripts/incAccounting.js"></script>
-		<link href="css/incAccounting.css" rel="stylesheet" type="text/css" />
+
+		<!--#include virtual="Header.html"-->
 	</head>
 	<body>
 
 		<!--#include virtual="Menu.html"-->
 		
 		<div id="divContent">
-			<div id="divError"></div>
 			<label for="txtName">Name:</label><input type="text" id="txtName"/><br />
 			<label for="txtStatus">Password:</label><input type="text" id="txtStatus"/><br />
 			<br />
-			<button id="btnSearch">Search</button> <button id="btnAdd">Add</button><br />
+			<button id="btnSearch">Search</button> <button id="btnAdd">Add</button> <button id="btnDelete">Delete</button><br />
 			<br />
 			<table>
 				<tr>
+					<th></th>
 					<th>Name</th>
 					<th>Status</th>
 				</tr>
 				<tr class="trTemplate">
+					<td class="tdDelete"><input type="checkbox" /></td>
 					<td class="tdName">Name</td>
 					<td class="tdStatus">Status</td>
 				</tr>

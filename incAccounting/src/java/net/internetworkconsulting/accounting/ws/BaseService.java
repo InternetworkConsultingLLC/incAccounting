@@ -1,6 +1,5 @@
 package net.internetworkconsulting.accounting.ws;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,10 +9,7 @@ import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.data.AdapterInterface;
 
 public class BaseService {
-	@Resource
-	protected WebServiceContext wsContext;
-	
-	protected User getUser() throws Exception {
+	protected User getUser(WebServiceContext wsContext) throws Exception {		
 		MessageContext mc = wsContext.getMessageContext();
 		ServletRequest sr = (ServletRequest) mc.get(MessageContext.SERVLET_REQUEST);
 		HttpServletRequest hsr = (HttpServletRequest) sr;
@@ -21,7 +17,16 @@ public class BaseService {
 		return (User) session.getAttribute("Controller.User");		
 	}
 
-	protected AdapterInterface getAdapter() throws Exception {
-		return getUser().login();
+	protected AdapterInterface getAdapter(WebServiceContext wsContext) throws Exception {
+		return getUser(wsContext).login();
+	}
+	
+	protected void setUser(WebServiceContext wsContext, User user) {
+		MessageContext mc = wsContext.getMessageContext();
+		ServletRequest sr = (ServletRequest) mc.get(MessageContext.SERVLET_REQUEST);
+		HttpServletRequest hsr = (HttpServletRequest) sr;
+        HttpSession session = hsr.getSession(true);	
+
+		session.setAttribute("Controller.User", user);
 	}
 }

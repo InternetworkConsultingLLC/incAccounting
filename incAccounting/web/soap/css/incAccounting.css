@@ -1,3 +1,31 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700');
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,700,900');
+@import url('https://fonts.googleapis.com/css?family=Droid+Sans+Mono');
+
+* { 
+	font-family: "Droid Serif";
+	font-size: 12pt;
+	color: #888;
+}
+
+button, input, h1, h2, h3, h4, h5, h6, b, label {
+	color: #000;
+}
+
+h1, h3, h5 {
+	font-family: "Rubik";
+	font-weight: bolder;
+}
+
+h2, h4, h6 {
+	font-style: italic;
+}
+
+h1, h2 { font-size: 48pt; }
+h3, h4 { font-size: 24pt; }
+h5, h6 { font-size: 12pt; }
+
 .hidden, .trTemplate {
 	visibility: hidden;
 	display: none;
@@ -31,9 +59,9 @@ input, button {
 	margin-bottom: 1px;
 }
 
-label {
-	display: block;
-}
-input {
-	width: 100%;
+h1 { margin-bottom: 0; }
+
+#divMenuOptions > a { text-decoration: none; }
+#divMenuOptions > h1:nth-child(1) {
+	margin-top: 0;
 }

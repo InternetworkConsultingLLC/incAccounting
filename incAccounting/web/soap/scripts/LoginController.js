@@ -8,7 +8,6 @@ var LoginController = function() {
 	var txtEmailAddress = document.getElementById("txtEmailAddress");
 	var txtPassword = document.getElementById("txtPassword");
 	var txtDatabase = document.getElementById("txtDatabase");
-	var divError = document.getElementById("divError");
 	
 	var btnLogin = document.getElementById("btnLogin");
 	btnLogin.onclick = function() {
@@ -23,6 +22,6 @@ var LoginController = function() {
 		if(typeof value === "undefined" || (typeof value === "string" && value.length === 0))
 			window.location.href = "Copyright.html";
 		else
-			divError.innerHTML = value;
+			alert(value);
 	};
 };
