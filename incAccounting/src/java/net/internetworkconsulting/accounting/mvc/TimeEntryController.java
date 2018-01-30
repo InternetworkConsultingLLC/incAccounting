@@ -98,6 +98,10 @@ public class TimeEntryController extends EditController {
 			getUser().login().begin(true);
 			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
 			getUser().login().commit(true);
+			if(objModel.getContactsGuid() == null) {
+				addError("Save", "'Bill To' cannot be empty!");
+				return;
+			}
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
 			getUser().logExcpetion(ex, "dbe463ec959f4cdb8810985b9c4a85f1");
@@ -109,8 +113,12 @@ public class TimeEntryController extends EditController {
 	}
 	private void btnEnd_OnClicked() throws Exception { 
 		if(objModel.getEntryTypesGuid() == null || "d99313c888db4f71bd45c43cd09b492a".equals(objModel.getEntryTypesGuid())) {
-			addError("Save", "You must set the type to something other than imcomplete!");
+			addError("Save", "You must set the type to something other than incomplete!");
 			return;	
+		}
+		if(objModel.getContactsGuid() == null) {
+			addError("Save", "'Bill To' cannot be empty!");
+			return;
 		}
 
 		TimeEntry objNext = new TimeEntry();
