@@ -85,7 +85,7 @@ public class TransactionsController  extends EditController{
 		btnDelete.setIsReadOnly(bReadOnly);
 		btnDelete.addOnClickEvent(new Event() { public void handle() throws Exception { btnDelete_OnClick(); } });
 
-		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
+		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback());
 		for(TransactionLine line: lstLines)
 			createController(line);
 	}
@@ -125,7 +125,7 @@ public class TransactionsController  extends EditController{
 			getUser().login().begin(true);
 			objModel.handleAutoNumber(getUser().login());
 			getUser().login().save(Transaction.TABLE_NAME, objModel);
-			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false));
+			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback()));
 			getUser().login().commit(true);			
 		}
 		catch(Exception ex) {
@@ -143,7 +143,7 @@ public class TransactionsController  extends EditController{
 		TransactionLine line = new TransactionLine();
 		line.initialize(objModel, getUser().login());
 		
-		objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false).add(line);
+		objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback()).add(line);
 		
 		TransactionsLinesController controller = createController(line);
 		doCreateControls(controller, false);
@@ -151,7 +151,7 @@ public class TransactionsController  extends EditController{
 	}
 	private void btnDelete_OnClick() throws Exception {
 		Transaction objModel = (Transaction) getModel();
-		TransactionType objType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false);
+		TransactionType objType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
 		
 		try {
 			if(objModel.getRowState() != RowState.NA)
@@ -159,14 +159,14 @@ public class TransactionsController  extends EditController{
 			if(objModel.isReconciled(getUser().login()))
 				throw new Exception("You cannot delete an item that has been reconciled!");
 
-			List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class , false);
+			List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class , !getIsPostback());
 			for(TransactionLine objLine : lstLines)
 				objLine.setIsDeleted(true);
 
 			objModel.setIsDeleted(true);
 			
 			getUser().login().begin(true);
-			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false));
+			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback()));
 			getUser().login().save(Transaction.TABLE_NAME, objModel);
 			getUser().login().commit(true);			
 		}

@@ -34,7 +34,7 @@ public class DocumentTypesController extends EditController {
 		setDocument(new Template(readTemplate("~/templates/DocumentType.html"), new HtmlSyntax()));
 		
 		TransactionType objTranType = null;
-		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false); }
+		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback()); }
 		catch(Exception ex) { 
 			objTranType = new TransactionType();
 			objTranType.initialize();
@@ -77,7 +77,7 @@ public class DocumentTypesController extends EditController {
 	}
 	public History createHistory() throws Exception {
 		DocumentType objModel = (DocumentType) getModel();
-		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false);
+		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
 
 		String sDisplay = "New Document Type";
 		if(objModel.getRowState() != RowState.Insert)
@@ -87,7 +87,7 @@ public class DocumentTypesController extends EditController {
 	}
 	public void btnSave_OnClick() throws Exception {
 		DocumentType objModel = (DocumentType) getModel();
-		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false);
+		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
 
 		if(objModel.getRowState() == RowState.Insert) {
 			addError("Save", "You may not add document types. Document types are defined by modules.");

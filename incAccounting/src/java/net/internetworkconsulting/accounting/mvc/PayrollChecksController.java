@@ -135,9 +135,9 @@ public class PayrollChecksController extends EditController {
 		cboDuration.setOptions(PayrollCheck.getDurationOptions());
 		cboDuration.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		
-		List<PayrollFieldValue> lstGross = objModel.loadGrossExepnseValues(getUser().login(), false);
-		List<PayrollFieldValue> lstEmployeePaid = objModel.loadEmployeePaidValues(getUser().login(), false);
-		List<PayrollFieldValue> lstCompanyPaid = objModel.loadCompanyPaidValues(getUser().login(), false);
+		List<PayrollFieldValue> lstGross = objModel.loadGrossExepnseValues(getUser().login(), !getIsPostback());
+		List<PayrollFieldValue> lstEmployeePaid = objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback());
+		List<PayrollFieldValue> lstCompanyPaid = objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback());
 
 		for(PayrollFieldValue pfv: lstGross)
 			createFieldController(pfv, "Gross", PayrollFieldType.TYPE_GROSS_EXPENSE_GUID);
@@ -226,11 +226,11 @@ public class PayrollChecksController extends EditController {
 		if(objModel.getEmployeesGuid() == null || objModel.getEmployeesGuid().length() != 32)
 			btnTemplate.setIsReadOnly(true);
 		
-		if(!objModel.loadCompanyPaidValues(getUser().login(), false).isEmpty())
+		if(!objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback()).isEmpty())
 			btnTemplate.setIsReadOnly(true);
-		if(!objModel.loadEmployeePaidValues(getUser().login(), false).isEmpty())
+		if(!objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback()).isEmpty())
 			btnTemplate.setIsReadOnly(true);
-		if(!objModel.loadGrossExepnseValues(getUser().login(), false).isEmpty())
+		if(!objModel.loadGrossExepnseValues(getUser().login(), !getIsPostback()).isEmpty())
 			btnTemplate.setIsReadOnly(true);
 	}
 	
@@ -244,7 +244,7 @@ public class PayrollChecksController extends EditController {
 		pfv.setPayrollChecksGuid(objModel.getGuid());
 		pfv.setIsGrossExpense(true);
 
-		objModel.loadGrossExepnseValues(getUser().login(), false).add(pfv);
+		objModel.loadGrossExepnseValues(getUser().login(), !getIsPostback()).add(pfv);
 		
 		PayrollChecksFieldsController pcefc = createFieldController(pfv, "Gross", PayrollFieldType.TYPE_GROSS_EXPENSE_GUID);		
 		doCreateControls(pcefc, false);
@@ -260,7 +260,7 @@ public class PayrollChecksController extends EditController {
 		pfv.setPayrollChecksGuid(objModel.getGuid());
 		pfv.setIsGrossExpense(false);
 		
-		objModel.loadEmployeePaidValues(getUser().login(), false).add(pfv);
+		objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback()).add(pfv);
 
 		PayrollChecksFieldsController pcefc = createFieldController(pfv, "Employee", PayrollFieldType.TYPE_EMPLOYEE_PAID_GUID);		
 		doCreateControls(pcefc, false);
@@ -276,7 +276,7 @@ public class PayrollChecksController extends EditController {
 		pfv.setPayrollChecksGuid(objModel.getGuid());
 		pfv.setIsGrossExpense(false);
 		
-		objModel.loadCompanyPaidValues(getUser().login(), false).add(pfv);
+		objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback()).add(pfv);
 
 		PayrollChecksFieldsController pcefc = createFieldController(pfv, "Company", PayrollFieldType.TYPE_COMPANY_PAID_GUID);		
 		doCreateControls(pcefc, false);
@@ -294,9 +294,9 @@ public class PayrollChecksController extends EditController {
 			objModel.calculate(getUser().login());
 			
 			getUser().login().save(PayrollCheck.TABLE_NAME, objModel);
-			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadCompanyPaidValues(getUser().login(), false));
-			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadEmployeePaidValues(getUser().login(), false));
-			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadGrossExepnseValues(getUser().login(), false));
+			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback()));
+			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback()));
+			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadGrossExepnseValues(getUser().login(), !getIsPostback()));
 			
 			getUser().login().commit(true);
 		}
@@ -383,7 +383,7 @@ public class PayrollChecksController extends EditController {
 			pfv.setRate(pfvTemplate.getRate());
 			pfv.setTotal(pfvTemplate.getTotal());
 
-			objModel.loadGrossExepnseValues(getUser().login(), false).add(pfv);
+			objModel.loadGrossExepnseValues(getUser().login(), !getIsPostback()).add(pfv);
 
 			PayrollChecksFieldsController pcefc = createFieldController(pfv, "Gross", PayrollFieldType.TYPE_GROSS_EXPENSE_GUID);		
 			doCreateControls(pcefc, false);
@@ -406,7 +406,7 @@ public class PayrollChecksController extends EditController {
 			pfv.setRate(pfvTemplate.getRate());
 			pfv.setTotal(pfvTemplate.getTotal());
 
-			objModel.loadEmployeePaidValues(getUser().login(), false).add(pfv);
+			objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback()).add(pfv);
 
 			PayrollChecksFieldsController pcefc = createFieldController(pfv, "Employee", PayrollFieldType.TYPE_EMPLOYEE_PAID_GUID);		
 			doCreateControls(pcefc, false);
@@ -429,7 +429,7 @@ public class PayrollChecksController extends EditController {
 			pfv.setRate(pfvTemplate.getRate());
 			pfv.setTotal(pfvTemplate.getTotal());
 
-			objModel.loadCompanyPaidValues(getUser().login(), false).add(pfv);
+			objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback()).add(pfv);
 
 			PayrollChecksFieldsController pcefc = createFieldController(pfv, "Company", PayrollFieldType.TYPE_COMPANY_PAID_GUID);		
 			doCreateControls(pcefc, false);

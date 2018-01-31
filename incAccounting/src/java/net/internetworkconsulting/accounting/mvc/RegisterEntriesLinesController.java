@@ -44,11 +44,11 @@ public class RegisterEntriesLinesController extends Controller {
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 		
 		objModel = (TransactionLine) getModel();
-		objTransaction = objModel.loadTransaction(getUser().login(), Transaction.class, false);
-		lstTransactionLines = objTransaction.loadTransactionLines(getUser().login(), TransactionLine.class, false);
-		objTransactionType = objTransaction.loadTransactionType(getUser().login(), TransactionType.class, false);
+		objTransaction = objModel.loadTransaction(getUser().login(), Transaction.class, !getIsPostback());
+		lstTransactionLines = objTransaction.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback());
+		objTransactionType = objTransaction.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
 		try { 
-			objEntry = (RegisterEntry) objModel.loadRegisterEntries(getUser().login(), RegisterEntry.class, false).get(0);
+			objEntry = (RegisterEntry) objModel.loadRegisterEntries(getUser().login(), RegisterEntry.class, !getIsPostback()).get(0);
 			
 			if(lstTransactionLines.size() != 2)
 				throw new Exception("We encountered a Register entry with more than two transction lines (GUID " + objModel.getGuid() + ")!");
@@ -57,7 +57,7 @@ public class RegisterEntriesLinesController extends Controller {
 				if(!line.getGuid().equals(objModel.getGuid()))
 					objExpense = line;
 
-			objContact = objEntry.loadContact(getUser().login(), Contact.class, false);
+			objContact = objEntry.loadContact(getUser().login(), Contact.class, !getIsPostback());
 		}
 		catch(Exception ex) { /* do nothing */ }
 
@@ -89,19 +89,19 @@ public class RegisterEntriesLinesController extends Controller {
 			ComboTag tag = new ComboTag(this, "Row Type Combo");
 			tag.setName("RowTypeCombo" + objModel.getGuid());
 			tag.bind(objExpense, TransactionLine.ACCOUNTS_GUID);
-			tag.setOptions(Account.loadOptions(getUser().login(), false));
+			tag.setOptions(Account.loadOptions(getUser().login(), !getIsPostback()));
 			tag.setIsReadOnly(bReadonly);
 			
 			ComboTag tagContact = new ComboTag(this, "Row", RegisterEntry.CONTACTS_GUID, objModel.getGuid(), objEntry);
-			tagContact.setOptions(Contact.loadOptions(getUser().login(), false));
+			tagContact.setOptions(Contact.loadOptions(getUser().login(), !getIsPostback()));
 			tagContact.setIsReadOnly(bReadonly);
 
 			ComboTag tagDepartment = new ComboTag(this, "Row", TransactionLine.DEPARTMENTS_GUID, objModel.getGuid(), objExpense);
-			tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+			tagDepartment.setOptions(Department.loadOptions(getUser().login(), !getIsPostback()));
 			tagDepartment.setIsReadOnly(bReadonly);
 
 			ComboTag tagJob = new ComboTag(this, "Row", TransactionLine.JOBS_GUID, objModel.getGuid(), objExpense);
-			tagJob.setOptions(Job.loadOptions(getUser().login(), false));
+			tagJob.setOptions(Job.loadOptions(getUser().login(), !getIsPostback()));
 			tagJob.setIsReadOnly(bReadonly);
 			
 		} else {
@@ -115,18 +115,18 @@ public class RegisterEntriesLinesController extends Controller {
 			ComboTag tag = new ComboTag(this, "Row Type Combo");
 			tag.setName("RowTypeCombo" + objModel.getGuid());
 			tag.bind(objTransaction, Transaction.TRANSACTION_TYPES_GUID);
-			tag.setOptions(TransactionType.loadOptions(getUser().login(), false));
+			tag.setOptions(TransactionType.loadOptions(getUser().login(), !getIsPostback()));
 			tag.setIsReadOnly(bReadonly);
 			
 			ComboTag tagContact = new ComboTag(this, "Row " + RegisterEntry.CONTACTS_GUID);
 			tagContact.setIsReadOnly(bReadonly);
 
 			ComboTag tagDepartment = new ComboTag(this, "Row", TransactionLine.DEPARTMENTS_GUID, objModel.getGuid(), objModel);
-			tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+			tagDepartment.setOptions(Department.loadOptions(getUser().login(), !getIsPostback()));
 			tagDepartment.setIsReadOnly(bReadonly);
 
 			ComboTag tagJob = new ComboTag(this, "Row", TransactionLine.JOBS_GUID, objModel.getGuid(), objModel);
-			tagJob.setOptions(Job.loadOptions(getUser().login(), false));
+			tagJob.setOptions(Job.loadOptions(getUser().login(), !getIsPostback()));
 			tagJob.setIsReadOnly(bReadonly);
 		}
 		

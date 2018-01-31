@@ -29,7 +29,7 @@ public class TransactionsLinesController extends Controller{
 		
 		ComboTag cboAccount = new ComboTag(this, "Line", TransactionLine.ACCOUNTS_GUID, objModel.getGuid(), objModel);
 		cboAccount.setIsReadOnly(bReadOnly);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), !getIsPostback()));
 
 		txtDescription = new TextAreaTag(this, "Line", TransactionLine.DESCRIPTION, objModel.getGuid(), objModel);
 		txtDescription.setIsReadOnly(bReadOnly);
@@ -37,11 +37,11 @@ public class TransactionsLinesController extends Controller{
 
 		ComboTag cboJob = new ComboTag(this, "Line", TransactionLine.JOBS_GUID, objModel.getGuid(), objModel);
 		cboJob.setIsReadOnly(bReadOnly);
-		cboJob.setOptions(Job.loadOptions(getUser().login(), false));
+		cboJob.setOptions(Job.loadOptions(getUser().login(), !getIsPostback()));
 
 		ComboTag cboDepartments = new ComboTag(this, "Line", TransactionLine.DEPARTMENTS_GUID, objModel.getGuid(), objModel);
 		cboDepartments.setIsReadOnly(bReadOnly);
-		cboDepartments.setOptions(Department.loadOptions(getUser().login(), false));
+		cboDepartments.setOptions(Department.loadOptions(getUser().login(), !getIsPostback()));
                 
         LiteralTag litMoneyDecimals = new LiteralTag(this, "Money Decimals");
 		litMoneyDecimals.setValue(getUser().getSetting(Document.SETTING_MONEY_DECIMALS));

@@ -62,13 +62,13 @@ public class GroupController extends EditController {
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });
 		
 		// organize groups members by user guid
-		List<Membership> lstMembers = objModel.loadMemberships(getUser().login(), Membership.class, false);
+		List<Membership> lstMembers = objModel.loadMemberships(getUser().login(), Membership.class, !getIsPostback());
 		HashMap<String, Membership> hmMembershipsByUser = new HashMap<>();
 		for(Membership mbr: lstMembers)
 			hmMembershipsByUser.put(mbr.getUsersGuid(), mbr);
 		
 		// get list of all users by guid
-		List<Option> lstUserOptions = User.loadOptions(getUser().login(), true);
+		List<Option> lstUserOptions = User.loadOptions(getUser().login(), !getIsPostback());
 		lstUserOptions.remove(0);
 		HashMap<String, Option> hmUsersByGuid = new HashMap<>();
 		for(Option opt: lstUserOptions)
@@ -90,7 +90,7 @@ public class GroupController extends EditController {
 		
 		// permissions
 		lstPermisssionControllers = new LinkedList<>();
-		List<Securable> lstSecurables = Group.loadSecurables(getUser().login(), false);
+		List<Securable> lstSecurables = Group.loadSecurables(getUser().login(), !getIsPostback());
 		for(Securable securable: lstSecurables) {
 			GroupPermissionsController gpc = new GroupPermissionsController(this, "Securable");
 			gpc.setModel(securable);

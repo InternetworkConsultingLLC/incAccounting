@@ -57,7 +57,7 @@ public class TimeSheetController extends EditController {
 		Tag tagGuid = new TextTag(this, TimeSheet.GUID, objModel);
 
 		ComboTag cboEmployee = new ComboTag(this, TimeSheet.EMPLOYEES_GUID, objModel);
-		cboEmployee.setOptions(Employee.loadOptions(getUser().login(), false));
+		cboEmployee.setOptions(Employee.loadOptions(getUser().login(), !getIsPostback()));
 		cboEmployee.addOnChangeEvent(new Event() { public void handle() throws Exception { cboEmployee_Changed(); } });
 		
 		DateTag tagEnding = new DateTag(this, TimeSheet.PERIOD_ENDING, objModel);
@@ -77,7 +77,7 @@ public class TimeSheetController extends EditController {
 		ButtonTag btnAuto = new ButtonTag(this, "Auto");
 		btnAuto.addOnClickEvent(new Event() { public void handle() throws Exception { btnAuto_OnClicked(); } });
 		
-		lstLines = objModel.loadTimeEntries(getUser().login(), TimeEntry.class, false);		
+		lstLines = objModel.loadTimeEntries(getUser().login(), TimeEntry.class, !getIsPostback());		
 		for(TimeEntry line: lstLines)
 			createController(line);	
 	}
@@ -147,7 +147,7 @@ public class TimeSheetController extends EditController {
 		for(TimeSheetLineController telc : lstLineControllers) {
 			TimeEntry te = (TimeEntry) telc.getModel();
 			
-			if(te.loadTimeEntryType(getUser().login(), TimeEntryTypeController.class, false).getIsPaid())
+			if(te.loadTimeEntryType(getUser().login(), TimeEntryTypeController.class, !getIsPostback()).getIsPaid())
 				telc.setIsIncluded(true);
 			else
 				telc.setIsIncluded(false);				

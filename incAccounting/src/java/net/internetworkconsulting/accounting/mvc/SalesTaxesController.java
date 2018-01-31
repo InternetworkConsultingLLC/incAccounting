@@ -63,7 +63,7 @@ public class SalesTaxesController extends EditController {
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });
 		
-		List<SalesTaxMembershipOption> lstOptions = objModel.loadMembershipOptions(getUser().login(), false);
+		List<SalesTaxMembershipOption> lstOptions = objModel.loadMembershipOptions(getUser().login(), !getIsPostback());
 		for(SalesTaxMembershipOption option: lstOptions)
 			createController(option);
 	}

@@ -19,7 +19,7 @@ public class PostDocumentsLinesController extends Controller {
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
 		Document objModel = (Document) getModel();
-		TransactionType objType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false);
+		TransactionType objType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback()).loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
 
 		chkIsPosted = new CheckTag(this, "Row Posted");
 		chkIsPosted.setName("Posted" + objModel.getGuid());
@@ -51,7 +51,7 @@ public class PostDocumentsLinesController extends Controller {
 	}
 	private void btnOpen_OnClick() throws Exception {
 		Document objModel = (Document) getModel();
-		TransactionType objType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false);		
+		TransactionType objType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback()).loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());		
 		redirect(objType.getRootUrl() + "&GUID=" + objModel.getGuid());
 	}
   }

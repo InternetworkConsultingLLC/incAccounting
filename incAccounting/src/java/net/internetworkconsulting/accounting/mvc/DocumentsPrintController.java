@@ -40,7 +40,7 @@ public class DocumentsPrintController extends Controller {
 		}
 		setModel(objModel);
 
-		String sDocumentType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false).getName();
+		String sDocumentType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback()).loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback()).getName();
 		setDocument(new Template(readTemplate("~/templates/DocumentPrint-" + sDocumentType.replace(" ", "") + ".html"), new HtmlSyntax()));
 
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
@@ -52,24 +52,24 @@ public class DocumentsPrintController extends Controller {
 		
 		if(objModel.getPostedAccountsGuid() != null) {
 			LiteralTag tagAccount = new LiteralTag(this, Document.POSTED_ACCOUNTS_GUID);
-			Account bizAccount = objModel.loadAccount(getUser().login(), Account.class, false);
+			Account bizAccount = objModel.loadAccount(getUser().login(), Account.class, !getIsPostback());
 			tagAccount.setValue(bizAccount.getNumber() + " " + bizAccount.getNestedName());			
 		}
 		
 		LiteralTag tagContact = new LiteralTag(this, Document.CONTACTS_GUID);
-		Contact bizContact = objModel.loadContact(getUser().login(), Contact.class, false);
+		Contact bizContact = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());
 		tagContact.setValue(bizContact.getDisplayName());
 		
 		LiteralTag tagSalesTaxGuid = new LiteralTag(this, Document.SALES_TAXES_GUID, objModel);
-		SalesTax bizTax = objModel.loadSalesTax(getUser().login(), SalesTax.class, false);
+		SalesTax bizTax = objModel.loadSalesTax(getUser().login(), SalesTax.class, !getIsPostback());
 		tagSalesTaxGuid.setValue(bizTax.getDisplayName());
 		
 		LiteralTag tagBillContact = new LiteralTag(this, Document.BILLING_CONTACTS_GUID);
-		Contact bizBillContact = objModel.loadBillingContact(getUser().login(), Contact.class, false);
+		Contact bizBillContact = objModel.loadBillingContact(getUser().login(), Contact.class, !getIsPostback());
 		tagBillContact.setValue(bizBillContact.getDisplayName());
 		
 		LiteralTag tagShippingContact = new LiteralTag(this, Document.SHIPPING_CONTACTS_GUID, objModel);
-		Contact bizShipContact = objModel.loadShippingContact(getUser().login(), Contact.class, false);
+		Contact bizShipContact = objModel.loadShippingContact(getUser().login(), Contact.class, !getIsPostback());
 		tagShippingContact.setValue(bizShipContact.getDisplayName());
 
 		LiteralTag tagGuid = new LiteralTag(this, Document.GUID, objModel);
@@ -116,7 +116,7 @@ public class DocumentsPrintController extends Controller {
 		LiteralTag tagTotal = new LiteralTag(this, Document.TOTAL, objModel);
 		tagTotal.setFormat(sMoneyFormat);
 
-		List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false);
+		List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback());
 		for(DocumentLine line: lstLines)
 			createController(line);
 	}

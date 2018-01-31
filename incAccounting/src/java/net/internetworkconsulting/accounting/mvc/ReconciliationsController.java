@@ -99,7 +99,7 @@ public class ReconciliationsController extends EditController {
 		btnImport.addOnClickEvent(new Event() { public void handle() throws Exception { btnImport_OnClick(); } });		
 		
 		if(objModel.getAccountsGuid() != null) {		
-			List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
+			List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback());
 			for(TransactionLine line: lstLines)
 				createController(line);
 		}
@@ -130,9 +130,9 @@ public class ReconciliationsController extends EditController {
 
 	private void btnSave_OnClick() throws Exception {
 		Reconciliation objModel = (Reconciliation) getModel();
-		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false);
+		List<TransactionLine> lstLines = objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback());
 		for(TransactionLine line : lstLines) {
-			Transaction objTran = line.loadTransaction(getUser().login(), Transaction.class, false);
+			Transaction objTran = line.loadTransaction(getUser().login(), Transaction.class, !getIsPostback());
 			objTran.setSkipDocumentCheck(true);
 		}
 
