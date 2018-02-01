@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>incAccounting - User List</title>
-		<script src="scripts/UserListController.js"></script>
+		<script src="scripts/inc.accounting.html.UserListController.js"></script>
 
 		<!--#include virtual="Header.html"-->
 	</head>
@@ -12,7 +11,6 @@
 		
 		<div id="divContent">
 			<label for="txtName">Name:</label><input type="text" id="txtName"/><br />
-			<label for="txtStatus">Password:</label><input type="text" id="txtStatus"/><br />
 			<br />
 			<button id="btnSearch">Search</button> <button id="btnAdd">Add</button> <button id="btnDelete">Delete</button><br />
 			<br />
@@ -23,9 +21,9 @@
 					<th>Status</th>
 				</tr>
 				<tr class="trTemplate">
-					<td class="tdDelete"><input type="checkbox" /></td>
-					<td class="tdName">Name</td>
-					<td class="tdStatus">Status</td>
+					<td class="tdDelete"><input type="checkbox" id="chk_GUID_" /></td>
+					<td class="tdName">_DisplayName_</td>
+					<td class="tdStatus">_Status_</td>
 				</tr>
 			</table>
 			

@@ -1,0 +1,93 @@
+if(!inc)
+	var inc = {};
+if(!inc.accounting)
+	inc.accounting = {};
+if(!inc.accounting.entities)
+	inc.accounting.entities = {};
+
+new function() {
+	inc.accounting.entities.User = function() {
+		var obj = new inc.accounting.data.UserRow();
+
+		var sDatabase = null;
+		var sPassword = null;
+
+		obj.getDatabase = function() { return sDatabase; };
+		obj.setDatabase = function(value) { sDatabase = value; };
+
+		obj.getPassword = function() { return sPassword; };
+		obj.setPassword = function(value) { sPassword = value; };
+
+		obj.login = function(callback) {
+			var data = {
+				EmailAddress: obj.getEmailAddress(),
+				Password: obj.getPassword(),
+				Database: obj.getDatabase()
+			};
+			var response = function(xml) {
+				var ret = inc.html.Ajax.getByPath(xml, "/S:Envelope/S:Body/ns2:loginResponse/return/text()", inc.html.Ajax.STRING_TYPE);
+				callback(ret);
+			};
+			inc.html.Ajax.postSoap("User", "login", data, response);
+		};
+
+		obj.resetSqlPassword = function(password, confirm) {};
+		obj.changePassword = function(password, confirm) {};
+		obj.isPasswordExpired = function() {};
+
+		obj.canCreate = function(securable_guid) {};
+		obj.canRead = function(securable_guid) {};
+		obj.canUpdate = function(securable_guid) {};
+		obj.canDelete = function(securable_guid) {};
+
+		obj.logEvent = function(message, code_guid) {};
+		obj.logException = function(exception, code_guid) {};
+
+		obj.loadSettings = function() {};
+		obj.getSetting = function(key) {};
+		obj.setSetting = function(key, value) {};
+
+		obj.hashPassword = function(password) {};
+
+		return obj;
+	};
+	inc.accounting.entities.User.ADMINISTRATOR_GUID = "86b41969e95143c090fd93a4819c58a2";
+	inc.accounting.entities.User.SETTING_PASSWORD_AGE = "Password Age (Days)";
+	inc.accounting.entities.User.SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
+	inc.accounting.entities.User.SETTING_PASSWORD_LENGTH = "Password Length";
+	inc.accounting.entities.User.SETTING_VERSION_NUMBER = "Version Number";
+
+	inc.accounting.entities.User.newGuid = function() {};
+	inc.accounting.entities.User.loadOptions = function() {};
+	inc.accounting.entities.User.loadByEmailAddress = function() {};
+	inc.accounting.entities.User.loadSearch = function(display_name) {};
+	inc.accounting.entities.User.loadSearch = function(display_name, loadSearchCallback) {
+		var data = {
+			DisplayName: display_name
+		};
+		var postSoapResponse = function(xml) {
+			var ret = [];
+			var nodes = inc.html.Ajax.getByPath(xml, "/S:Envelope/S:Body/ns2:loadSearchResponse/return", inc.html.Ajax.ORDERED_NODE_ITERATOR_TYPE);
+
+			var json = "";
+			for(var index in nodes) {
+				var currentUser = new inc.accounting.entities.User();
+				//var currentUser = new Object();
+				var currentNode = nodes[index];
+				inc.html.Ajax.populateObject(currentNode, currentUser);
+				
+				json += JSON.stringify(currentUser, null, "    ") + "\n\n";
+				
+				ret.push(currentUser);
+			}
+
+			//document.body.innerHTML = "<pre class='hidden'>" + json + "</pre>" + document.body.innerHTML;
+			loadSearchCallback(ret);
+		};
+		inc.html.Ajax.postSoap("User", "loadSearch", data, postSoapResponse);
+	};	
+};
+
+
+
+

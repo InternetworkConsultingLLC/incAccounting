@@ -36,8 +36,8 @@ public class UserService extends BaseService {
 	}
 
 	@WebMethod(operationName = "loadSearch")
-	public List<User> loadSearch(@WebParam(name = "DisplayName") String DisplayName, @WebParam(name = "Status") String Status) throws Exception {
-		return User.loadSearch(getAdapter(wsContext), User.class, DisplayName, Status);
+	public List<User> loadSearch(@WebParam(name = "DisplayName") String DisplayName) throws Exception {
+		return User.loadSearch(getAdapter(wsContext), User.class, DisplayName);
 	}	
 	
 	@WebMethod(operationName = "loadMemberships")

@@ -5,7 +5,6 @@
 package net.internetworkconsulting.accounting.data;
 
 import java.util.List;
-import javax.xml.bind.annotation.*;
 import net.internetworkconsulting.data.*;
 import net.internetworkconsulting.data.mysql.*;
 

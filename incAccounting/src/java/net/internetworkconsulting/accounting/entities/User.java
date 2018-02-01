@@ -64,10 +64,9 @@ public class User extends UsersRow implements SessionInterface {
 		return lst.get(0);
 	}
 	
-	public static <T extends UsersRow> List<T> loadSearch(AdapterInterface adapter, Class biz, String DisplayName, String Status) throws Exception {
+	public static <T extends UsersRow> List<T> loadSearch(AdapterInterface adapter, Class biz, String DisplayName) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(User.class, "User.loadSearch.sql"));
 		stmt.getParameters().put("@Name", DisplayName);
-		stmt.getParameters().put("@Status", Status);
 		List<T> lst = adapter.load(biz, stmt, true);
 		return lst;
 	}
@@ -381,10 +380,6 @@ public class User extends UsersRow implements SessionInterface {
 			loggingAdapter.save(Log.TABLE_NAME, log);
 		} catch (Exception ex) { }
 	}
-
-	private String sProgramPath = null;
-	public String getProgramPath() { return sProgramPath; }
-	public void setProgramPath(String value) { sProgramPath = value; }
 	
 	private List<Setting> lstSettings = null;
 	public <T extends SettingsRow> List<T> loadSettings(AdapterInterface adapter, Class biz, boolean force) throws Exception {
@@ -432,7 +427,7 @@ public class User extends UsersRow implements SessionInterface {
         
 		return hashPassword(iterations, salt, password);
     }
-    public static String hashPassword(int iterations, byte[] salt, String password) throws Exception {
+    private static String hashPassword(int iterations, byte[] salt, String password) throws Exception {
         char[] chars = password.toCharArray();
          
         PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
