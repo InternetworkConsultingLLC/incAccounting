@@ -94,7 +94,7 @@ public class ReportBlockController extends EditController {
 			btnOpenParent.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpenParent_OnClick(); } });
 		}
 		
-		List<ReportBlock> lstBlocks = objModel.loadChildren(getUser().login(), ReportBlock.class, false);
+		List<ReportBlock> lstBlocks = objModel.loadChildren(getUser().login(), ReportBlock.class, !getIsPostback());
 		for(ReportBlock rb: lstBlocks)
 			createBlock(rb);
 	}
@@ -133,7 +133,7 @@ public class ReportBlockController extends EditController {
 			getUser().login().begin(true);
 
 			getUser().login().save(ReportBlock.TABLE_NAME, objModel);
-			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadChildren(getUser().login(), ReportBlock.class, false));
+			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadChildren(getUser().login(), ReportBlock.class, !getIsPostback()));
 
 			getUser().login().commit(true);
 		}

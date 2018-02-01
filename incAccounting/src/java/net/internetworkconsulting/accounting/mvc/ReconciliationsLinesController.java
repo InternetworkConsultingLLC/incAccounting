@@ -19,8 +19,8 @@ public class ReconciliationsLinesController extends Controller {
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
 		TransactionLine objModel = (TransactionLine) getModel();
-		Transaction objTran = objModel.loadTransaction(getUser().login(), Transaction.class, false);
-		TransactionType objType = objTran.loadTransactionType(getUser().login(), TransactionType.class, false);
+		Transaction objTran = objModel.loadTransaction(getUser().login(), Transaction.class, !getIsPostback());
+		TransactionType objType = objTran.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
 
 		String sFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		

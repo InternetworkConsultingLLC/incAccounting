@@ -61,7 +61,7 @@ public class UnitMeasureEditController extends EditController {
 		// rather than cycling back to the database x times.
 		UnitMeasure.loadOptions(getUser().login(), true);
 		
-		List<Conversion> lstConversion = objModel.loadLeftConversions(getUser().login(), Conversion.class, false);
+		List<Conversion> lstConversion = objModel.loadLeftConversions(getUser().login(), Conversion.class, !getIsPostback());
 		for(Conversion conv: lstConversion)
 			createController(conv);
 	}
@@ -91,7 +91,7 @@ public class UnitMeasureEditController extends EditController {
 		Conversion conv = new Conversion();
 		conv.initialize();
 		conv.setLeftUnitMeasuresGuid(objModel.getGuid());
-		objModel.loadLeftConversions(getUser().login(), Conversion.class, false).add(conv);
+		objModel.loadLeftConversions(getUser().login(), Conversion.class, !getIsPostback()).add(conv);
 		
 		UnitMeasuresConversionsController controller = createController(conv);
 		doCreateControls(controller, false);
@@ -101,7 +101,7 @@ public class UnitMeasureEditController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(UnitMeasure.TABLE_NAME, objModel);
-			getUser().login().save(Conversion.TABLE_NAME, objModel.loadLeftConversions(getUser().login(), Conversion.class, false));
+			getUser().login().save(Conversion.TABLE_NAME, objModel.loadLeftConversions(getUser().login(), Conversion.class, !getIsPostback()));
 			getUser().login().commit(true);
 		} catch(Exception ex) {
 			getUser().login().rollback(true);

@@ -65,7 +65,7 @@ public class JobsController extends EditController {
 			btnAdd.setIsReadOnly(true);
 		btnAdd.addOnClickEvent(new Event() { public void handle() throws Exception { btnAdd_OnClick(); } });
 		
-		List<Job> lstChildren = objModel.loadChildren(getUser().login(), Job.class, false);
+		List<Job> lstChildren = objModel.loadChildren(getUser().login(), Job.class, !getIsPostback());
 		for(Job child: lstChildren)
 			createController(child);				
 	}
@@ -99,7 +99,7 @@ public class JobsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Job.TABLE_NAME, objModel);
-			getUser().login().save(Job.TABLE_NAME, objModel.loadChildren(getUser().login(), Job.class, false));
+			getUser().login().save(Job.TABLE_NAME, objModel.loadChildren(getUser().login(), Job.class, !getIsPostback()));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {
@@ -117,7 +117,7 @@ public class JobsController extends EditController {
 		dept.initialize();
 		dept.setParentJobsGuid(objModel.getGuid());
 		
-		objModel.loadChildren(getUser().login(), Job.class, false).add(dept);
+		objModel.loadChildren(getUser().login(), Job.class, !getIsPostback()).add(dept);
 		
 		JobsChildrenController controller = createController(dept);
 		doCreateControls(controller, false);

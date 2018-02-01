@@ -39,7 +39,7 @@ public class PaymentsPrintController extends Controller {
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 		
 		String sPaymentType = "";
-		sPaymentType = objModel.loadPaymentType(getUser().login(), PaymentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false).getName();
+		sPaymentType = objModel.loadPaymentType(getUser().login(), PaymentType.class, !getIsPostback()).loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback()).getName();
 		setDocument(new Template(readTemplate("~/templates/PaymentPrint-" + sPaymentType.replace(" ", "") + ".html"), new HtmlSyntax()));
 		
 		LiteralTag txtGuid = new LiteralTag(this, Payment.GUID, objModel);
@@ -72,13 +72,13 @@ public class PaymentsPrintController extends Controller {
 		litPostedAccount.setValue(sPostAccountsGuid);
 		
 		LiteralTag litContact = new LiteralTag(this, Payment.CONTACTS_GUID, null);
-		litContact.setValue(objModel.loadContact(getUser().login(), Contact.class, false).getDisplayName());
+		litContact.setValue(objModel.loadContact(getUser().login(), Contact.class, !getIsPostback()).getDisplayName());
 		
 		LiteralTag litBillingContact = new LiteralTag(this, Payment.BILLING_CONTACTS_GUID, null);
-		litContact.setValue(objModel.loadBillingContact(getUser().login(), Contact.class, false).getDisplayName());
+		litContact.setValue(objModel.loadBillingContact(getUser().login(), Contact.class, !getIsPostback()).getDisplayName());
 				
 		if(objModel.getPaymentTypesGuid() != null) {
-			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), false);
+			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), !getIsPostback());
 			for(PaymentApplicationSelection app: lstApplications)
 				createApplicationController(app);
 		}
@@ -111,7 +111,7 @@ public class PaymentsPrintController extends Controller {
 		this.removeAllControllers(PaymentsApplicationsController.class);
 		
 		if(objModel.getPaymentTypesGuid() != null && objModel.getContactsGuid() != null) {
-			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), false);
+			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), !getIsPostback());
 			for(PaymentApplicationSelection app: lstApplications) {
 				PaymentsApplicationsPrintController paec = createApplicationController(app);
 				doCreateControls(paec, false);
