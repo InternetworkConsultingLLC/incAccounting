@@ -20,8 +20,9 @@ public class UserService extends BaseService {
 	protected WebServiceContext wsContext;
 
 	@WebMethod(operationName = "initialize")
-	public void initialize(@WebParam(name = "User") User user) throws Exception {		
+	public User initialize(@WebParam(name = "User") User user) throws Exception {		
 		user.initialize();
+		return user;
 	}
 	
 	@WebMethod(operationName = "loadByEmailAddress")
