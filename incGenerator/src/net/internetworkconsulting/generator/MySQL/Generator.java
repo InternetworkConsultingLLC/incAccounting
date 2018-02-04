@@ -23,7 +23,7 @@ public class Generator {
 	private final String sPassword = "Welcome123";
 	
 	private final String sNamespace = "net.internetworkconsulting.accounting.data";
-	private final String sOutputFolder = "E:\\Repositories\\NetBeans\\incAccounting.Model\\src\\net\\internetworkconsulting\\accounting\\data\\";
+	private final String sOutputFolder = "E:\\Repositories\\NetBeans\\incAccounting\\src\\java\\net\\internetworkconsulting\\accounting\\data\\";
 	
 	private final Statement stmtTables = new Statement("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = {database};");
 	private final Statement stmtColumns = new Statement("SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = {table} AND TABLE_SCHEMA = {database};");

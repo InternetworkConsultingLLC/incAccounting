@@ -1,6 +1,5 @@
 package net.internetworkconsulting.mvc;
 
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import net.internetworkconsulting.data.SessionInterface;
 

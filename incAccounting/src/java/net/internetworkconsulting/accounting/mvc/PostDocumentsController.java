@@ -2,10 +2,8 @@ package net.internetworkconsulting.accounting.mvc;
 
 import java.util.LinkedList;
 import java.util.List;
-import net.internetworkconsulting.accounting.data.TransactionTypesRow;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.DocumentType;
-import net.internetworkconsulting.accounting.entities.TransactionType;
 import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;

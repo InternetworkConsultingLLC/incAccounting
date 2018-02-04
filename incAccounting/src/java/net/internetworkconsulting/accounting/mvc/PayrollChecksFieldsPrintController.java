@@ -7,12 +7,10 @@ import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldValue;
 import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.CheckTag;
-import net.internetworkconsulting.mvc.ComboTag;
 import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;
 import net.internetworkconsulting.mvc.History;
 import net.internetworkconsulting.mvc.LabelTag;
-import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
 
 public class PayrollChecksFieldsPrintController extends Controller {
