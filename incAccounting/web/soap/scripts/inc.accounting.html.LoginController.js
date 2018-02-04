@@ -26,11 +26,11 @@ new function() {
 			user.login(loginCallback);
 		};
 
-		var loginCallback = function(value) {
-			if (typeof value === "undefined" || (typeof value === "string" && value.length === 0))
+		var loginCallback = function(nodes) {
+			if(nodes.length === 0)
 				window.location.href = "Copyright.html";
 			else
-				alert(value);
+				alert(nodes[0].nodeValue);
 		};
 	};
 };

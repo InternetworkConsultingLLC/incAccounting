@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import javax.xml.bind.annotation.XmlTransient;
 
 public class Row implements RowInterface, Serializable {
 	public Row() {

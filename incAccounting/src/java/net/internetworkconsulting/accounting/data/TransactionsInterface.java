@@ -8,8 +8,8 @@ public interface TransactionsInterface {
 	boolean setGuid(java.lang.String value) throws Exception;
 	java.lang.String getGuid();
 	
-	boolean setDate(java.sql.Date value) throws Exception;
-	java.sql.Date getDate();
+	boolean setDate(java.util.Date value) throws Exception;
+	java.util.Date getDate();
 	
 	boolean setReferenceNumber(java.lang.String value) throws Exception;
 	java.lang.String getReferenceNumber();

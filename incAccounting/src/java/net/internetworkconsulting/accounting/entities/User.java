@@ -2,7 +2,6 @@ package net.internetworkconsulting.accounting.entities;
 
 import net.internetworkconsulting.data.SessionInterface;
 import java.security.SecureRandom;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class User extends UsersRow implements SessionInterface {
 	public void initialize() throws Exception { 
 		this.setGuid(User.newGuid()); 
 		this.setIsAllowed(true);
-		this.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
+		this.setPasswordDate(new java.util.Date(java.time.Instant.EPOCH.toEpochMilli()));
 	}
 
 	private static List<Option> lstOptions;
@@ -64,9 +63,10 @@ public class User extends UsersRow implements SessionInterface {
 		return lst.get(0);
 	}
 	
-	public static <T extends UsersRow> List<T> loadSearch(AdapterInterface adapter, Class biz, String DisplayName) throws Exception {
+	public static <T extends UsersRow> List<T> loadSearch(AdapterInterface adapter, Class biz, String display_name, boolean is_allowed) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(User.class, "User.loadSearch.sql"));
-		stmt.getParameters().put("@Name", DisplayName);
+		stmt.getParameters().put("@DisplayName", display_name);
+		stmt.getParameters().put("@IsAllowed", is_allowed);
 		List<T> lst = adapter.load(biz, stmt, true);
 		return lst;
 	}
@@ -204,9 +204,9 @@ public class User extends UsersRow implements SessionInterface {
 
 		this.setPasswordHash(hashPassword(password));
 		if(reset)
-			this.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
+			this.setPasswordDate(new java.util.Date(java.time.Instant.EPOCH.toEpochMilli()));
 		else
-			this.setPasswordDate(new java.sql.Date((new Date()).getTime()));
+			this.setPasswordDate(new java.util.Date((new Date()).getTime()));
 		
 		SessionInterface si = adapter.getSession();
 		if(!reset) {
@@ -338,7 +338,7 @@ public class User extends UsersRow implements SessionInterface {
 			log.setCodeGuid(code_guid);
 			log.setDetails(message);
 			log.setLog("Event");
-			log.setOccured(new Timestamp((new Date()).getTime()));
+			log.setOccured(new Date(Calendar.getInstance().getTimeInMillis()));
 			log.setUsersGuid(getGuid());
 			loggingAdapter.save(Log.TABLE_NAME, log);
 		} catch (Exception ex) { }
@@ -358,7 +358,7 @@ public class User extends UsersRow implements SessionInterface {
 
 			log.setDetails(out);
 			log.setLog("Exception");
-			log.setOccured(new Timestamp((new Date()).getTime()));
+			log.setOccured(new Date(Calendar.getInstance().getTimeInMillis()));
 			log.setUsersGuid(getGuid());
 			loggingAdapter.save(Log.TABLE_NAME, log);
 		} catch (Exception exx) { }
@@ -375,7 +375,7 @@ public class User extends UsersRow implements SessionInterface {
 			log.setCodeGuid(code_guid);
 			log.setDetails(sql);
 			log.setLog("SQL");
-			log.setOccured(new Timestamp((new Date()).getTime()));
+			log.setOccured(new Date(Calendar.getInstance().getTimeInMillis()));
 			log.setUsersGuid(getGuid());
 			loggingAdapter.save(Log.TABLE_NAME, log);
 		} catch (Exception ex) { }

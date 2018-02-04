@@ -37,8 +37,8 @@ public class ContactsRow extends Row implements ContactsInterface {
 	public java.lang.Boolean getIsAllowed() { return (java.lang.Boolean) get(IS_ALLOWED); }
 	
 	public static String CONTACT_SINCE = "Contact Since";
-	public boolean setContactSince(java.sql.Date value) throws Exception { return set(CONTACT_SINCE, value); }
-	public java.sql.Date getContactSince() { return (java.sql.Date) get(CONTACT_SINCE); }
+	public boolean setContactSince(java.util.Date value) throws Exception { return set(CONTACT_SINCE, value); }
+	public java.util.Date getContactSince() { return (java.util.Date) get(CONTACT_SINCE); }
 	
 	public static String DEFAULT_SHIPPING_CONTACTS_GUID = "Default Shipping Contacts GUID";
 	public boolean setDefaultShippingContactsGuid(java.lang.String value) throws Exception { return set(DEFAULT_SHIPPING_CONTACTS_GUID, value); }

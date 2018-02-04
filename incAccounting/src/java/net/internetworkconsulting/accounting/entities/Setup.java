@@ -107,7 +107,7 @@ public class Setup implements Serializable {
 
 		User user = User.loadByGuid(adapter, User.class, User.ADMINISTRATOR_GUID);
 		user.setPasswordHash(User.hashPassword(getAdministratorPassword()));		
-		user.setPasswordDate(new java.sql.Date(java.time.Instant.EPOCH.toEpochMilli()));
+		user.setPasswordDate(new java.util.Date(java.time.Instant.EPOCH.toEpochMilli()));
 		
 		adapter.save(User.TABLE_NAME, user);
 	}

@@ -25,8 +25,8 @@ public class TransactionsRow extends Row implements TransactionsInterface {
 	public java.lang.String getGuid() { return (java.lang.String) get(GUID); }
 	
 	public static String DATE = "Date";
-	public boolean setDate(java.sql.Date value) throws Exception { return set(DATE, value); }
-	public java.sql.Date getDate() { return (java.sql.Date) get(DATE); }
+	public boolean setDate(java.util.Date value) throws Exception { return set(DATE, value); }
+	public java.util.Date getDate() { return (java.util.Date) get(DATE); }
 	
 	public static String REFERENCE_NUMBER = "Reference Number";
 	public boolean setReferenceNumber(java.lang.String value) throws Exception { return set(REFERENCE_NUMBER, value); }

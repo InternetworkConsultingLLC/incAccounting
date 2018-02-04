@@ -53,12 +53,12 @@ public class TimeEntriesRow extends Row implements TimeEntriesInterface {
 	public java.lang.String getDepartmentsGuid() { return (java.lang.String) get(DEPARTMENTS_GUID); }
 	
 	public static String STARTED = "Started";
-	public boolean setStarted(java.sql.Timestamp value) throws Exception { return set(STARTED, value); }
-	public java.sql.Timestamp getStarted() { return (java.sql.Timestamp) get(STARTED); }
+	public boolean setStarted(java.util.Date value) throws Exception { return set(STARTED, value); }
+	public java.util.Date getStarted() { return (java.util.Date) get(STARTED); }
 	
 	public static String ENDED = "Ended";
-	public boolean setEnded(java.sql.Timestamp value) throws Exception { return set(ENDED, value); }
-	public java.sql.Timestamp getEnded() { return (java.sql.Timestamp) get(ENDED); }
+	public boolean setEnded(java.util.Date value) throws Exception { return set(ENDED, value); }
+	public java.util.Date getEnded() { return (java.util.Date) get(ENDED); }
 	
 	public static String DESCRIPTION = "Description";
 	public boolean setDescription(java.lang.String value) throws Exception { return set(DESCRIPTION, value); }

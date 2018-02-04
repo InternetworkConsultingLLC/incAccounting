@@ -19,7 +19,11 @@ public class UserService extends BaseService {
 	@Resource
 	protected WebServiceContext wsContext;
 
-
+	@WebMethod(operationName = "initialize")
+	public void initialize(@WebParam(name = "User") User user) throws Exception {		
+		user.initialize();
+	}
+	
 	@WebMethod(operationName = "loadByEmailAddress")
 	public User loadByEmailAddress(@WebParam(name = "EmailAddress") String EmailAddress) throws Exception {		
 		return User.loadByEmailAddress(getAdapter(wsContext), User.class, EmailAddress);
@@ -36,8 +40,8 @@ public class UserService extends BaseService {
 	}
 
 	@WebMethod(operationName = "loadSearch")
-	public List<User> loadSearch(@WebParam(name = "DisplayName") String DisplayName) throws Exception {
-		return User.loadSearch(getAdapter(wsContext), User.class, DisplayName);
+	public List<User> loadSearch(@WebParam(name = "DisplayName") String DisplayName, @WebParam(name = "IsAllowed") boolean IsAllowed) throws Exception {
+		return User.loadSearch(getAdapter(wsContext), User.class, DisplayName, IsAllowed);
 	}	
 	
 	@WebMethod(operationName = "loadMemberships")

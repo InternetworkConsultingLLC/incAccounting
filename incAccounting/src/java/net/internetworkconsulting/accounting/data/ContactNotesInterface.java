@@ -14,8 +14,8 @@ public interface ContactNotesInterface {
 	boolean setUsersGuid(java.lang.String value) throws Exception;
 	java.lang.String getUsersGuid();
 	
-	boolean setDated(java.sql.Timestamp value) throws Exception;
-	java.sql.Timestamp getDated();
+	boolean setDated(java.util.Date value) throws Exception;
+	java.util.Date getDated();
 	
 	boolean setSubject(java.lang.String value) throws Exception;
 	java.lang.String getSubject();

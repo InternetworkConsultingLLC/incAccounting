@@ -29,8 +29,8 @@ public class ReconciliationsRow extends Row implements ReconciliationsInterface 
 	public java.lang.String getAccountsGuid() { return (java.lang.String) get(ACCOUNTS_GUID); }
 	
 	public static String DATE = "Date";
-	public boolean setDate(java.sql.Date value) throws Exception { return set(DATE, value); }
-	public java.sql.Date getDate() { return (java.sql.Date) get(DATE); }
+	public boolean setDate(java.util.Date value) throws Exception { return set(DATE, value); }
+	public java.util.Date getDate() { return (java.util.Date) get(DATE); }
 	
 	public static String STATEMENT_ENDING_BALANCE = "Statement Ending Balance";
 	public boolean setStatementEndingBalance(java.math.BigDecimal value) throws Exception { return set(STATEMENT_ENDING_BALANCE, value); }

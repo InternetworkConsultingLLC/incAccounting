@@ -37,12 +37,12 @@ public class DocumentsRow extends Row implements DocumentsInterface {
 	public java.lang.String getReferenceNumber() { return (java.lang.String) get(REFERENCE_NUMBER); }
 	
 	public static String DATE = "Date";
-	public boolean setDate(java.sql.Date value) throws Exception { return set(DATE, value); }
-	public java.sql.Date getDate() { return (java.sql.Date) get(DATE); }
+	public boolean setDate(java.util.Date value) throws Exception { return set(DATE, value); }
+	public java.util.Date getDate() { return (java.util.Date) get(DATE); }
 	
 	public static String DUE_DATE = "Due Date";
-	public boolean setDueDate(java.sql.Date value) throws Exception { return set(DUE_DATE, value); }
-	public java.sql.Date getDueDate() { return (java.sql.Date) get(DUE_DATE); }
+	public boolean setDueDate(java.util.Date value) throws Exception { return set(DUE_DATE, value); }
+	public java.util.Date getDueDate() { return (java.util.Date) get(DUE_DATE); }
 	
 	public static String POSTED_ACCOUNTS_GUID = "Posted Accounts GUID";
 	public boolean setPostedAccountsGuid(java.lang.String value) throws Exception { return set(POSTED_ACCOUNTS_GUID, value); }

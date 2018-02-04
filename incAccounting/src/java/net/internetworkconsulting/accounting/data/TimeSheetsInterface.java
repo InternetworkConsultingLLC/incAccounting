@@ -14,14 +14,14 @@ public interface TimeSheetsInterface {
 	boolean setNumber(java.lang.String value) throws Exception;
 	java.lang.String getNumber();
 	
-	boolean setPeriodEnding(java.sql.Date value) throws Exception;
-	java.sql.Date getPeriodEnding();
+	boolean setPeriodEnding(java.util.Date value) throws Exception;
+	java.util.Date getPeriodEnding();
 	
 	boolean setTotalHours(java.math.BigDecimal value) throws Exception;
 	java.math.BigDecimal getTotalHours();
 	
-	boolean setPeriodStarting(java.sql.Date value) throws Exception;
-	java.sql.Date getPeriodStarting();
+	boolean setPeriodStarting(java.util.Date value) throws Exception;
+	java.util.Date getPeriodStarting();
 	
 	
 	<T extends TimeEntriesRow> List<T> loadTimeEntries(AdapterInterface adapter, Class biz, boolean force) throws Exception;

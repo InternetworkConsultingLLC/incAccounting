@@ -10,6 +10,25 @@
 		<!--#include virtual="Menu.html"-->
 		
 		<div id="divContent">
+
+			<h1>User Edit</h1>
+			
+			<label for="txtGUID">GUID:</label><input id="txtGUID" /><br />
+			<label for="chkIsAllowed">Allowed:</label><input type="checkbox" id="chkIsAllowed"><br />
+			<label for="txtEmailAddress">Email Address:</label><input type="email" id="txtEmailAddress" /><br />
+			<label for="txtPasswordDate">Password Date:</label><input type="date" id="txtPasswordDate" /><br />
+			<br />	
+			<button id="btnSave">Save</button>
+			
+			
+			<h2>Reset Password</h2>
+			<p><i>Only the 'administrator' user can reset a password!</i> If you would like to reset / recreate the user, please enter the desired password.  If welcome is in the password, the user will be required to change their password.</p>
+			
+			<label>Password:</label><input type="password" id="txtPassword" /><br />
+			<label>Confirm:</label><input type="password" id="txtConfirm" /><br />	
+			<br />	
+			<button id="btnReset">Reset</button>
+			
 		</div>
 	</body>
 </html>

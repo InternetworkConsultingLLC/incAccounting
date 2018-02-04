@@ -10,11 +10,18 @@
 		<!--#include virtual="Menu.html"-->
 		
 		<div id="divContent">
+			
+			<h1>User List</h1>
+			
 			<label for="txtName">Name:</label><input type="text" id="txtName"/><br />
+			<label for="ddlIsAllowed">Status:</label><select id="ddlIsAllowed">
+				<option value="1">Allowed</option>
+				<option value="0">Disabled</option>
+			</select><br />
 			<br />
 			<button id="btnSearch">Search</button> <button id="btnAdd">Add</button> <button id="btnDelete">Delete</button><br />
 			<br />
-			<table>
+			<table id="tableList">
 				<tr>
 					<th></th>
 					<th>Name</th>
@@ -22,8 +29,8 @@
 				</tr>
 				<tr class="trTemplate">
 					<td class="tdDelete"><input type="checkbox" id="chk_GUID_" /></td>
-					<td class="tdName">_DisplayName_</td>
-					<td class="tdStatus">_Status_</td>
+					<td class="tdName"><a href="UserEdit.html?GUID=_GUID_">_DisplayName_</a></td>
+					<td class="tdStatus"><a href="UserEdit.html?GUID=_GUID_">_Status_</a></td>
 				</tr>
 			</table>
 			

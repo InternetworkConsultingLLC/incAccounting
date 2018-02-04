@@ -33,8 +33,8 @@ public class ContactNotesRow extends Row implements ContactNotesInterface {
 	public java.lang.String getUsersGuid() { return (java.lang.String) get(USERS_GUID); }
 	
 	public static String DATED = "Dated";
-	public boolean setDated(java.sql.Timestamp value) throws Exception { return set(DATED, value); }
-	public java.sql.Timestamp getDated() { return (java.sql.Timestamp) get(DATED); }
+	public boolean setDated(java.util.Date value) throws Exception { return set(DATED, value); }
+	public java.util.Date getDated() { return (java.util.Date) get(DATED); }
 	
 	public static String SUBJECT = "Subject";
 	public boolean setSubject(java.lang.String value) throws Exception { return set(SUBJECT, value); }

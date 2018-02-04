@@ -48,13 +48,26 @@ new function() {
 		obj.set = function(key, value) {
 			var bInOriginals = obj.Originals.hasOwnProperty(key);
 			var bMatchesOriginal = obj.Originals[key] === value;
+			var dateValue = null;
+			
+			if(bInOriginals && inc.isDate(obj.Originals[key]) && inc.isDate(value)) {
+				if(!dateValue instanceof Date)
+					dateValue = newDate(value);
+				else
+					dateValue = value;
+				bMatchesOriginal = dateValue.toISOString() === obj.Originals[key].toISOString();
+			}
+			
 			var bInChanges = obj.Changes.hasOwnProperty(key);
 
 			if(bInOriginals && bMatchesOriginal) {
 				if(bInChanges)
 					delete obj.Changes[key];
 			} else
-				obj.Changes[key] = value;
+				if(dateValue)
+					obj.Changes[key] = dateValue;
+				else
+					obj.Changes[key] = value;
 		};
 
 		obj.reset = function() {

@@ -118,6 +118,17 @@ public class Adapter implements AdapterInterface {
 			for(int cnt = 0; cnt < rs.getMetaData().getColumnCount(); cnt++) {
 				Object obj = rs.getObject(cnt + 1);
 				String col = rs.getMetaData().getColumnLabel(cnt + 1);
+				
+				if(obj != null) {
+					if(obj.getClass().getCanonicalName().equals("java.sql.Date")) {
+						obj = new java.util.Date(((java.util.Date) obj).getTime());
+					} else if(obj.getClass().getCanonicalName().equals("java.sql.Timestamp")) {
+						obj = new java.util.Date(((java.sql.Timestamp) obj).getTime());
+					} else if(obj.getClass().getCanonicalName().equals("java.sql.Time")) {
+						obj = new java.util.Date(((java.sql.Time) obj).getTime());
+					}
+				}
+				
 				map.put(col, obj);
 			}
 

@@ -17,11 +17,11 @@ public interface DocumentsInterface {
 	boolean setReferenceNumber(java.lang.String value) throws Exception;
 	java.lang.String getReferenceNumber();
 	
-	boolean setDate(java.sql.Date value) throws Exception;
-	java.sql.Date getDate();
+	boolean setDate(java.util.Date value) throws Exception;
+	java.util.Date getDate();
 	
-	boolean setDueDate(java.sql.Date value) throws Exception;
-	java.sql.Date getDueDate();
+	boolean setDueDate(java.util.Date value) throws Exception;
+	java.util.Date getDueDate();
 	
 	boolean setPostedAccountsGuid(java.lang.String value) throws Exception;
 	java.lang.String getPostedAccountsGuid();

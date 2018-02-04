@@ -1,6 +1,6 @@
 package net.internetworkconsulting.accounting.mvc;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Calendar;
 import net.internetworkconsulting.accounting.data.TimeEntriesRow;
 import net.internetworkconsulting.accounting.entities.Contact;
@@ -124,7 +124,7 @@ public class TimeEntryController extends EditController {
 		TimeEntry objNext = new TimeEntry();
 		try {
 			getUser().login().begin(true);
-			objModel.setEnded(new Timestamp(Calendar.getInstance().getTimeInMillis()));			
+			objModel.setEnded(new Date(Calendar.getInstance().getTimeInMillis()));			
 			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
 			
 			objNext.initialize();

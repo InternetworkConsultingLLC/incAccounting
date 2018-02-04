@@ -1,7 +1,7 @@
 package net.internetworkconsulting.accounting.entities;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class PaymentApplicationSelection extends PaymentApplication {
 	public static String IS_CREDIT_MEMO = "Is Credit Memo";

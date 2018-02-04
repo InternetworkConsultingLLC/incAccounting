@@ -33,8 +33,8 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 	public java.lang.String getNumber() { return (java.lang.String) get(NUMBER); }
 	
 	public static String DATE = "Date";
-	public boolean setDate(java.sql.Date value) throws Exception { return set(DATE, value); }
-	public java.sql.Date getDate() { return (java.sql.Date) get(DATE); }
+	public boolean setDate(java.util.Date value) throws Exception { return set(DATE, value); }
+	public java.util.Date getDate() { return (java.util.Date) get(DATE); }
 	
 	public static String EMPLOYEES_GUID = "Employees GUID";
 	public boolean setEmployeesGuid(java.lang.String value) throws Exception { return set(EMPLOYEES_GUID, value); }
@@ -105,8 +105,8 @@ public class PayrollChecksRow extends Row implements PayrollChecksInterface {
 	public java.lang.Integer getDuration() { return (java.lang.Integer) get(DURATION); }
 	
 	public static String ENDING = "Ending";
-	public boolean setEnding(java.sql.Date value) throws Exception { return set(ENDING, value); }
-	public java.sql.Date getEnding() { return (java.sql.Date) get(ENDING); }
+	public boolean setEnding(java.util.Date value) throws Exception { return set(ENDING, value); }
+	public java.util.Date getEnding() { return (java.util.Date) get(ENDING); }
 	
 
 	// child loaders

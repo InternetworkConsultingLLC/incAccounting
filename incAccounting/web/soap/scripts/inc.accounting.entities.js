@@ -25,7 +25,7 @@ new function() {
 				Database: obj.getDatabase()
 			};
 			var response = function(xml) {
-				var ret = inc.html.Ajax.getByPath(xml, "/S:Envelope/S:Body/ns2:loginResponse/return/text()", inc.html.Ajax.STRING_TYPE);
+				var ret = inc.html.Ajax.getNodesByPath(xml, "/S:Envelope/S:Body/ns2:loginResponse/return/#text");
 				callback(ret);
 			};
 			inc.html.Ajax.postSoap("User", "login", data, response);
@@ -61,31 +61,41 @@ new function() {
 	inc.accounting.entities.User.loadOptions = function() {};
 	inc.accounting.entities.User.loadByEmailAddress = function() {};
 	inc.accounting.entities.User.loadSearch = function(display_name) {};
-	inc.accounting.entities.User.loadSearch = function(display_name, loadSearchCallback) {
+	inc.accounting.entities.User.loadSearch = function(display_name, is_allowed, loadSearchCallback) {
 		var data = {
-			DisplayName: display_name
+			DisplayName: display_name,
+			IsAllowed: is_allowed
 		};
 		var postSoapResponse = function(xml) {
 			var ret = [];
-			var nodes = inc.html.Ajax.getByPath(xml, "/S:Envelope/S:Body/ns2:loadSearchResponse/return", inc.html.Ajax.ORDERED_NODE_ITERATOR_TYPE);
-
-			var json = "";
+			var nodes = inc.html.Ajax.getNodesByPath(xml, "/S:Envelope/S:Body/ns2:loadSearchResponse/return");
+			
 			for(var index in nodes) {
 				var currentUser = new inc.accounting.entities.User();
-				//var currentUser = new Object();
 				var currentNode = nodes[index];
-				inc.html.Ajax.populateObject(currentNode, currentUser);
-				
-				json += JSON.stringify(currentUser, null, "    ") + "\n\n";
-				
+				inc.html.Ajax.populateObject(currentNode, currentUser);				
 				ret.push(currentUser);
 			}
 
-			//document.body.innerHTML = "<pre class='hidden'>" + json + "</pre>" + document.body.innerHTML;
 			loadSearchCallback(ret);
 		};
 		inc.html.Ajax.postSoap("User", "loadSearch", data, postSoapResponse);
-	};	
+	};
+	inc.accounting.entities.User.loadByGuid = function(guid, callback) {
+		var data = {
+			Guid: guid
+		};
+		var postSoapResponse = function(xml) {
+			var arrNodes = inc.html.Ajax.getNodesByPath(xml, "/S:Envelope/S:Body/ns2:loadByGuidResponse/return");
+			if(!arrNodes)
+				throw new Error("Load by GUID '" + guid + "' returned nothing!");
+			
+			var ret = new inc.accounting.entities.User();
+			inc.html.Ajax.populateObject(arrNodes[0], ret);
+			callback(ret);
+		};
+		inc.html.Ajax.postSoap("User", "loadByGuid", data, postSoapResponse);
+	};
 };
 
 

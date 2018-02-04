@@ -41,8 +41,8 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 	public java.lang.String getTaxId() { return (java.lang.String) get(TAX_ID); }
 	
 	public static String DATE_OF_BIRTH = "Date of Birth";
-	public boolean setDateOfBirth(java.sql.Date value) throws Exception { return set(DATE_OF_BIRTH, value); }
-	public java.sql.Date getDateOfBirth() { return (java.sql.Date) get(DATE_OF_BIRTH); }
+	public boolean setDateOfBirth(java.util.Date value) throws Exception { return set(DATE_OF_BIRTH, value); }
+	public java.util.Date getDateOfBirth() { return (java.util.Date) get(DATE_OF_BIRTH); }
 	
 	public static String IS_MALE = "Is Male";
 	public boolean setIsMale(java.lang.Boolean value) throws Exception { return set(IS_MALE, value); }
@@ -61,16 +61,16 @@ public class EmployeesRow extends Row implements EmployeesInterface {
 	public java.lang.String getSupervisorContactsGuid() { return (java.lang.String) get(SUPERVISOR_CONTACTS_GUID); }
 	
 	public static String DATE_HIRRED = "Date Hirred";
-	public boolean setDateHirred(java.sql.Date value) throws Exception { return set(DATE_HIRRED, value); }
-	public java.sql.Date getDateHirred() { return (java.sql.Date) get(DATE_HIRRED); }
+	public boolean setDateHirred(java.util.Date value) throws Exception { return set(DATE_HIRRED, value); }
+	public java.util.Date getDateHirred() { return (java.util.Date) get(DATE_HIRRED); }
 	
 	public static String DATE_TERMINATED = "Date Terminated";
-	public boolean setDateTerminated(java.sql.Date value) throws Exception { return set(DATE_TERMINATED, value); }
-	public java.sql.Date getDateTerminated() { return (java.sql.Date) get(DATE_TERMINATED); }
+	public boolean setDateTerminated(java.util.Date value) throws Exception { return set(DATE_TERMINATED, value); }
+	public java.util.Date getDateTerminated() { return (java.util.Date) get(DATE_TERMINATED); }
 	
 	public static String DATE_VERIFIED = "Date Verified";
-	public boolean setDateVerified(java.sql.Date value) throws Exception { return set(DATE_VERIFIED, value); }
-	public java.sql.Date getDateVerified() { return (java.sql.Date) get(DATE_VERIFIED); }
+	public boolean setDateVerified(java.util.Date value) throws Exception { return set(DATE_VERIFIED, value); }
+	public java.util.Date getDateVerified() { return (java.util.Date) get(DATE_VERIFIED); }
 	
 	public static String INSURANCE = "Insurance";
 	public boolean setInsurance(java.lang.Boolean value) throws Exception { return set(INSURANCE, value); }

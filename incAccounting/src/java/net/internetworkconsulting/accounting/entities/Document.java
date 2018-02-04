@@ -2,7 +2,7 @@ package net.internetworkconsulting.accounting.entities;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Date;
+import java.util.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
@@ -124,7 +124,7 @@ public class Document extends DocumentsRow {
 			return;
 		
 		int iDueDays = Integer.parseInt(adapter.getSession().getSetting(Document.SETTING_DUE_DAYS));
-		setDueDate(new java.sql.Date(Instant.now().plus(iDueDays, ChronoUnit.DAYS).toEpochMilli()));	
+		setDueDate(new java.util.Date(Instant.now().plus(iDueDays, ChronoUnit.DAYS).toEpochMilli()));	
 	}
 	public void handleBillingContactsGuid(AdapterInterface adapter) throws Exception {
 		if(getBillingContactsGuid() == null)

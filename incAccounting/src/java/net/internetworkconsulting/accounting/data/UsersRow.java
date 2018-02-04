@@ -36,8 +36,8 @@ public class UsersRow extends Row implements UsersInterface {
 	public java.lang.String getEmailAddress() { return (java.lang.String) get(EMAIL_ADDRESS); }
 	
 	public static String PASSWORD_DATE = "Password Date";
-	public boolean setPasswordDate(java.sql.Date value) throws Exception { return set(PASSWORD_DATE, value); }
-	public java.sql.Date getPasswordDate() { return (java.sql.Date) get(PASSWORD_DATE); }
+	public boolean setPasswordDate(java.util.Date value) throws Exception { return set(PASSWORD_DATE, value); }
+	public java.util.Date getPasswordDate() { return (java.util.Date) get(PASSWORD_DATE); }
 	
 	public static String PASSWORD_HASH = "Password Hash";
 	public boolean setPasswordHash(java.lang.String value) throws Exception { return set(PASSWORD_HASH, value); }

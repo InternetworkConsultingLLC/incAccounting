@@ -37,8 +37,8 @@ public class PaymentsRow extends Row implements PaymentsInterface {
 	public java.lang.String getOurNumber() { return (java.lang.String) get(OUR_NUMBER); }
 	
 	public static String DATE = "Date";
-	public boolean setDate(java.sql.Date value) throws Exception { return set(DATE, value); }
-	public java.sql.Date getDate() { return (java.sql.Date) get(DATE); }
+	public boolean setDate(java.util.Date value) throws Exception { return set(DATE, value); }
+	public java.util.Date getDate() { return (java.util.Date) get(DATE); }
 	
 	public static String POSTED_ACCOUNTS_GUID = "Posted Accounts GUID";
 	public boolean setPostedAccountsGuid(java.lang.String value) throws Exception { return set(POSTED_ACCOUNTS_GUID, value); }

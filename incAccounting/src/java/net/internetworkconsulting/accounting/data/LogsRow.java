@@ -25,8 +25,8 @@ public class LogsRow extends Row implements LogsInterface {
 	public java.lang.String getGuid() { return (java.lang.String) get(GUID); }
 	
 	public static String OCCURED = "Occured";
-	public boolean setOccured(java.sql.Timestamp value) throws Exception { return set(OCCURED, value); }
-	public java.sql.Timestamp getOccured() { return (java.sql.Timestamp) get(OCCURED); }
+	public boolean setOccured(java.util.Date value) throws Exception { return set(OCCURED, value); }
+	public java.util.Date getOccured() { return (java.util.Date) get(OCCURED); }
 	
 	public static String USERS_GUID = "Users GUID";
 	public boolean setUsersGuid(java.lang.String value) throws Exception { return set(USERS_GUID, value); }

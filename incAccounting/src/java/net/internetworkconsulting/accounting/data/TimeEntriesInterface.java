@@ -29,11 +29,11 @@ public interface TimeEntriesInterface {
 	boolean setDepartmentsGuid(java.lang.String value) throws Exception;
 	java.lang.String getDepartmentsGuid();
 	
-	boolean setStarted(java.sql.Timestamp value) throws Exception;
-	java.sql.Timestamp getStarted();
+	boolean setStarted(java.util.Date value) throws Exception;
+	java.util.Date getStarted();
 	
-	boolean setEnded(java.sql.Timestamp value) throws Exception;
-	java.sql.Timestamp getEnded();
+	boolean setEnded(java.util.Date value) throws Exception;
+	java.util.Date getEnded();
 	
 	boolean setDescription(java.lang.String value) throws Exception;
 	java.lang.String getDescription();

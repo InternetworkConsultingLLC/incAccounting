@@ -28,8 +28,7 @@ new function() {
 		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
 
 		obj.getEmailAddress = function() { return obj.get("Email Address"); };
-		obj.setEmailAddress = function(value) { obj.set("Email Address", value);
-		};
+		obj.setEmailAddress = function(value) { obj.set("Email Address", value); };
 
 		obj.getPasswordDate = function() { return obj.get("Password Date"); };
 		obj.setPasswordDate = function(value) { obj.set("Password Date", value); };

@@ -1,6 +1,6 @@
 package net.internetworkconsulting.accounting.entities;
 
-import java.sql.Date;
+import java.util.Date;
 import java.time.Instant;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.ContactsRow;

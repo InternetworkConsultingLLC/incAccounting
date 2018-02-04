@@ -25,12 +25,35 @@ new function() {
 	inc.isBoolean = function(value) { return typeof value === 'boolean'; };
 	inc.isRegExp = function(value) { return value && typeof value === 'object' && value.constructor === RegExp; };
 	inc.isError = function(value) { return value instanceof Error && typeof value.message !== 'undefined'; };
-	inc.isDate = function(value) { return value instanceof Date; };
+	inc.isDate = function(value) {
+		if(value instanceof Date)
+			return true;
+		var newDate = new Date(value);
+		if(!inc.isBoolean(value) && newDate.toString() !== "Invalid Date" && !isNaN(new Date(value)))
+			return true;
+		return false;
+	};
 	inc.isSymbol = function(value) { return typeof value === 'symbol'; };
 
 	inc.html.Dom = new function() {
 		var obj = new Object();
 		
+		obj.findGetParameter = function(parameter_name) {
+			var tmp = [];
+			var sLocation = window.location.toString();
+			
+			var arrUrl = sLocation.split("?");
+			if(arrUrl.length === 2) {
+				var kvPairs = arrUrl[1].split("&");
+				for(var cnt = 0; cnt < kvPairs.length; cnt++) {
+					var parts = kvPairs[cnt].split("=");
+					if(parts.length === 2 && parts[0] === parameter_name)
+						tmp.push(decodeURIComponent(parts[1]));
+				}
+			}
+
+			return tmp;
+		};		
 		obj.removeClass = function(element, class_name) { element.className = element.className.replace(" " + class_name + " " , ""); };
 		obj.addClass = function(element, class_name) { element.className = element.className + " " + class_name + " "; };
 		
@@ -57,12 +80,14 @@ new function() {
 			} else if (inc.isObject(obj)) {
 				if (bIsNested)
 					ret += "<" + obj.constructor.name + ">";
-				for(var index in obj)
-					ret += "<" + index + ">" + toXml(obj[index]) + "</" + index + ">";
+				for(var index in obj) {
+					if(!inc.isNull(obj[index]) && !inc.isUndefined(obj[index]))
+						ret += "<" + index + ">" + toXml(obj[index]) + "</" + index + ">";
+				}
 				if (bIsNested)
 					ret += "</" + obj.prototype.name + ">";
 				return ret;
-			} else if (inc.isNull(obj) || inc.isUndfined(obj)) {
+			} else if (inc.isNull(obj) || inc.isUndefined(obj)) {
 				return "";
 			} else if (inc.isBoolean(obj)) {
 				if (obj === true)
@@ -72,7 +97,7 @@ new function() {
 			} else if (inc.isDate(obj)) {
 				return obj.toISOString();
 			} else {
-				alert("Invalid type: " + typeof obj);
+				throw new Error("Invalid type: " + typeof obj);
 			}
 		};
 		var soapify = function(object, method) {
@@ -124,6 +149,9 @@ new function() {
 		};
 		
 		obj.populateObject = function(xml, target) {
+			if(!xml)
+				throw new Error("The 'xml' is not defind!");
+			
 			for(var cnt = 0; cnt < xml.childNodes.length; cnt++) {
 				var current = xml.childNodes[cnt];
 				
@@ -199,33 +227,29 @@ new function() {
 			}
 		};
 		
-		obj.getByPath = function(xml_doc, xpath, type) {
-			var doc = xml_doc;
-
-			//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_using_XPath_in_JavaScript#XPathResult_Defined_Constants
-			//var xpathResult = document.evaluate( xpathExpression, contextNode, namespaceResolver, resultType, result );
-			var ret = doc.evaluate(xpath, doc, nsResolver, type, null);
-
-			switch (ret.resultType) {
-				case inc.html.Ajax.BOOLEAN_TYPE:
-					return ret.booleanValue;
-				case inc.html.Ajax.NUMBER_TYPE:
-					return ret.numberValue;
-				case inc.html.Ajax.STRING_TYPE:
-					return ret.stringValue;
-				case inc.html.Ajax.ORDERED_NODE_ITERATOR_TYPE:
-				case inc.html.Ajax.UNORDERED_NODE_ITERATOR_TYPE:
-					var nodes = [];
-					var current = ret.iterateNext();
-					while (current) {
-						nodes.push(current);
-						current = ret.iterateNext();
-					}
-					return nodes;
-				default:
-					throw new Error("Invalid node type!");
+		obj.getNodesByPath = function(xml_node, target_path, parent_paths) {
+			var ret = [];
+			
+			var path = "";
+			if(typeof parent_paths === "string")
+				path = parent_paths;
+			
+			if(!xml_node)
+				throw new Error("XML node required to get node by path!");
+			
+			var arrNodes = xml_node.childNodes;
+			for(var cnt = 0; cnt < arrNodes.length; cnt++) {
+				var currentNode = arrNodes[cnt];
+				var currentPath = path + "/" + currentNode.nodeName;
+				if(currentPath === target_path)
+					ret.push(currentNode);
+				else if(target_path.split("/").length > currentPath.split("/").length)
+					ret = ret.concat(obj.getNodesByPath(currentNode, target_path, currentPath));
 			}
+			
+			return ret;
 		};
+		
 		obj.postSoap = function(service, method, object, callback) {
 			$.ajax({
 				url: baseUrl + "/" + service,
@@ -239,29 +263,19 @@ new function() {
 					callback(data);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
-					console.log(textStatus);
-					console.log(errorThrown);
-
-					var message = inc.html.Ajax.getByPath(jqXHR.responseXML, "/S:Envelope/S:Body/S:Fault/faultstring/text()", inc.html.Ajax.STRING_TYPE);
-					if (typeof message === "string")
-						alert(message);
+					var arrNodes = inc.html.Ajax.getNodesByPath(jqXHR.responseXML, "/S:Envelope/S:Body/S:Fault/faultstring/#text");
+					if(!arrNodes)
+						throw new Error("The SOAP call resuted in an error '" + jqXHR.statusText + "'!");
+					else if(arrNodes.length === 1)
+						alert(arrNodes[0].nodeValue);
 					else
-						alert("The SOAP call failed!\n\n" + textStatus + " - " + errorThrown);
+						throw new Error("The SOAP call failed!\n\n" + textStatus + " - " + errorThrown);
 				}
 			});
 		};
 
 		return obj;
 	};
-	inc.html.Ajax.NUMBER_TYPE = 1; // A result containing a single number. This is useful for example, in an XPath expression using the count() function.
-	inc.html.Ajax.STRING_TYPE = 2; // A result containing a single string.
-	inc.html.Ajax.BOOLEAN_TYPE = 3; // A result containing a single boolean value. This is useful for example, in an XPath expression using the not() function.
-	inc.html.Ajax.UNORDERED_NODE_ITERATOR_TYPE = 4; // A result node-set containing all the nodes matching the expression. The nodes may not necessarily be in the same order that they appear in the document.
-	inc.html.Ajax.ORDERED_NODE_ITERATOR_TYPE = 5; // A result node-set containing all the nodes matching the expression. The nodes in the result set are in the same order that they appear in the document.
-	inc.html.Ajax.UNORDERED_NODE_SNAPSHOT_TYPE = 6; //A result node-set containing snapshots of all the nodes matching the expression. The nodes may not necessarily be in the same order that they appear in the document.
-	inc.html.Ajax.ORDERED_NODE_SNAPSHOT_TYPE = 7; // A result node-set containing snapshots of all the nodes matching the expression. The nodes in the result set are in the same order that they appear in the document.
-	inc.html.Ajax.ANY_UNORDERED_NODE_TYPE = 8; // A result node-set containing any single node that matches the expression. The node is not necessarily the first node in the document that matches the expression.
-	inc.html.Ajax.FIRST_ORDERED_NODE_TYPE = 9; // A result node-set containing the first node in the document that matches the expression.	
 };
 
 

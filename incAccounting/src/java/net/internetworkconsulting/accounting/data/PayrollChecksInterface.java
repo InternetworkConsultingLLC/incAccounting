@@ -14,8 +14,8 @@ public interface PayrollChecksInterface {
 	boolean setNumber(java.lang.String value) throws Exception;
 	java.lang.String getNumber();
 	
-	boolean setDate(java.sql.Date value) throws Exception;
-	java.sql.Date getDate();
+	boolean setDate(java.util.Date value) throws Exception;
+	java.util.Date getDate();
 	
 	boolean setEmployeesGuid(java.lang.String value) throws Exception;
 	java.lang.String getEmployeesGuid();
@@ -68,8 +68,8 @@ public interface PayrollChecksInterface {
 	boolean setDuration(java.lang.Integer value) throws Exception;
 	java.lang.Integer getDuration();
 	
-	boolean setEnding(java.sql.Date value) throws Exception;
-	java.sql.Date getEnding();
+	boolean setEnding(java.util.Date value) throws Exception;
+	java.util.Date getEnding();
 	
 	
 	<T extends PayrollFieldValuesRow> List<T> loadPayrollFieldValues(AdapterInterface adapter, Class biz, boolean force) throws Exception;

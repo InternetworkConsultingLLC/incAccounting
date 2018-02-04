@@ -33,16 +33,16 @@ public class TimeSheetsRow extends Row implements TimeSheetsInterface {
 	public java.lang.String getNumber() { return (java.lang.String) get(NUMBER); }
 	
 	public static String PERIOD_ENDING = "Period Ending";
-	public boolean setPeriodEnding(java.sql.Date value) throws Exception { return set(PERIOD_ENDING, value); }
-	public java.sql.Date getPeriodEnding() { return (java.sql.Date) get(PERIOD_ENDING); }
+	public boolean setPeriodEnding(java.util.Date value) throws Exception { return set(PERIOD_ENDING, value); }
+	public java.util.Date getPeriodEnding() { return (java.util.Date) get(PERIOD_ENDING); }
 	
 	public static String TOTAL_HOURS = "Total Hours";
 	public boolean setTotalHours(java.math.BigDecimal value) throws Exception { return set(TOTAL_HOURS, value); }
 	public java.math.BigDecimal getTotalHours() { return (java.math.BigDecimal) get(TOTAL_HOURS); }
 	
 	public static String PERIOD_STARTING = "Period Starting";
-	public boolean setPeriodStarting(java.sql.Date value) throws Exception { return set(PERIOD_STARTING, value); }
-	public java.sql.Date getPeriodStarting() { return (java.sql.Date) get(PERIOD_STARTING); }
+	public boolean setPeriodStarting(java.util.Date value) throws Exception { return set(PERIOD_STARTING, value); }
+	public java.util.Date getPeriodStarting() { return (java.util.Date) get(PERIOD_STARTING); }
 	
 
 	// child loaders

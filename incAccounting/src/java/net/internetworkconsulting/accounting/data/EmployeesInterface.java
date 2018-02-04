@@ -20,8 +20,8 @@ public interface EmployeesInterface {
 	boolean setTaxId(java.lang.String value) throws Exception;
 	java.lang.String getTaxId();
 	
-	boolean setDateOfBirth(java.sql.Date value) throws Exception;
-	java.sql.Date getDateOfBirth();
+	boolean setDateOfBirth(java.util.Date value) throws Exception;
+	java.util.Date getDateOfBirth();
 	
 	boolean setIsMale(java.lang.Boolean value) throws Exception;
 	java.lang.Boolean getIsMale();
@@ -35,14 +35,14 @@ public interface EmployeesInterface {
 	boolean setSupervisorContactsGuid(java.lang.String value) throws Exception;
 	java.lang.String getSupervisorContactsGuid();
 	
-	boolean setDateHirred(java.sql.Date value) throws Exception;
-	java.sql.Date getDateHirred();
+	boolean setDateHirred(java.util.Date value) throws Exception;
+	java.util.Date getDateHirred();
 	
-	boolean setDateTerminated(java.sql.Date value) throws Exception;
-	java.sql.Date getDateTerminated();
+	boolean setDateTerminated(java.util.Date value) throws Exception;
+	java.util.Date getDateTerminated();
 	
-	boolean setDateVerified(java.sql.Date value) throws Exception;
-	java.sql.Date getDateVerified();
+	boolean setDateVerified(java.util.Date value) throws Exception;
+	java.util.Date getDateVerified();
 	
 	boolean setInsurance(java.lang.Boolean value) throws Exception;
 	java.lang.Boolean getInsurance();

@@ -17,8 +17,8 @@ public interface UsersInterface {
 	boolean setEmailAddress(java.lang.String value) throws Exception;
 	java.lang.String getEmailAddress();
 	
-	boolean setPasswordDate(java.sql.Date value) throws Exception;
-	java.sql.Date getPasswordDate();
+	boolean setPasswordDate(java.util.Date value) throws Exception;
+	java.util.Date getPasswordDate();
 	
 	boolean setPasswordHash(java.lang.String value) throws Exception;
 	java.lang.String getPasswordHash();

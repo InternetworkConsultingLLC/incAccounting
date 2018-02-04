@@ -17,8 +17,8 @@ public interface ContactsInterface {
 	boolean setIsAllowed(java.lang.Boolean value) throws Exception;
 	java.lang.Boolean getIsAllowed();
 	
-	boolean setContactSince(java.sql.Date value) throws Exception;
-	java.sql.Date getContactSince();
+	boolean setContactSince(java.util.Date value) throws Exception;
+	java.util.Date getContactSince();
 	
 	boolean setDefaultShippingContactsGuid(java.lang.String value) throws Exception;
 	java.lang.String getDefaultShippingContactsGuid();

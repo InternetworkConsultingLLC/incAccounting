@@ -65,3 +65,15 @@ h1 { margin-bottom: 0; }
 #divMenuOptions > h1:nth-child(1) {
 	margin-top: 0;
 }
+
+input { color: #888; }
+
+#tableList > tbody > tr > th {
+	color: #000;
+	font-weight: normal;
+	text-align: left;
+}
+
+#tableList > tbody > tr > td > a {
+	text-decoration: none;
+}

@@ -2,10 +2,8 @@ package net.internetworkconsulting.data.mysql;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.SessionInterface;
@@ -136,13 +134,13 @@ public class Statement implements StatementInterface {
 		 * Meduim Int Unsigned java.lang.Integer
 		 * Char 10 java.lang.String
 		 * Decimal Unsigned java.math.BigDecimal
-		 * Year java.sql.Date
+		 * Year java.util.Date
 		 * Time java.sql.Time
 		 * Vachar 10 java.lang.String
 		 * Medium Text java.lang.String
 		 * Decimal java.math.BigDecimal
 		 * 64 Bits byte[]
-		 * Date java.sql.Date
+		 * Date java.util.Date
 		 * DateTime java.sql.Timestamp
 		 * Long BLob byte[]
 		 * Int Unsigned java.lang.Long
@@ -198,21 +196,21 @@ public class Statement implements StatementInterface {
 			case "double":
 			case "java.math.BigDecimal":
 				return String.format("%f", value);
-			case "java.sql.Date":
-				java.sql.Date objDate = (java.sql.Date) value;
-				sdf = new SimpleDateFormat("yyyy-MM-dd");
-				return "'" + sdf.format(objDate) + "'";
-			case "java.sql.Time":
-				java.sql.Time objTime = (java.sql.Time) value;
-				sdf = new SimpleDateFormat("HH:mm:ss");
-				return "'" + sdf.format(objTime) + "'";
-			case "java.sql.Timestamp":
-				java.sql.Timestamp objTs = (java.sql.Timestamp) value;
+//			case "java.util.Date":
+//				java.util.Date objDate = (java.util.Date) value;
+//				sdf = new SimpleDateFormat("yyyy-MM-dd");
+//				return "'" + sdf.format(objDate) + "'";
+//			case "java.util.Date":
+//				java.util.Date objTime = (java.util.Date) value;
+//				sdf = new SimpleDateFormat("HH:mm:ss");
+//				return "'" + sdf.format(objTime) + "'";
+			case "java.util.Date":
+				java.util.Date objTs = (java.util.Date) value;
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return "'" + sdf.format(objTs) + "'";
 			case "java.util.GregorianCalendar":
 				java.util.Calendar cal = (java.util.Calendar) value;
-				java.sql.Timestamp objTsCal = new Timestamp(cal.toInstant().toEpochMilli());
+				java.util.Date objTsCal = new java.util.Date(cal.toInstant().toEpochMilli());
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return "'" + sdf.format(objTsCal) + "'";
 		}
@@ -253,25 +251,13 @@ public class Statement implements StatementInterface {
 					return String.format(format, value);
 				else
 					return ((BigDecimal) value).toString();
-			case "java.sql.Date":
-				java.sql.Date objDate = (java.sql.Date) value;
-				sdf = new SimpleDateFormat("yyyy-MM-dd");
-				return sdf.format(objDate);
-			case "java.sql.Time":
-				java.sql.Time objTime = (java.sql.Time) value;
-				sdf = new SimpleDateFormat("HH:mm:ss");
-				return sdf.format(objTime);
-			case "java.sql.Timestamp":
-				java.sql.Timestamp objTs = (java.sql.Timestamp) value;
-				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				return sdf.format(objTs);
 			case "java.util.Date":
 				java.util.Date dt = (java.util.Date) value;
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return sdf.format(dt);				
 			case "java.util.GregorianCalendar":
 				java.util.Calendar cal = (java.util.Calendar) value;
-				java.sql.Timestamp objTsCal = new Timestamp(cal.toInstant().toEpochMilli());
+				java.util.Date objTsCal = new java.util.Date(cal.toInstant().toEpochMilli());
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return sdf.format(objTsCal);
 		}
@@ -306,32 +292,32 @@ public class Statement implements StatementInterface {
 				catch(Exception ex) {
 					return null;
 				}
-			case "java.sql.Date":
+			case "java.util.Date":
 				try {
 					return new Date((new SimpleDateFormat("yyyy-MM-dd")).parse(value).getTime());
 				}
 				catch(Exception ex) {
 					return null;
 				}
-			case "java.sql.Time":
-				try {
-					return new Time((new SimpleDateFormat("HH:mm:ss")).parse(value).getTime());
-				}
-				catch(Exception ex) {
-					return null;
-				}
-			case "java.sql.Timestamp":
-				try {
-					if(value.length() == ("yyyy-MM-dd HH:mm:ss").length())
-						return new Timestamp((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(value).getTime());
-					else if(value.length() == ("yyyy-MM-dd HH:mm").length())
-						return new Timestamp((new SimpleDateFormat("yyyy-MM-dd HH:mm")).parse(value).getTime());
-					else if(value.length() == ("yyyy-MM-dd").length())
-						return new Timestamp((new SimpleDateFormat("yyyy-MM-dd")).parse(value).getTime());
-				}
-				catch(Exception ex) {
-					return null;
-				}
+//			case "java.sql.Time":
+//				try {
+//					return new Date((new SimpleDateFormat("HH:mm:ss")).parse(value).getTime());
+//				}
+//				catch(Exception ex) {
+//					return null;
+//				}
+//			case "java.sql.Timestamp":
+//				try {
+//					if(value.length() == ("yyyy-MM-dd HH:mm:ss").length())
+//						return new Date((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(value).getTime());
+//					else if(value.length() == ("yyyy-MM-dd HH:mm").length())
+//						return new Date((new SimpleDateFormat("yyyy-MM-dd HH:mm")).parse(value).getTime());
+//					else if(value.length() == ("yyyy-MM-dd").length())
+//						return new Date((new SimpleDateFormat("yyyy-MM-dd")).parse(value).getTime());
+//				}
+//				catch(Exception ex) {
+//					return null;
+//				}
 			case "java.lang.Long":
 				try {
 					return new Long(value);

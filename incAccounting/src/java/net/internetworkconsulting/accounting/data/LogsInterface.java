@@ -8,8 +8,8 @@ public interface LogsInterface {
 	boolean setGuid(java.lang.String value) throws Exception;
 	java.lang.String getGuid();
 	
-	boolean setOccured(java.sql.Timestamp value) throws Exception;
-	java.sql.Timestamp getOccured();
+	boolean setOccured(java.util.Date value) throws Exception;
+	java.util.Date getOccured();
 	
 	boolean setUsersGuid(java.lang.String value) throws Exception;
 	java.lang.String getUsersGuid();

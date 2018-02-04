@@ -260,12 +260,8 @@ public class Generator {
 			return "java.lang.Integer";
 		else if(sColumnType.contains("decimal"))
 			return "java.math.BigDecimal";
-		else if(sColumnType.contains("datetime") || sColumnType.contains("timestamp"))
-			return "java.sql.Timestamp";
-		else if(sColumnType.contains("time"))
-			return "java.sql.Time";
-		else if(sColumnType.contains("date") || sColumnType.contains("year"))
-			return "java.sql.Date";
+		else if(sColumnType.contains("datetime") || sColumnType.contains("timestamp") || sColumnType.contains("date") || sColumnType.contains("year"))
+			return "java.util.Date";
 		else if(sColumnType.contains("double"))
 			return "java.lang.Double";
 		

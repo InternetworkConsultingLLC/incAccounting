@@ -11,8 +11,8 @@ public interface BankDepositsInterface {
 	boolean setAccountsGuid(java.lang.String value) throws Exception;
 	java.lang.String getAccountsGuid();
 	
-	boolean setDate(java.sql.Date value) throws Exception;
-	java.sql.Date getDate();
+	boolean setDate(java.util.Date value) throws Exception;
+	java.util.Date getDate();
 	
 	boolean setNumber(java.lang.String value) throws Exception;
 	java.lang.String getNumber();

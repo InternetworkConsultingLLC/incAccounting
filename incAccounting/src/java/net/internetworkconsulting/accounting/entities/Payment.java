@@ -3,7 +3,7 @@ package net.internetworkconsulting.accounting.entities;
 import com.ibm.icu.text.RuleBasedNumberFormat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Date;
+import java.util.Date;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
