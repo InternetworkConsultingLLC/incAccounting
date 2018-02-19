@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.HashMap;
 import net.internetworkconsulting.data.SessionInterface;
 import net.internetworkconsulting.data.StatementInterface;
@@ -29,6 +30,38 @@ public class Statement implements StatementInterface {
 		return ret;
 	}
 
+	public static Class getJavaTypeForSqlType(String value) throws Exception {
+		String sqlType = value.toLowerCase();
+
+		if(sqlType.contains("char") || sqlType.contains("text"))
+			return String.class;
+		if(sqlType.contains("blob") || sqlType.contains("binary"))
+			return byte[].class;
+		if(sqlType.contains("bit") && sqlType.contains("(") && sqlType.contains(")"))
+			return byte[].class;
+		if(sqlType.contains("small") && sqlType.contains("int"))
+			return Integer.class;
+		if(sqlType.contains("tiny") && sqlType.contains("int"))
+			return Integer.class;
+		if(sqlType.contains("medium") && sqlType.contains("int"))
+			return Integer.class;
+		if(!sqlType.contains("unsigned") && !sqlType.contains("big") && sqlType.contains("int"))
+			return Integer.class;
+		if(sqlType.contains("big") && sqlType.contains("int") && !sqlType.contains("unsigned"))
+			return Long.class;
+		if(sqlType.contains("int") &&sqlType.contains("unsigned"))
+			return Long.class;
+		if(sqlType.contains("decimal"))
+			return BigDecimal.class;
+		if(sqlType.contains("bit") || sqlType.contains("boolean"))
+			return Boolean.class;
+		if(sqlType.contains("big") && sqlType.contains("int") && sqlType.contains("unsigned"))
+			return BigInteger.class;
+		if(sqlType.contains("date") || sqlType.contains("time"))
+			return Date.class;
+		else
+			throw new Exception("Unsupported type: " + sqlType + "!");
+	}
 	public static String convertObjectToSql(Object value) throws Exception {
 		/*
 		 * Binary 10 byte[]
@@ -155,8 +188,9 @@ public class Statement implements StatementInterface {
 
 		throw new Exception("Not a valid type (" + value.getClass().getCanonicalName() + ")!");
 	}
-	public static Object parseStringToValue(Class type, String value) throws Exception {
-		switch(type.getCanonicalName()) {
+	public static Object parseStringToValue(Class type, String value) throws Exception { return parseStringToValue(type.getCanonicalName(), value); }
+	public static Object parseStringToValue(String type, String value) throws Exception {
+		switch(type) {
 			case "byte[]":
 				try {
 					return javax.xml.bind.DatatypeConverter.parseHexBinary(value.toLowerCase().replace("0x", ""));
@@ -195,6 +229,8 @@ public class Statement implements StatementInterface {
 						return new Date((new SimpleDateFormat("yyyy-MM-dd")).parse(value).getTime());
 					else if(value.length() == ("HH:mm:ss").length())
 						return new Date((new SimpleDateFormat("HH:mm:ss")).parse(value).getTime());
+					else if(value.length() == "2018-01-01T06:00:00.000Z".length())
+						return new Date(Instant.parse(value).toEpochMilli());
 				}
 				catch(Exception ex) {
 					return null;
@@ -233,7 +269,7 @@ public class Statement implements StatementInterface {
 				}
 		}
 
-		throw new Exception("'" + type.getCanonicalName() + "' is not a supported data type!");
+		throw new Exception("'" + type + "' is not a supported data type!");
 	}
 
 }

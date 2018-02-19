@@ -86,7 +86,8 @@ public class Statement implements StatementInterface {
 		for(String sCurrCol: hmColumns.keySet())
 			if(row.getOriginals().get(sCurrCol) == null)
 				sWhere += " \"" + sCurrCol + "\" IS NULL AND ";
-			else if(row.getOriginals().get(sCurrCol).equals(""))
+			else if(row.getOriginals().get(sCurrCol).equals("") 
+					&& !net.internetworkconsulting.data.pervasive.Statement.getJavaTypeForSqlType(hmColumns.get(sCurrCol)).getCanonicalName().equals("java.lang.Boolean"))
 				sWhere += " \"" + sCurrCol + "\" = '' AND ";
 			else
 				sWhere += " \"" + sCurrCol + "\"=" + convertObjectToSql(row.getOriginals().get(sCurrCol)) + " AND ";

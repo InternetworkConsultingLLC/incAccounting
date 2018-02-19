@@ -11,6 +11,19 @@ new function() {
 
 		var sDatabase = null;
 		var sPassword = null;
+		
+		obj.initialize = function(callback) {
+			var data = {
+				User: obj
+			};
+			var response = function(xml) {
+				var arrNode = inc.html.Ajax.getNodesByPath(xml, "/S:Envelope/S:Body/ns2:initializeResponse/return");
+				var user = new inc.accounting.entities.User();
+				inc.html.Ajax.populateObject(arrNode[0], user);					
+				callback(user);
+			};
+			inc.html.Ajax.postSoap("User", "initialize", data, response);
+		};
 
 		obj.getDatabase = function() { return sDatabase; };
 		obj.setDatabase = function(value) { sDatabase = value; };
@@ -48,6 +61,19 @@ new function() {
 		obj.setSetting = function(key, value) {};
 
 		obj.hashPassword = function(password) {};
+		
+		obj.save = function(callback) {
+			var data = {
+				User: obj
+			};
+			var postSoapCallback = function(xml) {
+				var arrNode = inc.html.Ajax.getNodesByPath(xml, "/S:Envelope/S:Body/ns2:saveResponse/return");
+				var user = new inc.accounting.entities.User();
+				inc.html.Ajax.populateObject(arrNode[0], user);					
+				callback(user);
+			};
+			inc.html.Ajax.postSoap("User", "save", data, postSoapCallback);
+		};
 
 		return obj;
 	};

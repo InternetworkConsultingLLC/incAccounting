@@ -15,32 +15,18 @@ new function() {
 		try {
 			var txtName = document.getElementById("txtName");
 			var btnSearch = document.getElementById("btnSearch");
+			
+			var btnAdd_OnClick = function() { window.location.href = "UserEdit.html"; }
 			var btnAdd = document.getElementById("btnAdd");
+			btnAdd.onclick = btnAdd_OnClick;
+			
 			var btnDelete = document.getElementById("btnDelete");
 			var ddlIsAllowed = document.getElementById("ddlIsAllowed");
 
 			var tableHtml = document.getElementById("tableList").outerHTML;
 			var arrUsers = [];
 
-			btnAdd.onclick = function() {};
 			btnDelete.onclick = function() {};
-			btnSearch.onclick = btnSearch_OnClick;
-
-			var btnSearch_OnClick = function() {
-				document.getElementById("tableList").outerHTML = tableHtml;
-
-				var sName = txtName.value.trim();
-				if(sName.length < 1)
-					sName = null;
-
-				var bIsAllowed = null;
-				if(ddlIsAllowed.value === "1")
-					bIsAllowed = true;
-				else if(ddlIsAllowed.value === "0")
-					bIsAllowed = false;
-
-				inc.accounting.entities.User.loadSearch(sName, bIsAllowed, loadSearchCallback);
-			};
 
 			var loadSearchCallback = function(users) {
 				arrUsers = users;
@@ -59,6 +45,22 @@ new function() {
 					document.getElementById("tableList").insertAdjacentHTML('beforeend', html);
 				}
 			};
+			var btnSearch_OnClick = function() {
+				document.getElementById("tableList").outerHTML = tableHtml;
+
+				var sName = txtName.value.trim();
+				if(sName.length < 1)
+					sName = null;
+
+				var bIsAllowed = null;
+				if(ddlIsAllowed.value === "1")
+					bIsAllowed = true;
+				else if(ddlIsAllowed.value === "0")
+					bIsAllowed = false;
+
+				inc.accounting.entities.User.loadSearch(sName, bIsAllowed, loadSearchCallback);
+			};
+			btnSearch.onclick = btnSearch_OnClick;
 		}
 		catch(error) {
 			alert(error);

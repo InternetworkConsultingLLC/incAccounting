@@ -4,12 +4,22 @@ if(!inc.data)
 	inc.data = {};
 
 new function() {
-	inc.data.Map = function() {};
+	function _inc_data_Map() {};
+	inc.data.Map = _inc_data_Map;
+	inc.data.isMap = function(value) {
+		try {
+			return value.__proto__.constructor === _inc_data_Map;		
+		}
+		catch(error) {
+			return false;
+		}
+	};
+
 	
 	inc.data.Row = function() {
 		var obj = new Object();
 
-		obj.SecurableGuid = "";
+		obj.SqlSecurableGuid = "";
 		obj.SqlTableName = "";
 		obj.Columns = new inc.data.Map();
 		obj.Changes = new inc.data.Map();

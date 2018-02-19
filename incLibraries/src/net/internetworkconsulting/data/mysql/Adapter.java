@@ -105,11 +105,11 @@ public class Adapter implements AdapterInterface {
 		
 		List<R> newTable = new java.util.LinkedList<>();
 
-		mapColumns = new HashMap<>();
+		mapColumnsToSqlType = new HashMap<>();
 		for(int cnt = 0; cnt < rs.getMetaData().getColumnCount(); cnt++) {
 			String sColumnName = rs.getMetaData().getColumnLabel(cnt + 1);
 			String sColumnType = rs.getMetaData().getColumnTypeName(cnt + 1);
-			mapColumns.put(sColumnName, sColumnType);
+			mapColumnsToSqlType.put(sColumnName, sColumnType);
 		}
 
 		rs.beforeFirst();
@@ -133,7 +133,7 @@ public class Adapter implements AdapterInterface {
 			}
 
 			R row = cls.newInstance();
-			row.setColumns(mapColumns);
+			row.setColumns(mapColumnsToSqlType);
 			row.setOriginals(map);
 			newTable.add(row);
 		}
@@ -206,12 +206,12 @@ public class Adapter implements AdapterInterface {
 		return save(table, row, true);
 	}
 
-	private static HashMap<String, String> mapColumns;
+	private static HashMap<String, String> mapColumnsToSqlType;
 	public <R extends RowInterface> HashMap<String, String> getColumns(Class<R> cls, StatementInterface stmt) throws Exception {
 		String sql = "SELECT * FROM (" + stmt.getCommand() + ") TBL WHERE 1 <> 1";
 		stmt.setCommand(sql);
 		load(cls, stmt, false);
-		return mapColumns;
+		return mapColumnsToSqlType;
 	}
 
 	private long lTransactions = 0;

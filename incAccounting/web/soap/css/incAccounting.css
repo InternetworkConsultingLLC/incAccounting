@@ -5,11 +5,11 @@
 
 * { 
 	font-family: "Droid Serif";
-	font-size: 12pt;
+	font-size: 12px;
 	color: #888;
 }
 
-button, input, h1, h2, h3, h4, h5, h6, b, label {
+button, h1, h2, h3, h4, h5, h6, b, label {
 	color: #000;
 }
 
@@ -22,9 +22,12 @@ h2, h4, h6 {
 	font-style: italic;
 }
 
-h1, h2 { font-size: 48pt; }
-h3, h4 { font-size: 24pt; }
-h5, h6 { font-size: 12pt; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0px; }
+* + h1, * + h2, * + h3, * + h4, * + h5, * + h6 { margin-top: 24px; }
+
+h1, h2 { font-size: 48px; }
+h3, h4 { font-size: 24px; }
+h5, h6 { font-size: 12px; }
 
 .hidden, .trTemplate {
 	visibility: hidden;
@@ -32,9 +35,12 @@ h5, h6 { font-size: 12pt; }
 }
 
 #imgMenuIcon {
-	width: 3em;
-	height: 3em;
+	max-width: 3em;
+	max-height: 3em;
+/*	width: 3em;
+	height: 3em;*/
 	vertical-align: middle;
+	cursor: pointer;
 }
 
 #divMenuBar {
@@ -51,12 +57,28 @@ html, body {
 }
 
 #divMenuOptions, #divContent {
-	padding: 1em;
+	padding: 12px;
+}
+#divMenuOptions > * {
+	line-height: 2;
+}
+#divMenuOptions > h1, #divMenuOptions > h2, #divMenuOptions > h3, #divMenuOptions > h4, #divMenuOptions > h5, #divMenuOptions > h6 {
+	line-height: 1;
 }
 
-input, button {
-	margin-top: 1px; 
-	margin-bottom: 1px;
+input, button, select {
+	margin: 3px; 
+	border-radius: 3px;
+	border: 1px solid #888;
+	font-family: "Rubik";
+	font-weight: normal;
+	padding: 3px;
+	color: #888; 
+}
+button { 
+	padding-right: 12px; 
+	padding-left: 12px; 
+	color: #000;
 }
 
 h1 { margin-bottom: 0; }
@@ -66,14 +88,50 @@ h1 { margin-bottom: 0; }
 	margin-top: 0;
 }
 
-input { color: #888; }
-
-#tableList > tbody > tr > th {
+.tableList > tbody > tr > th {
 	color: #000;
 	font-weight: normal;
 	text-align: left;
 }
 
-#tableList > tbody > tr > td > a {
+.tableList > tbody > tr > td > a {
 	text-decoration: none;
 }
+
+.tableList > tbody > tr > td > label { 
+	display: none; 
+	visibility: hidden; 
+}
+
+@media screen and (min-width: 0px) and (max-width: 640px) {
+	#divContent, #divMenuOptions {
+		width: 320px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	label { display: block; }
+	* + label { 
+		margin-top: 6px;
+	}
+	label + input, label + select {  
+		margin-top: 0px;
+	}
+	input { width: 310px; }
+	input[type=checkbox] { width: auto; }
+	select { width: 316px; }
+	input, button, select {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+	
+	.tableList > tbody > tr > th { visibility: hidden; display: none; }
+	.tableList > tbody > tr > td { display: block; }
+	.tableList > tbody > tr > td:first-child { padding-top: 12px; }
+	.tableList > tbody > tr > td > label { 
+		display: inline; 
+		visibility: visible; 
+	}
+
+@media screen and (min-width: 641px) and (max-width: 960px) {}
+@media screen and (min-width: 961px) {}

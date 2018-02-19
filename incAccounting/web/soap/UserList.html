@@ -21,16 +21,16 @@
 			<br />
 			<button id="btnSearch">Search</button> <button id="btnAdd">Add</button> <button id="btnDelete">Delete</button><br />
 			<br />
-			<table id="tableList">
+			<table class="tableList" id="tableList">
 				<tr>
 					<th></th>
 					<th>Name</th>
 					<th>Status</th>
 				</tr>
 				<tr class="trTemplate">
-					<td class="tdDelete"><input type="checkbox" id="chk_GUID_" /></td>
-					<td class="tdName"><a href="UserEdit.html?GUID=_GUID_">_DisplayName_</a></td>
-					<td class="tdStatus"><a href="UserEdit.html?GUID=_GUID_">_Status_</a></td>
+					<td class="tdDelete"><label class="th">Delete: &nbsp;</label><input type="checkbox" id="chk_GUID_" /></td>
+					<td class="tdName"><label class="th">Display Name: &nbsp;</label><a href="UserEdit.html?GUID=_GUID_">_DisplayName_</a></td>
+					<td class="tdStatus"><label class="th">Status: &nbsp;</label><a href="UserEdit.html?GUID=_GUID_">_Status_</a></td>
 				</tr>
 			</table>
 			

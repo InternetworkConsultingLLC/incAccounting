@@ -21,6 +21,7 @@ public class UserService extends BaseService {
 
 	@WebMethod(operationName = "initialize")
 	public User initialize(@WebParam(name = "User") User user) throws Exception {		
+		denodeHashMaps(getAdapter(wsContext), User.TABLE_NAME, user);
 		user.initialize();
 		return user;
 	}
@@ -69,16 +70,19 @@ public class UserService extends BaseService {
 		return row.loadEmployee(getAdapter(wsContext), Employee.class, false);
 	}
 
-	@WebMethod(operationName = "rowSave")
-	public void rowSave(@WebParam(name = "row") User row) throws Exception {
-		getAdapter(wsContext).save(User.TABLE_NAME, row);
-	}
-
-	@WebMethod(operationName = "rowDelete")
-	public void rowDelete(@WebParam(name = "UsersGuid") String UsersGuid) throws Exception {
-		User row = User.loadByGuid(getAdapter(wsContext), User.class, UsersGuid);
-		row.setIsDeleted(true);
-		getAdapter(wsContext).save(User.TABLE_NAME, row);		
+	@WebMethod(operationName = "save")
+	public User save(@WebParam(name = "User") User user) throws Exception {
+		denodeHashMaps(getAdapter(wsContext), User.TABLE_NAME, user);
+		try {
+			getAdapter(wsContext).begin(true);
+			getAdapter(wsContext).save(User.TABLE_NAME, user);
+			getAdapter(wsContext).commit(true);
+		}
+		catch(Exception ex) {
+			getAdapter(wsContext).rollback(true);
+			throw ex;
+		}
+		return User.loadByGuid(getAdapter(wsContext), User.class, user.getGuid());
 	}
 
 	@WebMethod(operationName = "login")

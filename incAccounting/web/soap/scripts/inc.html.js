@@ -3,22 +3,32 @@ if(!inc)
 if(!inc.html)
 	inc.html = {};
 
+Number.isInteger = Number.isInteger || function(value) {
+	// polyfill for IE
+    return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
+};
+
+Number.isFinite = Number.isFinite || function(value) {
+	// polyfill for IE
+    return typeof value === 'number' && isFinite(value);
+};
+
 new function() {
 	var baseUrl = "http://localhost:8080/incAccounting";
 	var xmlNamespace = "ws";
 	var xmlNamesppaceUrl = "http://ws.accounting.internetworkconsulting.net/";
-	var nsResolver = function(prefix) {
-		var ns = {
-			"S": "http://schemas.xmlsoap.org/soap/envelope/",
-			"ns2": "http://ws.accounting.internetworkconsulting.net/"
-		};
-		return ns[prefix] || null;
-	};
 	
 	inc.isNumber = function(value) { return typeof value === 'number' && isFinite(value); };
 	inc.isString = function(value) { return typeof value === 'string' || value instanceof String; };
 	inc.isArray = function(value) { return value && typeof value === 'object' && value.constructor === Array; };
-	inc.isFunction = function(value) { return typeof value === 'function'; };
+	inc.isFunction = function(value) { 
+		if(typeof value === 'function')
+			return true;
+		if(value.toString().indexOf("function(") > 0)
+			return true;
+		
+		return false;
+	};
 	inc.isObject = function(value) { return value && typeof value === 'object' && value.constructor === Object; };
 	inc.isNull = function(value) { return value === null; };
 	inc.isUndefined = function(value) { return typeof value === 'undefined'; };
@@ -28,12 +38,167 @@ new function() {
 	inc.isDate = function(value) {
 		if(value instanceof Date)
 			return true;
-		var newDate = new Date(value);
-		if(!inc.isBoolean(value) && newDate.toString() !== "Invalid Date" && !isNaN(new Date(value)))
-			return true;
-		return false;
+		return inc.Date.isValid(value);
 	};
 	inc.isSymbol = function(value) { return typeof value === 'symbol'; };
+
+	var zeroPad = function(value, size) {
+		var ret = value.toString();
+		while(ret.length < size)
+			ret = "0" + ret;
+		return ret;
+	};
+	inc.Date = Date;
+	inc.Date.isValid = function(value) {
+		try { inc.Date.parse(value); }
+		catch(err) { return false; }
+
+		return true;
+	}
+	inc.Date.parse = function(value) {
+		var iYear = 1970;
+		var iMonth = 0;
+		var iDay = 1;
+		var iHour = 0;
+		var iMinute = 0;
+		var iSecond = 0;
+		var iZoneSign = 0;
+		var iZoneHours = 0;
+		var iZoneMinutes = 0;
+
+		var ret = null;
+
+		var regEx = null;
+		var regEx2 = null;
+
+		regEx = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[\+-][0-9]{2}:[0-9]{2}$/;
+		regEx2 = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}[\+-][0-9]{2}:[0-9]{2}$/;
+		if(regEx.test(value) || regEx2.test(value)) {
+			// 0         1         2
+			// 0123456789012345678901234
+			// 2018-01-17T00:00:00-06:00
+			// 2018-01-17 00:00:00-06:00
+
+			iYear = Number(value.substring(0, 4));
+			iMonth = Number(value.substring(5, 7)) - 1; // take 0 - 11
+			iDay = Number(value.substring(8, 10));
+			iHour = Number(value.substring(11, 13));
+			iMinute = Number(value.substring(14, 16));
+			iSecond = Number(value.substring(17, 19));
+			iZoneSign = value.substring(19, 20);
+			iZoneHours = Number(value.substring(20, 22));
+			iZoneMinutes = Number(value.substring(23, 25));
+
+			if(iZoneSign === '-')
+				ret = new Date(Date.UTC(iYear, iMonth, iDay, iHour + iZoneHours, iMinute + iZoneMinutes, iSecond));
+			else
+				ret = new Date(Date.UTC(iYear, iMonth, iDay, iHour - iZoneHours, iMinute - iZoneMinutes, iSecond));
+			return ret;
+		};
+		
+		regEx = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$/;
+		regEx2 = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}Z$/;
+		if(regEx.test(value) || regEx2.test(value)) {
+			// 0         1         2
+			// 0123456789012345678901234
+			// 2018-01-17T00:00:00Z
+			// 2018-01-17 00:00:00Z
+
+			iYear = Number(value.substring(0, 4));
+			iMonth = Number(value.substring(5, 7)) - 1; // take 0 - 11
+			iDay = Number(value.substring(8, 10));
+			iHour = Number(value.substring(11, 13));
+			iMinute = Number(value.substring(14, 16));
+			iSecond = Number(value.substring(17, 19));
+
+			return new Date(Date.UTC(iYear, iMonth, iDay, iHour, iMinute, iSecond));
+			return ret;
+		};		
+
+		regEx = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$/;
+		regEx2 = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/;
+		if(regEx.test(value) || regEx2.test(value)) {
+			// NO TIME ZONE - ASSUME LOCAL
+			// 0         1         2
+			// 0123456789012345678901234
+			// 2018-01-17T00:00:00
+			// 2018-01-17 00:00:00
+			
+			iYear = Number(value.substring(0, 4));
+			iMonth = Number(value.substring(5, 7)) - 1; // take 0 - 11
+			iDay = Number(value.substring(8, 10));
+			iHour = Number(value.substring(11, 13));
+			iMinute = Number(value.substring(14, 16));
+			iSecond = Number(value.substring(17, 19));
+			iZoneSign = value.substring(19, 20);
+			iZoneHours = Math.floor((new Date()).getTimezoneOffset() / 60);
+			iZoneMinutes = (new Date()).getTimezoneOffset() - iZoneHours * 60;
+
+			ret = new Date(Date.UTC(iYear, iMonth, iDay, iHour + iZoneHours, iMinute + iZoneMinutes, iSecond));
+			return ret;
+		};
+
+		regEx = /^[0-9]{4}-[0-9]{2}-[0-9]{2}[\+-][0-9]{2}:[0-9]{2}$/;
+		if(regEx.test(value)) {
+			// 0         1         2
+			// 0123456789012345678901234
+			// 2018-01-17-06:00
+			iYear = Number(value.substring(0, 4));
+			iMonth = Number(value.substring(5, 7)) - 1; // take 0 - 11
+			iDay = Number(value.substring(8, 10));
+			iZoneSign = value.substring(19, 20);
+			iZoneHours = Number(value.substring(20, 22));
+			iZoneMinutes = Number(value.substring(23, 25));
+
+			if(iZoneSign === '-')
+				ret = new Date(Date.UTC(iYear, iMonth, iDay, iHour + iZoneHours, iMinute + iZoneMinutes, iSecond));
+			else
+				ret = new Date(Date.UTC(iYear, iMonth, iDay, iHour - iZoneHours, iMinute - iZoneMinutes, iSecond));
+			return ret;
+		};
+
+		regEx = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+		if(regEx.test(value)) {
+			// NO TIME ZONE - ASSUME LOCAL
+			// 0         1         2
+			// 0123456789012345678901234
+			// 2018-01-17
+
+			iYear = Number(value.substring(0, 4));
+			iMonth = Number(value.substring(5, 7)) - 1; // take 0 - 11
+			iDay = Number(value.substring(8, 10));
+			iZoneSign = value.substring(19, 20);
+			iZoneHours = Math.floor((new Date()).getTimezoneOffset() / 60);
+			iZoneMinutes = (new Date()).getTimezoneOffset() - iZoneHours * 60;
+
+			ret = new Date(Date.UTC(iYear, iMonth, iDay, iHour + iZoneHours, iMinute + iZoneMinutes, iSecond));
+			return ret;
+		};
+		
+		
+		regEx = /^[0-9]{4}-[0-9]{2}-[0-9]{2}Z$/;
+		if(regEx.test(value)) {
+			// 0         1         2
+			// 0123456789012345678901234
+			// 2018-01-17Z
+
+			iYear = Number(value.substring(0, 4));
+			iMonth = Number(value.substring(5, 7)) - 1; // take 0 - 11
+			iDay = Number(value.substring(8, 10));
+
+			return new Date(Date.UTC(iYear, iMonth, iDay, iHour, iMinute, iSecond));
+			return ret;
+		};			
+		
+		throw new Error("Invalid date format '" + value + "'!");
+	};
+	inc.Date.toIsoDate = function(value) {
+		var sYear = value.getFullYear().toString();
+		var sMonth = zeroPad(value.getMonth() + 1, 2);
+		var sDay = zeroPad(value.getDate(), 2);
+		var ret = sYear + "-" + sMonth + "-" + sDay; 
+		return ret;
+	};
 
 	inc.html.Dom = new function() {
 		var obj = new Object();
@@ -63,6 +228,20 @@ new function() {
 	inc.html.Ajax = new function() {
 		var obj = new Object();
 
+		var getXmlType = function(obj) {
+			if(Number.isInteger(obj))
+				return " type=\"xsd:long\"";
+			else if(Number.isFinite(obj))
+				return " type=\"xsd:decimal\"";
+			else if(inc.isBoolean(obj))
+				return " type=\"xsd:boolean\"";
+			else if(inc.isDate(obj))
+				return " type=\"xsd:dateTime\"";
+			else if(inc.isString(obj))
+				return " type=\"xsd:string\"";
+			else
+				return "";
+		};
 		var toXml = function(obj, nested) {
 			var ret = "";
 			var bIsNested = false;
@@ -71,21 +250,37 @@ new function() {
 
 			if (inc.isNumber(obj) || inc.isString(obj)) {
 				return obj.toString();
-			} else if (inc.isFunction(obj)) {
-				// do nothing			
+			} else if(inc.isFunction(obj)) {
+				return "";			
 			} else if (inc.isArray(obj)) {
 				for(var index in obj)
 					ret += "<entry>" + toXml(obj[index]) + "</entry>";
 				return ret;
-			} else if (inc.isObject(obj)) {
-				if (bIsNested)
-					ret += "<" + obj.constructor.name + ">";
+			} else if(inc.data.isMap(obj)) {
 				for(var index in obj) {
+					ret += "<entry>";
+					ret += "<key>" + index + "</key>";
 					if(!inc.isNull(obj[index]) && !inc.isUndefined(obj[index]))
-						ret += "<" + index + ">" + toXml(obj[index]) + "</" + index + ">";
+						ret += "<value" + getXmlType(obj[index]) + ">" + toXml(obj[index]) + "</value>";
+					else
+						ret += "<value />";
+					ret += "</entry>";
 				}
-				if (bIsNested)
-					ret += "</" + obj.prototype.name + ">";
+				return ret;
+			} else if (inc.isObject(obj)) {
+				for(var index in obj) {
+					if(inc.data.isMap(obj[index]) && Object.keys(obj[index]).length < 1) {
+						if(bIsNested)
+							ret += "<" + lowerCaseFirstLetter(index) + " />";
+						else
+							ret += "<" + index + " />";
+					} else if(!inc.isNull(obj[index]) && !inc.isUndefined(obj[index]) && !inc.isFunction(obj[index])) {
+						if(bIsNested)
+							ret += "<" + lowerCaseFirstLetter(index) + getXmlType(obj[index]) + ">" + toXml(obj[index], true) + "</" + lowerCaseFirstLetter(index) + ">";
+						else
+							ret += "<" + index + getXmlType(obj[index]) + ">" + toXml(obj[index], true) + "</" + index + ">";
+					}
+				}
 				return ret;
 			} else if (inc.isNull(obj) || inc.isUndefined(obj)) {
 				return "";
@@ -97,20 +292,20 @@ new function() {
 			} else if (inc.isDate(obj)) {
 				return obj.toISOString();
 			} else {
-				throw new Error("Invalid type: " + typeof obj);
+				throw new Error("Invalid type: " + typeof obj + "\nTo String: " + obj.toString());
 			}
 		};
 		var soapify = function(object, method) {
 			var ret = "";
 
-			ret += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:" + xmlNamespace + "=\"" + xmlNamesppaceUrl + "\">";
-			ret += "<soapenv:Header/>";
-			ret += "<soapenv:Body>";
+			ret += "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:" + xmlNamespace + "=\"" + xmlNamesppaceUrl + "\">";
+			//ret += "<soapenv:Header/>";
+			ret += "<S:Body>";
 			ret += "<" + xmlNamespace + ":" + method + ">";
 			ret += toXml(object);
 			ret += "</" + xmlNamespace + ":" + method + ">";
-			ret += "</soapenv:Body>";
-			ret += "</soapenv:Envelope>";
+			ret += "</S:Body>";
+			ret += "</S:Envelope>";
 
 			return ret;
 		};
@@ -118,7 +313,9 @@ new function() {
 		var capitalizeFirstLetter = function(value) {
 			return value.charAt(0).toUpperCase() + value.slice(1);
 		};
-		
+		var lowerCaseFirstLetter = function(value) {
+			return value.charAt(0).toLowerCase() + value.slice(1);
+		};
 		var populateMap = function(xml, map) {
 			var key = null;
 			var value = null;
@@ -142,8 +339,8 @@ new function() {
 				map[key] = false;
 			else if(Number.isFinite(value))
 				map[key] = Number(value);
-			else if(new Date(value) !== "Invalid Date" && !isNaN(new Date(value)))
-				map[key] = new Date(value);
+			else if(inc.isDate(value))
+				map[key] = inc.Date.parse(value);
 			else
 				map[key] = value;
 		};
@@ -173,11 +370,11 @@ new function() {
 							eval("target.set" + capitalizeFirstLetter(current.localName) + "(" + text + ")");
 						else
 							target[capitalizeFirstLetter(current.localName)] = Number(text);
-					} else if(new Date(text) !== "Invalid Date" && !isNaN(new Date(text))) {
+					} else if(inc.Date.isValid(text)) {
 						if(target.hasOwnProperty("set" + capitalizeFirstLetter(current.localName)))
-							eval("target.set" + capitalizeFirstLetter(current.localName) + "(new Date(\"" + text + "\"))");
+							eval("target.set" + capitalizeFirstLetter(current.localName) + "(inc.Date.parse(\"" + text + "\"))");
 						else
-							target[capitalizeFirstLetter(current.localName)] = new Date(text);
+							target[capitalizeFirstLetter(current.localName)] = inc.Date.parse(text);
 					} else {
 						if(target.hasOwnProperty("set" + capitalizeFirstLetter(current.localName))) {
 							var invocable = "target.set" + capitalizeFirstLetter(current.localName) + "(\"" + text.replace(/"/g, '\\"') + "\")";
@@ -189,6 +386,8 @@ new function() {
 					// no children = null
 					if(current.localName === "changes")
 						target["Changes"] = new inc.data.Map();
+					else if(current.localName === "originals")
+						target["Originals"] = new inc.data.Map();
 					else if(target.hasOwnProperty("set" + capitalizeFirstLetter(current.localName)))
 						eval("target.set" + capitalizeFirstLetter(current.localName) + "(null)");
 					else
@@ -267,7 +466,7 @@ new function() {
 					if(!arrNodes)
 						throw new Error("The SOAP call resuted in an error '" + jqXHR.statusText + "'!");
 					else if(arrNodes.length === 1)
-						alert(arrNodes[0].nodeValue);
+						throw new Error("The SOAP call returned an exception!\n\n" + arrNodes[0].nodeValue);
 					else
 						throw new Error("The SOAP call failed!\n\n" + textStatus + " - " + errorThrown);
 				}

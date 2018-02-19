@@ -12,61 +12,68 @@ new function() {
 	};
 
 	inc.accounting.html.UserEditController = function() {
-		try {
-			var objUser = new inc.accounting.entities.User();
-			var sGuid = null;
-			if(inc.html.Dom.findGetParameter("GUID").length === 1)
-				sGuid = inc.html.Dom.findGetParameter("GUID")[0];
-			
-			var txtGUID = document.getElementById("txtGUID");
-			var chkIsAllowed = document.getElementById("chkIsAllowed");
-			var txtEmailAddress = document.getElementById("txtEmailAddress");
-			var txtPasswordDate = document.getElementById("txtPasswordDate");
+		var objUser = new inc.accounting.entities.User();
+		var sGuid = null;
+		if(inc.html.Dom.findGetParameter("GUID").length === 1)
+			sGuid = inc.html.Dom.findGetParameter("GUID")[0];
 
-			var txtPassword = document.getElementById("txtPassword");
-			var txtConfirm = document.getElementById("txtConfirm");
+		var txtGUID = document.getElementById("txtGUID");
+		var chkIsAllowed = document.getElementById("chkIsAllowed");
+		var txtEmailAddress = document.getElementById("txtEmailAddress");
+		var txtPasswordDate = document.getElementById("txtPasswordDate");
+		var txtDisplayName = document.getElementById("txtDisplayName");
 
-			var btnSave = document.getElementById("btnSave");
-			var btnSave_Clicked = function() {};
-			btnSave.onclick = btnSave_Clicked;
+		var txtPassword = document.getElementById("txtPassword");
+		var txtConfirm = document.getElementById("txtConfirm");
 
-			var btnReset = document.getElementById("btnReset");
-			var btnReset_Clicked = function() {};
-			btnReset.onclick = btnReset_Clicked;
 
-			var loadControlsFromObject = function() {
-				txtGUID.value = objUser.getGuid();
-				chkIsAllowed.checked = objUser.getIsAllowed();
-				txtEmailAddress.value = objUser.getEmailAddress();
-				txtPasswordDate.value = objUser.getPasswordDate().toISOString().substring(0, 10);
+		var btnSave = document.getElementById("btnSave");
+		var btnSave_Callback = function(ret) {
+			if(typeof ret === "string")
+				window.alert("Save failed!\n\n" + ret);
 
-				txtPassword.value = "";
-				txtConfirm.value = "";
-			};
-			
-			var loadObjectFromControls = function() {
-				objUser.setIsAllowed(chkIsAllowed.checked);
-				objUser.setEmailAddress(txtEmailAddress.value);
-				objUser.setPasswordDate(new Date(txtPasswordDate.value));
-			};
-			
-			var loadByGuidCallback = function(user) {
-				objUser = user;
-				loadControlsFromObject();
-			};
+			window.location.href = "UserEdit.html?GUID=" + objUser.getGuid();
+		};
+		var btnSave_Clicked = function() {
+			loadObjectFromControls();
+			objUser.save(btnSave_Callback);
+		};
+		btnSave.onclick = btnSave_Clicked;
 
+		var btnReset = document.getElementById("btnReset");
+		var btnReset_Clicked = function() {};
+		btnReset.onclick = btnReset_Clicked;
+
+		var loadControlsFromObject = function() {
+			txtGUID.value = objUser.getGuid();
+			chkIsAllowed.checked = objUser.getIsAllowed();
+			txtEmailAddress.value = objUser.getEmailAddress();
+			txtPasswordDate.value = inc.Date.toIsoDate(objUser.getPasswordDate());
+			txtDisplayName.value = objUser.getDisplayName();
+
+			txtPassword.value = "";
+			txtConfirm.value = "";
+		};
+
+		var loadObjectFromControls = function() {
+			objUser.setIsAllowed(chkIsAllowed.checked);
+			objUser.setEmailAddress(txtEmailAddress.value);
+			objUser.setPasswordDate(inc.Date.parse(txtPasswordDate.value));
+			objUser.setDisplayName(txtDisplayName.value);
+		};
+
+		var userCallback = function(user) {
+			objUser = user;
+			loadControlsFromObject();
+		};
+
+		var loadUser = function() {
 			if(sGuid)
-				inc.accounting.entities.User.loadByGuid(sGuid, loadByGuidCallback);
-			else {
-				objUser = objUser.initialize();
-				loadControlsFromObject();
-			}
-
-		
-		}
-		catch(error) {
-			alert(error);
-		}
+				inc.accounting.entities.User.loadByGuid(sGuid, userCallback);
+			else
+				objUser.initialize(userCallback);
+		};
+		loadUser();
 	};
 };
 
