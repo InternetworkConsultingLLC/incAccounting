@@ -47,7 +47,7 @@ public class PayrollChecksFieldsPrintController extends Controller {
 		objModel = (PayrollFieldValue) getModel();			
 		
 		LabelTag lblField = new LabelTag(this, sTemplatePrefix, PayrollFieldValue.PAYROLL_FIELDS_GUID, objModel.getGuid(), null);
-		lblField.setValue(objModel.loadPayrollField(getUser().login(), PayrollField.class, false).getName());
+		lblField.setValue(objModel.loadPayrollField(getUser().login(), PayrollField.class, !getIsPostback()).getName());
 				
 		LabelTag txtTotal = new LabelTag(this, sTemplatePrefix, PayrollFieldValue.TOTAL, objModel.getGuid(), objModel);
 		txtTotal.setFormat(sMoneyFormat);

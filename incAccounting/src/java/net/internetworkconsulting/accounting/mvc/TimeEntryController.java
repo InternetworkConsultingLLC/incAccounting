@@ -64,25 +64,25 @@ public class TimeEntryController extends EditController {
 		Tag tagDescription = new TextAreaTag(this, TimeEntry.DESCRIPTION, objModel);
 		
 		ComboTag tagContact = new ComboTag(this, TimeEntry.CONTACTS_GUID, objModel);
-		tagContact.setOptions(Contact.loadOptions(getUser().login(), false));
+		tagContact.setOptions(Contact.loadOptions(getUser().login(), !getIsPostback()));
 		
 		ComboTag tagEmploye = new ComboTag(this, TimeEntry.EMPLOYEES_GUID, objModel);
-		tagEmploye.setOptions(Employee.loadOptions(getUser().login(), false));
+		tagEmploye.setOptions(Employee.loadOptions(getUser().login(), !getIsPostback()));
 		
 		ComboTag tagJob = new ComboTag(this, TimeEntry.JOBS_GUID, objModel);
-		tagJob.setOptions(Job.loadOptions(getUser().login(), false));
+		tagJob.setOptions(Job.loadOptions(getUser().login(), !getIsPostback()));
 		
 		ComboTag tagDepartment = new ComboTag(this, TimeEntry.DEPARTMENTS_GUID, objModel);
-		tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+		tagDepartment.setOptions(Department.loadOptions(getUser().login(), !getIsPostback()));
 		
 		ComboTag tagTimeSheet = new ComboTag(this, TimeEntry.TIME_SHEETS_GUID, objModel);
-		tagTimeSheet.setOptions(TimeSheet.loadOptions(getUser().login(), false));
+		tagTimeSheet.setOptions(TimeSheet.loadOptions(getUser().login(), !getIsPostback()));
 		
 		ComboTag tagDocument = new ComboTag(this, TimeEntry.DOCUMENTS_GUID, objModel);
-		tagDocument.setOptions(Document.loadOptions(getUser().login(), false));
+		tagDocument.setOptions(Document.loadOptions(getUser().login(), !getIsPostback()));
 		
 		ComboTag tagType = new ComboTag(this, TimeEntry.ENTRY_TYPES_GUID, objModel);
-		tagType.setOptions(TimeEntryType.loadOptions(getUser().login(), false));
+		tagType.setOptions(TimeEntryType.loadOptions(getUser().login(), !getIsPostback()));
 
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });

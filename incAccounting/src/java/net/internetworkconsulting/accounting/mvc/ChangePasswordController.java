@@ -1,8 +1,5 @@
 package net.internetworkconsulting.accounting.mvc;
 
-import java.util.Date;
-import net.internetworkconsulting.accounting.entities.User;
-import net.internetworkconsulting.data.SessionInterface;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.Controller;
 import net.internetworkconsulting.mvc.ControllerInterface;

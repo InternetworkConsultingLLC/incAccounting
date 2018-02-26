@@ -41,7 +41,7 @@ public class PostDocumentsController extends Controller {
 		objModel = (List<net.internetworkconsulting.accounting.entities.Document>) model;
 		if(!getIsPostback()) {
 			if(status == null || status.equals("") || status.equals("null"))
-				objModel = Document.loadByTypeAndPosted(getUser().login(), type_guid, false);
+				objModel = Document.loadByTypeAndPosted(getUser().login(), type_guid, !getIsPostback());
 			else
 				objModel = Document.loadByTypeAndPosted(getUser().login(), type_guid, true);	
 			

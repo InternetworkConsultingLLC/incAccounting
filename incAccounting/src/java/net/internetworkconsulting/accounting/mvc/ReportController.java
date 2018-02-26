@@ -82,11 +82,11 @@ public class ReportController extends EditController {
 			btnCopy.addOnClickEvent(new Event() { public void handle() throws Exception { btnCopy_OnClick(); } });
 		}
 		
-		List<ReportBlock> lstBlocks = objModel.loadBlocks(getUser().login(), ReportBlock.class, false);
+		List<ReportBlock> lstBlocks = objModel.loadBlocks(getUser().login(), ReportBlock.class, !getIsPostback());
 		for(ReportBlock rb: lstBlocks)
 			createBlock(rb);
 		
-		List<ReportFilter> lstFilters = objModel.loadFilters(getUser().login(), ReportFilter.class, false);
+		List<ReportFilter> lstFilters = objModel.loadFilters(getUser().login(), ReportFilter.class, !getIsPostback());
 		for(ReportFilter rf: lstFilters)
 			createFilter(rf);
 	}
@@ -119,8 +119,8 @@ public class ReportController extends EditController {
 			objModel.setHtmlTemplate(objModel.getHtmlTemplate().replace(getRootUrl(), "~/"));
 
 			getUser().login().save(Report.TABLE_NAME, objModel);
-			getUser().login().save(ReportFilter.TABLE_NAME, objModel.loadFilters(getUser().login(), ReportFilter.class, false));
-			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadBlocks(getUser().login(), ReportBlock.class, false));
+			getUser().login().save(ReportFilter.TABLE_NAME, objModel.loadFilters(getUser().login(), ReportFilter.class, !getIsPostback()));
+			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadBlocks(getUser().login(), ReportBlock.class, !getIsPostback()));
 
 			getUser().login().commit(true);
 		}
@@ -146,7 +146,7 @@ public class ReportController extends EditController {
 		rf.initialize();
 		rf.setReportsGuid(objModel.getGuid());
 
-		objModel.loadFilters(getUser().login(), ReportFilter.class, false).add(rf);
+		objModel.loadFilters(getUser().login(), ReportFilter.class, !getIsPostback()).add(rf);
 		ChildReportFiltersController controller = createFilter(rf);
 		doCreateControls(controller, false);
 	}

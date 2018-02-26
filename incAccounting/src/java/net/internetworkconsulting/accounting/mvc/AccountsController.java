@@ -65,7 +65,7 @@ public class AccountsController extends EditController {
 		ComboTag cboParantAccount = new ComboTag(this, Account.PARENT_ACCOUNTS_GUID, objModel);
 		cboParantAccount.setOptions(Account.loadOptions(getUser().login(), true));
 
-		List<Account> lstChildren = objModel.loadChildren(getUser().login(), Account.class, false);
+		List<Account> lstChildren = objModel.loadChildren(getUser().login(), Account.class, !getIsPostback());
 		for(Account child: lstChildren) 
 			createController(child);
 		
@@ -110,7 +110,7 @@ public class AccountsController extends EditController {
 		try { 
 			getUser().login().begin(true);
 			getUser().login().save(Account.TABLE_NAME, objModel); 
-			getUser().login().save(Account.TABLE_NAME, objModel.loadChildren(getUser().login(), Account.class, false));
+			getUser().login().save(Account.TABLE_NAME, objModel.loadChildren(getUser().login(), Account.class, !getIsPostback()));
 			getUser().login().commit(true);
 		} 
 		catch (Exception ex) {
@@ -127,7 +127,7 @@ public class AccountsController extends EditController {
 		accnt.initialize();
 		accnt.setParentAccountsGuid(objModel.getGuid());
 		accnt.setAccountTypesGuid(objModel.getAccountTypesGuid());
-		objModel.loadChildren(getUser().login(), Account.class, false).add(accnt);
+		objModel.loadChildren(getUser().login(), Account.class, !getIsPostback()).add(accnt);
 		
 		AccountsChildrenController controller = createController(accnt);
 		doCreateControls(controller, false);

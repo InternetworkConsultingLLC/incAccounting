@@ -43,7 +43,7 @@ public class PostPaymentsController extends Controller {
 		objModel = (List<Payment>) model;
 		if(!getIsPostback()) {
 			if(status == null || status.equals("") || status.equals("null"))
-				objModel = Payment.loadByTypeAndPosted(getUser().login(), type_guid, false);
+				objModel = Payment.loadByTypeAndPosted(getUser().login(), type_guid, !getIsPostback());
 			else
 				objModel = Payment.loadByTypeAndPosted(getUser().login(), type_guid, true);	
 			
