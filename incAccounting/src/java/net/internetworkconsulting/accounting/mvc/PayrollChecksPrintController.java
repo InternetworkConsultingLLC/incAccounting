@@ -55,6 +55,8 @@ public class PayrollChecksPrintController extends Controller {
 		LiteralTag txtGuid = new LiteralTag(this, PayrollCheck.GUID, objModel);
 		LiteralTag txtNumber = new LiteralTag(this, PayrollCheck.NUMBER, objModel);
 		LiteralTag dtDate = new LiteralTag(this, PayrollCheck.DATE, objModel);
+		dtDate.setFormat("yyyy-MM-dd");
+		
 		LiteralTag txtPayTo = new LiteralTag(this, PayrollCheck.PAY_TO_THE_ORDER_OF, objModel);
 		LiteralTag txtLine1 = new LiteralTag(this, PayrollCheck.LINE_1, objModel);
 		LiteralTag txtLine2 = new LiteralTag(this, PayrollCheck.LINE_2, objModel);
