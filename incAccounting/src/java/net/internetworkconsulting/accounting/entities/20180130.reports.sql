@@ -7,4 +7,6 @@ INSERT INTO "reports" ( "Auto Load",  "Display Name",  "GUID",  "HTML Template",
 DELETE FROM "reports" WHERE "GUID"='84c704545c9140fb96ee5b9610fe632b';
 INSERT INTO "reports" ( "Auto Load",  "Display Name",  "GUID",  "HTML Template",  "Query",  "Title" ) VALUES (0, 'List - Accounting - Bank Deposits', '84c704545c9140fb96ee5b9610fe632b', '<table class="list">\r\n    <tr>\r\n        <td><a href="~/incAccounting?App=Deposit" class="add">Add</a></td>\r\n        <td>Account</td>\r\n        <td>Date</td>\r\n        <td>Number</td>\r\n        <td class="right">Total</td>\r\n    </tr>\r\n    <!-- BEGIN Row -->\r\n    <tr>\r\n        <td><a href="~/incAccounting?App=Deposit&GUID={GUID}&Action=Delete&Return=~%2FincBootstrap%3FApp%3DReportView%26GUID%3D84c704545c9140fb96ee5b9610fe632b" class="delete">Delete</a></td>\r\n        <td><a href="~/incAccounting?App=Deposit&GUID={GUID}">{Account}</a></td>\r\n        <td><a href="~/incAccounting?App=Deposit&GUID={GUID}">{Date}</a></td>\r\n        <td><a href="~/incAccounting?App=Deposit&GUID={GUID}">{Number}</a></td>\r\n        <td class="right"><a href="~/incAccounting?App=Deposit&GUID={GUID}">{Total}</a></td>\r\n    </tr>\r\n    <!-- END Row -->\r\n</table>', NULL, 'Bank Deposit List' );
 
+UPDATE "Settings" SET "Value" = '2018.1.30' WHERE "Key" = 'Version Number';
+
 SET FOREIGN_KEY_CHECKS=1;

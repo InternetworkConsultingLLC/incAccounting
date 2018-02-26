@@ -73,13 +73,13 @@ function getTimeEntryByGuid(guid) {
 function getDate(value) {
 	// 012345678901234567890
 	// 2017-05-15 12:07:00
-	
+	// 2018-02-07T16:23:43Z	
 	var sYear = Number(value.substring(0, 4));
 	var sMonth = Number(value.substring(5, 7));
 	var sDay = Number(value.substring(8, 10));
 	var sHour = Number(value.substring(11, 13));
 	var sMinute = Number(value.substring(14, 16));
-	var sSecond = Number(value.substring(17));
+	var sSecond = Number(value.substring(17, 19));
 	
 	return Date.UTC(sYear, sMonth, sDay, sHour, sMinute, sSecond);
 }

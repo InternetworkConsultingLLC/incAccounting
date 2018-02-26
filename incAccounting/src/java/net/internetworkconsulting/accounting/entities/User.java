@@ -401,7 +401,7 @@ public class User extends UsersRow implements SessionInterface {
 	}
 	public void setSetting(String key, String value) { hmSettings.put(key, value); }
 	
-	public static String VersionNumber = "2018.1.23";
+	public static String VersionNumber = "2018.1.30";
 	public String getVersion() { return User.VersionNumber; }
 	public void checkVersion() throws Exception {
 		if(!hmSettings.containsKey(SETTING_VERSION_NUMBER))

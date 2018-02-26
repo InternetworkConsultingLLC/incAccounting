@@ -570,7 +570,7 @@ public abstract class Controller implements ControllerInterface {
 			ret += "\t{ \n";
 			ret += "\t\t\"_SERIAL_\":\"" + serialize(ri) + "\",\n";
 			for(String col : ri.getColumns().keySet())
-				ret += "\t\t\"" + col + "\":\"" + Statement.convertObjectToString(ri.get(col), null).replace("\"", "\\\"") + "\",\n";
+				ret += "\t\t\"" + col + "\":\"" + Statement.convertObjectToString(ri.get(col), null).replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r") + "\",\n";
 
 			ret = ret.substring(0, ret.length() - 2) + "\n},\n";
 		}

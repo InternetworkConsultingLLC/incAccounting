@@ -6,6 +6,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.TimeZone;
 import net.internetworkconsulting.data.SessionInterface;
 import net.internetworkconsulting.data.StatementInterface;
 
@@ -173,17 +174,18 @@ public class Statement implements StatementInterface {
 				else
 					return ((BigDecimal) value).toString();
 			case "java.util.Date":
-				java.util.Date objDate = (java.util.Date) value;
-				sdf = new SimpleDateFormat("yyyy-MM-dd");
-				return sdf.format(objDate);
+//				java.util.Date objDate = (java.util.Date) value;
+//				sdf = new SimpleDateFormat("yyyy-MM-dd");
+//				return sdf.format(objDate);
 //			case "java.sql.Time":
 //				java.sql.Time objTime = (java.sql.Time) value;
 //				sdf = new SimpleDateFormat("HH:mm:ss");
 //				return sdf.format(objTime);
 //			case "java.sql.Timestamp":
-//				java.sql.Timestamp objTs = (java.sql.Timestamp) value;
-//				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//				return sdf.format(objTs);
+				java.util.Date objDate = (java.util.Date) value;
+				sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+				return sdf.format(objDate);
 		}
 
 		throw new Exception("Not a valid type (" + value.getClass().getCanonicalName() + ")!");
