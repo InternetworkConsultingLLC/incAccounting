@@ -39,6 +39,7 @@ public class DepositsPrintController extends Controller {
 		
 		LiteralTag txtGuid = new LiteralTag(this, Deposit.GUID, objModel);
 		LiteralTag dtDate = new LiteralTag(this, Deposit.DATE, objModel);
+		dtDate.setFormat("yyyy-MM-dd");
 		LiteralTag txtNumber = new LiteralTag(this, Deposit.NUMBER, objModel);
 		LiteralTag litItems = new LiteralTag(this, Deposit.ITEMS, objModel);
 
