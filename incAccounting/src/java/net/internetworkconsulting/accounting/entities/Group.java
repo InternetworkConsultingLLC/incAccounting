@@ -1,6 +1,7 @@
 package net.internetworkconsulting.accounting.entities;
 
 import java.util.List;
+import net.internetworkconsulting.accounting.data.GroupsRow;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
@@ -30,6 +31,14 @@ public class Group extends net.internetworkconsulting.accounting.data.GroupsRow 
 		return lst;
 	}
 
+	public static <T extends GroupsRow> List<T> loadSearch(AdapterInterface adapter, Class biz, String display_name, boolean is_allowed) throws Exception {
+		Statement stmt = new Statement(adapter.getSession().readJar(User.class, "Group.loadSearch.sql"));
+		stmt.getParameters().put("@DisplayName", display_name);
+		stmt.getParameters().put("@IsAllowed", is_allowed);
+		List<T> lst = adapter.load(biz, stmt, true);
+		return lst;
+	}
+	
 	public Group() { super(); }
 
 	private static List<Securable> lstSecurables;

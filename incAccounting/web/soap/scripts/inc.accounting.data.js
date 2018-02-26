@@ -6,7 +6,6 @@
 // properties, please update the database, then re-generate.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 if(!inc)
 	var inc = {};
 if(!inc.accounting)
@@ -15,32 +14,3763 @@ if(!inc.accounting.data)
 	inc.accounting.data = {};
 
 new function() {
-	inc.accounting.data.UserRow = function() {
+	
+		
+	inc.accounting.data.AccountTypesRow = function() {
 		var obj = new inc.data.Row();
 
+				
+		/*
+		 * @type java.lang.String
+		 */
 		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
 		obj.setGuid = function(value) { obj.set("GUID", value); };
-
-		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
-		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
-
-		obj.getDisplayName = function() { return obj.get("Display Name"); };
-		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
-
-		obj.getEmailAddress = function() { return obj.get("Email Address"); };
-		obj.setEmailAddress = function(value) { obj.set("Email Address", value); };
-
-		obj.getPasswordDate = function() { return obj.get("Password Date"); };
-		obj.setPasswordDate = function(value) { obj.set("Password Date", value); };
-
-		obj.getPasswordHash = function() { return obj.get("Password Hash"); };
-		obj.setPasswordHash = function(value) { obj.set("Password Hash", value); };
-
-		obj.getEmployeesGUID = function() { return obj.get("Employees GUID"); };
-		obj.setEmployeesGUID = function(value) { obj.set("Employees GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getGetsClosed = function() { return obj.get("Gets Closed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setGetsClosed = function(value) { obj.set("Gets Closed", value); };
+		
+		
 
 		return obj;
 	};
+	
+		
+	inc.accounting.data.AccountsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountTypesGuid = function() { return obj.get("Account Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountTypesGuid = function(value) { obj.set("Account Types GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentAccountsGuid = function() { return obj.get("Parent Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentAccountsGuid = function(value) { obj.set("Parent Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSegment = function() { return obj.get("Segment"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSegment = function(value) { obj.set("Segment", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNumber = function() { return obj.get("Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNumber = function(value) { obj.set("Number", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNestedName = function() { return obj.get("Nested Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNestedName = function(value) { obj.set("Nested Name", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLastNumber = function() { return obj.get("Last Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLastNumber = function(value) { obj.set("Last Number", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.BankDepositsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDate = function() { return obj.get("Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDate = function(value) { obj.set("Date", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNumber = function() { return obj.get("Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNumber = function(value) { obj.set("Number", value); };
+		
+				
+		/*
+		 * @type java.lang.Integer
+		 */
+		obj.getItems = function() { return obj.get("Items"); };
+		/*
+		 * @param java.lang.Integer value 
+		 */
+		obj.setItems = function(value) { obj.set("Items", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTotal = function() { return obj.get("Total"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTotal = function(value) { obj.set("Total", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostedTransactionsGuid = function() { return obj.get("Posted Transactions GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostedTransactionsGuid = function(value) { obj.set("Posted Transactions GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ContactNotesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getUsersGuid = function() { return obj.get("Users GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setUsersGuid = function(value) { obj.set("Users GUID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDated = function() { return obj.get("Dated"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDated = function(value) { obj.set("Dated", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSubject = function() { return obj.get("Subject"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSubject = function(value) { obj.set("Subject", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getMemorandum = function() { return obj.get("Memorandum"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setMemorandum = function(value) { obj.set("Memorandum", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ContactTypesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ContactsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentContactsGuid = function() { return obj.get("Parent Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentContactsGuid = function(value) { obj.set("Parent Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getContactSince = function() { return obj.get("Contact Since"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setContactSince = function(value) { obj.set("Contact Since", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDefaultShippingContactsGuid = function() { return obj.get("Default Shipping Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDefaultShippingContactsGuid = function(value) { obj.set("Default Shipping Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getWebsite = function() { return obj.get("Website"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setWebsite = function(value) { obj.set("Website", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEmailAddress = function() { return obj.get("Email Address"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEmailAddress = function(value) { obj.set("Email Address", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getOfficePhone = function() { return obj.get("Office Phone"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setOfficePhone = function(value) { obj.set("Office Phone", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getMobilePhone = function() { return obj.get("Mobile Phone"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setMobilePhone = function(value) { obj.set("Mobile Phone", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getHomePhone = function() { return obj.get("Home Phone"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setHomePhone = function(value) { obj.set("Home Phone", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getFaxNumber = function() { return obj.get("Fax Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setFaxNumber = function(value) { obj.set("Fax Number", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLine1 = function() { return obj.get("Line 1"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLine1 = function(value) { obj.set("Line 1", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLine2 = function() { return obj.get("Line 2"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLine2 = function(value) { obj.set("Line 2", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getCountry = function() { return obj.get("Country"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setCountry = function(value) { obj.set("Country", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getCity = function() { return obj.get("City"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setCity = function(value) { obj.set("City", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getState = function() { return obj.get("State"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setState = function(value) { obj.set("State", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostalCode = function() { return obj.get("Postal Code"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostalCode = function(value) { obj.set("Postal Code", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTaxGroupGuid = function() { return obj.get("Tax Group GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTaxGroupGuid = function(value) { obj.set("Tax Group GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactTypesGuid = function() { return obj.get("Contact Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactTypesGuid = function(value) { obj.set("Contact Types GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ConversionsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLeftUnitMeasuresGuid = function() { return obj.get("Left Unit Measures GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLeftUnitMeasuresGuid = function(value) { obj.set("Left Unit Measures GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getLeftQuantity = function() { return obj.get("Left Quantity"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setLeftQuantity = function(value) { obj.set("Left Quantity", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getRightUnitMeasuresGuid = function() { return obj.get("Right Unit Measures GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setRightUnitMeasuresGuid = function(value) { obj.set("Right Unit Measures GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getRightQuantity = function() { return obj.get("Right Quantity"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setRightQuantity = function(value) { obj.set("Right Quantity", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.DepartmentsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentDepartmentsGuid = function() { return obj.get("Parent Departments GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentDepartmentsGuid = function(value) { obj.set("Parent Departments GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSegment = function() { return obj.get("Segment"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSegment = function(value) { obj.set("Segment", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNumber = function() { return obj.get("Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNumber = function(value) { obj.set("Number", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNestedName = function() { return obj.get("Nested Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNestedName = function(value) { obj.set("Nested Name", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.DocumentLinesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDocumentsGuid = function() { return obj.get("Documents GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDocumentsGuid = function(value) { obj.set("Documents GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Integer
+		 */
+		obj.getSortOrder = function() { return obj.get("Sort Order"); };
+		/*
+		 * @param java.lang.Integer value 
+		 */
+		obj.setSortOrder = function(value) { obj.set("Sort Order", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getQuantity = function() { return obj.get("Quantity"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setQuantity = function(value) { obj.set("Quantity", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getItemsGuid = function() { return obj.get("Items GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setItemsGuid = function(value) { obj.set("Items GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getUnitMeasuresGuid = function() { return obj.get("Unit Measures GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setUnitMeasuresGuid = function(value) { obj.set("Unit Measures GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDescription = function() { return obj.get("Description"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDescription = function(value) { obj.set("Description", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getUnitPrice = function() { return obj.get("Unit Price"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setUnitPrice = function(value) { obj.set("Unit Price", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getExtension = function() { return obj.get("Extension"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setExtension = function(value) { obj.set("Extension", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsTaxed = function() { return obj.get("Is Taxed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsTaxed = function(value) { obj.set("Is Taxed", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsBackwardsCalculated = function() { return obj.get("Is Backwards Calculated"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsBackwardsCalculated = function(value) { obj.set("Is Backwards Calculated", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getJobsGuid = function() { return obj.get("Jobs GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setJobsGuid = function(value) { obj.set("Jobs GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDepartmentsGuid = function() { return obj.get("Departments GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDepartmentsGuid = function(value) { obj.set("Departments GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.DocumentTypesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsSalesRelated = function() { return obj.get("Is Sales Related"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsSalesRelated = function(value) { obj.set("Is Sales Related", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsCreditMemo = function() { return obj.get("Is Credit Memo"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsCreditMemo = function(value) { obj.set("Is Credit Memo", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsPosting = function() { return obj.get("Is Posting"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsPosting = function(value) { obj.set("Is Posting", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.DocumentsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDocumentTypesGuid = function() { return obj.get("Document Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDocumentTypesGuid = function(value) { obj.set("Document Types GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentDocumentsGuid = function() { return obj.get("Parent Documents GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentDocumentsGuid = function(value) { obj.set("Parent Documents GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getReferenceNumber = function() { return obj.get("Reference Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setReferenceNumber = function(value) { obj.set("Reference Number", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDate = function() { return obj.get("Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDate = function(value) { obj.set("Date", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDueDate = function() { return obj.get("Due Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDueDate = function(value) { obj.set("Due Date", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostedAccountsGuid = function() { return obj.get("Posted Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostedAccountsGuid = function(value) { obj.set("Posted Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostedTransactionsGuid = function() { return obj.get("Posted Transactions GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostedTransactionsGuid = function(value) { obj.set("Posted Transactions GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsDisplayName = function() { return obj.get("Contacts Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsDisplayName = function(value) { obj.set("Contacts Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getCustomerReference = function() { return obj.get("Customer Reference"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setCustomerReference = function(value) { obj.set("Customer Reference", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTerms = function() { return obj.get("Terms"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTerms = function(value) { obj.set("Terms", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingMethod = function() { return obj.get("Shipping Method"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingMethod = function(value) { obj.set("Shipping Method", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingNumber = function() { return obj.get("Shipping Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingNumber = function(value) { obj.set("Shipping Number", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingContactsGuid = function() { return obj.get("Billing Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingContactsGuid = function(value) { obj.set("Billing Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressDisplayName = function() { return obj.get("Billing Address Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressDisplayName = function(value) { obj.set("Billing Address Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressLine1 = function() { return obj.get("Billing Address Line 1"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressLine1 = function(value) { obj.set("Billing Address Line 1", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressLine2 = function() { return obj.get("Billing Address Line 2"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressLine2 = function(value) { obj.set("Billing Address Line 2", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressCity = function() { return obj.get("Billing Address City"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressCity = function(value) { obj.set("Billing Address City", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressState = function() { return obj.get("Billing Address State"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressState = function(value) { obj.set("Billing Address State", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressPostalCode = function() { return obj.get("Billing Address Postal Code"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressPostalCode = function(value) { obj.set("Billing Address Postal Code", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressCountry = function() { return obj.get("Billing Address Country"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressCountry = function(value) { obj.set("Billing Address Country", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingContactsGuid = function() { return obj.get("Shipping Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingContactsGuid = function(value) { obj.set("Shipping Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingAddressDisplayName = function() { return obj.get("Shipping Address Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingAddressDisplayName = function(value) { obj.set("Shipping Address Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingAddressLine1 = function() { return obj.get("Shipping Address Line 1"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingAddressLine1 = function(value) { obj.set("Shipping Address Line 1", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingAddressLine2 = function() { return obj.get("Shipping Address Line 2"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingAddressLine2 = function(value) { obj.set("Shipping Address Line 2", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingAddressCity = function() { return obj.get("Shipping Address City"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingAddressCity = function(value) { obj.set("Shipping Address City", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingAddressState = function() { return obj.get("Shipping Address State"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingAddressState = function(value) { obj.set("Shipping Address State", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingAddressPostalCode = function() { return obj.get("Shipping Address Postal Code"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingAddressPostalCode = function(value) { obj.set("Shipping Address Postal Code", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getShippingAddressCountry = function() { return obj.get("Shipping Address Country"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setShippingAddressCountry = function(value) { obj.set("Shipping Address Country", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSalesTaxesGuid = function() { return obj.get("Sales Taxes GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSalesTaxesGuid = function(value) { obj.set("Sales Taxes GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTaxableSubtotal = function() { return obj.get("Taxable Subtotal"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTaxableSubtotal = function(value) { obj.set("Taxable Subtotal", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getNontaxableSubtotal = function() { return obj.get("Nontaxable Subtotal"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setNontaxableSubtotal = function(value) { obj.set("Nontaxable Subtotal", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTaxRate = function() { return obj.get("Tax Rate"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTaxRate = function(value) { obj.set("Tax Rate", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getSubtotal = function() { return obj.get("Subtotal"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setSubtotal = function(value) { obj.set("Subtotal", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTaxes = function() { return obj.get("Taxes"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTaxes = function(value) { obj.set("Taxes", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTotal = function() { return obj.get("Total"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTotal = function(value) { obj.set("Total", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.EmployeesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getFirstName = function() { return obj.get("First Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setFirstName = function(value) { obj.set("First Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLastName = function() { return obj.get("Last Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLastName = function(value) { obj.set("Last Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSuffix = function() { return obj.get("Suffix"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSuffix = function(value) { obj.set("Suffix", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTaxId = function() { return obj.get("Tax ID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTaxId = function(value) { obj.set("Tax ID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDateOfBirth = function() { return obj.get("Date of Birth"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDateOfBirth = function(value) { obj.set("Date of Birth", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsMale = function() { return obj.get("Is Male"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsMale = function(value) { obj.set("Is Male", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEthnicity = function() { return obj.get("Ethnicity"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEthnicity = function(value) { obj.set("Ethnicity", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getJobTitle = function() { return obj.get("Job Title"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setJobTitle = function(value) { obj.set("Job Title", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSupervisorContactsGuid = function() { return obj.get("Supervisor Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSupervisorContactsGuid = function(value) { obj.set("Supervisor Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDateHirred = function() { return obj.get("Date Hirred"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDateHirred = function(value) { obj.set("Date Hirred", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDateTerminated = function() { return obj.get("Date Terminated"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDateTerminated = function(value) { obj.set("Date Terminated", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDateVerified = function() { return obj.get("Date Verified"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDateVerified = function(value) { obj.set("Date Verified", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getInsurance = function() { return obj.get("Insurance"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setInsurance = function(value) { obj.set("Insurance", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getVacation = function() { return obj.get("Vacation"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setVacation = function(value) { obj.set("Vacation", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.GroupsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEmailAddress = function() { return obj.get("Email Address"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEmailAddress = function(value) { obj.set("Email Address", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ItemPostingsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getIncreasingDocumentLinesGuid = function() { return obj.get("Increasing Document Lines GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setIncreasingDocumentLinesGuid = function(value) { obj.set("Increasing Document Lines GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDecreasingDocumentLinesGuid = function() { return obj.get("Decreasing Document Lines GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDecreasingDocumentLinesGuid = function(value) { obj.set("Decreasing Document Lines GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getDecreaseQuantity = function() { return obj.get("Decrease Quantity"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setDecreaseQuantity = function(value) { obj.set("Decrease Quantity", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ItemsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentItemsGuid = function() { return obj.get("Parent Items GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentItemsGuid = function(value) { obj.set("Parent Items GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSegment = function() { return obj.get("Segment"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSegment = function(value) { obj.set("Segment", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNumber = function() { return obj.get("Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNumber = function(value) { obj.set("Number", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSalesAccountsGuid = function() { return obj.get("Sales Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSalesAccountsGuid = function(value) { obj.set("Sales Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSalesDescription = function() { return obj.get("Sales Description"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSalesDescription = function(value) { obj.set("Sales Description", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getSalesMarkUp = function() { return obj.get("Sales Mark Up"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setSalesMarkUp = function(value) { obj.set("Sales Mark Up", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getSalesUnitPrice = function() { return obj.get("Sales Unit Price"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setSalesUnitPrice = function(value) { obj.set("Sales Unit Price", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsSalesTaxed = function() { return obj.get("Is Sales Taxed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsSalesTaxed = function(value) { obj.set("Is Sales Taxed", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPurchaseAccountsGuid = function() { return obj.get("Purchase Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPurchaseAccountsGuid = function(value) { obj.set("Purchase Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPurchaseDescription = function() { return obj.get("Purchase Description"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPurchaseDescription = function(value) { obj.set("Purchase Description", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPurchaseContactsGuid = function() { return obj.get("Purchase Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPurchaseContactsGuid = function(value) { obj.set("Purchase Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getLastUnitCost = function() { return obj.get("Last Unit Cost"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setLastUnitCost = function(value) { obj.set("Last Unit Cost", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getInventoryUnitMeasuresGuid = function() { return obj.get("Inventory Unit Measures GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setInventoryUnitMeasuresGuid = function(value) { obj.set("Inventory Unit Measures GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getInventoryAccountsGuid = function() { return obj.get("Inventory Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setInventoryAccountsGuid = function(value) { obj.set("Inventory Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getInventoryDescription = function() { return obj.get("Inventory Description"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setInventoryDescription = function(value) { obj.set("Inventory Description", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsSerialized = function() { return obj.get("Is Serialized"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsSerialized = function(value) { obj.set("Is Serialized", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.JobsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentJobsGuid = function() { return obj.get("Parent Jobs GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentJobsGuid = function(value) { obj.set("Parent Jobs GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSegment = function() { return obj.get("Segment"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSegment = function(value) { obj.set("Segment", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNumber = function() { return obj.get("Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNumber = function(value) { obj.set("Number", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNestedName = function() { return obj.get("Nested Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNestedName = function(value) { obj.set("Nested Name", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.LogsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getOccured = function() { return obj.get("Occured"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setOccured = function(value) { obj.set("Occured", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getUsersGuid = function() { return obj.get("Users GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setUsersGuid = function(value) { obj.set("Users GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getCodeGuid = function() { return obj.get("Code GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setCodeGuid = function(value) { obj.set("Code GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLog = function() { return obj.get("Log"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLog = function(value) { obj.set("Log", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDetails = function() { return obj.get("Details"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDetails = function(value) { obj.set("Details", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.MembershipsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getUsersGuid = function() { return obj.get("Users GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setUsersGuid = function(value) { obj.set("Users GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGroupsGuid = function() { return obj.get("Groups GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGroupsGuid = function(value) { obj.set("Groups GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PaymentApplicationsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPaymentsGuid = function() { return obj.get("Payments GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPaymentsGuid = function(value) { obj.set("Payments GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDocumentsGuid = function() { return obj.get("Documents GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDocumentsGuid = function(value) { obj.set("Documents GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getAmount = function() { return obj.get("Amount"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setAmount = function(value) { obj.set("Amount", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PaymentTypesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsSalesRelated = function() { return obj.get("Is Sales Related"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsSalesRelated = function(value) { obj.set("Is Sales Related", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PaymentTypesDocumentTypesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDocumentTypesGuid = function() { return obj.get("Document Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDocumentTypesGuid = function(value) { obj.set("Document Types GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPaymentTypesGuid = function() { return obj.get("Payment Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPaymentTypesGuid = function(value) { obj.set("Payment Types GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PaymentsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPaymentTypesGuid = function() { return obj.get("Payment Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPaymentTypesGuid = function(value) { obj.set("Payment Types GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBankDepositsGuid = function() { return obj.get("Bank Deposits GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBankDepositsGuid = function(value) { obj.set("Bank Deposits GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getOurNumber = function() { return obj.get("Our Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setOurNumber = function(value) { obj.set("Our Number", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDate = function() { return obj.get("Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDate = function(value) { obj.set("Date", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostedAccountsGuid = function() { return obj.get("Posted Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostedAccountsGuid = function(value) { obj.set("Posted Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostedTransactionsGuid = function() { return obj.get("Posted Transactions GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostedTransactionsGuid = function(value) { obj.set("Posted Transactions GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPrepaymentDocumentsGuid = function() { return obj.get("Prepayment Documents GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPrepaymentDocumentsGuid = function(value) { obj.set("Prepayment Documents GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getExpenseLinesDocumentsGuid = function() { return obj.get("Expense Lines Documents GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setExpenseLinesDocumentsGuid = function(value) { obj.set("Expense Lines Documents GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsDisplayName = function() { return obj.get("Contacts Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsDisplayName = function(value) { obj.set("Contacts Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTheirNumber = function() { return obj.get("Their Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTheirNumber = function(value) { obj.set("Their Number", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingContactsGuid = function() { return obj.get("Billing Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingContactsGuid = function(value) { obj.set("Billing Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressDisplayName = function() { return obj.get("Billing Address Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressDisplayName = function(value) { obj.set("Billing Address Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressLine1 = function() { return obj.get("Billing Address Line 1"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressLine1 = function(value) { obj.set("Billing Address Line 1", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressLine2 = function() { return obj.get("Billing Address Line 2"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressLine2 = function(value) { obj.set("Billing Address Line 2", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressCity = function() { return obj.get("Billing Address City"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressCity = function(value) { obj.set("Billing Address City", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressState = function() { return obj.get("Billing Address State"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressState = function(value) { obj.set("Billing Address State", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressPostalCode = function() { return obj.get("Billing Address Postal Code"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressPostalCode = function(value) { obj.set("Billing Address Postal Code", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getBillingAddressCountry = function() { return obj.get("Billing Address Country"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setBillingAddressCountry = function(value) { obj.set("Billing Address Country", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTotal = function() { return obj.get("Total"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTotal = function(value) { obj.set("Total", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PayrollChecksRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsTemplate = function() { return obj.get("Is Template"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsTemplate = function(value) { obj.set("Is Template", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNumber = function() { return obj.get("Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNumber = function(value) { obj.set("Number", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDate = function() { return obj.get("Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDate = function(value) { obj.set("Date", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEmployeesGuid = function() { return obj.get("Employees GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEmployeesGuid = function(value) { obj.set("Employees GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPayToTheOrderOf = function() { return obj.get("Pay To The Order Of"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPayToTheOrderOf = function(value) { obj.set("Pay To The Order Of", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLine1 = function() { return obj.get("Line 1"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLine1 = function(value) { obj.set("Line 1", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getLine2 = function() { return obj.get("Line 2"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setLine2 = function(value) { obj.set("Line 2", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getCountry = function() { return obj.get("Country"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setCountry = function(value) { obj.set("Country", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getCity = function() { return obj.get("City"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setCity = function(value) { obj.set("City", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getState = function() { return obj.get("State"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setState = function(value) { obj.set("State", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostalCode = function() { return obj.get("Postal Code"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostalCode = function(value) { obj.set("Postal Code", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPostedTransactionsGuid = function() { return obj.get("Posted Transactions GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPostedTransactionsGuid = function(value) { obj.set("Posted Transactions GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getCompensation = function() { return obj.get("Compensation"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setCompensation = function(value) { obj.set("Compensation", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getAdjustedGross = function() { return obj.get("Adjusted Gross"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setAdjustedGross = function(value) { obj.set("Adjusted Gross", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getEmployeePaid = function() { return obj.get("Employee Paid"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setEmployeePaid = function(value) { obj.set("Employee Paid", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getPaycheckAmount = function() { return obj.get("Paycheck Amount"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setPaycheckAmount = function(value) { obj.set("Paycheck Amount", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getCompanyPaid = function() { return obj.get("Company Paid"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setCompanyPaid = function(value) { obj.set("Company Paid", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTotalCosts = function() { return obj.get("Total Costs"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTotalCosts = function(value) { obj.set("Total Costs", value); };
+		
+				
+		/*
+		 * @type java.lang.Integer
+		 */
+		obj.getDuration = function() { return obj.get("Duration"); };
+		/*
+		 * @param java.lang.Integer value 
+		 */
+		obj.setDuration = function(value) { obj.set("Duration", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getEnding = function() { return obj.get("Ending"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setEnding = function(value) { obj.set("Ending", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PayrollFieldTypesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getDebitRequired = function() { return obj.get("Debit Required"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setDebitRequired = function(value) { obj.set("Debit Required", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getCreditRequired = function() { return obj.get("Credit Required"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setCreditRequired = function(value) { obj.set("Credit Required", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PayrollFieldValuesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPayrollChecksGuid = function() { return obj.get("Payroll Checks GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPayrollChecksGuid = function(value) { obj.set("Payroll Checks GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPayrollFieldsGuid = function() { return obj.get("Payroll Fields GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPayrollFieldsGuid = function(value) { obj.set("Payroll Fields GUID", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getRate = function() { return obj.get("Rate"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setRate = function(value) { obj.set("Rate", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getQuantity = function() { return obj.get("Quantity"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setQuantity = function(value) { obj.set("Quantity", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTotal = function() { return obj.get("Total"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTotal = function(value) { obj.set("Total", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PayrollFieldsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPayrollFieldTypesGuid = function() { return obj.get("Payroll Field Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPayrollFieldTypesGuid = function(value) { obj.set("Payroll Field Types GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDebitAccountsGuid = function() { return obj.get("Debit Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDebitAccountsGuid = function(value) { obj.set("Debit Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getCreditAccountsGuid = function() { return obj.get("Credit Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setCreditAccountsGuid = function(value) { obj.set("Credit Accounts GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.PermissionsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGroupsGuid = function() { return obj.get("Groups GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGroupsGuid = function(value) { obj.set("Groups GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSecurablesGuid = function() { return obj.get("Securables GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSecurablesGuid = function(value) { obj.set("Securables GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getCanCreate = function() { return obj.get("Can Create"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setCanCreate = function(value) { obj.set("Can Create", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getCanRead = function() { return obj.get("Can Read"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setCanRead = function(value) { obj.set("Can Read", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getCanUpdate = function() { return obj.get("Can Update"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setCanUpdate = function(value) { obj.set("Can Update", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getCanDelete = function() { return obj.get("Can Delete"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setCanDelete = function(value) { obj.set("Can Delete", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ReconciliationsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDate = function() { return obj.get("Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDate = function(value) { obj.set("Date", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getStatementEndingBalance = function() { return obj.get("Statement Ending Balance"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setStatementEndingBalance = function(value) { obj.set("Statement Ending Balance", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getOffBy = function() { return obj.get("Off By"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setOffBy = function(value) { obj.set("Off By", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.RegisterEntriesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ReportBlocksRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getReportsGuid = function() { return obj.get("Reports GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setReportsGuid = function(value) { obj.set("Reports GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentBlockGuid = function() { return obj.get("Parent Block GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentBlockGuid = function(value) { obj.set("Parent Block GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Integer
+		 */
+		obj.getPriority = function() { return obj.get("Priority"); };
+		/*
+		 * @param java.lang.Integer value 
+		 */
+		obj.setPriority = function(value) { obj.set("Priority", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getSqlQuery = function() { return obj.get("SQL Query"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setSqlQuery = function(value) { obj.set("SQL Query", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ReportFiltersRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getReportsGuid = function() { return obj.get("Reports GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setReportsGuid = function(value) { obj.set("Reports GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPrompt = function() { return obj.get("Prompt"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPrompt = function(value) { obj.set("Prompt", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDataType = function() { return obj.get("Data Type"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDataType = function(value) { obj.set("Data Type", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getQuery = function() { return obj.get("Query"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setQuery = function(value) { obj.set("Query", value); };
+		
+				
+		/*
+		 * @type java.lang.Long
+		 */
+		obj.getPriority = function() { return obj.get("Priority"); };
+		/*
+		 * @param java.lang.Long value 
+		 */
+		obj.setPriority = function(value) { obj.set("Priority", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.ReportsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getHtmlTemplate = function() { return obj.get("HTML Template"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setHtmlTemplate = function(value) { obj.set("HTML Template", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTitle = function() { return obj.get("Title"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTitle = function(value) { obj.set("Title", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getAutoLoad = function() { return obj.get("Auto Load"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setAutoLoad = function(value) { obj.set("Auto Load", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getQuery = function() { return obj.get("Query"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setQuery = function(value) { obj.set("Query", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.SalesTaxMembershipsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getParentSalesTaxesGuid = function() { return obj.get("Parent Sales Taxes GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setParentSalesTaxesGuid = function(value) { obj.set("Parent Sales Taxes GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getChildSalesTaxesGuid = function() { return obj.get("Child Sales Taxes GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setChildSalesTaxesGuid = function(value) { obj.set("Child Sales Taxes GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.SalesTaxesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsGroup = function() { return obj.get("Is Group"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsGroup = function(value) { obj.set("Is Group", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTaxRate = function() { return obj.get("Tax Rate"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTaxRate = function(value) { obj.set("Tax Rate", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.SecurablesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.SettingsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getUsersGuid = function() { return obj.get("Users GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setUsersGuid = function(value) { obj.set("Users GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getKey = function() { return obj.get("Key"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setKey = function(value) { obj.set("Key", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getType = function() { return obj.get("Type"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setType = function(value) { obj.set("Type", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getOptionQuery = function() { return obj.get("Option Query"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setOptionQuery = function(value) { obj.set("Option Query", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getValue = function() { return obj.get("Value"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setValue = function(value) { obj.set("Value", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.TimeEntriesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEntryTypesGuid = function() { return obj.get("Entry Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEntryTypesGuid = function(value) { obj.set("Entry Types GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEmployeesGuid = function() { return obj.get("Employees GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEmployeesGuid = function(value) { obj.set("Employees GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTimeSheetsGuid = function() { return obj.get("Time Sheets GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTimeSheetsGuid = function(value) { obj.set("Time Sheets GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDocumentsGuid = function() { return obj.get("Documents GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDocumentsGuid = function(value) { obj.set("Documents GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getJobsGuid = function() { return obj.get("Jobs GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setJobsGuid = function(value) { obj.set("Jobs GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDepartmentsGuid = function() { return obj.get("Departments GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDepartmentsGuid = function(value) { obj.set("Departments GUID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getStarted = function() { return obj.get("Started"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setStarted = function(value) { obj.set("Started", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getEnded = function() { return obj.get("Ended"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setEnded = function(value) { obj.set("Ended", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDescription = function() { return obj.get("Description"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDescription = function(value) { obj.set("Description", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.TimeEntryTypesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDescription = function() { return obj.get("Description"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDescription = function(value) { obj.set("Description", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getItemsGuid = function() { return obj.get("Items GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setItemsGuid = function(value) { obj.set("Items GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsPaid = function() { return obj.get("Is Paid"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsPaid = function(value) { obj.set("Is Paid", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.TimeSheetsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEmployeesGuid = function() { return obj.get("Employees GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEmployeesGuid = function(value) { obj.set("Employees GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getNumber = function() { return obj.get("Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setNumber = function(value) { obj.set("Number", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getPeriodEnding = function() { return obj.get("Period Ending"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setPeriodEnding = function(value) { obj.set("Period Ending", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getTotalHours = function() { return obj.get("Total Hours"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setTotalHours = function(value) { obj.set("Total Hours", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getPeriodStarting = function() { return obj.get("Period Starting"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setPeriodStarting = function(value) { obj.set("Period Starting", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.TransactionLinesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTransactionsGuid = function() { return obj.get("Transactions GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTransactionsGuid = function(value) { obj.set("Transactions GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Integer
+		 */
+		obj.getSortOrder = function() { return obj.get("Sort Order"); };
+		/*
+		 * @param java.lang.Integer value 
+		 */
+		obj.setSortOrder = function(value) { obj.set("Sort Order", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDescription = function() { return obj.get("Description"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDescription = function(value) { obj.set("Description", value); };
+		
+				
+		/*
+		 * @type java.math.BigDecimal
+		 */
+		obj.getDebit = function() { return obj.get("Debit"); };
+		/*
+		 * @param java.math.BigDecimal value 
+		 */
+		obj.setDebit = function(value) { obj.set("Debit", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getJobsGuid = function() { return obj.get("Jobs GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setJobsGuid = function(value) { obj.set("Jobs GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDepartmentsGuid = function() { return obj.get("Departments GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDepartmentsGuid = function(value) { obj.set("Departments GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAccountsGuid = function() { return obj.get("Accounts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAccountsGuid = function(value) { obj.set("Accounts GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getReconciliationsGuid = function() { return obj.get("Reconciliations GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setReconciliationsGuid = function(value) { obj.set("Reconciliations GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.TransactionTypesRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getName = function() { return obj.get("Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setName = function(value) { obj.set("Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEditUrl = function() { return obj.get("Edit URL"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEditUrl = function(value) { obj.set("Edit URL", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getListUrl = function() { return obj.get("List URL"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setListUrl = function(value) { obj.set("List URL", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.TransactionsRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getDate = function() { return obj.get("Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setDate = function(value) { obj.set("Date", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getReferenceNumber = function() { return obj.get("Reference Number"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setReferenceNumber = function(value) { obj.set("Reference Number", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getTransactionTypesGuid = function() { return obj.get("Transaction Types GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setTransactionTypesGuid = function(value) { obj.set("Transaction Types GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.UnitMeasuresRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAbbreviation = function() { return obj.get("Abbreviation"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAbbreviation = function(value) { obj.set("Abbreviation", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+		
+
+		return obj;
+	};
+	
+		
+	inc.accounting.data.UsersRow = function() {
+		var obj = new inc.data.Row();
+
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getGuid = function() { return obj.get("GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setGuid = function(value) { obj.set("GUID", value); };
+		
+				
+		/*
+		 * @type java.lang.Boolean
+		 */
+		obj.getIsAllowed = function() { return obj.get("Is Allowed"); };
+		/*
+		 * @param java.lang.Boolean value 
+		 */
+		obj.setIsAllowed = function(value) { obj.set("Is Allowed", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getDisplayName = function() { return obj.get("Display Name"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setDisplayName = function(value) { obj.set("Display Name", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEmailAddress = function() { return obj.get("Email Address"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEmailAddress = function(value) { obj.set("Email Address", value); };
+		
+				
+		/*
+		 * @type java.util.Date
+		 */
+		obj.getPasswordDate = function() { return obj.get("Password Date"); };
+		/*
+		 * @param java.util.Date value 
+		 */
+		obj.setPasswordDate = function(value) { obj.set("Password Date", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getPasswordHash = function() { return obj.get("Password Hash"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setPasswordHash = function(value) { obj.set("Password Hash", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEmployeesGuid = function() { return obj.get("Employees GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEmployeesGuid = function(value) { obj.set("Employees GUID", value); };
+		
+		
+
+		return obj;
+	};
+	
+	
+	
 };
-
-

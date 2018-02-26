@@ -18,20 +18,24 @@ new function() {
 		var txtDatabase = document.getElementById("txtDatabase");
 
 		var btnLogin = document.getElementById("btnLogin");
-		btnLogin.onclick = function() {
+		var btnLogin_Callback = function(nodes) {
+			if(nodes instanceof Error) {
+				alert(nodes.toString());
+				return;
+			}
+			
+			if(nodes.length === 0)
+				window.location.href = "Copyright.html";
+		};
+		var btnLogin_OnClick = function() {
 			var user = new inc.accounting.entities.User();
 			user.setEmailAddress(txtEmailAddress.value);
 			user.setPassword(txtPassword.value);
 			user.setDatabase(txtDatabase.value);
-			user.login(loginCallback);
+			user.login(btnLogin_Callback);
 		};
+		btnLogin.onclick = btnLogin_OnClick;
 
-		var loginCallback = function(nodes) {
-			if(nodes.length === 0)
-				window.location.href = "Copyright.html";
-			else
-				alert(nodes[0].nodeValue);
-		};
 	};
 };
 

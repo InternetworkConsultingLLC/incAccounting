@@ -29,10 +29,14 @@ new function() {
 
 		var btnSave = document.getElementById("btnSave");
 		var btnSave_Callback = function(ret) {
-			if(typeof ret === "string")
-				window.alert("Save failed!\n\n" + ret);
+			if(ret instanceof Error) {
+				alert(ret.toString());
+				return;
+			}
 
-			window.location.href = "UserEdit.html?GUID=" + objUser.getGuid();
+			alert("Saved!");
+			objUser = ret;
+			loadControlsFromObject();
 		};
 		var btnSave_Clicked = function() {
 			loadObjectFromControls();
@@ -41,14 +45,31 @@ new function() {
 		btnSave.onclick = btnSave_Clicked;
 
 		var btnReset = document.getElementById("btnReset");
-		var btnReset_Clicked = function() {};
+		var btnReset_Callback = function(ret) {
+			if(ret instanceof Error) {
+				alert(ret.toString());
+				return;
+			}				
+
+			alert("Password reset!");
+			txtConfirm.value = "";
+			txtPassword.value = "";
+		};
+		var btnReset_Clicked = function() {
+			if(txtPassword.value !== txtConfirm.value) {
+				alert("The password and confirmation do not match!");
+				return;
+			}
+
+			objUser.resetSqlPassword(txtPassword.value, txtConfirm.value, btnReset_Callback);			
+		};
 		btnReset.onclick = btnReset_Clicked;
 
 		var loadControlsFromObject = function() {
 			txtGUID.value = objUser.getGuid();
 			chkIsAllowed.checked = objUser.getIsAllowed();
 			txtEmailAddress.value = objUser.getEmailAddress();
-			txtPasswordDate.value = inc.Date.toIsoDate(objUser.getPasswordDate());
+			txtPasswordDate.value = inc.date.toIsoDate(objUser.getPasswordDate());
 			txtDisplayName.value = objUser.getDisplayName();
 
 			txtPassword.value = "";
@@ -58,22 +79,24 @@ new function() {
 		var loadObjectFromControls = function() {
 			objUser.setIsAllowed(chkIsAllowed.checked);
 			objUser.setEmailAddress(txtEmailAddress.value);
-			objUser.setPasswordDate(inc.Date.parse(txtPasswordDate.value));
+			objUser.setPasswordDate(inc.date.parse(txtPasswordDate.value));
 			objUser.setDisplayName(txtDisplayName.value);
 		};
 
-		var userCallback = function(user) {
-			objUser = user;
+		var loadUserCallback = function(ret) {
+			if(ret instanceof Error) {
+				alert(ret.toString());
+				return;
+			}
+			
+			objUser = ret;
 			loadControlsFromObject();
 		};
 
-		var loadUser = function() {
-			if(sGuid)
-				inc.accounting.entities.User.loadByGuid(sGuid, userCallback);
-			else
-				objUser.initialize(userCallback);
-		};
-		loadUser();
+		if(sGuid)
+			inc.accounting.entities.User.loadByGuid(sGuid, loadUserCallback);
+		else
+			objUser.initialize(loadUserCallback);
 	};
 };
 

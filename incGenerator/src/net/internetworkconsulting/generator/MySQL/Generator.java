@@ -15,6 +15,7 @@ import net.internetworkconsulting.data.mysql.Adapter;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.template.CSyntax;
 import net.internetworkconsulting.template.Template;
+import org.atteo.evo.inflector.English;
 
 public class Generator {
 	private final String sDatabase = "incllc";
@@ -23,7 +24,9 @@ public class Generator {
 	private final String sPassword = "Welcome123";
 	
 	private final String sNamespace = "net.internetworkconsulting.accounting.data";
-	private final String sOutputFolder = "E:\\Repositories\\NetBeans\\incAccounting\\src\\java\\net\\internetworkconsulting\\accounting\\data\\";
+
+	private HashMap<String, Template> hmJsDocuments = null;
+	private final String sJsOutputFile = "E:\\Repositories\\NetBeans\\incAccounting\\web\\soap\\scripts\\";
 	
 	private final Statement stmtTables = new Statement("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = {database};");
 	private final Statement stmtColumns = new Statement("SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = {table} AND TABLE_SCHEMA = {database};");
@@ -33,6 +36,7 @@ public class Generator {
 	private AdapterInterface dbAdapter;	
 	private List lstForeignKeys;
 	private List lstUniqueKeys;
+	private HashMap<String, String> hmFolders;
 	private HashMap<String, String> hmFileNames;
 	private HashMap<String, Template> hmDocuments;
 	private HashMap<String, Family> hmFamilies;
@@ -47,17 +51,19 @@ public class Generator {
 		
 		List<String> arrConfig = Helper.InputStreamToStringList(Generator.class.getResourceAsStream("files.config"));
 		hmFileNames = new HashMap<>();
+		hmFolders = new HashMap<>();
 		for(String sLine : arrConfig) {
 			String[] arrColumns = sLine.split("\\|");			
 			if(arrColumns.length < 1)
 				continue;
 				
-			hmFileNames.put(arrColumns[0], arrColumns[1]);
+			hmFileNames.put(arrColumns[0], arrColumns[1]); // template to output file name
+			hmFolders.put(arrColumns[0], arrColumns[2]); // template to output folder name
 		}
 		
 		stmtTables.getParameters().put("{database}", sDatabase);
 		List<Row> lstTables = dbAdapter.load(Row.class, stmtTables, false);
-		hmTables = new HashMap<String, Row>();
+		hmTables = new HashMap<>();
 		for(Row table : lstTables)
 			hmTables.put(table.get("TABLE_NAME").toString(), table);
 						
@@ -67,12 +73,13 @@ public class Generator {
 		stmtForeignKeys.getParameters().put("{database}", sDatabase);
 		lstForeignKeys = dbAdapter.load(Row.class, stmtForeignKeys, false);
 		
-		processRowsAndInterfaces(lstTables);
+		processTables(lstTables);
 	
 		return 0;
 	}
-
-	private void processRowsAndInterfaces(List<Row> lstTables) throws Exception {
+	private void processTables(List<Row> lstTables) throws Exception {
+		loadJsDocuments();
+		
 		for(int cnt = 0; cnt < lstTables.size(); cnt++) {
 			Row row = lstTables.get(cnt);
 			hsMethods = new HashSet<>();
@@ -85,22 +92,16 @@ public class Generator {
 			addToDocument("namespace", sNamespace);			
 			addToDocument("table", row.get("TABLE_NAME").toString());
 		
-			processTable(row);			
+			processTable(row);
+			touchJsDocuments("TABLES");
+			parseJsDocuments("TABLES");
 
 			// save to file
 			saveDocuments(row.get("TABLE_NAME").toString());
 		}
+		
+		saveJsDocuments();
 	}
-	private void processColumn(RowInterface rTable, RowInterface rColumn) throws Exception {
-		addToDocument("table", rTable.get("TABLE_NAME").toString());
-		addToDocument("column", rColumn.get("COLUMN_NAME").toString());
-		addToDocument("data_type", rColumn.get("DATA_TYPE").toString());
-		setDocumentsValue("type_raw", rColumn.get("DATA_TYPE").toString());
-		setDocumentsValue("type_java", formatJavaType(rColumn));
-
-		touchDocuments("COLUMNS");
-		parseDocuments("COLUMNS");
-}
 	private void processTable(Row table) throws Exception {
 		stmtColumns.getParameters().clear();
 		stmtColumns.getParameters().put("{table}", table.get("TABLE_NAME").toString());
@@ -114,6 +115,16 @@ public class Generator {
 			processChildren(table, rColumn);
 			processUniqueKeys(table, rColumn);			
 		}
+	}
+	private void processColumn(RowInterface rTable, RowInterface rColumn) throws Exception {
+		addToDocument("table", rTable.get("TABLE_NAME").toString());
+		addToDocument("column", rColumn.get("COLUMN_NAME").toString());
+		addToDocument("data_type", rColumn.get("DATA_TYPE").toString());
+		setDocumentsValue("type_raw", rColumn.get("DATA_TYPE").toString());
+		setDocumentsValue("type_java", formatJavaType(rColumn));
+
+		touchDocuments("COLUMNS");
+		parseDocuments("COLUMNS");
 	}
 	private void processParents(Row table, Row column) throws Exception {
 		processRelationship(table, column, "TABLE_NAME", "COLUMN_NAME", "PARENTS");
@@ -288,6 +299,13 @@ public class Generator {
 			hmDocuments.put(template, doc);
 		}
 	}
+	private void loadJsDocuments() throws Exception {
+		hmJsDocuments = new HashMap<>();
+		
+		InputStream is = getClass().getResourceAsStream("inc.accounting.data.js");
+		hmJsDocuments.put("inc.accounting.data.js", new Template(is, new CSyntax()));
+	}
+
 	private void addToDocument(String name, String value) throws Exception {
 		setDocumentsValue(name + "_raw", value);
 		setDocumentsValue(name + "_tn", formatTableName(value));
@@ -296,25 +314,45 @@ public class Generator {
 		setDocumentsValue(name + "_cc", formatCamelCase(value));
 		setDocumentsValue(name + "_ac", formatAllCaps(value));
 		setDocumentsValue(name + "_al", formatAllLowers(value));
+
+		setDocumentsValue(name + "_al", formatAllLowers(value));
 	}
 	private void setDocumentsValue(String name, String value) {
-		for(String template : hmFileNames.keySet()) {
+		for(String template : hmFileNames.keySet())
 			hmDocuments.get(template).set(name, value);
-		}
+		
+		for(String template : hmJsDocuments.keySet())
+			hmJsDocuments.get(template).set(name, value);
 	}
+
 	private void touchDocuments(String section) {
-		for(String template : hmFileNames.keySet()) {
+		for(String template : hmFileNames.keySet())
 			hmDocuments.get(template).touch(section);
-		}
+
+		for(String template : hmJsDocuments.keySet())
+			hmJsDocuments.get(template).touch(section);
 	}
 	private void parseDocuments(String section) throws Exception {
-		for(String template : hmFileNames.keySet()) {
+		for(String template : hmFileNames.keySet())
 			hmDocuments.get(template).parse(section);
-		}
+
+		for(String template : hmJsDocuments.keySet())
+			hmJsDocuments.get(template).parse(section);
 	}
+	private void touchJsDocuments(String section) {
+		for(String template : hmJsDocuments.keySet())
+			hmJsDocuments.get(template).touch(section);
+	}
+	private void parseJsDocuments(String section) throws Exception {
+		for(String template : hmJsDocuments.keySet())
+			hmJsDocuments.get(template).parse(section);
+	}
+	
 	private void saveDocuments(String TABLE_NAME) throws Exception {
 		for(String template : hmFileNames.keySet()) {
 			String sFile;
+			String sOutputFolder = hmFolders.get(template);
+			
 			if(sOutputFolder.endsWith(File.separator))
 				sFile = sOutputFolder + hmFileNames.get(template).replace("%TABLE%", formatCamelCase(TABLE_NAME));
 			else
@@ -331,6 +369,22 @@ public class Generator {
 
 			FileWriter fw = new FileWriter(sFile);
 			fw.write(hmDocuments.get(template).generate());
+			fw.flush();
+			fw.close();
+		}
+	}
+	private void saveJsDocuments() throws Exception {
+		for(String sFile : hmJsDocuments.keySet()) {
+			File f = new File(sJsOutputFile + sFile);
+			if(f.exists())
+				f.delete();
+			
+			try { f.createNewFile(); }
+			catch(Exception ex) { System.err.println(ex.toString()); }
+
+			FileWriter fw = new FileWriter(sJsOutputFile + sFile);
+			String sContents = hmJsDocuments.get(sFile).generate();
+			fw.write(sContents);
 			fw.flush();
 			fw.close();
 		}
