@@ -78,7 +78,9 @@ public class DocumentsPrintController extends Controller {
 		LiteralTag tagDisplayName = new LiteralTag(this, Document.CONTACTS_DISPLAY_NAME, objModel);
 		LiteralTag tagTerms = new LiteralTag(this, Document.TERMS, objModel);
 		LiteralTag tagDate = new LiteralTag(this, Document.DATE, objModel);
+		tagDate.setFormat("yyyy-MM-dd");
 		LiteralTag tagDueDate = new LiteralTag(this, Document.DUE_DATE, objModel);
+		tagDueDate.setFormat("yyyy-MM-dd");
 		LiteralTag tagShipMethod = new LiteralTag(this, Document.SHIPPING_METHOD, objModel);
 		LiteralTag tagShipNumber = new LiteralTag(this, Document.SHIPPING_NUMBER, objModel);
 		

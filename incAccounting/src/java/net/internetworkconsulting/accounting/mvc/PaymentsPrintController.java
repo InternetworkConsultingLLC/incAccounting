@@ -46,6 +46,7 @@ public class PaymentsPrintController extends Controller {
 
 		LiteralTag txtOurNumber = new LiteralTag(this, Payment.OUR_NUMBER, objModel);
 		LiteralTag dtDate = new LiteralTag(this, Payment.DATE, objModel);
+		dtDate.setFormat("yyyy-MM-dd");
 		LiteralTag txtName = new LiteralTag(this, Payment.CONTACTS_DISPLAY_NAME, objModel);
 		LiteralTag txtTheirNumber = new LiteralTag(this, Payment.THEIR_NUMBER, objModel);
 		
