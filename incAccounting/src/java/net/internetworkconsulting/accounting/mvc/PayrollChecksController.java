@@ -121,12 +121,12 @@ public class PayrollChecksController extends EditController {
 		litTotalCosts.setFormat(sMoneyFormat);
 		
 		ComboTag cboEmployeeGuid = new ComboTag(this, PayrollCheck.EMPLOYEES_GUID, objModel);
-		cboEmployeeGuid.setOptions(Employee.loadOptions(getUser().login(), true));
+		cboEmployeeGuid.setOptions(Employee.loadOptions(getUser().login(), false));
 		cboEmployeeGuid.addOnChangeEvent(new Event() { public void handle() throws Exception { cboEmployeeGuid_OnChange();  } });
 		cboEmployeeGuid.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		
 		ComboTag cboAccount = new ComboTag(this, PayrollCheck.ACCOUNTS_GUID, objModel);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		cboAccount.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
 		
 		ComboTag cboDuration = new ComboTag(this, PayrollCheck.DURATION, objModel);
@@ -202,7 +202,7 @@ public class PayrollChecksController extends EditController {
 		pcefc.setTemplatePrefix(sBlock);
 		pcefc.setIsDocumentBlock(true);
 		pcefc.setPosted(objModel.getPostedTransactionsGuid() != null);
-		pcefc.setFieldOptions(PayrollField.loadOptionsByType(getUser().login(), true, sFieldTypeLimit));
+		pcefc.setFieldOptions(PayrollField.loadOptionsByType(getUser().login(), false, sFieldTypeLimit));
 		
 		return pcefc;
 	}
@@ -292,9 +292,9 @@ public class PayrollChecksController extends EditController {
 			objModel.calculate(getUser().login());
 			
 			getUser().login().save(PayrollCheck.TABLE_NAME, objModel);
-			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback()));
-			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback()));
-			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadGrossExepnseValues(getUser().login(), !getIsPostback()));
+			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadCompanyPaidValues(getUser().login(), !false));
+			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadEmployeePaidValues(getUser().login(), false));
+			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadGrossExepnseValues(getUser().login(), false));
 			
 			getUser().login().commit(true);
 		}

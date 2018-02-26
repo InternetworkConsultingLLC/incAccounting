@@ -57,7 +57,7 @@ public class DocumentTypesController extends EditController {
 		CheckTag chkIsCreditMemo = new CheckTag(this, DocumentType.IS_CREDIT_MEMO, objModel);
 		chkIsCreditMemo.setIsReadOnly(true);
 		ComboTag cboAccount = new ComboTag(this, DocumentType.ACCOUNTS_GUID, objModel);
-		List<Option> lstOptions = Account.loadOptions(getUser().login(), true);
+		List<Option> lstOptions = Account.loadOptions(getUser().login(), false);
 		if(
 			objModel.getGuid().equals(DocumentType.PURCHASE_INVOICE_GUID) ||
 			objModel.getGuid().equals(DocumentType.PURCHASE_CREDIT_GUID) ||

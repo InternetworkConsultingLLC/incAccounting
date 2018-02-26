@@ -57,7 +57,7 @@ public class SecurableController extends EditController {
 		for(Permission perm: lstPerms)
 			hmGroupsPerms.put(perm.getGroupsGuid(), perm);
 		
-		List<Option> lstGroups = Group.loadOptions(getUser().login(), true);
+		List<Option> lstGroups = Group.loadOptions(getUser().login(), false);
 		lstGroups.remove(0);
 
 		HashMap<String, String> hmGroups = new HashMap<>();

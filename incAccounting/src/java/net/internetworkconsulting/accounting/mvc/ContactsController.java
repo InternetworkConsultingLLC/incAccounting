@@ -68,7 +68,7 @@ public class ContactsController extends EditController {
 		dtSince = new DateTag(this, Contact.CONTACT_SINCE, objModel);
 
 		cboType = new ComboTag(this, Contact.CONTACT_TYPES_GUID, objModel);
-		cboType.setOptions(ContactType.loadOptions(getUser().login(), true));
+		cboType.setOptions(ContactType.loadOptions(getUser().login(), false));
 		
 		cboShippingContact = new ComboTag(this, Contact.DEFAULT_SHIPPING_CONTACTS_GUID, objModel);
 		cboShippingContact.setOptions(objModel.loadChildOptions(getUser().login(), true));
@@ -87,7 +87,7 @@ public class ContactsController extends EditController {
 		txtCountry = new TextTag(this, Contact.COUNTRY, objModel);
 
 		cboSalesTax = new ComboTag(this, Contact.TAX_GROUP_GUID, objModel);
-		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), true));
+		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), false));
 		
 		List<Contact> lstChildren = objModel.loadChildrenContacts(getUser().login(), Contact.class, !getIsPostback());
 		for(Contact child: lstChildren)
@@ -177,8 +177,8 @@ public class ContactsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Contact.TABLE_NAME, objModel);
-			getUser().login().save(Contact.TABLE_NAME, objModel.loadChildrenContacts(getUser().login(), Contact.class, !getIsPostback()));
-			getUser().login().save(ContactNote.TABLE_NAME, objModel.loadContactNotes(getUser().login(), ContactNote.class, !getIsPostback()));
+			getUser().login().save(Contact.TABLE_NAME, objModel.loadChildrenContacts(getUser().login(), Contact.class, false));
+			getUser().login().save(ContactNote.TABLE_NAME, objModel.loadContactNotes(getUser().login(), ContactNote.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

@@ -87,16 +87,16 @@ public class DocumentsController extends EditController {
 
 		ComboTag cboDocType = new ComboTag(this, Document.DOCUMENT_TYPES_GUID, objModel);
 		cboDocType.setIsReadOnly(objTransaction != null);
-		cboDocType.setOptions(DocumentType.loadOptions(getUser().login(), true));
+		cboDocType.setOptions(DocumentType.loadOptions(getUser().login(), false));
 		cboDocType.addOnChangeEvent(new Event() { public void handle() throws Exception { cboDocType_OnChange(); } });
 		
 		ComboTag cboAccount = new ComboTag(this, Document.POSTED_ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objTransaction != null || objDocType.getAccountsGuid() == null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 
 		ComboTag cboContact = new ComboTag(this, Document.CONTACTS_GUID, objModel);
 		cboContact.setIsReadOnly(objTransaction != null);
-		cboContact.setOptions(Contact.loadOptions(getUser().login(), true));
+		cboContact.setOptions(Contact.loadOptions(getUser().login(), false));
 		cboContact.addOnChangeEvent(new Event() { public void handle() throws Exception { cboContact_OnChange(); } });
 
 		TextTag txtRef = new TextTag(this, Document.REFERENCE_NUMBER, objModel);
@@ -319,7 +319,7 @@ public class DocumentsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Document.TABLE_NAME, objModel);
-			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback()));
+			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false));
 			getUser().login().commit(true);
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
@@ -390,7 +390,7 @@ public class DocumentsController extends EditController {
 			objModel.handleAutoNumber(getUser().login());
 			
 			getUser().login().save(Document.TABLE_NAME, objModel);
-			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback()));
+			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false));
 			getUser().login().commit(true);
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
@@ -448,7 +448,7 @@ public class DocumentsController extends EditController {
 
 		Document objModel = (Document) getModel();
 		
-		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), true));
+		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), false));
 		
 		if(objModel.getContactsGuid() != null) {
 			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());

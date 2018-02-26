@@ -58,7 +58,7 @@ public class ReconciliationsController extends EditController {
 		dtDate.addOnChangeEvent(new Event() { public void handle() throws Exception { dtDate_OnChange(); } });
 		
 		cboAccount = new ComboTag(this, Reconciliation.ACCOUNTS_GUID, objModel);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		cboAccount.addOnChangeEvent(new Event() { public void handle() throws Exception { cboAccount_OnChange(); } });
 				
 		litBeginningBalance = new TextTag(this, "Beginning Balance");

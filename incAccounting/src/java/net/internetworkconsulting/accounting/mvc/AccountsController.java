@@ -60,10 +60,10 @@ public class AccountsController extends EditController {
 		TextTag txtLastnumber = new TextTag(this, Account.LAST_NUMBER, objModel);
 
 		ComboTag cboAccountType = new ComboTag(this, Account.ACCOUNT_TYPES_GUID, objModel);
-		cboAccountType.setOptions(AccountType.loadOptions(getUser().login(), true));
+		cboAccountType.setOptions(AccountType.loadOptions(getUser().login(), false));
 		
 		ComboTag cboParantAccount = new ComboTag(this, Account.PARENT_ACCOUNTS_GUID, objModel);
-		cboParantAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboParantAccount.setOptions(Account.loadOptions(getUser().login(), false));
 
 		List<Account> lstChildren = objModel.loadChildren(getUser().login(), Account.class, !getIsPostback());
 		for(Account child: lstChildren) 
@@ -110,7 +110,7 @@ public class AccountsController extends EditController {
 		try { 
 			getUser().login().begin(true);
 			getUser().login().save(Account.TABLE_NAME, objModel); 
-			getUser().login().save(Account.TABLE_NAME, objModel.loadChildren(getUser().login(), Account.class, !getIsPostback()));
+			getUser().login().save(Account.TABLE_NAME, objModel.loadChildren(getUser().login(), Account.class, false));
 			getUser().login().commit(true);
 		} 
 		catch (Exception ex) {

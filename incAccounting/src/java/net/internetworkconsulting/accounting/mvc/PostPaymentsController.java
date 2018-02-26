@@ -30,7 +30,7 @@ public class PostPaymentsController extends Controller {
 
 		
 		cboType = new ComboTag(this, "Filter Types");
-		cboType.setOptions(PaymentType.loadOptions(getUser().login(), true));
+		cboType.setOptions(PaymentType.loadOptions(getUser().login(), false));
 		cboType.setValue(type_guid);
 		
 		cboStatus = new ComboTag(this, "Filter Status");

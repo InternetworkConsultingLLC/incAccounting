@@ -54,7 +54,7 @@ public class RegisterEntriesController extends Controller {
 		litMoneyDecimals.setValue(getUser().getSetting(Document.SETTING_MONEY_DECIMALS));
 		
 		tagAccount = new ComboTag(this, "Account");
-		tagAccount.setOptions(Account.loadOptions(getUser().login(), !getIsPostback()));
+		tagAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		tagBegBal = new TextTag(this, "Beginning Balance");
 		tagBegBal.setIsReadOnly(true);

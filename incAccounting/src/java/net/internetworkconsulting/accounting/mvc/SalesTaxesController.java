@@ -48,10 +48,10 @@ public class SalesTaxesController extends EditController {
 		TextTag txtTaxRate = new TextTag(this, SalesTax.TAX_RATE, objModel);
 		
 		ComboTag cboTaxAccount = new ComboTag(this, SalesTax.ACCOUNTS_GUID, objModel);
-		cboTaxAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboTaxAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		ComboTag cboContacts = new ComboTag(this, SalesTax.CONTACTS_GUID, objModel);
-		cboContacts.setOptions(Contact.loadOptions(getUser().login(), true));
+		cboContacts.setOptions(Contact.loadOptions(getUser().login(), false));
 		
 		CheckTag chkIsGroup = new CheckTag(this, SalesTax.IS_GROUP, objModel);
 		chkIsGroup.addOnChangeEvent(new Event() { public void handle() throws Exception { chkIsGroup_OnChange(); } });		

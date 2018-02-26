@@ -57,7 +57,7 @@ public class ItemsController extends EditController {
 		txtGuid.setIsReadOnly(true);
 
 		ComboTag cboParentItem = new ComboTag(this, Item.PARENT_ITEMS_GUID, objModel);
-		cboParentItem.setOptions(Item.loadOptions(getUser().login(), true));
+		cboParentItem.setOptions(Item.loadOptions(getUser().login(), false));
 		cboParentItem.addOnChangeEvent(new Event() { public void handle() throws Exception { cboParentItem_OnChange(); } });
 
 		TextTag txtNumber = new TextTag(this, Item.NUMBER, objModel);
@@ -68,7 +68,7 @@ public class ItemsController extends EditController {
 		CheckTag chkIsAllowed = new CheckTag(this, Item.IS_ALLOWED, objModel);
 
 		ComboTag cboSalesAccount = new ComboTag(this, Item.SALES_ACCOUNTS_GUID, objModel);
-		cboSalesAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboSalesAccount.setOptions(Account.loadOptions(getUser().login(), false));
 
 		TextAreaTag txtSalesDescription = new TextAreaTag(this, Item.SALES_DESCRIPTION, objModel);
 //		txtSalesDescription.setRows(getUser().getSetting(Item.SETTING_DESCRIPTION_ROWS));
@@ -80,14 +80,14 @@ public class ItemsController extends EditController {
 		CheckTag chkSalesIsTaxed = new CheckTag(this, Item.IS_SALES_TAXED, objModel);
 
 		ComboTag cboPurchaseAccount = new ComboTag(this, Item.PURCHASE_ACCOUNTS_GUID, objModel);
-		cboPurchaseAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboPurchaseAccount.setOptions(Account.loadOptions(getUser().login(), false));
 
 		TextAreaTag txtPurchaseDescription = new TextAreaTag(this, Item.PURCHASE_DESCRIPTION, objModel);
 //		txtPurchaseDescription.setRows(getUser().getSetting(Item.SETTING_DESCRIPTION_ROWS));
 		txtPurchaseDescription.setMaxLength("255");
 
 		ComboTag cboPurchaseContact = new ComboTag(this, Item.PURCHASE_CONTACTS_GUID, objModel);
-		cboPurchaseContact.setOptions(Contact.loadOptions(getUser().login(), true));
+		cboPurchaseContact.setOptions(Contact.loadOptions(getUser().login(), false));
 
 		TextTag txtLastUnitCost = new TextTag(this, Item.LAST_UNIT_COST, objModel);
 		txtLastUnitCost.setFormat(sMoneyFormat);
@@ -96,14 +96,14 @@ public class ItemsController extends EditController {
 		txtSalesPrice.setFormat(sMoneyFormat);
 		
 		ComboTag cboInventoryAccount = new ComboTag(this, Item.INVENTORY_ACCOUNTS_GUID, objModel);
-		cboInventoryAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboInventoryAccount.setOptions(Account.loadOptions(getUser().login(), false));
 
 		TextAreaTag txtInventoryDescription = new TextAreaTag(this, Item.INVENTORY_DESCRIPTION, objModel);
 //		txtInventoryDescription.setRows(getUser().getSetting(Item.SETTING_DESCRIPTION_ROWS));
 		txtInventoryDescription.setMaxLength("255");
 
 		ComboTag cboUnitMeasure = new ComboTag(this, Item.INVENTORY_UNIT_MEASURES_GUID, objModel);
-		cboUnitMeasure.setOptions(UnitMeasure.loadOptions(getUser().login(), true));
+		cboUnitMeasure.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
 
 		CheckTag chkInventoryIsSerialized = new CheckTag(this, Item.IS_SERIALIZED, objModel);
 
@@ -150,7 +150,7 @@ public class ItemsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Item.TABLE_NAME, objModel);
-			getUser().login().save(Item.TABLE_NAME, objModel.loadChildItems(getUser().login(), Item.class, !getIsPostback()));
+			getUser().login().save(Item.TABLE_NAME, objModel.loadChildItems(getUser().login(), Item.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

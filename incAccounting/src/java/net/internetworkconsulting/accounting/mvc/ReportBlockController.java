@@ -53,11 +53,11 @@ public class ReportBlockController extends EditController {
 		txtGuid.bind(objModel);
 		
 		ComboTag cboReport = new ComboTag(this, ReportBlock.REPORTS_GUID);
-		cboReport.setOptions(Report.loadOptions(getUser().login(), true));
+		cboReport.setOptions(Report.loadOptions(getUser().login(), false));
 		cboReport.bind(objModel);
 		
 		ComboTag cboBlock = new ComboTag(this, ReportBlock.PARENT_BLOCK_GUID);
-		cboBlock.setOptions(ReportBlock.loadOptions(getUser().login(), true));
+		cboBlock.setOptions(ReportBlock.loadOptions(getUser().login(), false));
 		cboBlock.bind(objModel);
 		
 		TextTag txtPriority = new TextTag(this, ReportBlock.PRIORITY);
@@ -133,7 +133,7 @@ public class ReportBlockController extends EditController {
 			getUser().login().begin(true);
 
 			getUser().login().save(ReportBlock.TABLE_NAME, objModel);
-			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadChildren(getUser().login(), ReportBlock.class, !getIsPostback()));
+			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadChildren(getUser().login(), ReportBlock.class, false));
 
 			getUser().login().commit(true);
 		}
