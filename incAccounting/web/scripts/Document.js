@@ -3,19 +3,16 @@ window.onerror=ignoreerror();
 
 
 function changedDate() {
-	var nDateMonth = parseInt(document.getElementById("DateMonth").value, 10) - 1;
-	var nDateDay = parseInt(document.getElementById("DateDay").value, 10);
-	var nDateYear = parseInt(document.getElementById("DateYear").value, 10);
-	var dtDate = new Date(nDateYear, nDateMonth, nDateDay);
+	var sDate = document.getElementById("Date").value;
 	
-	document.getElementById("DateMonth").value = pad(dtDate.getMonth() + 1, 2);
-	document.getElementById("DateDay").value = pad(dtDate.getDate(), 2);
-	document.getElementById("DateYear").value = (dtDate.getYear() + 1900) + "";	
-
-	var dtDate = new Date(nDateYear, nDateMonth, nDateDay + nSettingDocuemntDueDays);	
-	document.getElementById("DueDateMonth").value = pad(dtDate.getMonth() + 1, 2);
-	document.getElementById("DueDateDay").value = pad(dtDate.getDate(), 2);
-	document.getElementById("DueDateYear").value = (dtDate.getYear() + 1900) + "";
+	var sYear = Number(sDate.substring(0, 4));
+	var sMonth = Number(sDate.substring(5, 7)) - 1;
+	var sDay = Number(sDate.substring(8, 10));
+	
+	var dtDate =  new Date(sYear, sMonth + 1, sDay);
+	//var sDueDate = dtDate.getFullYear() + "-" + pad(dtDate.getMonth() + 1, 2) + "-" + pad(dtDate.getDate(), 2);
+	var sDueDate = dtDate.getFullYear() + "-" + pad(dtDate.getMonth() + 0, 2) + "-" + pad(dtDate.getDate(), 2);
+	document.getElementById("DueDate").value =  sDueDate;
 }
 
 function changedItem() {
@@ -190,9 +187,7 @@ function invoiceChanged() {
 }
 
 function pageLoaded() {
-	document.getElementById("DateMonth").onchange = changedDate;
-	document.getElementById("DateDay").onchange = changedDate;
-	document.getElementById("DateYear").onchange = changedDate;
+	document.getElementById("Date").onchange = changedDate;
 
 	var arrControls = document.getElementsByClassName("RowItemsGuid");
 	for (var cnt = 0; cnt < arrControls.length; cnt++)
