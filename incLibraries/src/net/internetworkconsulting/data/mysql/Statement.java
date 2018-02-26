@@ -254,12 +254,18 @@ public class Statement implements StatementInterface {
 					return ((BigDecimal) value).toString();
 			case "java.util.Date":
 				java.util.Date dt = (java.util.Date) value;
-				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				if(format != null && format.length() > 0)
+					sdf = new SimpleDateFormat(format);
+				else
+					sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return sdf.format(dt);				
 			case "java.util.GregorianCalendar":
 				java.util.Calendar cal = (java.util.Calendar) value;
 				java.util.Date objTsCal = new java.util.Date(cal.toInstant().toEpochMilli());
-				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				if(format != null && format.length() > 0)
+					sdf = new SimpleDateFormat(format);
+				else
+					sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				return sdf.format(objTsCal);
 		}
 

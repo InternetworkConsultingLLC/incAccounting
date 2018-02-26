@@ -24,7 +24,7 @@ div.block.row + div.block.row, div.block.row + div.block.final {
 	border-top: 1pt solid #000;
 }
 
-button, input[type="text"], input[type="password"], textarea, a.add, a.delete {
+button, input[type="text"], input[type="date"], input[type="password"], textarea, a.add, a.delete {
 	color: #888;
 	border: 1pt solid #888; 
 	background-color: #fff;

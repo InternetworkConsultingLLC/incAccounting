@@ -259,7 +259,7 @@ div.block.row + div.block.row, div.block.row + div.block.final {
 }
 
 /* INPUTS */
-button, input[type="text"], input[type="password"], textarea, a.add, a.delete {
+button, input[type="text"], input[type="password"], , input[type="date"], textarea, a.add, a.delete {
 	padding: 2px;
 	padding-left: 4px;
 	padding-right: 4px;
