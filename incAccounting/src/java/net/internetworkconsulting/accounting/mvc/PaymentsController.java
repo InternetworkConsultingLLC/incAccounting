@@ -25,14 +25,14 @@ public class PaymentsController extends EditController {
 		objModel = Payment.loadByGuid(getUser().login(), Payment.class, guid);
 		objModel.setIsDeleted(true);
 		
-		Document objDocument = objModel.loadPrepaymentDocument(getUser().login(), !getIsPostback());
+		Document objDocument = objModel.loadPrepaymentDocument(getUser().login(), false);
 		objDocument.setIsDeleted(true);
 		
 		getUser().login().save(Payment.TABLE_NAME, objModel);
 	}
 	public Object handleLoadRow(String guid) throws Exception {
 		Payment objModel = Payment.loadByGuid(getUser().login(), Payment.class, guid);
-		Document docPrepayment = objModel.loadPrepaymentDocument(getUser().login(), !getIsPostback());
+		Document docPrepayment = objModel.loadPrepaymentDocument(getUser().login(), false);
 		
 		return objModel;
 	}
@@ -147,7 +147,7 @@ public class PaymentsController extends EditController {
 		}		
 		
 		if(objModel.getPaymentTypesGuid() != null) {
-			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), !getIsPostback());
+			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), false);
 			for(PaymentApplicationSelection app: lstApplications)
 				createApplicationController(app);
 		}
@@ -188,7 +188,7 @@ public class PaymentsController extends EditController {
 		this.removeAllControllers(PaymentsApplicationsController.class);
 		
 		if(objModel.getPaymentTypesGuid() != null && objModel.getContactsGuid() != null) {
-			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), !getIsPostback());
+			List<PaymentApplicationSelection> lstApplications = objModel.loadPaymentApplicationSelection(getUser().login(), false);
 			for(PaymentApplicationSelection app: lstApplications) {
 				PaymentsApplicationsController paec = createApplicationController(app);
 				doCreateControls(paec, false);
@@ -232,7 +232,7 @@ public class PaymentsController extends EditController {
 			objModel.calculate(getUser().login());
 			
 			getUser().login().save(Payment.TABLE_NAME, objModel);
-			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), !getIsPostback()));
+			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), false));
 			
 			objModel.savePaymentApplicationSelections(getUser().login());
 					
@@ -262,7 +262,7 @@ public class PaymentsController extends EditController {
 			objModel.handleAutoNumber(getUser().login());
 			
 			getUser().login().save(Payment.TABLE_NAME, objModel);
-			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), !getIsPostback()));
+			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), false));
 			
 			objModel.savePaymentApplicationSelections(getUser().login());
 					
@@ -279,8 +279,8 @@ public class PaymentsController extends EditController {
 
 	public void beforePopulate() throws Exception {
 		if(objModel.getContactsGuid() != null) {
-			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());
-			cboBilingContact.setOptions(cntct.loadChildOptions(getUser().login(), !getIsPostback()));
+			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, false);
+			cboBilingContact.setOptions(cntct.loadChildOptions(getUser().login(), false));
 		}
 		
 		objModel.calculate(getUser().login());

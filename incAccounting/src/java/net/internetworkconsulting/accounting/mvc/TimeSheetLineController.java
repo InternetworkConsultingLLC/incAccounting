@@ -43,22 +43,22 @@ public class TimeSheetLineController extends Controller {
 		
 		LiteralTag tagDeparment = new LiteralTag(this, "Line", TimeEntry.DEPARTMENTS_GUID, objModel.getGuid());
 		if(objModel.getDepartmentsGuid() != null) {
-			Department obj = objModel.loadDepartment(getUser().login(), Department.class, !getIsPostback());
+			Department obj = objModel.loadDepartment(getUser().login(), Department.class, false);
 			tagDeparment.setValue(obj.getNumber() + " " + obj.getNestedName());
 		}
 		
 		LiteralTag tagDocument = new LiteralTag(this, "Line", TimeEntry.DOCUMENTS_GUID, objModel.getGuid());
 		if(objModel.getDocumentsGuid() != null) {
-			Department obj = objModel.loadDepartment(getUser().login(), Document.class, !getIsPostback());
+			Department obj = objModel.loadDepartment(getUser().login(), Document.class, false);
 			tagDocument.setValue(obj.getNumber() + " " + obj.getNestedName());
 		}
 
 		LiteralTag tagType = new LiteralTag(this, "Line", TimeEntry.ENTRY_TYPES_GUID, objModel.getGuid());
-		tagType.setValue(objModel.loadTimeEntryType(getUser().login(), TimeEntryType.class, !getIsPostback()).getDescription());
+		tagType.setValue(objModel.loadTimeEntryType(getUser().login(), TimeEntryType.class, false).getDescription());
 
 		LiteralTag tagJob = new LiteralTag(this, "Line", TimeEntry.JOBS_GUID, objModel.getGuid());
 		if(objModel.getJobsGuid() != null) {
-			Job obj = objModel.loadJob(getUser().login(), Job.class, !getIsPostback());
+			Job obj = objModel.loadJob(getUser().login(), Job.class, false);
 			tagDocument.setValue(obj.getNumber() + " " + obj.getNestedName());
 		}
 

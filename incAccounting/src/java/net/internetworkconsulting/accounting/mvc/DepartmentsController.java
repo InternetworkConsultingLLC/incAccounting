@@ -65,7 +65,7 @@ public class DepartmentsController extends EditController {
 			btnAdd.setIsReadOnly(true);
 		btnAdd.addOnClickEvent(new Event() { public void handle() throws Exception { btnAdd_OnClick(); } });
 		
-		List<Department> lstChildren = objModel.loadChildren(getUser().login(), Department.class, !getIsPostback());
+		List<Department> lstChildren = objModel.loadChildren(getUser().login(), Department.class, false);
 		for(Department child: lstChildren)
 			createController(child);				
 	}
@@ -99,7 +99,7 @@ public class DepartmentsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Department.TABLE_NAME, objModel);
-			getUser().login().save(Department.TABLE_NAME, objModel.loadChildren(getUser().login(), Department.class, !getIsPostback()));
+			getUser().login().save(Department.TABLE_NAME, objModel.loadChildren(getUser().login(), Department.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {
@@ -117,7 +117,7 @@ public class DepartmentsController extends EditController {
 		dept.initialize();
 		dept.setParentDepartmentsGuid(objModel.getGuid());
 		
-		objModel.loadChildren(getUser().login(), Department.class, !getIsPostback()).add(dept);
+		objModel.loadChildren(getUser().login(), Department.class, false).add(dept);
 		
 		DepartmentsChildrenController controller = createController(dept);
 		doCreateControls(controller, false);

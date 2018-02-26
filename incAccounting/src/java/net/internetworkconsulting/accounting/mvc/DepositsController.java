@@ -82,7 +82,7 @@ public class DepositsController extends EditController {
 			btnOpen.addOnClickEvent(new Event() { public void handle() throws Exception { btnOpen_OnClick(); } });
 		}
 
-		List<Payment> lstPayments = objModel.loadPaymentSelections(getUser().login(), !getIsPostback());
+		List<Payment> lstPayments = objModel.loadPaymentSelections(getUser().login(), false);
 		for(Payment pay: lstPayments)
 			createController(pay);
 	}
@@ -107,7 +107,7 @@ public class DepositsController extends EditController {
 			
 			getUser().login().save(Deposit.TABLE_NAME, objModel);
 			
-			List<Payment> lstPayments = objModel.loadPaymentSelections(getUser().login(), !getIsPostback());
+			List<Payment> lstPayments = objModel.loadPaymentSelections(getUser().login(), false);
 			for(Payment payment: lstPayments)
 				payment.setSkipTransactionCheck(true);			
 			getUser().login().save(Payment.TABLE_NAME, lstPayments);

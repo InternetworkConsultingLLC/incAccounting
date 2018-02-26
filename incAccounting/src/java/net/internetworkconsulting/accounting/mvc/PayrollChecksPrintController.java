@@ -83,10 +83,10 @@ public class PayrollChecksPrintController extends Controller {
 		litTotalCosts.setFormat(sMoneyFormat);
 				
 		LiteralTag litEmployeeGuid = new LiteralTag(this, PayrollCheck.EMPLOYEES_GUID, null);
-		litEmployeeGuid.setValue(objModel.loadEmployeeGuid(getUser().login(), Employee.class, !getIsPostback()).loadContact(getUser().login(), Contact.class, !getIsPostback()).getDisplayName());
+		litEmployeeGuid.setValue(objModel.loadEmployeeGuid(getUser().login(), Employee.class, false).loadContact(getUser().login(), Contact.class, false).getDisplayName());
 
 		LiteralTag litAccount = new LiteralTag(this, PayrollCheck.ACCOUNTS_GUID, null);
-		Account bizAccount = objModel.loadAccountsGuid(getUser().login(), Account.class, !getIsPostback());
+		Account bizAccount = objModel.loadAccountsGuid(getUser().login(), Account.class, false);
 		litAccount.setValue(bizAccount.getNumber() + " " + bizAccount.getName());
 		
 		LiteralTag litDuration = new LiteralTag(this, PayrollCheck.DURATION, null);
@@ -94,9 +94,9 @@ public class PayrollChecksPrintController extends Controller {
 			if(!option.getValue().isEmpty() && Integer.parseInt(option.getValue()) == objModel.getDuration())
 				litDuration.setValue(option.getDisplay());
 		
-		List<PayrollFieldValue> lstGross = objModel.loadGrossExepnseValues(getUser().login(), !getIsPostback());
-		List<PayrollFieldValue> lstEmployeePaid = objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback());
-		List<PayrollFieldValue> lstCompanyPaid = objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback());
+		List<PayrollFieldValue> lstGross = objModel.loadGrossExepnseValues(getUser().login(), false);
+		List<PayrollFieldValue> lstEmployeePaid = objModel.loadEmployeePaidValues(getUser().login(), false);
+		List<PayrollFieldValue> lstCompanyPaid = objModel.loadCompanyPaidValues(getUser().login(), false);
 
 		for(PayrollFieldValue pfv: lstGross)
 			createFieldController(pfv, "Gross", PayrollFieldType.TYPE_GROSS_EXPENSE_GUID);

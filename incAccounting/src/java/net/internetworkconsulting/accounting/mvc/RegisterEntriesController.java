@@ -54,7 +54,7 @@ public class RegisterEntriesController extends Controller {
 		litMoneyDecimals.setValue(getUser().getSetting(Document.SETTING_MONEY_DECIMALS));
 		
 		tagAccount = new ComboTag(this, "Account");
-		tagAccount.setOptions(Account.loadOptions(getUser().login(), !getIsPostback()));
+		tagAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		tagBegBal = new TextTag(this, "Beginning Balance");
 		tagBegBal.setIsReadOnly(true);
@@ -73,7 +73,7 @@ public class RegisterEntriesController extends Controller {
 
 			if(sGuid != null) {
 				TransactionLine objLine = TransactionLine.loadByGuid(getUser().login(), TransactionLine.class, sGuid);				
-				Transaction objTran = objLine.loadTransaction(getUser().login(), Transaction.class, !getIsPostback());
+				Transaction objTran = objLine.loadTransaction(getUser().login(), Transaction.class, false);
 
 				sAccount = objLine.getAccountsGuid();
 				sStarting = Statement.convertObjectToString(objTran.getDate(), null);
@@ -162,11 +162,11 @@ public class RegisterEntriesController extends Controller {
 		getUser().login().begin(true);
 		try {
 			for(TransactionLine line : objModel) {
-				Transaction tran = line.loadTransaction(getUser().login(), Transaction.class, !getIsPostback());
-				List<TransactionLine> lstLines = tran.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback());
+				Transaction tran = line.loadTransaction(getUser().login(), Transaction.class, false);
+				List<TransactionLine> lstLines = tran.loadTransactionLines(getUser().login(), TransactionLine.class, false);
 				
 				RegisterEntry entry = null;
-				try { entry = (RegisterEntry) line.loadRegisterEntries(getUser().login(), RegisterEntry.class, !getIsPostback()).get(0); }
+				try { entry = (RegisterEntry) line.loadRegisterEntries(getUser().login(), RegisterEntry.class, false).get(0); }
 				catch(Exception ex) { continue; }
 				
 				if(line.getReconciliationsGuid() != null)

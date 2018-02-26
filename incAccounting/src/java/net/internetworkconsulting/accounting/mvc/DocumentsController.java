@@ -61,10 +61,10 @@ public class DocumentsController extends EditController {
 		setDocument(new Template(readTemplate("~/templates/Document.html"), new HtmlSyntax()));
 
 		objTransaction = null;
-		try { objTransaction = objModel.loadTransaction(getUser().login(), Transaction.class, !getIsPostback()); }
+		try { objTransaction = objModel.loadTransaction(getUser().login(), Transaction.class, false); }
 		catch(Exception ex) { }
 		
-		DocumentType objDocType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback());
+		DocumentType objDocType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false);
 		
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
@@ -246,12 +246,12 @@ public class DocumentsController extends EditController {
 			btnPrint.addOnClickEvent(new Event() { public void handle() throws Exception { btnPrint_OnClick(); } });    
 		}
 		
-		List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback());
+		List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false);
 		for(DocumentLine line: lstLines)
 			createController(line);
 		
 		LiteralTag litItems = new LiteralTag(this, "Items");
-		List<Item> lstItems = Item.loadAll(getUser().login(), !getIsPostback());
+		List<Item> lstItems = Item.loadAll(getUser().login(), false);
 		litItems.setValue(Controller.toJson(lstItems));
 	}
 	public History createHistory() throws Exception {
@@ -294,7 +294,7 @@ public class DocumentsController extends EditController {
 		try {
 			getUser().login().begin(true);
 
-			List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback());
+			List<DocumentLine> lstLines = objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false);
 			for(DocumentLine line : lstLines)
 				line.setIsDeleted(true);
 			objModel.setIsDeleted(true);
@@ -319,7 +319,7 @@ public class DocumentsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Document.TABLE_NAME, objModel);
-			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback()));
+			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false));
 			getUser().login().commit(true);
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
@@ -346,7 +346,7 @@ public class DocumentsController extends EditController {
 		
 		delc.setFocus();
 		
-		objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback()).add(line);
+		objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false).add(line);
 	}
 	private void btnPost_OnClick() throws Exception {
 		Document objModel = (Document) getModel();
@@ -390,7 +390,7 @@ public class DocumentsController extends EditController {
 			objModel.handleAutoNumber(getUser().login());
 			
 			getUser().login().save(Document.TABLE_NAME, objModel);
-			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, !getIsPostback()));
+			getUser().login().save(DocumentLine.TABLE_NAME, objModel.loadDocumentLines(getUser().login(), DocumentLine.class, false));
 			getUser().login().commit(true);
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
@@ -405,7 +405,7 @@ public class DocumentsController extends EditController {
 		Document objNew = null;
 		
 		Document objModel = (Document) getModel();
-		DocumentType docType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback());
+		DocumentType docType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false);
 		if(docType.getIsSalesRelated())
 			objNew = objModel.handleCopy(getUser().login(), DocumentType.SALES_ORDER_GUID);
 		else
@@ -417,7 +417,7 @@ public class DocumentsController extends EditController {
 		Document objNew = null;
 		
 		Document objModel = (Document) getModel();
-		DocumentType docType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback());
+		DocumentType docType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false);
 		if(docType.getIsSalesRelated())
 			objNew = objModel.handleCopy(getUser().login(), DocumentType.SALES_INVOICE_GUID);
 		else
@@ -429,7 +429,7 @@ public class DocumentsController extends EditController {
 		Document objNew = null;
 		
 		Document objModel = (Document) getModel();
-		DocumentType docType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback());
+		DocumentType docType = objModel.loadDocumentType(getUser().login(), DocumentType.class, false);
 		if(docType.getIsSalesRelated())
 			objNew = objModel.handleCopy(getUser().login(), DocumentType.SALES_CREDIT_GUID);
 		else
@@ -451,11 +451,11 @@ public class DocumentsController extends EditController {
 		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), true));
 		
 		if(objModel.getContactsGuid() != null) {
-			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());
-			cboBillingContact.setOptions(cntct.loadChildOptions(getUser().login(), !getIsPostback()));
+			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, false);
+			cboBillingContact.setOptions(cntct.loadChildOptions(getUser().login(), false));
 			
-			cntct = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());
-			cboShippingContact.setOptions(cntct.loadChildOptions(getUser().login(), !getIsPostback()));
+			cntct = objModel.loadContact(getUser().login(), Contact.class, false);
+			cboShippingContact.setOptions(cntct.loadChildOptions(getUser().login(), false));
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class DepositsPrintController extends Controller {
 		Account objAcct = Account.loadByGuid(getUser().login(), Account.class, objModel.getAccountsGuid());
 		txtAccount.setValue(objAcct.getNumber() + " " + objAcct.getName());
 		
-		List<Payment> lstPayments = objModel.loadPaymentSelections(getUser().login(), !getIsPostback());
+		List<Payment> lstPayments = objModel.loadPaymentSelections(getUser().login(), false);
 		for(Payment pay: lstPayments)
 			if(pay.getBankDepositsGuid() != null)
 				createController(pay);

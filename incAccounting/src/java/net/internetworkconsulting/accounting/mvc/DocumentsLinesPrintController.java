@@ -28,29 +28,29 @@ public class DocumentsLinesPrintController extends Controller {
 		
 		if(objModel.getItemsGuid() != null) {
 			LiteralTag tagItem = new LiteralTag(this, "Row " + DocumentLine.ITEMS_GUID);
-			Item bizItem = objModel.loadItem(getUser().login(), Item.class, !getIsPostback());
+			Item bizItem = objModel.loadItem(getUser().login(), Item.class, false);
 			tagItem.setValue(bizItem.getNumber());
 		}
 		
 		if(objModel.getUnitMeasuresGuid() != null) {
 			LiteralTag tagUm = new LiteralTag(this, "Row " + DocumentLine.UNIT_MEASURES_GUID);
-			UnitMeasure bizUm = objModel.loadUnitMeasure(getUser().login(), UnitMeasure.class, !getIsPostback());
+			UnitMeasure bizUm = objModel.loadUnitMeasure(getUser().login(), UnitMeasure.class, false);
 			tagUm.setValue(bizUm.getAbbreviation());
 		}
 		
 		LiteralTag tagAccount = new LiteralTag(this, "Row " + DocumentLine.ACCOUNTS_GUID);
-		Account bizAccount = objModel.loadAccount(getUser().login(), Account.class, !getIsPostback());
+		Account bizAccount = objModel.loadAccount(getUser().login(), Account.class, false);
 		tagAccount.setValue(bizAccount.getNumber() + " " + bizAccount.getNestedName());
 		
 		if(objModel.getJobsGuid() != null) {
 			LiteralTag tagJob = new LiteralTag(this, "Row " + DocumentLine.JOBS_GUID);
-			Job bizJob = objModel.loadJob(getUser().login(), Job.class, !getIsPostback());
+			Job bizJob = objModel.loadJob(getUser().login(), Job.class, false);
 			tagJob.setValue(bizJob.getNumber() + " " + bizJob.getNestedName());
 		}
 		
 		if(objModel.getDepartmentsGuid() != null) {
 			LiteralTag tagDepartment = new LiteralTag(this, "Row " + DocumentLine.DEPARTMENTS_GUID);
-			Department bizDept = objModel.loadDepartment(getUser().login(), Department.class, !getIsPostback());
+			Department bizDept = objModel.loadDepartment(getUser().login(), Department.class, false);
 			tagDepartment.setValue(bizDept.getNumber() + " " + bizDept.getNestedName());
 		}
 

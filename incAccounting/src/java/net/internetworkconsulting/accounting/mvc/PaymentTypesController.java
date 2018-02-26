@@ -31,7 +31,7 @@ public class PaymentTypesController extends EditController {
 		setDocument(new Template(readTemplate("~/templates/PaymentType.html"), new HtmlSyntax()));
 
 		TransactionType objTranType = null;
-		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback()); }
+		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false); }
 		catch(Exception ex) { 
 			objTranType = new TransactionType();
 			objTranType.initialize();
@@ -61,7 +61,7 @@ public class PaymentTypesController extends EditController {
 	}
 	public History createHistory() throws Exception {
 		PaymentType objModel = (PaymentType) getModel();
-		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
+		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false);
 
 		String sDisplay = "New Payment Type";
 		if(objModel.getRowState() != RowState.Insert)
@@ -71,7 +71,7 @@ public class PaymentTypesController extends EditController {
 	}
 	public void btnSave_OnClick() throws Exception {
 		PaymentType objModel = (PaymentType) getModel();
-		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
+		TransactionType objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, false);
 
 		if(objModel.getRowState() == RowState.Insert) {
 			addError("Save", "You may not add document types. Payment types are defined by modules.");

@@ -51,7 +51,7 @@ public class PayrollFieldsController extends EditController {
 		cboDebitAccount.setOptions(Account.loadOptions(getUser().login(), true));
 		
 		cboCreditAccount = new ComboTag(this, PayrollField.CREDIT_ACCOUNTS_GUID, objModel);
-		cboCreditAccount.setOptions(Account.loadOptions(getUser().login(), !getIsPostback()));
+		cboCreditAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });

@@ -36,7 +36,7 @@ public class PostPayrollChecksController  extends Controller {
 		objModel = (List<PayrollCheck>) model;
 		if(!getIsPostback()) {
 			if(status == null || status.equals("") || status.equals("null"))
-				objModel = PayrollCheck.loadByPosted(getUser().login(), !getIsPostback());
+				objModel = PayrollCheck.loadByPosted(getUser().login(), false);
 			else
 				objModel = PayrollCheck.loadByPosted(getUser().login(), true);
 		}

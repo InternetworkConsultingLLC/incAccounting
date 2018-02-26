@@ -18,7 +18,7 @@ public class ContactsNotesController extends Controller {
 		txtDate.setIsReadOnly(true);
 
 		ComboTag cboUser = new ComboTag(this, "Note", ContactNote.USERS_GUID, objModel.getGuid(), objModel);
-		cboUser.setOptions(User.loadOptions(getUser().login(), !getIsPostback()));
+		cboUser.setOptions(User.loadOptions(getUser().login(), false));
 		
 		TextTag txtSubject = new TextTag(this, "Note", ContactNote.SUBJECT, objModel.getGuid(), objModel);
 

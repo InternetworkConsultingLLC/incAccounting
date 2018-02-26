@@ -25,7 +25,7 @@ public class GroupPermissionsController extends Controller {
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
 		objModel = (Securable) super.getModel();
-		objPermission = objModel.loadPerimissionsForGroup(getUser().login(), !getIsPostback(), objGroup.getGuid());
+		objPermission = objModel.loadPerimissionsForGroup(getUser().login(), false, objGroup.getGuid());
 		
 		LabelTag tagSecurable = new LabelTag(this, "Securable", Securable.DISPLAY_NAME, objModel.getGuid(), objModel);
 		CheckTag tagCreate = new CheckTag(this, "Securable", Permission.CAN_CREATE, objModel.getGuid(), objPermission);

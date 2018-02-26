@@ -52,7 +52,7 @@ public class SecurableController extends EditController {
 	private void createPermissions() throws Exception {
 		Securable objModel = (Securable) getModel();
 		
-		List<Permission> lstPerms = objModel.loadPermissions(getUser().login(), Permission.class, !getIsPostback());
+		List<Permission> lstPerms = objModel.loadPermissions(getUser().login(), Permission.class, false);
 		hmGroupsPerms = new HashMap<>();
 		for(Permission perm: lstPerms)
 			hmGroupsPerms.put(perm.getGroupsGuid(), perm);

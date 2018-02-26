@@ -31,14 +31,14 @@ public class ReportViewController extends Controller {
 		LiteralTag litName = new LiteralTag(this, Report.DISPLAY_NAME);
 		litName.setValue(objModel.getDisplayName());
 		
-		List<ReportFilter> lstFilters = objModel.loadFilters(getUser().login(), ReportFilter.class, !getIsPostback());
+		List<ReportFilter> lstFilters = objModel.loadFilters(getUser().login(), ReportFilter.class, false);
 		for(ReportFilter rf: lstFilters) {
 			ReportViewFilterController rvfc = new ReportViewFilterController(this, "Filter");
 			rvfc.setModel(rf);
 			rvfc.setIsDocumentBlock(true);
 		}
 		
-		if(objModel.loadFilters(getUser().login(), ReportFilter.class, !getIsPostback()).size() > 0) {
+		if(objModel.loadFilters(getUser().login(), ReportFilter.class, false).size() > 0) {
 			ButtonTag btnLoad = new ButtonTag(this, "Load");
 			btnLoad.setValue("Load");
 			btnLoad.addOnClickEvent(new Event() { public void handle() throws Exception { btnLoad_OnClick(); } });
@@ -77,7 +77,7 @@ public class ReportViewController extends Controller {
 		Report objModel = (Report) getModel();
 		if(
 			objModel.getAutoLoad() || 
-			objModel.loadFilters(getUser().login(), ReportFilter.class, !getIsPostback()).size() == 0 || 
+			objModel.loadFilters(getUser().login(), ReportFilter.class, false).size() == 0 || 
 			(!getIsPostback() && getRequest().getParameter("AutoLoad") != null)
 		) {
 			btnLoad_OnClick();

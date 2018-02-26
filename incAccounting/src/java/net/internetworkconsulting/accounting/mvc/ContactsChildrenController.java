@@ -23,7 +23,7 @@ public class ContactsChildrenController extends Controller {
 		}
 		
 		ComboTag cboType = new ComboTag(this, "Child", Contact.CONTACT_TYPES_GUID, objModel.getGuid(), objModel);
-		cboType.setOptions(ContactType.loadOptions(getUser().login(), !getIsPostback()));
+		cboType.setOptions(ContactType.loadOptions(getUser().login(), false));
 		
 		TextTag txtGuid = new TextTag(this, "Child", Contact.GUID, objModel.getGuid(), objModel);
 		txtGuid.setIsReadOnly(true);
@@ -45,7 +45,7 @@ public class ContactsChildrenController extends Controller {
 		TextTag txtCountry = new TextTag(this, "Child", Contact.COUNTRY, objModel.getGuid(), objModel);
 
 		ComboTag cboSalesTax = new ComboTag(this, "Child", Contact.TAX_GROUP_GUID, objModel.getGuid(), objModel);
-		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), !getIsPostback()));
+		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), false));
 	}
 	public History createHistory() throws Exception { return null; }
 	

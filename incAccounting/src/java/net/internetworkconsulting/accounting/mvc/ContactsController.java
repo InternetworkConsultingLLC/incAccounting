@@ -89,11 +89,11 @@ public class ContactsController extends EditController {
 		cboSalesTax = new ComboTag(this, Contact.TAX_GROUP_GUID, objModel);
 		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), true));
 		
-		List<Contact> lstChildren = objModel.loadChildrenContacts(getUser().login(), Contact.class, !getIsPostback());
+		List<Contact> lstChildren = objModel.loadChildrenContacts(getUser().login(), Contact.class, false);
 		for(Contact child: lstChildren)
 			createChildController(child);
 
-		List<ContactNote> lstNotes = objModel.loadContactNotes(getUser().login(), ContactNote.class, !getIsPostback());
+		List<ContactNote> lstNotes = objModel.loadContactNotes(getUser().login(), ContactNote.class, false);
 		for(ContactNote note: lstNotes)
 			createNoteController(note);
 		
@@ -141,7 +141,7 @@ public class ContactsController extends EditController {
 			note.setContactsGuid(objModel.getGuid());
 			note.setUsersGuid(getUser().getGuid());
 
-			objModel.loadContactNotes(getUser().login(), ContactNote.class, !getIsPostback()).add(note);
+			objModel.loadContactNotes(getUser().login(), ContactNote.class, false).add(note);
 
 			ContactsNotesController controller = createNoteController(note);
 			doCreateControls(controller, true);
@@ -160,7 +160,7 @@ public class ContactsController extends EditController {
 			child.initialize(objModel);
 			child.setContactTypesGuid(ContactType.TYPE_INDIVIDUAL_GUID);
 			
-			objModel.loadChildrenContacts(getUser().login(), Contact.class, !getIsPostback()).add(child);
+			objModel.loadChildrenContacts(getUser().login(), Contact.class, false).add(child);
 
 			ContactsChildrenController controller = createChildController(child);			
 			doCreateControls(controller, false);
@@ -177,8 +177,8 @@ public class ContactsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Contact.TABLE_NAME, objModel);
-			getUser().login().save(Contact.TABLE_NAME, objModel.loadChildrenContacts(getUser().login(), Contact.class, !getIsPostback()));
-			getUser().login().save(ContactNote.TABLE_NAME, objModel.loadContactNotes(getUser().login(), ContactNote.class, !getIsPostback()));
+			getUser().login().save(Contact.TABLE_NAME, objModel.loadChildrenContacts(getUser().login(), Contact.class, false));
+			getUser().login().save(ContactNote.TABLE_NAME, objModel.loadContactNotes(getUser().login(), ContactNote.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

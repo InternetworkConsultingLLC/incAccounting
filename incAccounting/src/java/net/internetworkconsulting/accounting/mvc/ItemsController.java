@@ -120,7 +120,7 @@ public class ItemsController extends EditController {
 			btnAdd.setIsReadOnly(true);
 		btnAdd.addOnClickEvent(new Event() { public void handle() throws Exception { btnAdd_OnClick(); } });
 		
-		List<Item> lstItems = objModel.loadChildItems(getUser().login(), Item.class, !getIsPostback());
+		List<Item> lstItems = objModel.loadChildItems(getUser().login(), Item.class, false);
 		for(Item item: lstItems)
 			createController(item);
 	}
@@ -150,7 +150,7 @@ public class ItemsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Item.TABLE_NAME, objModel);
-			getUser().login().save(Item.TABLE_NAME, objModel.loadChildItems(getUser().login(), Item.class, !getIsPostback()));
+			getUser().login().save(Item.TABLE_NAME, objModel.loadChildItems(getUser().login(), Item.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

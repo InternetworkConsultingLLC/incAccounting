@@ -20,7 +20,7 @@ public class PostPaymentsLinesController extends Controller {
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
 		Payment objModel = (Payment) getModel();
-		TransactionType objType = objModel.loadPaymentType(getUser().login(), PaymentType.class, !getIsPostback()).loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());
+		TransactionType objType = objModel.loadPaymentType(getUser().login(), PaymentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false);
 
 		chkIsPosted = new CheckTag(this, "Row Posted");
 		chkIsPosted.setName("Posted" + objModel.getGuid());
@@ -52,7 +52,7 @@ public class PostPaymentsLinesController extends Controller {
 	}
 	private void btnOpen_OnClick() throws Exception {
 		Payment objModel = (Payment) getModel();
-		TransactionType objType = objModel.loadPaymentType(getUser().login(), PaymentType.class, !getIsPostback()).loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback());		
+		TransactionType objType = objModel.loadPaymentType(getUser().login(), PaymentType.class, false).loadTransactionType(getUser().login(), TransactionType.class, false);		
 		redirect(objType.getRootUrl() + "&GUID=" + objModel.getGuid());
 	}
   }
