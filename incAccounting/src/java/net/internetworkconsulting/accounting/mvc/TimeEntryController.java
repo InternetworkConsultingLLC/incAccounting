@@ -95,13 +95,13 @@ public class TimeEntryController extends EditController {
 
 	private void btnSave_OnClicked() throws Exception {
 		try {
-			getUser().login().begin(true);
-			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
-			getUser().login().commit(true);
 			if(objModel.getContactsGuid() == null) {
 				addError("Save", "'Bill To' cannot be empty!");
 				return;
 			}
+			getUser().login().begin(true);
+			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
+			getUser().login().commit(true);			
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
 			getUser().logExcpetion(ex, "dbe463ec959f4cdb8810985b9c4a85f1");
