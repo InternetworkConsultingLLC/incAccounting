@@ -89,19 +89,19 @@ public class RegisterEntriesLinesController extends Controller {
 			ComboTag tag = new ComboTag(this, "Row Type Combo");
 			tag.setName("RowTypeCombo" + objModel.getGuid());
 			tag.bind(objExpense, TransactionLine.ACCOUNTS_GUID);
-			tag.setOptions(Account.loadOptions(getUser().login(), !getIsPostback()));
+			tag.setOptions(Account.loadOptions(getUser().login(), false));
 			tag.setIsReadOnly(bReadonly);
 			
 			ComboTag tagContact = new ComboTag(this, "Row", RegisterEntry.CONTACTS_GUID, objModel.getGuid(), objEntry);
-			tagContact.setOptions(Contact.loadOptions(getUser().login(), !getIsPostback()));
+			tagContact.setOptions(Contact.loadOptions(getUser().login(), false));
 			tagContact.setIsReadOnly(bReadonly);
 
 			ComboTag tagDepartment = new ComboTag(this, "Row", TransactionLine.DEPARTMENTS_GUID, objModel.getGuid(), objExpense);
-			tagDepartment.setOptions(Department.loadOptions(getUser().login(), !getIsPostback()));
+			tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
 			tagDepartment.setIsReadOnly(bReadonly);
 
 			ComboTag tagJob = new ComboTag(this, "Row", TransactionLine.JOBS_GUID, objModel.getGuid(), objExpense);
-			tagJob.setOptions(Job.loadOptions(getUser().login(), !getIsPostback()));
+			tagJob.setOptions(Job.loadOptions(getUser().login(), false));
 			tagJob.setIsReadOnly(bReadonly);
 			
 		} else {
@@ -115,18 +115,18 @@ public class RegisterEntriesLinesController extends Controller {
 			ComboTag tag = new ComboTag(this, "Row Type Combo");
 			tag.setName("RowTypeCombo" + objModel.getGuid());
 			tag.bind(objTransaction, Transaction.TRANSACTION_TYPES_GUID);
-			tag.setOptions(TransactionType.loadOptions(getUser().login(), !getIsPostback()));
+			tag.setOptions(TransactionType.loadOptions(getUser().login(), false));
 			tag.setIsReadOnly(bReadonly);
 			
 			ComboTag tagContact = new ComboTag(this, "Row " + RegisterEntry.CONTACTS_GUID);
 			tagContact.setIsReadOnly(bReadonly);
 
 			ComboTag tagDepartment = new ComboTag(this, "Row", TransactionLine.DEPARTMENTS_GUID, objModel.getGuid(), objModel);
-			tagDepartment.setOptions(Department.loadOptions(getUser().login(), !getIsPostback()));
+			tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
 			tagDepartment.setIsReadOnly(bReadonly);
 
 			ComboTag tagJob = new ComboTag(this, "Row", TransactionLine.JOBS_GUID, objModel.getGuid(), objModel);
-			tagJob.setOptions(Job.loadOptions(getUser().login(), !getIsPostback()));
+			tagJob.setOptions(Job.loadOptions(getUser().login(), false));
 			tagJob.setIsReadOnly(bReadonly);
 		}
 		

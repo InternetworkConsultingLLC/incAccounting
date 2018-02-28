@@ -119,8 +119,8 @@ public class ReportController extends EditController {
 			objModel.setHtmlTemplate(objModel.getHtmlTemplate().replace(getRootUrl(), "~/"));
 
 			getUser().login().save(Report.TABLE_NAME, objModel);
-			getUser().login().save(ReportFilter.TABLE_NAME, objModel.loadFilters(getUser().login(), ReportFilter.class, !getIsPostback()));
-			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadBlocks(getUser().login(), ReportBlock.class, !getIsPostback()));
+			getUser().login().save(ReportFilter.TABLE_NAME, objModel.loadFilters(getUser().login(), ReportFilter.class, false));
+			getUser().login().save(ReportBlock.TABLE_NAME, objModel.loadBlocks(getUser().login(), ReportBlock.class, false));
 
 			getUser().login().commit(true);
 		}

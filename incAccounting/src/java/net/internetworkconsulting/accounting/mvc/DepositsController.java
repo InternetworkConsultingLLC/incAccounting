@@ -53,7 +53,7 @@ public class DepositsController extends EditController {
 		
 		ComboTag cboAccount = new ComboTag(this, Deposit.ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		TextTag litItems = new TextTag(this, Deposit.ITEMS, objModel);
 		litItems.setIsReadOnly(true);

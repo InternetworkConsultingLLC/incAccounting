@@ -39,7 +39,7 @@ public class JobsController extends EditController {
 		txtGuid.setIsReadOnly(true);
 		
 		ComboTag cboParent = new ComboTag(this, Job.PARENT_JOBS_GUID, objModel);
-		cboParent.setOptions(Job.loadOptions(getUser().login(), true));
+		cboParent.setOptions(Job.loadOptions(getUser().login(), false));
 		
 		TextTag litNestedName = new TextTag(this, Job.NESTED_NAME, objModel);
 		litNestedName.setIsReadOnly(true);
@@ -99,7 +99,7 @@ public class JobsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Job.TABLE_NAME, objModel);
-			getUser().login().save(Job.TABLE_NAME, objModel.loadChildren(getUser().login(), Job.class, !getIsPostback()));
+			getUser().login().save(Job.TABLE_NAME, objModel.loadChildren(getUser().login(), Job.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

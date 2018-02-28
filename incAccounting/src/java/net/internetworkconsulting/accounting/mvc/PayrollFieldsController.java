@@ -44,14 +44,14 @@ public class PayrollFieldsController extends EditController {
 		TextTag txtName = new TextTag(this, PayrollField.NAME, objModel);
 		
 		ComboTag cboFieldType = new ComboTag(this, PayrollField.PAYROLL_FIELD_TYPES_GUID, objModel);
-		cboFieldType.setOptions(PayrollFieldType.loadOptions(getUser().login(), true));
+		cboFieldType.setOptions(PayrollFieldType.loadOptions(getUser().login(), false));
 		cboFieldType.addOnChangeEvent(new Event() { public void handle() throws Exception { } });
 		
 		cboDebitAccount = new ComboTag(this, PayrollField.DEBIT_ACCOUNTS_GUID, objModel);
-		cboDebitAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboDebitAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		cboCreditAccount = new ComboTag(this, PayrollField.CREDIT_ACCOUNTS_GUID, objModel);
-		cboCreditAccount.setOptions(Account.loadOptions(getUser().login(), !getIsPostback()));
+		cboCreditAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });

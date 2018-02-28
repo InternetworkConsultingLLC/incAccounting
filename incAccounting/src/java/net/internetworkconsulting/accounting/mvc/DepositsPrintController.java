@@ -48,7 +48,7 @@ public class DepositsPrintController extends Controller {
 		
 		ComboTag cboAccount = new ComboTag(this, Deposit.ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		LiteralTag txtAccount = new LiteralTag(this, Deposit.ACCOUNTS_GUID, null);
 		Account objAcct = Account.loadByGuid(getUser().login(), Account.class, objModel.getAccountsGuid());

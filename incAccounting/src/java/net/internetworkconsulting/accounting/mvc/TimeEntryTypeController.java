@@ -45,7 +45,7 @@ public class TimeEntryTypeController extends EditController {
 		Tag tagDescription = new TextTag(this, TimeEntryType.DESCRIPTION, objModel);
 
 		ComboTag tagContact = new ComboTag(this, TimeEntryType.ITEMS_GUID, objModel);
-		tagContact.setOptions(Item.loadOptions(getUser().login(), !getIsPostback()));
+		tagContact.setOptions(Item.loadOptions(getUser().login(), false));
 
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });

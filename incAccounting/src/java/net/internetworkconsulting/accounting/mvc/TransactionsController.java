@@ -43,9 +43,9 @@ public class TransactionsController  extends EditController{
 		Transaction objModel = (Transaction) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Transaction.html"), new HtmlSyntax()));
 		
-		Account.loadOptions(getUser().login(), true);
-		Job.loadOptions(getUser().login(), true);
-		Department.loadOptions(getUser().login(), true);
+		Account.loadOptions(getUser().login(), false);
+		Job.loadOptions(getUser().login(), false);
+		Department.loadOptions(getUser().login(), false);
 		
 		bReadOnly = objModel.getTransactionTypesGuid() != null && !objModel.getTransactionTypesGuid().equals(TransactionType.TRANSACTION_GUID);
 		if(objModel.isReconciled(getUser().login()))		
@@ -63,7 +63,7 @@ public class TransactionsController  extends EditController{
 
 		ComboTag cboType = new ComboTag(this, Transaction.TRANSACTION_TYPES_GUID, objModel);
 		cboType.setIsReadOnly(true);
-		cboType.setOptions(TransactionType.loadOptions(getUser().login(), true));
+		cboType.setOptions(TransactionType.loadOptions(getUser().login(), false));
 
 		txtBalance = new TextTag(this, "Balance");
 		txtBalance.setIsReadOnly(true);
@@ -125,7 +125,7 @@ public class TransactionsController  extends EditController{
 			getUser().login().begin(true);
 			objModel.handleAutoNumber(getUser().login());
 			getUser().login().save(Transaction.TABLE_NAME, objModel);
-			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback()));
+			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false));
 			getUser().login().commit(true);			
 		}
 		catch(Exception ex) {
@@ -166,7 +166,7 @@ public class TransactionsController  extends EditController{
 			objModel.setIsDeleted(true);
 			
 			getUser().login().begin(true);
-			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, !getIsPostback()));
+			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false));
 			getUser().login().save(Transaction.TABLE_NAME, objModel);
 			getUser().login().commit(true);			
 		}

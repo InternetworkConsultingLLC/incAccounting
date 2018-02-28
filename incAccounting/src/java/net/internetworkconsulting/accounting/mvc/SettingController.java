@@ -46,7 +46,7 @@ public class SettingController extends EditController {
 		txtGuid.bind(getModel(), Setting.GUID);
 		
 		ComboTag cboUser = new ComboTag(this, Setting.USERS_GUID);
-		cboUser.setOptions(User.loadOptions(getUser().login(), true));
+		cboUser.setOptions(User.loadOptions(getUser().login(), false));
 		cboUser.bind(getModel(), Setting.USERS_GUID);
 		
 		TextTag txtKey = new TextTag(this, Setting.KEY);

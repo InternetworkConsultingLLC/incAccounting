@@ -102,16 +102,16 @@ public class PaymentsController extends EditController {
 		
 		cboType = new ComboTag(this, Payment.PAYMENT_TYPES_GUID, objModel);
 		cboType.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboType.setOptions(PaymentType.loadOptions(getUser().login(), true));
+		cboType.setOptions(PaymentType.loadOptions(getUser().login(), false));
 		cboType.addOnChangeEvent(new Event() { public void handle() throws Exception { cboType_OnChange(); } });
 		
 		cboAccount = new ComboTag(this, Payment.POSTED_ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		cboContact = new ComboTag(this, Payment.CONTACTS_GUID, objModel);
 		cboContact.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboContact.setOptions(Contact.loadOptions(getUser().login(), true));
+		cboContact.setOptions(Contact.loadOptions(getUser().login(), false));
 		cboContact.addOnChangeEvent(new Event() { public void handle() throws Exception { cboContact_OnChange(); } });
 		
 		cboBilingContact = new ComboTag(this, Payment.BILLING_CONTACTS_GUID, objModel);
@@ -232,7 +232,7 @@ public class PaymentsController extends EditController {
 			objModel.calculate(getUser().login());
 			
 			getUser().login().save(Payment.TABLE_NAME, objModel);
-			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), !getIsPostback()));
+			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), false));
 			
 			objModel.savePaymentApplicationSelections(getUser().login());
 					
@@ -262,7 +262,7 @@ public class PaymentsController extends EditController {
 			objModel.handleAutoNumber(getUser().login());
 			
 			getUser().login().save(Payment.TABLE_NAME, objModel);
-			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), !getIsPostback()));
+			getUser().login().save(Document.TABLE_NAME, objModel.loadPrepaymentDocument(getUser().login(), false));
 			
 			objModel.savePaymentApplicationSelections(getUser().login());
 					

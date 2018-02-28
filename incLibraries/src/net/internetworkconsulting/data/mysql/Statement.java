@@ -301,7 +301,15 @@ public class Statement implements StatementInterface {
 				}
 			case "java.util.Date":
 				try {
-					return new Date((new SimpleDateFormat("yyyy-MM-dd")).parse(value).getTime());
+					//2018-01-01 01:02:03
+					SimpleDateFormat sdf = null;
+					if(value.length() == 10)
+						sdf = new SimpleDateFormat("yyyy-MM-dd");
+					else if(value.length() == 19)
+						sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					else
+						throw new Exception("Invalid date time (" + value + ") format!");
+					return new Date(sdf.parse(value.replace("T", " ")).getTime());
 				}
 				catch(Exception ex) {
 					return null;

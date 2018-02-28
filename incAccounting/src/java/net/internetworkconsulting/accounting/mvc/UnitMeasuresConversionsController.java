@@ -37,7 +37,7 @@ public class UnitMeasuresConversionsController extends Controller {
 
 		ComboTag cboRightUnit = new ComboTag(this, "Conversion " + Conversion.RIGHT_UNIT_MEASURES_GUID);
 		cboRightUnit.setName(Conversion.RIGHT_UNIT_MEASURES_GUID + objModel.getGuid());
-		cboRightUnit.setOptions(UnitMeasure.loadOptions(getUser().login(), !getIsPostback()));
+		cboRightUnit.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
 		cboRightUnit.bind(objModel, Conversion.RIGHT_UNIT_MEASURES_GUID);
 		
 		TextTag txtRightQty = new TextTag(this, "Conversion " + Conversion.RIGHT_QUANTITY);

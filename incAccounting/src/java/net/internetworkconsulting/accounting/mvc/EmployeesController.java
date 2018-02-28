@@ -68,8 +68,8 @@ public class EmployeesController extends ContactsController {
 			getUser().login().begin(true);
 			getUser().login().save(Contact.TABLE_NAME, objModel);
 			getUser().login().save(Employee.TABLE_NAME, objEmployee);
-			getUser().login().save(Contact.TABLE_NAME, objModel.loadChildrenContacts(getUser().login(), Contact.class, !getIsPostback()));
-			getUser().login().save(ContactNote.TABLE_NAME, objModel.loadContactNotes(getUser().login(), ContactNote.class, !getIsPostback()));
+			getUser().login().save(Contact.TABLE_NAME, objModel.loadChildrenContacts(getUser().login(), Contact.class, false));
+			getUser().login().save(ContactNote.TABLE_NAME, objModel.loadContactNotes(getUser().login(), ContactNote.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

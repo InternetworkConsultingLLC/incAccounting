@@ -68,7 +68,7 @@ public class GroupController extends EditController {
 			hmMembershipsByUser.put(mbr.getUsersGuid(), mbr);
 		
 		// get list of all users by guid
-		List<Option> lstUserOptions = User.loadOptions(getUser().login(), !getIsPostback());
+		List<Option> lstUserOptions = User.loadOptions(getUser().login(), false);
 		lstUserOptions.remove(0);
 		HashMap<String, Option> hmUsersByGuid = new HashMap<>();
 		for(Option opt: lstUserOptions)

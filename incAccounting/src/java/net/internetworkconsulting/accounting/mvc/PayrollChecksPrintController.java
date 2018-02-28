@@ -121,7 +121,7 @@ public class PayrollChecksPrintController extends Controller {
 		pcefc.setTemplatePrefix(sBlock);
 		pcefc.setIsDocumentBlock(true);
 		pcefc.setPosted(objModel.getPostedTransactionsGuid() != null);
-		pcefc.setFieldOptions(PayrollField.loadOptionsByType(getUser().login(), true, sFieldTypeLimit));
+		pcefc.setFieldOptions(PayrollField.loadOptionsByType(getUser().login(), false, sFieldTypeLimit));
 		
 		return pcefc;
 	}

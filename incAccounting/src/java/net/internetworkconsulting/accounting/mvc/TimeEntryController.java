@@ -64,25 +64,25 @@ public class TimeEntryController extends EditController {
 		Tag tagDescription = new TextAreaTag(this, TimeEntry.DESCRIPTION, objModel);
 		
 		ComboTag tagContact = new ComboTag(this, TimeEntry.CONTACTS_GUID, objModel);
-		tagContact.setOptions(Contact.loadOptions(getUser().login(), !getIsPostback()));
+		tagContact.setOptions(Contact.loadOptions(getUser().login(), false));
 		
 		ComboTag tagEmploye = new ComboTag(this, TimeEntry.EMPLOYEES_GUID, objModel);
-		tagEmploye.setOptions(Employee.loadOptions(getUser().login(), !getIsPostback()));
+		tagEmploye.setOptions(Employee.loadOptions(getUser().login(), false));
 		
 		ComboTag tagJob = new ComboTag(this, TimeEntry.JOBS_GUID, objModel);
-		tagJob.setOptions(Job.loadOptions(getUser().login(), !getIsPostback()));
+		tagJob.setOptions(Job.loadOptions(getUser().login(), false));
 		
 		ComboTag tagDepartment = new ComboTag(this, TimeEntry.DEPARTMENTS_GUID, objModel);
-		tagDepartment.setOptions(Department.loadOptions(getUser().login(), !getIsPostback()));
+		tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
 		
 		ComboTag tagTimeSheet = new ComboTag(this, TimeEntry.TIME_SHEETS_GUID, objModel);
-		tagTimeSheet.setOptions(TimeSheet.loadOptions(getUser().login(), !getIsPostback()));
+		tagTimeSheet.setOptions(TimeSheet.loadOptions(getUser().login(), false));
 		
 		ComboTag tagDocument = new ComboTag(this, TimeEntry.DOCUMENTS_GUID, objModel);
-		tagDocument.setOptions(Document.loadOptions(getUser().login(), !getIsPostback()));
+		tagDocument.setOptions(Document.loadOptions(getUser().login(), false));
 		
 		ComboTag tagType = new ComboTag(this, TimeEntry.ENTRY_TYPES_GUID, objModel);
-		tagType.setOptions(TimeEntryType.loadOptions(getUser().login(), !getIsPostback()));
+		tagType.setOptions(TimeEntryType.loadOptions(getUser().login(), false));
 
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });
@@ -95,13 +95,13 @@ public class TimeEntryController extends EditController {
 
 	private void btnSave_OnClicked() throws Exception {
 		try {
-			getUser().login().begin(true);
-			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
-			getUser().login().commit(true);
 			if(objModel.getContactsGuid() == null) {
 				addError("Save", "'Bill To' cannot be empty!");
 				return;
 			}
+			getUser().login().begin(true);
+			getUser().login().save(TimeEntry.TABLE_NAME, objModel);
+			getUser().login().commit(true);			
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
 			getUser().logExcpetion(ex, "dbe463ec959f4cdb8810985b9c4a85f1");

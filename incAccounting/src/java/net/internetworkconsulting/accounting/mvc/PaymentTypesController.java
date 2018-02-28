@@ -53,7 +53,7 @@ public class PaymentTypesController extends EditController {
 		cboSalesRelated.setIsReadOnly(true);
 		
 		ComboTag cboAccount = new ComboTag(this, PaymentType.ACCOUNTS_GUID, objModel);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.setValue("Save");

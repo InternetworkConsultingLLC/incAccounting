@@ -50,7 +50,7 @@ public class DepartmentsController extends EditController {
 		CheckTag chkIsAllowed = new CheckTag(this, Department.IS_ALLOWED, objModel);
 
 		ComboTag cboParent = new ComboTag(this, Department.PARENT_DEPARTMENTS_GUID, objModel);
-		cboParent.setOptions(Department.loadOptions(getUser().login(), true));		
+		cboParent.setOptions(Department.loadOptions(getUser().login(), false));		
 
 		ButtonTag btnOpen = new ButtonTag(this, "", "Open", "", "Open Parent");
 		if(objModel.getRowState() == RowInterface.RowState.Insert)
@@ -99,7 +99,7 @@ public class DepartmentsController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(Department.TABLE_NAME, objModel);
-			getUser().login().save(Department.TABLE_NAME, objModel.loadChildren(getUser().login(), Department.class, !getIsPostback()));
+			getUser().login().save(Department.TABLE_NAME, objModel.loadChildren(getUser().login(), Department.class, false));
 			getUser().login().commit(true);
 		}
 		catch(Exception ex) {

@@ -41,12 +41,12 @@ public class DocumentsLinesController extends Controller {
 		
 		cboItem = new ComboTag(this, "Row", DocumentLine.ITEMS_GUID, objModel.getGuid(), objModel);
 		cboItem.setIsReadOnly(objTransaction != null);
-		cboItem.setOptions(Item.loadOptions(getUser().login(), true));
+		cboItem.setOptions(Item.loadOptions(getUser().login(), false));
 		//cboItem.addOnChangeEvent(new Event() { public void handle() throws Exception { cboItem_OnChange(); } });
 
 		ComboTag cboUm = new ComboTag(this, "Row", DocumentLine.UNIT_MEASURES_GUID, objModel.getGuid(), objModel);
 		cboUm.setIsReadOnly(objTransaction != null);
-		cboUm.setOptions(UnitMeasure.loadOptions(getUser().login(), true));
+		cboUm.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
 		//cboUm.addOnChangeEvent(new Event() { public void handle() throws Exception { cboUm_OnChange();  } });
 
 		TextTag txtUnitPrice = new TextTag(this, "Row", DocumentLine.UNIT_PRICE, objModel.getGuid(), objModel);
@@ -69,15 +69,15 @@ public class DocumentsLinesController extends Controller {
 
 		ComboTag cboAccount = new ComboTag(this, "Row", DocumentLine.ACCOUNTS_GUID, objModel.getGuid(), objModel);
 		cboAccount.setIsReadOnly(objTransaction != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), true));
+		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
 
 		ComboTag cboJob = new ComboTag(this, "Row", DocumentLine.JOBS_GUID, objModel.getGuid(), objModel);
 		cboJob.setIsReadOnly(objTransaction != null);
-		cboJob.setOptions(Job.loadOptions(getUser().login(), true));
+		cboJob.setOptions(Job.loadOptions(getUser().login(), false));
 
 		ComboTag cboDepartment = new ComboTag(this, "Row", DocumentLine.DEPARTMENTS_GUID, objModel.getGuid(), objModel);
 		cboDepartment.setIsReadOnly(objTransaction != null);
-		cboDepartment.setOptions(Department.loadOptions(getUser().login(), true));
+		cboDepartment.setOptions(Department.loadOptions(getUser().login(), false));
 	}
 	public History createHistory() throws Exception { return null; }
 

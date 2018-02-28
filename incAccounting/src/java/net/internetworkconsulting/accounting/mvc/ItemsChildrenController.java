@@ -28,7 +28,7 @@ public class ItemsChildrenController extends Controller {
 		TextTag txtNumber = new TextTag(this, "Child", Item.NUMBER, objModel.getGuid(), objModel);
 
 		ComboTag cboUM = new ComboTag(this, "Child", Item.INVENTORY_UNIT_MEASURES_GUID, objModel.getGuid(), objModel);
-		cboUM.setOptions(UnitMeasure.loadOptions(getUser().login(), !getIsPostback()));
+		cboUM.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
 
 		CheckTag chkTaxes = new CheckTag(this, "Child", Item.IS_SALES_TAXED, objModel.getGuid(), objModel);
 		chkTaxes.setIsReadOnly(true);

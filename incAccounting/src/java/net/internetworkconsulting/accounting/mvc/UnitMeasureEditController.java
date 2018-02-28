@@ -59,7 +59,7 @@ public class UnitMeasureEditController extends EditController {
 		
 		// this is doen once to cache a fresh copy for use on each conversion
 		// rather than cycling back to the database x times.
-		UnitMeasure.loadOptions(getUser().login(), true);
+		UnitMeasure.loadOptions(getUser().login(), false);
 		
 		List<Conversion> lstConversion = objModel.loadLeftConversions(getUser().login(), Conversion.class, !getIsPostback());
 		for(Conversion conv: lstConversion)
@@ -101,7 +101,7 @@ public class UnitMeasureEditController extends EditController {
 		try {
 			getUser().login().begin(true);
 			getUser().login().save(UnitMeasure.TABLE_NAME, objModel);
-			getUser().login().save(Conversion.TABLE_NAME, objModel.loadLeftConversions(getUser().login(), Conversion.class, !getIsPostback()));
+			getUser().login().save(Conversion.TABLE_NAME, objModel.loadLeftConversions(getUser().login(), Conversion.class, false));
 			getUser().login().commit(true);
 		} catch(Exception ex) {
 			getUser().login().rollback(true);
