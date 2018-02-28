@@ -29,6 +29,7 @@ public class PostPayrollChecksLineController extends Controller {
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 		
 		TextTag litDate = new TextTag(this, "Row", PayrollCheck.DATE, objModel.getGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		litDate.setIsReadOnly(true);
 		TextTag litNumber = new TextTag(this, "Row", PayrollCheck.NUMBER, objModel.getGuid(), objModel);
 		litNumber.setIsReadOnly(true);

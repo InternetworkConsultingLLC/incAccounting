@@ -28,6 +28,7 @@ public class DepositsPaymentsPrintController extends Controller {
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 		
 		LiteralTag litDate = new LiteralTag(this, "Payment", Payment.DATE, objModel.getGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		LiteralTag litContact = new LiteralTag(this, "Payment", Payment.CONTACTS_DISPLAY_NAME, objModel.getGuid(), objModel);
 		LiteralTag litNumber = new LiteralTag(this, "Payment", Payment.THEIR_NUMBER, objModel.getGuid(), objModel);		
 		LiteralTag litAmount = new LiteralTag(this, "Payment", Payment.TOTAL, objModel.getGuid(), objModel);

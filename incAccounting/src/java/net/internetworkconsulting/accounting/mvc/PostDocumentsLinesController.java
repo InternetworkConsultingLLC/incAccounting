@@ -31,6 +31,7 @@ public class PostDocumentsLinesController extends Controller {
 		TextTag litDocumentType = new TextTag(this, "Row", TransactionType.NAME, objModel.getGuid(), objType);
 		litDocumentType.setIsReadOnly(true);
 		TextTag litDate = new TextTag(this, "Row", Document.DATE, objModel.getGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		litDate.setIsReadOnly(true);
 		TextTag litNumber = new TextTag(this, "Row", Document.REFERENCE_NUMBER, objModel.getGuid(), objModel);
 		litNumber.setIsReadOnly(true);

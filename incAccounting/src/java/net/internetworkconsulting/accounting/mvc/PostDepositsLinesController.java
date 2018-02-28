@@ -30,6 +30,7 @@ public class PostDepositsLinesController extends Controller {
 		TextTag litItems = new TextTag(this, "Row", Deposit.ITEMS, objModel.getGuid(), objModel);
 		litItems.setIsReadOnly(true);
 		TextTag litDate = new TextTag(this, "Row", Deposit.DATE, objModel.getGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		litDate.setIsReadOnly(true);
 		TextTag litNumber = new TextTag(this, "Row", Deposit.NUMBER, objModel.getGuid(), objModel);
 		litNumber.setIsReadOnly(true);

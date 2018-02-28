@@ -26,6 +26,7 @@ class PaymentsApplicationsController extends Controller{
 		TextTag litName = new TextTag(this, "Application", PaymentApplicationSelection.NAME, objModel.getDocumentsGuid(), objModel);
 		litName.setIsReadOnly(true);
 		TextTag litDate = new TextTag(this, "Application", PaymentApplicationSelection.DATE, objModel.getDocumentsGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		litDate.setIsReadOnly(true);
 		TextTag litOurNumber = new TextTag(this, "Application", PaymentApplicationSelection.REFERENCE_NUMBER, objModel.getDocumentsGuid(), objModel);
 		litOurNumber.setIsReadOnly(true);

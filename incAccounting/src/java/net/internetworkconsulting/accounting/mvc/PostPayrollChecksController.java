@@ -36,7 +36,7 @@ public class PostPayrollChecksController  extends Controller {
 		objModel = (List<PayrollCheck>) model;
 		if(!getIsPostback()) {
 			if(status == null || status.equals("") || status.equals("null"))
-				objModel = PayrollCheck.loadByPosted(getUser().login(), !getIsPostback());
+				objModel = PayrollCheck.loadByPosted(getUser().login(), false);
 			else
 				objModel = PayrollCheck.loadByPosted(getUser().login(), true);
 		}
@@ -64,25 +64,33 @@ public class PostPayrollChecksController  extends Controller {
 	}
 	private void btnProcess_OnClick() throws Exception {
 		try {
-			getUser().login().begin(true);
-
+			String sErrors = "";
 			for(PostPayrollChecksLineController ppclc: lstControllers) {
 				boolean isChecked = ppclc.getIsChecked();
 				PayrollCheck obj = (PayrollCheck) ppclc.getModel();
 				boolean isPosted = obj.getAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
 
-				if(isChecked) {
-					if(isPosted)
-						obj.unpost(getUser().login());
-					else
-						obj.post(getUser().login());
+				// since each posting is in it's own transaction, we want what 
+				// can be posted to succeed, and what can't post should fail 
+				// independently	
+				try {
+					if(isChecked) {
+						if(isPosted)
+							obj.unpost(getUser().login());
+						else
+							obj.post(getUser().login());
+					}
+				}
+				catch(Exception ex) {
+					getUser().login().rollback(true);
+					sErrors += "Payroll check " + obj.getNumber() + " could not be posted due to: " + ex.toString() + "\n\n";
 				}
 			}
 			
-			getUser().login().commit(true);
+			if(sErrors.length() > 0)
+				throw new Exception(sErrors + "Please 'filter' again as the list of payroll checks is not valid!");
 		}
 		catch(Exception ex) {
-			getUser().login().rollback(true);
 			getUser().logExcpetion(ex, "67f46beb9fc34429862ece42cf5227b1");
 			addError("Process", ex.getMessage());
 			return;

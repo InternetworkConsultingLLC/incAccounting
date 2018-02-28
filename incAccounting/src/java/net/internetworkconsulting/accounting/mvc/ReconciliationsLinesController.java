@@ -35,6 +35,7 @@ public class ReconciliationsLinesController extends Controller {
 		}
 				
 		LiteralTag litDate = new LiteralTag(this, "Line", Transaction.DATE, objModel.getGuid(), objTran);
+		litDate.setFormat("yyyy-MM-dd");
 		litDate.setIsReadOnly(true);
 		LiteralTag litRef = new LiteralTag(this, "Line", Transaction.REFERENCE_NUMBER, objModel.getGuid(), objTran);
 		litRef.setIsReadOnly(true);

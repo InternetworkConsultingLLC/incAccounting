@@ -35,8 +35,13 @@ public class PostDepositsController extends Controller {
 		cboStatus.setValue(status);
 		
 		objModel = (List<Deposit>) model;
-		if(!getIsPostback())
-			objModel = Deposit.loadByPosted(getUser().login(), !(status == null || status.equals("") || status.equals("null")));
+		if(!getIsPostback()) {
+			if(status == null || status.equals("") || status.equals("null"))
+				objModel = Deposit.loadByPosted(getUser().login(), false);
+			else
+				objModel = Deposit.loadByPosted(getUser().login(), true);		
+			
+		}
 		setModel(objModel);
 		
 		lstControllers = new LinkedList<>();
@@ -68,25 +73,33 @@ public class PostDepositsController extends Controller {
 	}
 	private void btnProcess_OnClick() throws Exception {
 		try {
-			getUser().login().begin(true);
-
+			String sErrors = "";
 			for(PostDepositsLinesController controller: lstControllers) {
 				boolean isChecked = controller.getIsChecked();
 				Deposit obj = (Deposit) controller.getModel();
 				boolean isPosted = obj.getPostedTransactionsGuid() != null;
 
-				if(isChecked) {
-					if(isPosted)
-						obj.unpost(getUser().login());
-					else
-						obj.post(getUser().login());
+				// since each posting is in it's own transaction, we want what 
+				// can be posted to succeed, and what can't post should fail 
+				// independently				
+				try {
+					if(isChecked) {
+						if(isPosted)
+							obj.unpost(getUser().login());
+						else
+							obj.post(getUser().login());
+					}
+				}
+				catch(Exception ex) {
+					getUser().login().rollback(true);
+					sErrors += "Deposit " + obj.getNumber() + " could not be posted due to the following error: " + ex.toString() + "\n\n";
 				}
 			}
 			
-			getUser().login().commit(true);
+			if(sErrors.length() > 0)
+				throw new Exception(sErrors + "Please 'filter' again as the list of deposits is not valid!");
 		}
 		catch(Exception ex) {
-			getUser().login().rollback(true);
 			getUser().logExcpetion(ex, "67f46beb9fc34429862ece42cf5227b1");
 			addError("Post", ex.getMessage());
 			return;

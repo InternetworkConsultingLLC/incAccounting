@@ -32,6 +32,7 @@ public class ContactsChildrenController extends Controller {
 		TextTag txtDisplay = new TextTag(this, "Child", Contact.DISPLAY_NAME, objModel.getGuid(), objModel);
 		CheckTag chkAllowed = new CheckTag(this, "Child", Contact.IS_ALLOWED, objModel.getGuid(), objModel);
 		DateTag dtSince = new DateTag(this, "Child", Contact.CONTACT_SINCE, objModel.getGuid(), objModel);
+		
 		TextTag txtEmail = new TextTag(this, "Child", Contact.EMAIL_ADDRESS, objModel.getGuid(), objModel);
 		TextTag txtOffice = new TextTag(this, "Child", Contact.OFFICE_PHONE, objModel.getGuid(), objModel);
 		TextTag txtMobile = new TextTag(this, "Child", Contact.MOBILE_PHONE, objModel.getGuid(), objModel);

@@ -41,7 +41,7 @@ public class PostDocumentsController extends Controller {
 		objModel = (List<net.internetworkconsulting.accounting.entities.Document>) model;
 		if(!getIsPostback()) {
 			if(status == null || status.equals("") || status.equals("null"))
-				objModel = Document.loadByTypeAndPosted(getUser().login(), type_guid, !getIsPostback());
+				objModel = Document.loadByTypeAndPosted(getUser().login(), type_guid, false);
 			else
 				objModel = Document.loadByTypeAndPosted(getUser().login(), type_guid, true);	
 			
@@ -72,25 +72,33 @@ public class PostDocumentsController extends Controller {
 	}
 	private void btnProcess_OnClick() throws Exception {
 		try {
-			getUser().login().begin(true);
-
+			String sErrors = "";
 			for(PostDocumentsLinesController pdlc: lstControllers) {
 				boolean isChecked = pdlc.getIsChecked();
 				Document obj = (Document) pdlc.getModel();
 				boolean isPosted = obj.getPostedAccountsGuid() != null && obj.getPostedTransactionsGuid() != null;
 
-				if(isChecked) {
-					if(isPosted)
-						obj.unpost(getUser().login());
-					else
-						obj.post(getUser().login());
+				// since each posting is in it's own transaction, we want what 
+				// can be posted to succeed, and what can't post should fail 
+				// independently				
+				try {
+					if(isChecked) {
+						if(isPosted)
+							obj.unpost(getUser().login());
+						else
+							obj.post(getUser().login());
+					}
+				}
+				catch(Exception ex) {
+					getUser().login().rollback(true);
+					sErrors += "Document " + obj.getReferenceNumber() + " could not be posted due to the following error: " + ex.toString() + "\n\n";
 				}
 			}
 			
-			getUser().login().commit(true);
+			if(sErrors.length() > 0)
+				throw new Exception(sErrors + "Please 'filter' again as the list of documents is not valid!");
 		}
 		catch(Exception ex) {
-			getUser().login().rollback(true);
 			getUser().logExcpetion(ex, "67f46beb9fc34429862ece42cf5227b1");
 			addError("Process", ex.getMessage());
 			return;

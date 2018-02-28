@@ -32,6 +32,7 @@ public class PostPaymentsLinesController extends Controller {
 		TextTag litPaymentType = new TextTag(this, "Row", TransactionType.NAME, objModel.getGuid(), objType);
 		litPaymentType.setIsReadOnly(true);
 		TextTag litDate = new TextTag(this, "Row", Payment.DATE, objModel.getGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		litDate.setIsReadOnly(true);
 		TextTag litNumber = new TextTag(this, "Row", Payment.OUR_NUMBER, objModel.getGuid(), objModel);
 		litNumber.setIsReadOnly(true);

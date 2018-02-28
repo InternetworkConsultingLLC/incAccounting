@@ -25,6 +25,7 @@ class PaymentsApplicationsPrintController extends Controller{
 		
 		LiteralTag litName = new LiteralTag(this, "Application", PaymentApplicationSelection.NAME, objModel.getDocumentsGuid(), objModel);
 		LiteralTag litDate = new LiteralTag(this, "Application", PaymentApplicationSelection.DATE, objModel.getDocumentsGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		LiteralTag litOurNumber = new LiteralTag(this, "Application", PaymentApplicationSelection.REFERENCE_NUMBER, objModel.getDocumentsGuid(), objModel);
 		LiteralTag litTheirNumber = new LiteralTag(this, "Application", PaymentApplicationSelection.CUSTOMER_NUMBER, objModel.getDocumentsGuid(), objModel);
 

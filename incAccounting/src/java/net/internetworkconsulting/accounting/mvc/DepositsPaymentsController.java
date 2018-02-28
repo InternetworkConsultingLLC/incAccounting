@@ -28,6 +28,7 @@ public class DepositsPaymentsController extends Controller {
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 		
 		TextTag litDate = new TextTag(this, "Payment", Payment.DATE, objModel.getGuid(), objModel);
+		litDate.setFormat("yyyy-MM-dd");
 		litDate.setIsReadOnly(true);
 		TextTag litContact = new TextTag(this, "Payment", Payment.CONTACTS_DISPLAY_NAME, objModel.getGuid(), objModel);
 		litContact.setIsReadOnly(true);
