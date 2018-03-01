@@ -123,7 +123,7 @@ public class ReconciliationsController extends EditController {
 
 		String sDisplay = "New Reconciliation";
 		if(objModel.getRowState() != RowInterface.RowState.Insert)
-			sDisplay = objModel.getDate().toString();
+			sDisplay = Statement.convertObjectToString(objModel.getDate(), "yyyy-MM-dd");
 
 		return new History(sDisplay, getRequest(), getUser());
 	}

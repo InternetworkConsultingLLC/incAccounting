@@ -123,7 +123,10 @@ public class TransactionsController  extends EditController{
 		
 		try {
 			getUser().login().begin(true);
-			objModel.handleAutoNumber(getUser().login());
+			
+			if(objModel.getReferenceNumber() == null || objModel.getReferenceNumber().equals(""))
+				objModel.handleAutoNumber(getUser().login());
+			
 			getUser().login().save(Transaction.TABLE_NAME, objModel);
 			getUser().login().save(TransactionLine.TABLE_NAME, objModel.loadTransactionLines(getUser().login(), TransactionLine.class, false));
 			getUser().login().commit(true);			
