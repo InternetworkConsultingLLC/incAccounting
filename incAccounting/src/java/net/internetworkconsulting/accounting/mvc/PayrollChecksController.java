@@ -292,7 +292,7 @@ public class PayrollChecksController extends EditController {
 			objModel.calculate(getUser().login());
 			
 			getUser().login().save(PayrollCheck.TABLE_NAME, objModel);
-			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadCompanyPaidValues(getUser().login(), !false));
+			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadCompanyPaidValues(getUser().login(), false));
 			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadEmployeePaidValues(getUser().login(), false));
 			getUser().login().save(PayrollFieldValue.TABLE_NAME, objModel.loadGrossExepnseValues(getUser().login(), false));
 			
