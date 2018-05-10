@@ -56,10 +56,10 @@ public class TimeEntryController extends EditController {
 		Tag tagGuid = new TextTag(this, TimeEntry.GUID, objModel);
 
 		TextTag tagStarted = new TextTag(this, TimeEntry.STARTED, objModel);
-		tagStarted.setPlaceHolder("yyyy-mm-dd hh:mm:ss");
+		tagStarted.setPlaceHolder("yyyy-mm-dd HH:mm:ss");
 
 		TextTag tagEnded = new TextTag(this, TimeEntry.ENDED, objModel);
-		tagEnded.setPlaceHolder("yyyy-mm-dd hh:mm:ss");
+		tagEnded.setPlaceHolder("yyyy-mm-dd HH:mm:ss");
 
 		Tag tagDescription = new TextAreaTag(this, TimeEntry.DESCRIPTION, objModel);
 		

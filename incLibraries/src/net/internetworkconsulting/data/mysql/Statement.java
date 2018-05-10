@@ -3,6 +3,7 @@ package net.internetworkconsulting.data.mysql;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import net.internetworkconsulting.data.RowInterface;
@@ -171,10 +172,8 @@ public class Statement implements StatementInterface {
 		switch(value.getClass().getCanonicalName()) {
 			case "boolean":
 			case "java.lang.Boolean":
-				if((boolean) value)
-					return "1";
-				else
-					return "0";
+				if((boolean) value) return "1";
+				else return "0";
 			case "byte[]":
 				String ret = "";
 				for(byte b: (byte[]) value)
@@ -197,14 +196,6 @@ public class Statement implements StatementInterface {
 			case "double":
 			case "java.math.BigDecimal":
 				return String.format("%f", value);
-//			case "java.util.Date":
-//				java.util.Date objDate = (java.util.Date) value;
-//				sdf = new SimpleDateFormat("yyyy-MM-dd");
-//				return "'" + sdf.format(objDate) + "'";
-//			case "java.util.Date":
-//				java.util.Date objTime = (java.util.Date) value;
-//				sdf = new SimpleDateFormat("HH:mm:ss");
-//				return "'" + sdf.format(objTime) + "'";
 			case "java.util.Date":
 				java.util.Date objTs = (java.util.Date) value;
 				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -258,7 +249,12 @@ public class Statement implements StatementInterface {
 					sdf = new SimpleDateFormat(format);
 				else
 					sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				return sdf.format(dt);				
+				return sdf.format(dt);
+
+//				java.util.Date objDate = (java.util.Date) value;
+//				sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+//				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+//				return sdf.format(objDate);
 			case "java.util.GregorianCalendar":
 				java.util.Calendar cal = (java.util.Calendar) value;
 				java.util.Date objTsCal = new java.util.Date(cal.toInstant().toEpochMilli());
@@ -271,75 +267,38 @@ public class Statement implements StatementInterface {
 
 		throw new Exception("Not a valid type (" + value.getClass().getCanonicalName() + ")!");
 	}
-	public static Object parseStringToValue(Class type, String value) throws Exception {
-		switch(type.getCanonicalName()) {
+	public static Object parseStringToValue(Class type, String value) throws Exception { return parseStringToValue(type.getCanonicalName(), value); }
+	public static Object parseStringToValue(String type, String value) throws Exception {
+		switch(type) {
 			case "byte[]":
-				try {
-					return javax.xml.bind.DatatypeConverter.parseHexBinary(value.toLowerCase().replace("0x", ""));
-				}
-				catch(Exception ex) {
-					return null;
-				}
+				try { return javax.xml.bind.DatatypeConverter.parseHexBinary(value.toLowerCase().replace("0x", "")); }
+				catch(Exception ex) { return null; }
 			case "java.lang.Integer":
-				try {
-					return new Integer(value);
-				}
-				catch(Exception ex) {
-					return null;
-				}
+				try { return new Integer(value); }
+				catch(Exception ex) { return null; }
 			case "java.lang.String":
-				if(value != null && value.equals(""))
-					return null;
-				else
-					return value;
+				if(value != null && value.equals("")) return null;
+				else return value;
 			case "java.math.BigDecimal":
-				try {
-					return new BigDecimal(value);
-				}
-				catch(Exception ex) {
-					return null;
-				}
+				try { return new BigDecimal(value); }
+				catch(Exception ex) { return null; }
 			case "java.util.Date":
 				try {
-					//2018-01-01 01:02:03
-					SimpleDateFormat sdf = null;
-					if(value.length() == 10)
-						sdf = new SimpleDateFormat("yyyy-MM-dd");
-					else if(value.length() == 19)
-						sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-					else
-						throw new Exception("Invalid date time (" + value + ") format!");
-					return new Date(sdf.parse(value.replace("T", " ")).getTime());
+					if(value.length() == ("yyyy-MM-dd HH:mm:ss").length())
+						return new Date((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(value).getTime());
+					else if(value.length() == ("yyyy-MM-dd HH:mm").length())
+						return new Date((new SimpleDateFormat("yyyy-MM-dd HH:mm")).parse(value).getTime());
+					else if(value.length() == ("yyyy-MM-dd").length())
+						return new Date((new SimpleDateFormat("yyyy-MM-dd")).parse(value).getTime());
+					else if(value.length() == ("HH:mm:ss").length())
+						return new Date((new SimpleDateFormat("HH:mm:ss")).parse(value).getTime());
+					else if(value.length() == "2018-01-01T06:00:00.000Z".length())
+						return new Date(Instant.parse(value).toEpochMilli());
 				}
-				catch(Exception ex) {
-					return null;
-				}
-//			case "java.sql.Time":
-//				try {
-//					return new Date((new SimpleDateFormat("HH:mm:ss")).parse(value).getTime());
-//				}
-//				catch(Exception ex) {
-//					return null;
-//				}
-//			case "java.sql.Timestamp":
-//				try {
-//					if(value.length() == ("yyyy-MM-dd HH:mm:ss").length())
-//						return new Date((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(value).getTime());
-//					else if(value.length() == ("yyyy-MM-dd HH:mm").length())
-//						return new Date((new SimpleDateFormat("yyyy-MM-dd HH:mm")).parse(value).getTime());
-//					else if(value.length() == ("yyyy-MM-dd").length())
-//						return new Date((new SimpleDateFormat("yyyy-MM-dd")).parse(value).getTime());
-//				}
-//				catch(Exception ex) {
-//					return null;
-//				}
+				catch(Exception ex) { return null; }
 			case "java.lang.Long":
-				try {
-					return new Long(value);
-				}
-				catch(Exception ex) {
-					return null;
-				}
+				try { return new Long(value); }
+				catch(Exception ex) { return null; }
 			case "boolean":
 			case "java.lang.Boolean":
 				try {
@@ -359,14 +318,10 @@ public class Statement implements StatementInterface {
 				}
 				catch(Exception ex) { return false; }
 			case "java.math.BigInteger":
-				try {
-					return new BigInteger(value);
-				}
-				catch(Exception ex) {
-					return null;
-				}
+				try { return new BigInteger(value); }
+				catch(Exception ex) { return null; }
 		}
-
-		throw new Exception("'" + type.getCanonicalName() + "' is not a supported data type!");
+		
+		throw new Exception("'" + type + "' is not a supported data type!");
 	}
 }
