@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="scripts/inc.accounting.html.UserListController.js"></script>
+		<script src="scripts/inc.accounting.data/GroupsRow.js"></script>
+		<script src="scripts/inc.accounting.business/Group.js"></script>
+		<script src="scripts/inc.accounting.html/GroupList.js"></script>
 
 		<!--#include virtual="Header.html"-->
 	</head>
@@ -11,7 +13,7 @@
 		
 		<div id="divContent">
 			
-			<h1>User List</h1>
+			<h1>Group List</h1>
 			
 			<label for="txtName">Name:</label><input type="text" id="txtName"/><br />
 			<label for="ddlIsAllowed">Status:</label><select id="ddlIsAllowed">
@@ -29,8 +31,8 @@
 				</tr>
 				<tr class="trTemplate">
 					<td class="tdDelete"><label class="th">Delete: &nbsp;</label><input type="checkbox" id="_GUID_" class="chkDelete" /></td>
-					<td class="tdName"><label class="th">Display Name: &nbsp;</label><a href="UserEdit.html?GUID=_GUID_">_DisplayName_</a></td>
-					<td class="tdStatus"><label class="th">Status: &nbsp;</label><a href="UserEdit.html?GUID=_GUID_">_Status_</a></td>
+					<td class="tdName"><label class="th">Display Name: &nbsp;</label><a href="GroupEdit.html?GUID=_GUID_">_DisplayName_</a></td>
+					<td class="tdStatus"><label class="th">Status: &nbsp;</label><a href="GroupEdit.html?GUID=_GUID_">_Status_</a></td>
 				</tr>
 			</table>
 			

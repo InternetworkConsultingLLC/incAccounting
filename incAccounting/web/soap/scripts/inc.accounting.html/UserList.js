@@ -7,11 +7,11 @@ if(!inc.accounting.html)
 
 new function() {
 	window.onload = function() {
-		new inc.accounting.html.MenuController("User Edit");
-		new inc.accounting.html.UserListController();
+		new inc.accounting.html.Menu("User List");
+		new inc.accounting.html.UserList();
 	};
 
-	inc.accounting.html.UserListController = function() {
+	inc.accounting.html.UserList = function() {
 		var txtName = document.getElementById("txtName");
 		var btnSearch = document.getElementById("btnSearch");
 
@@ -46,7 +46,7 @@ new function() {
 			for(var cnt = 0; cnt < arrDeletes.length; cnt++) {
 				var chkDelete = arrDeletes[cnt];
 				if(chkDelete.checked) {
-					var user = arrUsers[chkDelete.id];
+					var user = arrEntities[chkDelete.id];
 					user.setIsDeleted(true);
 					user.save(btnDelete_Callback);
 				}
@@ -58,7 +58,7 @@ new function() {
 		var ddlIsAllowed = document.getElementById("ddlIsAllowed");
 
 		var tableHtml = document.getElementById("tableList").outerHTML;
-		var arrUsers = {};
+		var arrEntities = {};
 
 		var btnSearch_Callback = function(ret) {
 			if(ret instanceof Error) {
@@ -66,11 +66,11 @@ new function() {
 				return;
 			}
 			
-			arrUsers = {};
+			arrEntities = {};
 			trTemplate = document.getElementsByClassName("trTemplate")[0];
 			for(var cnt = 0; cnt < ret.length; cnt++) {
 				var user = ret[cnt];
-				arrUsers[user.getGuid()] = user;
+				arrEntities[user.getGuid()] = user;
 				
 				var html = trTemplate.outerHTML;
 				html = html.replace(' class="trTemplate"', "");
@@ -97,7 +97,7 @@ new function() {
 			else if(ddlIsAllowed.value === "0")
 				bIsAllowed = false;
 
-			inc.accounting.entities.User.loadSearch(sName, bIsAllowed, btnSearch_Callback);
+			inc.accounting.business.User.loadSearch(sName, bIsAllowed, btnSearch_Callback);
 		};
 		btnSearch.onclick = btnSearch_OnClick;
 	};

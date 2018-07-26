@@ -7,10 +7,10 @@ if(!inc.accounting.html)
 
 new function() {
 	window.onload = function() {
-		new inc.accounting.html.MenuController("License");
-		new inc.accounting.html.CopyrightController();
+		new inc.accounting.html.Menu("License");
+		new inc.accounting.html.Copyright();
 	};
 
-	inc.accounting.html.CopyrightController = function() {};
+	inc.accounting.html.Copyright = function() {};
 };
 

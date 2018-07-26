@@ -15,7 +15,6 @@ import net.internetworkconsulting.data.mysql.Adapter;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.template.CSyntax;
 import net.internetworkconsulting.template.Template;
-import org.atteo.evo.inflector.English;
 
 public class Generator {
 	private final String sDatabase = "incllc";
@@ -78,7 +77,7 @@ public class Generator {
 		return 0;
 	}
 	private void processTables(List<Row> lstTables) throws Exception {
-		loadJsDocuments();
+		//loadJsDocuments();
 		
 		for(int cnt = 0; cnt < lstTables.size(); cnt++) {
 			Row row = lstTables.get(cnt);
@@ -93,14 +92,14 @@ public class Generator {
 			addToDocument("table", row.get("TABLE_NAME").toString());
 		
 			processTable(row);
-			touchJsDocuments("TABLES");
-			parseJsDocuments("TABLES");
+//			touchJsDocuments("TABLES");
+//			parseJsDocuments("TABLES");
 
 			// save to file
 			saveDocuments(row.get("TABLE_NAME").toString());
 		}
 		
-		saveJsDocuments();
+		//saveJsDocuments();
 	}
 	private void processTable(Row table) throws Exception {
 		stmtColumns.getParameters().clear();
@@ -299,12 +298,12 @@ public class Generator {
 			hmDocuments.put(template, doc);
 		}
 	}
-	private void loadJsDocuments() throws Exception {
-		hmJsDocuments = new HashMap<>();
-		
-		InputStream is = getClass().getResourceAsStream("inc.accounting.data.js");
-		hmJsDocuments.put("inc.accounting.data.js", new Template(is, new CSyntax()));
-	}
+//	private void loadJsDocuments() throws Exception {
+//		hmJsDocuments = new HashMap<>();
+//		
+//		InputStream is = getClass().getResourceAsStream("inc.accounting.data.js");
+//		hmJsDocuments.put("inc.accounting.data.js", new Template(is, new CSyntax()));
+//	}
 
 	private void addToDocument(String name, String value) throws Exception {
 		setDocumentsValue(name + "_raw", value);
@@ -321,32 +320,32 @@ public class Generator {
 		for(String template : hmFileNames.keySet())
 			hmDocuments.get(template).set(name, value);
 		
-		for(String template : hmJsDocuments.keySet())
-			hmJsDocuments.get(template).set(name, value);
+//		for(String template : hmJsDocuments.keySet())
+//			hmJsDocuments.get(template).set(name, value);
 	}
 
 	private void touchDocuments(String section) {
 		for(String template : hmFileNames.keySet())
 			hmDocuments.get(template).touch(section);
 
-		for(String template : hmJsDocuments.keySet())
-			hmJsDocuments.get(template).touch(section);
+//		for(String template : hmJsDocuments.keySet())
+//			hmJsDocuments.get(template).touch(section);
 	}
 	private void parseDocuments(String section) throws Exception {
 		for(String template : hmFileNames.keySet())
 			hmDocuments.get(template).parse(section);
 
-		for(String template : hmJsDocuments.keySet())
-			hmJsDocuments.get(template).parse(section);
+//		for(String template : hmJsDocuments.keySet())
+//			hmJsDocuments.get(template).parse(section);
 	}
-	private void touchJsDocuments(String section) {
-		for(String template : hmJsDocuments.keySet())
-			hmJsDocuments.get(template).touch(section);
-	}
-	private void parseJsDocuments(String section) throws Exception {
-		for(String template : hmJsDocuments.keySet())
-			hmJsDocuments.get(template).parse(section);
-	}
+//	private void touchJsDocuments(String section) {
+//		for(String template : hmJsDocuments.keySet())
+//			hmJsDocuments.get(template).touch(section);
+//	}
+//	private void parseJsDocuments(String section) throws Exception {
+//		for(String template : hmJsDocuments.keySet())
+//			hmJsDocuments.get(template).parse(section);
+//	}
 	
 	private void saveDocuments(String TABLE_NAME) throws Exception {
 		for(String template : hmFileNames.keySet()) {
@@ -373,20 +372,20 @@ public class Generator {
 			fw.close();
 		}
 	}
-	private void saveJsDocuments() throws Exception {
-		for(String sFile : hmJsDocuments.keySet()) {
-			File f = new File(sJsOutputFile + sFile);
-			if(f.exists())
-				f.delete();
-			
-			try { f.createNewFile(); }
-			catch(Exception ex) { System.err.println(ex.toString()); }
-
-			FileWriter fw = new FileWriter(sJsOutputFile + sFile);
-			String sContents = hmJsDocuments.get(sFile).generate();
-			fw.write(sContents);
-			fw.flush();
-			fw.close();
-		}
-	}
+//	private void saveJsDocuments() throws Exception {
+//		for(String sFile : hmJsDocuments.keySet()) {
+//			File f = new File(sJsOutputFile + sFile);
+//			if(f.exists())
+//				f.delete();
+//			
+//			try { f.createNewFile(); }
+//			catch(Exception ex) { System.err.println(ex.toString()); }
+//
+//			FileWriter fw = new FileWriter(sJsOutputFile + sFile);
+//			String sContents = hmJsDocuments.get(sFile).generate();
+//			fw.write(sContents);
+//			fw.flush();
+//			fw.close();
+//		}
+//	}
 }

@@ -115,7 +115,9 @@ public class User extends UsersRow implements SessionInterface {
 			throw new Exception("Login failure!");
 		String sHash = row.getPasswordHash();
 		String arrHash[] = sHash.split(":");
-		if(!hashPassword(new Integer(arrHash[0]), Helper.HexToByteArray(arrHash[1]), getPassword()).equalsIgnoreCase(sHash))
+		String sTargetPassword = hashPassword(new Integer(arrHash[0]), Helper.HexToByteArray(arrHash[1]), getPassword());
+
+		if(!sTargetPassword.equalsIgnoreCase(sHash))
 			throw new Exception("Login failure!");
 		
 		this.setOriginals(row.getOriginals());

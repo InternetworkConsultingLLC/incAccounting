@@ -14,20 +14,30 @@ if(!inc.accounting.data)
 	inc.accounting.data = {};
 
 new function() {
-	inc.accounting.data.__table_cc__Row = function() {
+	inc.accounting.data.RegisterEntriesRow = function() {
 		var obj = new inc.data.Row();
 
-		// BEGIN COLUMNS		
+				
 		/*
-		 * @type __type_java__
+		 * @type java.lang.String
 		 */
-		obj.get__column_cc__ = function() { return obj.get(__column_qs__); };
+		obj.getGuid = function() { return obj.get("GUID"); };
 		/*
-		 * @param __type_java__ value 
+		 * @param java.lang.String value 
 		 */
-		obj.set__column_cc__ = function(value) { obj.set(__column_qs__, value); };
+		obj.setGuid = function(value) { obj.set("GUID", value); };
 		
-		// END COLUMNS
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getContactsGuid = function() { return obj.get("Contacts GUID"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setContactsGuid = function(value) { obj.set("Contacts GUID", value); };
+		
+		
 
 		return obj;
 	};

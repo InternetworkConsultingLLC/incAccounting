@@ -6,7 +6,7 @@ if(!inc.accounting.html)
 	inc.accounting.html = {};
 
 new function() {
-	inc.accounting.html.MenuController = function(title) {
+	inc.accounting.html.Menu = function(title) {
 		// private	
 		var divMenuOptions = document.getElementById("divMenuOptions");
 		var divContent = document.getElementById("divContent");

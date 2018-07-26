@@ -2,11 +2,11 @@ if(!inc)
 	var inc = {};
 if(!inc.accounting)
 	inc.accounting = {};
-if(!inc.accounting.entities)
-	inc.accounting.entities = {};
+if(!inc.accounting.business)
+	inc.accounting.business = {};
 
 new function() {
-	inc.accounting.entities.User = function() {
+	inc.accounting.business.User = function() {
 		var obj = new inc.accounting.data.UsersRow();
 
 		var sDatabase = null;
@@ -23,9 +23,9 @@ new function() {
 				}
 				
 				var arrNode = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:userInitializeResponse/return");
-				var user = new inc.accounting.entities.User();
-				inc.html.Ajax.populateObject(arrNode[0], user);					
-				callback(user);
+				var entity = new inc.accounting.business.User();
+				inc.html.Ajax.populateObject(arrNode[0], entity);					
+				callback(entity);
 			};
 			inc.html.Ajax.postSoap("API", "userInitialize", data, response);
 		};
@@ -82,21 +82,21 @@ new function() {
 					return;
 				}
 				var arrNode = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:userSaveResponse/return");
-				var user = new inc.accounting.entities.User();
-				inc.html.Ajax.populateObject(arrNode[0], user);					
-				callback(user);
+				var entity = new inc.accounting.business.User();
+				inc.html.Ajax.populateObject(arrNode[0], entity);					
+				callback(entity);
 			};
 			inc.html.Ajax.postSoap("API", "userSave", data, response);
 		};
 
 		return obj;
 	};
-	inc.accounting.entities.User.ADMINISTRATOR_GUID = "86b41969e95143c090fd93a4819c58a2";
-	inc.accounting.entities.User.SETTING_PASSWORD_AGE = "Password Age (Days)";
-	inc.accounting.entities.User.SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
-	inc.accounting.entities.User.SETTING_PASSWORD_LENGTH = "Password Length";
-	inc.accounting.entities.User.SETTING_VERSION_NUMBER = "Version Number";
-	inc.accounting.entities.User.loadSearch = function(display_name, is_allowed, callback) {
+	inc.accounting.business.User.ADMINISTRATOR_GUID = "86b41969e95143c090fd93a4819c58a2";
+	inc.accounting.business.User.SETTING_PASSWORD_AGE = "Password Age (Days)";
+	inc.accounting.business.User.SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
+	inc.accounting.business.User.SETTING_PASSWORD_LENGTH = "Password Length";
+	inc.accounting.business.User.SETTING_VERSION_NUMBER = "Version Number";
+	inc.accounting.business.User.loadSearch = function(display_name, is_allowed, callback) {
 		var data = {
 			DisplayName: display_name,
 			IsAllowed: is_allowed
@@ -107,20 +107,20 @@ new function() {
 				return;
 			}
 			
-			var arrUsers = [];
+			var arrEntities = [];
 			var nodes = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:userLoadSearchResponse/return");
 			for(var index in nodes) {
-				var currentUser = new inc.accounting.entities.User();
+				var currentEntity = new inc.accounting.business.User();
 				var currentNode = nodes[index];
-				inc.html.Ajax.populateObject(currentNode, currentUser);				
-				arrUsers.push(currentUser);
+				inc.html.Ajax.populateObject(currentNode, currentEntity);				
+				arrEntities.push(currentEntity);
 			}
 
-			callback(arrUsers);
+			callback(arrEntities);
 		};
 		inc.html.Ajax.postSoap("API", "userLoadSearch", data, response);
 	};
-	inc.accounting.entities.User.loadByGuid = function(guid, callback) {
+	inc.accounting.business.User.loadByGuid = function(guid, callback) {
 		var data = {
 			Guid: guid
 		};
@@ -131,18 +131,10 @@ new function() {
 			}
 			
 			var arrNodes = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:userLoadByGuidResponse/return");
-			var user = new inc.accounting.entities.User();
-			inc.html.Ajax.populateObject(arrNodes[0], user);
-			callback(user);
+			var entity = new inc.accounting.business.User();
+			inc.html.Ajax.populateObject(arrNodes[0], entity);
+			callback(entity);
 		};
 		inc.html.Ajax.postSoap("API", "userLoadByGuid", data, response);
 	};
-	
-	inc.accounting.entities.Group = function() {
-		
-	}
 };
-
-
-
-
