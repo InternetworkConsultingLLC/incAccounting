@@ -6,7 +6,7 @@ if(!inc.accounting.business)
 	inc.accounting.business = {};
 
 new function() {
-	inc.accounting.business.ListFilter = function() {
+	inc.accounting.business.ListFilterEntity = function() {
 		var obj = new inc.accounting.data.ListFiltersRow();
 		
 		obj.initialize = function(callback) {
@@ -20,7 +20,7 @@ new function() {
 				}
 				
 				var arrNode = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:listFilter_initializeResponse/return");
-				var entity = new inc.accounting.business.List();
+				var entity = new inc.accounting.business.ListFilterEntity();
 				inc.html.Ajax.populateObject(arrNode[0], entity);					
 				callback(entity);
 			};

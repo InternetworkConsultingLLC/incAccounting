@@ -2,12 +2,15 @@
 <html>
 	<head>
 		<script src="scripts/inc.accounting.data/ListFiltersRow.js"></script>
-		<script src="scripts/inc.accounting.business/ListFilter.js"></script>
+		<script src="scripts/inc.accounting.business/ListFilterEntity.js"></script>
 		<script src="scripts/inc.accounting.data/ListsRow.js"></script>
-		<script src="scripts/inc.accounting.business/List.js"></script>
+		<script src="scripts/inc.accounting.business/ListEntity.js"></script>
 		<script src="scripts/inc.accounting.html/ListEdit.js"></script>
 
 		<!--#include virtual="Header.html"-->
+		
+		<link href="css/ListEdit.css" rel="stylesheet" type="text/css" />
+
 	</head>
 	<body>
 
@@ -28,10 +31,10 @@
 			
 			<h2>Filters</h2>
 			
-			<div class="filters">
+			<div id="filters">
 				<div class="template">
 					<label for="txtFilterGUID_GUID_">GUID:</label><input id="txtFilterGUID_GUID_" readonly /><br />
-					<label for="txtFilterPrompt_GUID_">Prompt:</label><input id="txtFilterPrompt_GUID_" readonly /><br />
+					<label for="txtFilterPrompt_GUID_">Prompt:</label><input id="txtFilterPrompt_GUID_" /><br />
 					<label for="selFilterDataType_GUID_">Data Type:</label><select id="selFilterDataType_GUID_">
 						<option value=""></option>
 						<option value="Text">Text</option>

@@ -6,6 +6,7 @@
 package net.internetworkconsulting.accounting.ws;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -43,7 +44,7 @@ public class API {
 		MessageContext mc = wsContext.getMessageContext();
 		ServletRequest sr = (ServletRequest) mc.get(MessageContext.SERVLET_REQUEST);
 		HttpServletRequest hsr = (HttpServletRequest) sr;
-        HttpSession session = hsr.getSession(true);	
+	        HttpSession session = hsr.getSession(true);	
 		return (User) session.getAttribute("Controller.User");		
 	}
 	private void setUser(WebServiceContext wsContext, User user) {
@@ -191,7 +192,7 @@ public class API {
 		return "";		
 	}
 	
-	// Group ///////////////////////////////////////////////////////////////////	
+	// Group ///////////////////////////////////////////////////////////////////
 	@WebMethod(operationName = "group_initialize")
 	public Group group_initialize(@WebParam(name = "Entity") Group entity) throws Exception {		
 		denodeHashMaps(getAdapter(wsContext), Group.TABLE_NAME, entity);
@@ -258,20 +259,34 @@ public class API {
 	}	
 
 	@WebMethod(operationName = "list_save")
-	public List list_save(@WebParam(name = "Entity") List entity) throws Exception {
-		denodeHashMaps(getAdapter(wsContext), List.TABLE_NAME, entity);
+	public boolean list_save(@WebParam(name = "List") List list, @WebParam(name = "Filters") java.util.List<ListFilter> filters) throws Exception {
+		denodeHashMaps(getAdapter(wsContext), List.TABLE_NAME, list);
 		try {
 			getAdapter(wsContext).begin(true);
-			getAdapter(wsContext).save(List.TABLE_NAME, entity);
+			getAdapter(wsContext).save(List.TABLE_NAME, list);
+			
+			for(ListFilter filter : filters) {
+				denodeHashMaps(getAdapter(wsContext), ListFilter.TABLE_NAME, filter);
+				filter.setListsGuid(list.getGuid());
+				getAdapter(wsContext).save(ListFilter.TABLE_NAME, filter);
+			}
+
 			getAdapter(wsContext).commit(true);
 		}
 		catch(Exception ex) {
 			getAdapter(wsContext).rollback(true);
 			throw ex;
 		}
-		return List.loadByGuid(getAdapter(wsContext), List.class, entity.getGuid());
+
+		return true;
 	}
 	
+	@WebMethod(operationName = "list_loadFilters")
+	public java.util.List<ListFilter> list_loadFilters(@WebParam(name = "Entity") List entity) throws Exception {
+		denodeHashMaps(getAdapter(wsContext), List.TABLE_NAME, entity);
+		return entity.loadFilters(getAdapter(wsContext), ListFilter.class, false);
+	}
+
 	// List Filter /////////////////////////////////////////////////////////////
 	@WebMethod(operationName = "listFilter_initialize")
 	public ListFilter listFilter_initialize(@WebParam(name = "Entity") ListFilter entity) throws Exception {		
@@ -282,22 +297,6 @@ public class API {
 	
 	@WebMethod(operationName = "listFilter_loadByGuid")
 	public ListFilter listFilter_loadByGuid(@WebParam(name = "Guid") String Guid) throws Exception {
-		return ListFilter.loadByGuid(getAdapter(wsContext), List.class, Guid);
+		return ListFilter.loadByGuid(getAdapter(wsContext), ListFilter.class, Guid);
 	}
-
-	@WebMethod(operationName = "listFilter_save")
-	public ListFilter listFilter_save(@WebParam(name = "Entity") ListFilter entity) throws Exception {
-		denodeHashMaps(getAdapter(wsContext), List.TABLE_NAME, entity);
-		try {
-			getAdapter(wsContext).begin(true);
-			getAdapter(wsContext).save(List.TABLE_NAME, entity);
-			getAdapter(wsContext).commit(true);
-		}
-		catch(Exception ex) {
-			getAdapter(wsContext).rollback(true);
-			throw ex;
-		}
-		return ListFilter.loadByGuid(getAdapter(wsContext), List.class, entity.getGuid());
-	}	
-	
 }

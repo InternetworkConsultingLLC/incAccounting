@@ -12,7 +12,7 @@ new function() {
 	};
 
 	inc.accounting.html.GroupEdit = function() {
-		var entity = new inc.accounting.business.Group();
+		var entity = new inc.accounting.business.GroupEntity();
 		var sGuid = null;
 		if(inc.html.Dom.findGetParameter("GUID").length === 1)
 			sGuid = inc.html.Dom.findGetParameter("GUID")[0];
@@ -63,7 +63,7 @@ new function() {
 		};
 
 		if(sGuid)
-			inc.accounting.business.Group.loadByGuid(sGuid, loadEntityCallback);
+			inc.accounting.business.GroupEntity.loadByGuid(sGuid, loadEntityCallback);
 		else
 			entity.initialize(loadEntityCallback);
 	};

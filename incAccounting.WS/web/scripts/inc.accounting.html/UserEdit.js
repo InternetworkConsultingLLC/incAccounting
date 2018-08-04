@@ -12,7 +12,7 @@ new function() {
 	};
 
 	inc.accounting.html.UserEdit = function() {
-		var entity = new inc.accounting.business.User();
+		var entity = new inc.accounting.business.UserEntity();
 		var sGuid = null;
 		if(inc.html.Dom.findGetParameter("GUID").length === 1)
 			sGuid = inc.html.Dom.findGetParameter("GUID")[0];
@@ -94,7 +94,7 @@ new function() {
 		};
 
 		if(sGuid)
-			inc.accounting.business.User.loadByGuid(sGuid, loadEntityCallback);
+			inc.accounting.business.UserEntity.loadByGuid(sGuid, loadEntityCallback);
 		else
 			entity.initialize(loadEntityCallback);
 	};

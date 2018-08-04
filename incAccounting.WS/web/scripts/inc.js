@@ -436,8 +436,13 @@ new function() {
 					} else if(!inc.isNull(obj[index]) && !inc.isUndefined(obj[index]) && !inc.isFunction(obj[index])) {
 						if(bIsNested)
 							ret += "<" + lowerCaseFirstLetter(index) + getXmlType(obj[index]) + ">" + toXml(obj[index], true) + "</" + lowerCaseFirstLetter(index) + ">";
-						else
-							ret += "<" + index + getXmlType(obj[index]) + ">" + toXml(obj[index], true) + "</" + index + ">";
+						else {
+							if(inc.isArray(obj[index])) {
+								for(var cnt in obj[index])
+									ret += "<" + index + ">" + toXml(obj[index][cnt], true) + "</" + index + ">";
+							} else
+								ret += "<" + index + getXmlType(obj[index]) + ">" + toXml(obj[index], true) + "</" + index + ">";
+						}
 					}
 				}
 				return ret;
@@ -636,5 +641,21 @@ new function() {
 		};
 
 		return obj;
+	};
+	
+	inc.html.getSelectionsValue = function(control) {
+		if(control.selectedIndex < 0)
+			return null;
+		
+		return control.options[control.selectedIndex].value;
+	};
+	inc.html.setSelectionsValue = function(control, value) {
+		selectedIndex = -1;
+
+		var options = control.options;
+		
+		for(var cnt in options)
+			if(control.options[cnt].value === value)
+				control.selectedIndex = cnt;
 	};
 };

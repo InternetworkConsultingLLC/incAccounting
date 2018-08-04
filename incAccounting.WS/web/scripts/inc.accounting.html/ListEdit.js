@@ -12,10 +12,7 @@ new function() {
 	};
 
 	inc.accounting.html.ListEdit = function() {
-		var entity = new inc.accounting.business.List();
-		var sGuid = null;
-		if(inc.html.Dom.findGetParameter("GUID").length === 1)
-			sGuid = inc.html.Dom.findGetParameter("GUID")[0];
+		var entity = new inc.accounting.business.ListEntity();
 
 		var txtGUID = document.getElementById("txtGUID");
 		var txtDisplayName = document.getElementById("txtDisplayName");
@@ -31,12 +28,11 @@ new function() {
 			}
 
 			alert("Saved!");
-			entity = ret;
-			loadControlsFromObject();
+			window.location = window.location.pathname + "?GUID=" + entity.getGuid();
 		};
 		var btnSave_Clicked = function() {
 			loadObjectFromControls();
-			entity.save(btnSave_Callback);
+			entity.save(arrFilters, btnSave_Callback);
 		};
 		btnSave.onclick = btnSave_Clicked;
 		
@@ -47,19 +43,11 @@ new function() {
 				return;
 			}
 			
-			arrFilters.push(ret);
-			
-			trTemplate = document.getElementsByClassName("template")[0];
-
-			var html = trTemplate.outerHTML;
-			html = html.replace(' class="template"', "");
-			html = html.replace(/_GUID_/g, ret.getGuid());
-
-			document.getElementById("filters").insertAdjacentHTML('beforeend', html);
+			addFilter(ret);
 		};
 		var btnAddFilter_Clicked = function() {
-			var filter = new inc.accounting.business.ListFilter();
-			filter.initialize(loadEntityCallback);
+			var filter = new inc.accounting.business.ListFilterEntity();
+			filter.initialize(btnAddFilter_Callback);
 		};
 		btnAddFilter.onclick = btnAddFilter_Clicked;
 
@@ -68,10 +56,20 @@ new function() {
 			txtDisplayName.value = entity.getDisplayName();
 			txtSqlQuery.value = entity.getSqlQuery();
 		};
-
 		var loadObjectFromControls = function() {
 			entity.setDisplayName(txtDisplayName.value);
 			entity.setSqlQuery(txtSqlQuery.value);
+			
+			for(var cnt in arrFilters) {
+				var filter = arrFilters[cnt];
+				filter.setPrompt(document.getElementById("txtFilterPrompt" + filter.getGuid()).value);
+				filter.setQuery(document.getElementById("txtFilterQuery" + filter.getGuid()).value);
+				
+				var selFilterDataType = document.getElementById("selFilterDataType" + filter.getGuid());
+				filter.setDataType(inc.html.getSelectionsValue(selFilterDataType));
+				
+				filter.setListsGuid(entity.getGuid());
+			}			
 		};
 
 		var loadEntityCallback = function(ret) {
@@ -82,11 +80,41 @@ new function() {
 			
 			entity = ret;
 			loadControlsFromObject();
+			
+			entity.loadFilters(loadFiltersCallback);
+		};
+		var loadFiltersCallback = function(ret) {
+			if(ret instanceof Error) {
+				alert(ret.toString());
+				return;
+			}
+
+			for(var item in ret)
+				addFilter(ret[item]);			
+		};
+		var addFilter = function(filter) {
+			arrFilters.push(filter);
+			
+			trTemplate = document.getElementsByClassName("template")[0];
+
+			var html = trTemplate.outerHTML;
+			html = html.replace(' class="template"', ' class="filter"');
+			html = html.replace(/_GUID_/g, filter.getGuid());
+
+			document.getElementById("filters").insertAdjacentHTML('beforeend', html);
+			
+			document.getElementById("txtFilterGUID" + filter.getGuid()).value = filter.getGuid();			
+			document.getElementById("txtFilterPrompt" + filter.getGuid()).value = filter.getPrompt();
+			document.getElementById("txtFilterQuery" + filter.getGuid()).value = filter.getQuery();
+			
+			var selFilterDataType = document.getElementById("selFilterDataType" + filter.getGuid());
+			inc.html.setSelectionsValue(selFilterDataType, filter.getDataType());
 		};
 
-		if(sGuid)
-			inc.accounting.business.List.loadByGuid(sGuid, loadEntityCallback);
-		else
+		if(inc.html.Dom.findGetParameter("GUID").length === 1) {
+			var sGuid = inc.html.Dom.findGetParameter("GUID")[0];
+			inc.accounting.business.ListEntity.loadByGuid(sGuid, loadEntityCallback);
+		} else
 			entity.initialize(loadEntityCallback);
 	};
 };

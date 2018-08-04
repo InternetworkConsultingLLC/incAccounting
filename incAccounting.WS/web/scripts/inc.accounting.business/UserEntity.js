@@ -6,7 +6,7 @@ if(!inc.accounting.business)
 	inc.accounting.business = {};
 
 new function() {
-	inc.accounting.business.User = function() {
+	inc.accounting.business.UserEntity = function() {
 		var obj = new inc.accounting.data.UsersRow();
 
 		var sDatabase = null;
@@ -23,7 +23,7 @@ new function() {
 				}
 				
 				var arrNode = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:user_initializeResponse/return");
-				var entity = new inc.accounting.business.User();
+				var entity = new inc.accounting.business.UserEntity();
 				inc.html.Ajax.populateObject(arrNode[0], entity);					
 				callback(entity);
 			};
@@ -82,7 +82,7 @@ new function() {
 					return;
 				}
 				var arrNode = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:user_saveResponse/return");
-				var entity = new inc.accounting.business.User();
+				var entity = new inc.accounting.business.UserEntity();
 				inc.html.Ajax.populateObject(arrNode[0], entity);					
 				callback(entity);
 			};
@@ -91,12 +91,12 @@ new function() {
 
 		return obj;
 	};
-	inc.accounting.business.User.ADMINISTRATOR_GUID = "86b41969e95143c090fd93a4819c58a2";
-	inc.accounting.business.User.SETTING_PASSWORD_AGE = "Password Age (Days)";
-	inc.accounting.business.User.SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
-	inc.accounting.business.User.SETTING_PASSWORD_LENGTH = "Password Length";
-	inc.accounting.business.User.SETTING_VERSION_NUMBER = "Version Number";
-	inc.accounting.business.User.loadSearch = function(display_name, is_allowed, callback) {
+	inc.accounting.business.UserEntity.ADMINISTRATOR_GUID = "86b41969e95143c090fd93a4819c58a2";
+	inc.accounting.business.UserEntity.SETTING_PASSWORD_AGE = "Password Age (Days)";
+	inc.accounting.business.UserEntity.SETTING_PASSWORD_COMPLEXITY = "Password Complexity (1-4)";
+	inc.accounting.business.UserEntity.SETTING_PASSWORD_LENGTH = "Password Length";
+	inc.accounting.business.UserEntity.SETTING_VERSION_NUMBER = "Version Number";
+	inc.accounting.business.UserEntity.loadSearch = function(display_name, is_allowed, callback) {
 		var data = {
 			DisplayName: display_name,
 			IsAllowed: is_allowed
@@ -110,7 +110,7 @@ new function() {
 			var arrEntities = [];
 			var nodes = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:user_loadSearchResponse/return");
 			for(var index in nodes) {
-				var currentEntity = new inc.accounting.business.User();
+				var currentEntity = new inc.accounting.business.UserEntity();
 				var currentNode = nodes[index];
 				inc.html.Ajax.populateObject(currentNode, currentEntity);				
 				arrEntities.push(currentEntity);
@@ -120,7 +120,7 @@ new function() {
 		};
 		inc.html.Ajax.postSoap("API", "user_loadSearch", data, response);
 	};
-	inc.accounting.business.User.loadByGuid = function(guid, callback) {
+	inc.accounting.business.UserEntity.loadByGuid = function(guid, callback) {
 		var data = {
 			Guid: guid
 		};
@@ -131,7 +131,7 @@ new function() {
 			}
 			
 			var arrNodes = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:user_loadByGuidResponse/return");
-			var entity = new inc.accounting.business.User();
+			var entity = new inc.accounting.business.UserEntity();
 			inc.html.Ajax.populateObject(arrNodes[0], entity);
 			callback(entity);
 		};

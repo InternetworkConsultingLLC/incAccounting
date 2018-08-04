@@ -86,7 +86,7 @@ new function() {
 			if(sName.length < 1)
 				sName = null;
 
-			inc.accounting.business.List.loadSearch(sName, btnSearch_Callback);
+			inc.accounting.business.ListEntity.loadSearch(sName, btnSearch_Callback);
 		};
 		btnSearch.onclick = btnSearch_OnClick;
 	};

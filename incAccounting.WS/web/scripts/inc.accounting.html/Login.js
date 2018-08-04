@@ -28,7 +28,7 @@ new function() {
 				window.location.href = "Copyright.html";
 		};
 		var btnLogin_OnClick = function() {
-			var user = new inc.accounting.business.User();
+			var user = new inc.accounting.business.UserEntity();
 			user.setEmailAddress(txtEmailAddress.value);
 			user.setPassword(txtPassword.value);
 			user.setDatabase(txtDatabase.value);

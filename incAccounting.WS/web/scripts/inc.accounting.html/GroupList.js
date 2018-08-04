@@ -97,7 +97,7 @@ new function() {
 			else if(ddlIsAllowed.value === "0")
 				bIsAllowed = false;
 
-			inc.accounting.business.Group.loadSearch(sName, bIsAllowed, btnSearch_Callback);
+			inc.accounting.business.GroupEntity.loadSearch(sName, bIsAllowed, btnSearch_Callback);
 		};
 		btnSearch.onclick = btnSearch_OnClick;
 	};
