@@ -14,6 +14,12 @@ public interface ListsInterface {
 	boolean setSqlQuery(java.lang.String value) throws Exception;
 	java.lang.String getSqlQuery();
 	
+	boolean setEditUrl(java.lang.String value) throws Exception;
+	java.lang.String getEditUrl();
+	
+	boolean setAddUrl(java.lang.String value) throws Exception;
+	java.lang.String getAddUrl();
+	
 	
 	<T extends ListFiltersRow> List<T> loadFilters(AdapterInterface adapter, Class biz, boolean force) throws Exception;
 	

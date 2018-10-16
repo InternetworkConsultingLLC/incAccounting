@@ -9,6 +9,14 @@ new function() {
 	inc.accounting.business.ListFilterEntity = function() {
 		var obj = new inc.accounting.data.ListFiltersRow();
 		
+		var myValue = null;
+		obj.setValue = function(value) {
+			myValue = value;
+		};
+		objgetValue = function() {
+			return myValue;
+		};
+		
 		obj.initialize = function(callback) {
 			var data = {
 				Entity: obj

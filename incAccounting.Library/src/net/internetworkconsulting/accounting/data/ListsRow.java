@@ -27,6 +27,14 @@ public class ListsRow extends Row implements ListsInterface {
 	public boolean setSqlQuery(java.lang.String value) throws Exception { return set(SQL_QUERY, value); }
 	public java.lang.String getSqlQuery() { return (java.lang.String) get(SQL_QUERY); }
 	
+	public static String EDIT_URL = "Edit URL";
+	public boolean setEditUrl(java.lang.String value) throws Exception { return set(EDIT_URL, value); }
+	public java.lang.String getEditUrl() { return (java.lang.String) get(EDIT_URL); }
+	
+	public static String ADD_URL = "Add URL";
+	public boolean setAddUrl(java.lang.String value) throws Exception { return set(ADD_URL, value); }
+	public java.lang.String getAddUrl() { return (java.lang.String) get(ADD_URL); }
+	
 
 	// child loaders
 	

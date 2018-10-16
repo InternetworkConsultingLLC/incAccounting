@@ -17,6 +17,9 @@ new function() {
 		var txtGUID = document.getElementById("txtGUID");
 		var txtDisplayName = document.getElementById("txtDisplayName");
 		var txtSqlQuery = document.getElementById("txtSqlQuery");
+		var chkDelete = document.getElementById("chkDelete");
+		var txtEditUrl = document.getElementById("txtEditUrl");
+		var txtAddUrl = document.getElementById("txtAddUrl");
 		
 		var arrFilters = [];
 
@@ -28,7 +31,10 @@ new function() {
 			}
 
 			alert("Saved!");
-			window.location = window.location.pathname + "?GUID=" + entity.getGuid();
+			if(entity.getIsDeleted())
+				window.location = "ListList.html";
+			else
+				window.location = window.location.pathname + "?GUID=" + entity.getGuid();
 		};
 		var btnSave_Clicked = function() {
 			loadObjectFromControls();
@@ -50,20 +56,32 @@ new function() {
 			filter.initialize(btnAddFilter_Callback);
 		};
 		btnAddFilter.onclick = btnAddFilter_Clicked;
+		
+		var btnView = document.getElementById("btnView");
+		var btnView_Clicked = function() {
+			window.location = "ListView.html?DisplayName=" + entity.getDisplayName();
+		};
+		btnView.onclick = btnView_Clicked;
 
 		var loadControlsFromObject = function() {
 			txtGUID.value = entity.getGuid();
 			txtDisplayName.value = entity.getDisplayName();
 			txtSqlQuery.value = entity.getSqlQuery();
+			txtEditUrl.value = entity.getEditUrl();
+			txtAddUrl.value = entity.getAddUrl();
 		};
 		var loadObjectFromControls = function() {
 			entity.setDisplayName(txtDisplayName.value);
 			entity.setSqlQuery(txtSqlQuery.value);
+			entity.setIsDeleted(chkDelete.checked);
+			entity.setEditUrl(txtEditUrl.value);
+			entity.setAddUrl(txtAddUrl.value);
 			
 			for(var cnt in arrFilters) {
 				var filter = arrFilters[cnt];
 				filter.setPrompt(document.getElementById("txtFilterPrompt" + filter.getGuid()).value);
 				filter.setQuery(document.getElementById("txtFilterQuery" + filter.getGuid()).value);
+				filter.setIsDeleted(document.getElementById("txtFilterDelete" + filter.getGuid()).checked);
 				
 				var selFilterDataType = document.getElementById("selFilterDataType" + filter.getGuid());
 				filter.setDataType(inc.html.getSelectionsValue(selFilterDataType));

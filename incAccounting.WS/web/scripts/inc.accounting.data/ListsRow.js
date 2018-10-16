@@ -47,6 +47,26 @@ new function() {
 		 */
 		obj.setSqlQuery = function(value) { obj.set("SQL Query", value); };
 		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getEditUrl = function() { return obj.get("Edit URL"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setEditUrl = function(value) { obj.set("Edit URL", value); };
+		
+				
+		/*
+		 * @type java.lang.String
+		 */
+		obj.getAddUrl = function() { return obj.get("Add URL"); };
+		/*
+		 * @param java.lang.String value 
+		 */
+		obj.setAddUrl = function(value) { obj.set("Add URL", value); };
+		
 		
 
 		return obj;

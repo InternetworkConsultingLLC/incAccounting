@@ -18,42 +18,6 @@ new function() {
 		var btnAdd = document.getElementById("btnAdd");
 		btnAdd.onclick = btnAdd_OnClick;
 
-		var btnDelete_Callback = function(ret) {
-			if(!(ret instanceof Error)) {
-				btnSearch.onclick();
-				return;
-			}
-			
-			var err = ret.toString();
-			if(err.includes("foreign key constraint fails"))
-				alert("This record cannnot be deleted - it is being referenced by other records!");
-			else
-				alert(err);
-		};
-		var btnDelete_OnCLick = function() {
-			var arrDeletes = document.getElementsByClassName("chkDelete");
-			
-			var iDeleteCount = 0;
-			for(var cnt = 0; cnt < arrDeletes.length; cnt++)
-				if(arrDeletes[cnt].checked)
-					iDeleteCount++;
-			if(iDeleteCount > 1) {
-				alert("You may only delete one record at a time!");
-				return;
-			}
-			
-			for(var cnt = 0; cnt < arrDeletes.length; cnt++) {
-				var chkDelete = arrDeletes[cnt];
-				if(chkDelete.checked) {
-					var user = arrEntities[chkDelete.id];
-					user.setIsDeleted(true);
-					user.save(btnDelete_Callback);
-				}
-			}
-		};
-		var btnDelete = document.getElementById("btnDelete");
-		btnDelete.onclick = btnDelete_OnCLick;
-
 		var tableHtml = document.getElementById("tableList").outerHTML;
 		var arrEntities = {};
 

@@ -92,6 +92,23 @@ new function() {
 		};
 		inc.html.Ajax.postSoap("API", "list_loadSearch", data, response);
 	};
+	inc.accounting.business.ListEntity.loadByDisplayName = function(display_name, callback) {
+		var data = {
+			DisplayName: display_name
+		};
+		var response = function(ret) {
+			if(ret instanceof Error) {
+				callback(ret);
+				return;
+			}
+			
+			var arrNodes = inc.html.Ajax.getNodesByPath(ret, "/S:Envelope/S:Body/ns2:list_loadByDisplayNameResponse/return");
+			var entity = new inc.accounting.business.ListEntity();
+			inc.html.Ajax.populateObject(arrNodes[0], entity);
+			callback(entity);
+		};
+		inc.html.Ajax.postSoap("API", "list_loadByDisplayName", data, response);
+	};
 	inc.accounting.business.ListEntity.loadByGuid = function(guid, callback) {
 		var data = {
 			Guid: guid
