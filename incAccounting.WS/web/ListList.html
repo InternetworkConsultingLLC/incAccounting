@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="scripts/inc.accounting.data/ListsRow.js"></script>
+		<script src="scripts/inc.accounting.business/ListEntity.js"></script>
+		<script src="scripts/inc.accounting.html/ListList.js"></script>
+
+		<!--#include virtual="Header.html"-->
+	</head>
+	<body>
+
+		<!--#include virtual="Menu.html"-->
+		
+		<div id="divContent">
+			
+			<h1>List List</h1>
+			
+			<label for="txtDisplayName">Display Name:</label><input type="text" id="txtDisplayName"/><br />
+			<br />
+			<button id="btnSearch">Search</button> <button id="btnAdd">Add</button> <button id="btnDelete">Delete</button><br />
+			<br />
+
+			<table class="tableList" id="tableList">
+				<tr>
+					<th></th>
+					<th>Name</th>
+				</tr>
+				<tr class="trTemplate">
+					<td class="tdDelete"><label class="th">Delete: &nbsp;</label><input type="checkbox" id="_GUID_" class="chkDelete" /></td>
+					<td class="tdName"><label class="th">Display Name: &nbsp;</label><a href="ListEdit.html?GUID=_GUID_">_DisplayName_</a></td>
+				</tr>
+			</table>
+			
+		</div>
+	</body>
+</html>

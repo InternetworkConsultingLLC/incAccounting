@@ -1,0 +1,9 @@
+html body div#divContent div#filters div.filter + div.filter {
+	border-top: 1px solid #888;
+	margin-top: 1em;
+	padding-top: 1em;
+}
+
+html body div#divContent div#filters div.filter textarea {
+	height: 2.5em;
+}

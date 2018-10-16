@@ -70,7 +70,7 @@ public class Adapter implements AdapterInterface {
 		myConnection = null;
 	}
 	private void prepareConnection() throws Exception {
-		myConnection.createStatement().execute("SET SESSION sql_mode = 'ANSI_QUOTES,NO_ZERO_DATE';");
+		myConnection.createStatement().execute(SET_SESSION);
 	}
 
 	public boolean execute(Statement stmt, boolean log_query) throws Exception {

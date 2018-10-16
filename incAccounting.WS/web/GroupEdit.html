@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="scripts/inc.accounting.data/GroupsRow.js"></script>
+		<script src="scripts/inc.accounting.business/GroupEntity.js"></script>
+		<script src="scripts/inc.accounting.html/GroupEdit.js"></script>
+
+		<!--#include virtual="Header.html"-->
+	</head>
+	<body>
+
+		<!--#include virtual="Menu.html"-->
+		
+		<div id="divContent">
+
+			<h1>Group Edit</h1>
+			
+			<label for="txtGUID">GUID:</label><input id="txtGUID" readonly /><br />
+			<label for="chkIsAllowed">Allowed:</label><input type="checkbox" id="chkIsAllowed"><br />
+			<label for="txtDisplayName">Display Name:</label><input type="text" id="txtDisplayName" /><br />
+			<label for="txtEmailAddress">Email Address:</label><input type="text" id="txtEmailAddress" /><br />
+			<br />	
+			<button id="btnSave">Save</button>
+
+		</div>
+	</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="scripts/inc.accounting.data/ListFiltersRow.js"></script>
+		<script src="scripts/inc.accounting.business/ListFilterEntity.js"></script>
+		<script src="scripts/inc.accounting.data/ListsRow.js"></script>
+		<script src="scripts/inc.accounting.business/ListEntity.js"></script>
+		<script src="scripts/inc.accounting.html/ListEdit.js"></script>
+
+		<!--#include virtual="Header.html"-->
+		
+		<link href="css/ListEdit.css" rel="stylesheet" type="text/css" />
+
+	</head>
+	<body>
+
+		<!--#include virtual="Menu.html"-->
+		
+		<div id="divContent">
+
+			<h1>List Edit</h1>
+			
+			<label for="txtGUID">GUID:</label><input id="txtGUID" readonly /><br />
+			<label for="txtDisplayName">Display Name:</label><input type="text" id="txtDisplayName" /><br />
+			<label for="txtSqlQuery">SQL Query:</label><textarea id="txtSqlQuery"></textarea><br />
+			
+			<br />	
+			<button id="btnSave">Save</button>
+			<button id="btnAddFilter">Add Filter</button>
+			<button id="btnView">View</button>
+			
+			<h2>Filters</h2>
+			
+			<div id="filters">
+				<div class="template">
+					<label for="txtFilterGUID_GUID_">GUID:</label><input id="txtFilterGUID_GUID_" readonly /><br />
+					<label for="txtFilterPrompt_GUID_">Prompt:</label><input id="txtFilterPrompt_GUID_" /><br />
+					<label for="selFilterDataType_GUID_">Data Type:</label><select id="selFilterDataType_GUID_">
+						<option value=""></option>
+						<option value="Text">Text</option>
+						<option value="Boolean">Boolean</option>
+						<option value="Integer">Integer</option>
+						<option value="Decimal">Decimal</option>
+						<option value="Date">Date</option>
+						<option value="DateTime">Date and Time</option>
+						<option value="Time">Time</option>
+						<option value="Enum">Enumeration</option>
+					</select><br />
+					<label for="txtFilterQuery_GUID_">Query:</label><textarea id="txtFilterQuery_GUID_"></textarea><br />
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
