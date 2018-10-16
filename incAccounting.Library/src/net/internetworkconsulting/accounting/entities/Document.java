@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
+import net.internetworkconsulting.accounting.data.DocumentLinesRow;
 import net.internetworkconsulting.accounting.data.DocumentsRow;
 import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
@@ -324,7 +325,7 @@ public class Document extends DocumentsRow {
 		int iMax = 0;
 		for(DocumentLine dl : lstLines)
 			if(dl.getSortOrder() >= iMax)
-				iMax = dl.getSortOrder() + 1;
+				iMax = dl.getSortOrder() + 10;
 		
 		return iMax;
 	}
@@ -573,5 +574,14 @@ public class Document extends DocumentsRow {
 		stmt.getParameters().put("{GUID}", getGuid());
 		List<Document> lstDocs = adapter.load(Document.class, stmt, true);
 		return lstDocs.size() > 0;
+	}
+	
+	public <T extends DocumentLinesRow> List<T> loadDocumentLines(AdapterInterface adapter, Class model, boolean force) throws Exception {
+		if(lstDocumentLinesChildren == null || force) {
+			Statement stmt = new Statement("SELECT * FROM \"document lines\" WHERE \"Documents GUID\"={PRIMARYKEY} ORDER BY \"Sort Order\"");
+			stmt.getParameters().put("{PRIMARYKEY}", this.getGuid());
+			lstDocumentLinesChildren = adapter.load(model, stmt, true);
+		}
+		return (List<T>) lstDocumentLinesChildren;
 	}
  }

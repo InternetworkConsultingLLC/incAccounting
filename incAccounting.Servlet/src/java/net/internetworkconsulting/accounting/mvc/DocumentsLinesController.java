@@ -33,7 +33,10 @@ public class DocumentsLinesController extends Controller {
 		
 		CheckTag chkIsDeleted = new CheckTag(this, "Row", DocumentLine.IS_DELETED, objModel.getGuid(), objModel);
 		chkIsDeleted.setIsReadOnly(objTransaction != null);
-
+		
+		TextTag txtSortOrder = new TextTag(this, "Row", DocumentLine.SORT_ORDER, objModel.getGuid(), objModel);
+		txtSortOrder.setIsReadOnly(objTransaction != null);
+		
 		TextTag txtQty = new TextTag(this, "Row", DocumentLine.QUANTITY, objModel.getGuid(), objModel);
 		txtQty.setIsReadOnly(objTransaction != null);
 		txtQty.setFormat(sQtyFormat);
