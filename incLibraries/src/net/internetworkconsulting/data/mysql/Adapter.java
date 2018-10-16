@@ -27,22 +27,24 @@ public class Adapter implements AdapterInterface {
 		String user = (String) ctx.lookup("java:comp/env/dbUser");
 		String password = (String) ctx.lookup("java:comp/env/dbPassword");
 		String database = "";
-		boolean ssl = true;
+		boolean ssl = false;
 
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=convertToNull";
+		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=CONVERT_TO_NULL";
+		//String sUri = "jdbc:mysql://" + server + "/" + database;
 		if(ssl)
 			sUri = sUri + "&verifyServerCertificate=false&useSSL=true&requireSSL=true";
+		else
+			sUri = sUri + "&useSSL=false";
 		
-                try {  myConnection = DriverManager.getConnection(sUri, user, password); }
-                catch(Exception ex) { throw new Exception("Problem loading your MySQL driver!", ex); }
+                myConnection = DriverManager.getConnection(sUri, user, password);
                 
 		bIsConnectionMine = true;
 		prepareConnection();
 	}
 	public Adapter(String server, String database, String user, String password, boolean ssl) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=convertToNull";
+		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=CONVERT_TO_NULL";
 		if(ssl)
 			sUri = sUri + "&verifyServerCertificate=false&useSSL=true&requireSSL=true";
 		myConnection = DriverManager.getConnection(sUri, user, password);
