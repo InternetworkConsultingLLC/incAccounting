@@ -3,6 +3,7 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Contact;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.SalesTaxMembership;
 import net.internetworkconsulting.accounting.entities.SalesTaxMembershipOption;
@@ -13,6 +14,8 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class SalesTaxesController extends EditController {
+	private List<Option> lstAccountOptions;
+	private List<Option> lstContactOptions;
 	public SalesTaxesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -41,6 +44,9 @@ public class SalesTaxesController extends EditController {
 		SalesTax objModel = (SalesTax) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/SalesTax.html"), new HtmlSyntax()));
 		
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		lstContactOptions = Contact.loadOptions(getUser().login());
+		
 		TextTag txtGuid = new TextTag(this, SalesTax.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
 
@@ -48,10 +54,10 @@ public class SalesTaxesController extends EditController {
 		TextTag txtTaxRate = new TextTag(this, SalesTax.TAX_RATE, objModel);
 		
 		ComboTag cboTaxAccount = new ComboTag(this, SalesTax.ACCOUNTS_GUID, objModel);
-		cboTaxAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboTaxAccount.setOptions(lstAccountOptions);
 		
 		ComboTag cboContacts = new ComboTag(this, SalesTax.CONTACTS_GUID, objModel);
-		cboContacts.setOptions(Contact.loadOptions(getUser().login(), false));
+		cboContacts.setOptions(lstContactOptions);
 		
 		CheckTag chkIsGroup = new CheckTag(this, SalesTax.IS_GROUP, objModel);
 		chkIsGroup.addOnChangeEvent(new Event() { public void handle() throws Exception { chkIsGroup_OnChange(); } });		

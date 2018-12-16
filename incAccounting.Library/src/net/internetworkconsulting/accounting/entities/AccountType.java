@@ -14,11 +14,7 @@ public class AccountType extends AccountTypesRow {
 	public static String REVENUE_TYPE_GUID = "2ddbad1cf8d04f0d9c44fa9771a15306";
 	public static String EXPENSES_TYPE_GUID = "ade6405dd31d40169b7ed222ecaa6b9e";
 
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(AccountType.class, "AccountType.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -27,7 +23,6 @@ public class AccountType extends AccountTypesRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 	

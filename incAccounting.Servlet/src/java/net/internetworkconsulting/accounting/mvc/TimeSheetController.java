@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Employee;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.TimeEntry;
 import net.internetworkconsulting.accounting.entities.TimeSheet;
 import net.internetworkconsulting.mvc.ButtonTag;
@@ -24,6 +25,7 @@ public class TimeSheetController extends EditController {
 	private List<TimeSheetLineController> lstLineControllers = new LinkedList<>();
 	private List<TimeEntry> lstLines;
 	private String sQtyFormat;
+	private List<Option> lstEmployeeOptions;
 	
 	public TimeSheetController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	
@@ -48,6 +50,8 @@ public class TimeSheetController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {
 		objModel = (TimeSheet) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/TimeSheet.html"), new HtmlSyntax()));
+		
+		lstEmployeeOptions = Employee.loadOptions(getUser().login());
 
 		sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 
@@ -57,7 +61,7 @@ public class TimeSheetController extends EditController {
 		Tag tagGuid = new TextTag(this, TimeSheet.GUID, objModel);
 
 		ComboTag cboEmployee = new ComboTag(this, TimeSheet.EMPLOYEES_GUID, objModel);
-		cboEmployee.setOptions(Employee.loadOptions(getUser().login(), false));
+		cboEmployee.setOptions(lstEmployeeOptions);
 		cboEmployee.addOnChangeEvent(new Event() { public void handle() throws Exception { cboEmployee_Changed(); } });
 		
 		DateTag tagEnding = new DateTag(this, TimeSheet.PERIOD_ENDING, objModel);

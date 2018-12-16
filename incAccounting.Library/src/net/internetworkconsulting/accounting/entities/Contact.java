@@ -20,11 +20,7 @@ public class Contact extends ContactsRow {
 		return (List<T>) lstChildrenContactsChildren;
 	}
 
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-		
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Contact.class, "Contact.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -33,15 +29,10 @@ public class Contact extends ContactsRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;		
 		return lst;
 	}
 
-	private List<Option> lstChildOptions;
-	public List<Option> loadChildOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstChildOptions != null && !force)
-			return lstChildOptions;
-		
+	public List<Option> loadChildOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Contact.class, "Contact.loadChildOptions.sql"));		
 		stmt.getParameters().put("{GUID}", this.getGuid());
 		List<Option> lst = adapter.load(Option.class, stmt, true);
@@ -51,7 +42,6 @@ public class Contact extends ContactsRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstChildOptions = lst;		
 		return lst;
 	}
 

@@ -10,11 +10,7 @@ public class PayrollFieldType extends PayrollFieldTypesRow {
 	public static String TYPE_COMPANY_PAID_GUID = "2f542318ae174eaf8bb95f02ed8f6df5";
 	public static String TYPE_EMPLOYEE_PAID_GUID = "f1b0d26375e74b0eb1aeb53bace00499";
 	
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(PayrollFieldType.class, "PayrollFieldType.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -23,7 +19,6 @@ public class PayrollFieldType extends PayrollFieldTypesRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}	
 }

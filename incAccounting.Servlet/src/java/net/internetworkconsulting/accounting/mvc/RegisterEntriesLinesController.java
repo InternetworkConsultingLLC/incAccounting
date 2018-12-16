@@ -3,11 +3,9 @@ package net.internetworkconsulting.accounting.mvc;
 import java.math.BigDecimal;
 import java.util.List;
 import net.internetworkconsulting.accounting.data.ContactsRow;
-import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Contact;
-import net.internetworkconsulting.accounting.entities.Department;
 import net.internetworkconsulting.accounting.entities.Document;
-import net.internetworkconsulting.accounting.entities.Job;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.RegisterEntry;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
@@ -31,8 +29,24 @@ public class RegisterEntriesLinesController extends Controller {
 	private ContactsRow objContact = null;
 	private List<TransactionLine> lstTransactionLines;
 	private DateTag tagDate;
+	private final List<Option> lstAccountOptions;
+	private final List<Option> lstTransactionTypeOptions;
+	private final List<Option> lstJobOptions;
+	private final List<Option> lstDepartmentOptions;
+	private final List<Option> lstContactOptions;
 
-	public RegisterEntriesLinesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
+	public RegisterEntriesLinesController(
+			ControllerInterface controller, String document_keyword,
+			List<Option> account_options, List<Option> contact_options, List<Option> department_options, List<Option> job_options, List<Option> transaction_type_options
+	) { 
+		super(controller, document_keyword); 
+	
+		lstAccountOptions = account_options;
+		lstContactOptions = contact_options;
+		lstDepartmentOptions = department_options;
+		lstJobOptions = job_options;
+		lstTransactionTypeOptions = transaction_type_options;
+	}
 	public boolean getEnforceSecurity() { return false; }
 	public History createHistory() throws Exception { return null; }
 
@@ -89,19 +103,19 @@ public class RegisterEntriesLinesController extends Controller {
 			ComboTag tag = new ComboTag(this, "Row Type Combo");
 			tag.setName("RowTypeCombo" + objModel.getGuid());
 			tag.bind(objExpense, TransactionLine.ACCOUNTS_GUID);
-			tag.setOptions(Account.loadOptions(getUser().login(), false));
+			tag.setOptions(lstAccountOptions);
 			tag.setIsReadOnly(bReadonly);
 			
 			ComboTag tagContact = new ComboTag(this, "Row", RegisterEntry.CONTACTS_GUID, objModel.getGuid(), objEntry);
-			tagContact.setOptions(Contact.loadOptions(getUser().login(), false));
+			tagContact.setOptions(lstContactOptions);
 			tagContact.setIsReadOnly(bReadonly);
 
 			ComboTag tagDepartment = new ComboTag(this, "Row", TransactionLine.DEPARTMENTS_GUID, objModel.getGuid(), objExpense);
-			tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+			tagDepartment.setOptions(lstDepartmentOptions);
 			tagDepartment.setIsReadOnly(bReadonly);
 
 			ComboTag tagJob = new ComboTag(this, "Row", TransactionLine.JOBS_GUID, objModel.getGuid(), objExpense);
-			tagJob.setOptions(Job.loadOptions(getUser().login(), false));
+			tagJob.setOptions(lstJobOptions);
 			tagJob.setIsReadOnly(bReadonly);
 			
 		} else {
@@ -115,18 +129,18 @@ public class RegisterEntriesLinesController extends Controller {
 			ComboTag tag = new ComboTag(this, "Row Type Combo");
 			tag.setName("RowTypeCombo" + objModel.getGuid());
 			tag.bind(objTransaction, Transaction.TRANSACTION_TYPES_GUID);
-			tag.setOptions(TransactionType.loadOptions(getUser().login(), false));
+			tag.setOptions(lstTransactionTypeOptions);
 			tag.setIsReadOnly(bReadonly);
 			
 			ComboTag tagContact = new ComboTag(this, "Row " + RegisterEntry.CONTACTS_GUID);
 			tagContact.setIsReadOnly(bReadonly);
 
 			ComboTag tagDepartment = new ComboTag(this, "Row", TransactionLine.DEPARTMENTS_GUID, objModel.getGuid(), objModel);
-			tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+			tagDepartment.setOptions(lstDepartmentOptions);
 			tagDepartment.setIsReadOnly(bReadonly);
 
 			ComboTag tagJob = new ComboTag(this, "Row", TransactionLine.JOBS_GUID, objModel.getGuid(), objModel);
-			tagJob.setOptions(Job.loadOptions(getUser().login(), false));
+			tagJob.setOptions(lstJobOptions);
 			tagJob.setIsReadOnly(bReadonly);
 		}
 		

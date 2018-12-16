@@ -6,14 +6,10 @@ import net.internetworkconsulting.data.AdapterInterface;
 import net.internetworkconsulting.data.mysql.Statement;
 
 public class PaymentType extends PaymentTypesRow { 
-	private static List<Option> lstOptions;
 	public static String SALES_PAYMENT_GUID = "2c12d6167d654604be3f533c38f1ad1e";
 	public static String PURCHASE_PAYMENT_GUID = "a714a873202f4f12bb29a42ed8ed9b5c";
 	
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(PaymentType.class, "PaymentType.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -22,7 +18,6 @@ public class PaymentType extends PaymentTypesRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 

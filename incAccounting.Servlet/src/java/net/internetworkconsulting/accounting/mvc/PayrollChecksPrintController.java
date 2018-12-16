@@ -22,6 +22,10 @@ import net.internetworkconsulting.template.Template;
 public class PayrollChecksPrintController extends Controller {
 	private PayrollCheck objModel;
 	private ButtonTag btnTemplate;
+	private List<Option> lstGrossExpenseFieldOptions;
+	private List<Option> lstEmployeePaidFieldOptions;
+	private List<Option> lstCompanyPaidFieldOptions;
+	
 	public PayrollChecksPrintController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
@@ -100,28 +104,29 @@ public class PayrollChecksPrintController extends Controller {
 		List<PayrollFieldValue> lstEmployeePaid = objModel.loadEmployeePaidValues(getUser().login(), !getIsPostback());
 		List<PayrollFieldValue> lstCompanyPaid = objModel.loadCompanyPaidValues(getUser().login(), !getIsPostback());
 
+		lstGrossExpenseFieldOptions = PayrollField.loadOptionsByType(getUser().login(), PayrollFieldType.TYPE_GROSS_EXPENSE_GUID);
+		lstEmployeePaidFieldOptions = PayrollField.loadOptionsByType(getUser().login(), PayrollFieldType.TYPE_EMPLOYEE_PAID_GUID);
+		lstCompanyPaidFieldOptions = PayrollField.loadOptionsByType(getUser().login(), PayrollFieldType.TYPE_COMPANY_PAID_GUID);
+
 		for(PayrollFieldValue pfv: lstGross)
-			createFieldController(pfv, "Gross", PayrollFieldType.TYPE_GROSS_EXPENSE_GUID);
+			createFieldController(pfv, "Gross", lstGrossExpenseFieldOptions);
 		
 		for(PayrollFieldValue pfv: lstEmployeePaid)
-			createFieldController(pfv, "Employee", PayrollFieldType.TYPE_EMPLOYEE_PAID_GUID);
+			createFieldController(pfv, "Employee", lstEmployeePaidFieldOptions);
 
 		for(PayrollFieldValue pfv: lstCompanyPaid)
-			createFieldController(pfv, "Company", PayrollFieldType.TYPE_COMPANY_PAID_GUID);
+			createFieldController(pfv, "Company", lstCompanyPaidFieldOptions);
 		
 		LiteralTag litAmountAsText = new LiteralTag(this, "Amount as Text");
 		litAmountAsText.setValue(objModel.getPaycheckAmountAsText());				
 	}
-	private PayrollChecksFieldsPrintController createFieldController(PayrollFieldValue objField, String sBlock, String sFieldTypeLimit) throws Exception {
-		if(sFieldTypeLimit == null)
-			throw new Exception("Field type limit not specified!");
-
+	private PayrollChecksFieldsPrintController createFieldController(PayrollFieldValue objField, String sBlock, List<Option> options) throws Exception {
 		PayrollChecksFieldsPrintController pcefc = new PayrollChecksFieldsPrintController(this, sBlock);
 		pcefc.setModel(objField);
 		pcefc.setTemplatePrefix(sBlock);
 		pcefc.setIsDocumentBlock(true);
 		pcefc.setPosted(objModel.getPostedTransactionsGuid() != null);
-		pcefc.setFieldOptions(PayrollField.loadOptionsByType(getUser().login(), false, sFieldTypeLimit));
+		pcefc.setFieldOptions(options);
 		
 		return pcefc;
 	}

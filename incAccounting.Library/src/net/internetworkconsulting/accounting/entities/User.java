@@ -33,11 +33,7 @@ public class User extends UsersRow implements SessionInterface {
 		this.setPasswordDate(new java.util.Date(java.time.Instant.EPOCH.toEpochMilli()));
 	}
 
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if (lstOptions != null && !force)
-			return lstOptions;
-
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(User.class, "User.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -46,7 +42,6 @@ public class User extends UsersRow implements SessionInterface {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 	
@@ -174,7 +169,7 @@ public class User extends UsersRow implements SessionInterface {
 	}
 	
 	public AdapterInterface unvalidatedLogin(String server, String user, String password) throws Exception { 
-		AdapterInterface adapter = new Adapter(server, "", user, password, true);
+		AdapterInterface adapter = new Adapter(server, "", user, password, false);
 		return adapter;
 	}
 

@@ -2,6 +2,7 @@ package net.internetworkconsulting.accounting.mvc;
 
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Job;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
@@ -14,6 +15,8 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class JobsController extends EditController {
+	private List<Option> lstJobOptions;
+	
 	public JobsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -34,12 +37,14 @@ public class JobsController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		Job objModel = (Job) handleNonPostbackActions(model);		
 		setDocument(new Template(readTemplate("~/templates/Job.html"), new HtmlSyntax()));
+		
+		lstJobOptions = Job.loadOptions(getUser().login());
 	
 		TextTag txtGuid = new TextTag(this, Job.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
 		
 		ComboTag cboParent = new ComboTag(this, Job.PARENT_JOBS_GUID, objModel);
-		cboParent.setOptions(Job.loadOptions(getUser().login(), false));
+		cboParent.setOptions(lstJobOptions);
 		
 		TextTag litNestedName = new TextTag(this, Job.NESTED_NAME, objModel);
 		litNestedName.setIsReadOnly(true);

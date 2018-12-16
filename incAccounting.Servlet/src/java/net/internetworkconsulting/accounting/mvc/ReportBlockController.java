@@ -1,6 +1,7 @@
 package net.internetworkconsulting.accounting.mvc;
 
 import java.util.List;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.Report;
 import net.internetworkconsulting.accounting.entities.ReportBlock;
 import net.internetworkconsulting.data.RowInterface.RowState;
@@ -15,6 +16,8 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class ReportBlockController extends EditController {
+	private List<Option> lstReportOptions;
+	private List<Option> lstReportBlockOptions;
 	public ReportBlockController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -47,17 +50,20 @@ public class ReportBlockController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		ReportBlock objModel = (ReportBlock) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/ReportBlock.html"), new HtmlSyntax()));
+		
+		lstReportOptions = Report.loadOptions(getUser().login());
+		lstReportBlockOptions = ReportBlock.loadOptions(getUser().login());
 
 		TextTag txtGuid = new TextTag(this, ReportBlock.GUID);
 		txtGuid.setIsReadOnly(true);
 		txtGuid.bind(objModel);
 		
 		ComboTag cboReport = new ComboTag(this, ReportBlock.REPORTS_GUID);
-		cboReport.setOptions(Report.loadOptions(getUser().login(), false));
+		cboReport.setOptions(lstReportOptions);
 		cboReport.bind(objModel);
 		
 		ComboTag cboBlock = new ComboTag(this, ReportBlock.PARENT_BLOCK_GUID);
-		cboBlock.setOptions(ReportBlock.loadOptions(getUser().login(), false));
+		cboBlock.setOptions(lstReportBlockOptions);
 		cboBlock.bind(objModel);
 		
 		TextTag txtPriority = new TextTag(this, ReportBlock.PRIORITY);

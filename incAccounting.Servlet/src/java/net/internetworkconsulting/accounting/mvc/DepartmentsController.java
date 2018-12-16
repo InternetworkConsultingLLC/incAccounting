@@ -2,6 +2,7 @@ package net.internetworkconsulting.accounting.mvc;
 
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Department;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
@@ -15,6 +16,8 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class DepartmentsController extends EditController {
+	private List<Option> lstDepartmentOptions;
+	
 	public DepartmentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -35,6 +38,8 @@ public class DepartmentsController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		Department objModel = (Department) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Department.html"), new HtmlSyntax()));
+		
+		lstDepartmentOptions = Department.loadOptions(getUser().login());
 
 		TextTag txtGuid = new TextTag(this, Department.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
@@ -50,7 +55,7 @@ public class DepartmentsController extends EditController {
 		CheckTag chkIsAllowed = new CheckTag(this, Department.IS_ALLOWED, objModel);
 
 		ComboTag cboParent = new ComboTag(this, Department.PARENT_DEPARTMENTS_GUID, objModel);
-		cboParent.setOptions(Department.loadOptions(getUser().login(), false));		
+		cboParent.setOptions(lstDepartmentOptions);		
 
 		ButtonTag btnOpen = new ButtonTag(this, "", "Open", "", "Open Parent");
 		if(objModel.getRowState() == RowInterface.RowState.Insert)

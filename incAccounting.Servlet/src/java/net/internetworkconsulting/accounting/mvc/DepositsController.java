@@ -4,6 +4,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Deposit;
 import net.internetworkconsulting.accounting.entities.Document;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.Payment;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
@@ -18,6 +19,8 @@ import net.internetworkconsulting.template.Template;
 
 public class DepositsController extends EditController {
 	private Deposit objModel;
+	private List<Option> lstAccountOptions;
+	
 	public DepositsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -38,6 +41,8 @@ public class DepositsController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		objModel = (Deposit) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Deposit.html"), new HtmlSyntax()));
+		
+		lstAccountOptions = Account.loadOptions(getUser().login());
 
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
@@ -53,7 +58,7 @@ public class DepositsController extends EditController {
 		
 		ComboTag cboAccount = new ComboTag(this, Deposit.ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(lstAccountOptions);
 		
 		TextTag litItems = new TextTag(this, Deposit.ITEMS, objModel);
 		litItems.setIsReadOnly(true);

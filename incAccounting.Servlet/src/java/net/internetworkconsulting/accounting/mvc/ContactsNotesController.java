@@ -1,12 +1,18 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.util.List;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.accounting.entities.ContactNote;
-import net.internetworkconsulting.accounting.entities.User;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.template.Template;
 
 public class ContactsNotesController extends Controller {
-	public ContactsNotesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
+	private final List<Option> lstUserOptions;
+	public ContactsNotesController(ControllerInterface controller, String document_keyword, List<Option> user_options) { 
+		super(controller, document_keyword); 
+		
+		lstUserOptions = user_options;
+	}
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
@@ -18,7 +24,7 @@ public class ContactsNotesController extends Controller {
 		txtDate.setIsReadOnly(true);
 
 		ComboTag cboUser = new ComboTag(this, "Note", ContactNote.USERS_GUID, objModel.getGuid(), objModel);
-		cboUser.setOptions(User.loadOptions(getUser().login(), false));
+		cboUser.setOptions(lstUserOptions);
 		
 		TextTag txtSubject = new TextTag(this, "Note", ContactNote.SUBJECT, objModel.getGuid(), objModel);
 

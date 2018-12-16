@@ -16,11 +16,7 @@ public class Report extends ReportsRow {
 		this.setGuid(User.newGuid());
 	}
 
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Report.class, "Report.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -29,7 +25,6 @@ public class Report extends ReportsRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 

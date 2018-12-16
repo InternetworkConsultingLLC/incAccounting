@@ -11,11 +11,7 @@ public class UnitMeasure extends UnitMeasuresRow {
 		this.setIsAllowed(true);		
 	}
 	
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-		
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(UnitMeasure.class, "UnitMeasure.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -24,7 +20,6 @@ public class UnitMeasure extends UnitMeasuresRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;		
 		return lst;
 	}
 }

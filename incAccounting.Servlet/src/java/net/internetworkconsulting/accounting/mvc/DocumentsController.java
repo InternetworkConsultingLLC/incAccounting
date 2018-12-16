@@ -3,12 +3,16 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Contact;
+import net.internetworkconsulting.accounting.entities.Department;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.DocumentLine;
 import net.internetworkconsulting.accounting.entities.DocumentType;
 import net.internetworkconsulting.accounting.entities.Item;
+import net.internetworkconsulting.accounting.entities.Job;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.Transaction;
+import net.internetworkconsulting.accounting.entities.UnitMeasure;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
@@ -20,18 +24,16 @@ public class DocumentsController extends EditController {
 	private ComboTag cboSalesTax;
 	Transaction objTransaction;
 	
+	private List<Option> lstDocumentTypeOptions;
+	private List<Option> lstAccountOptions;
+	private List<Option> lstContactOptions;
+	private List<Option> lstSalesTaxOptions;
+	private List<Option> lstItemOptions;
+	private List<Option> lstUmOptions;
+	private List<Option> lstJobOptions;
+	private List<Option> lstDepartmentOptions;
+	
 	public DocumentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
-	private DocumentsLinesController createController(DocumentLine line) {
-		Document objModel = (Document) getModel();
-		
-		DocumentsLinesController delc = new DocumentsLinesController(this, "Row");
-		delc.setModel(line);
-		delc.setTransaction(objTransaction);
-		delc.setIsDocumentBlock(true);
-		delc.setParentDocument(objModel);
-		
-		return delc;
-	}
 	public boolean getEnforceSecurity() { return true; }	
 
 	public void handleDeleteRow(String guid) throws Exception {
@@ -64,6 +66,15 @@ public class DocumentsController extends EditController {
 		try { objTransaction = objModel.loadTransaction(getUser().login(), Transaction.class, !getIsPostback()); }
 		catch(Exception ex) { }
 		
+		lstDocumentTypeOptions = DocumentType.loadOptions(getUser().login());
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		lstContactOptions = Contact.loadOptions(getUser().login());
+		lstSalesTaxOptions = SalesTax.loadOptions(getUser().login());
+		lstItemOptions = Item.loadOptions(getUser().login());
+		lstUmOptions = UnitMeasure.loadOptions(getUser().login());
+		lstJobOptions = Job.loadOptions(getUser().login());
+		lstDepartmentOptions = Department.loadOptions(getUser().login());
+		
 		DocumentType objDocType = objModel.loadDocumentType(getUser().login(), DocumentType.class, !getIsPostback());
 		
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
@@ -87,16 +98,16 @@ public class DocumentsController extends EditController {
 
 		ComboTag cboDocType = new ComboTag(this, Document.DOCUMENT_TYPES_GUID, objModel);
 		cboDocType.setIsReadOnly(objTransaction != null);
-		cboDocType.setOptions(DocumentType.loadOptions(getUser().login(), false));
+		cboDocType.setOptions(lstDocumentTypeOptions);
 		cboDocType.addOnChangeEvent(new Event() { public void handle() throws Exception { cboDocType_OnChange(); } });
 		
 		ComboTag cboAccount = new ComboTag(this, Document.POSTED_ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objTransaction != null || objDocType.getAccountsGuid() == null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(lstAccountOptions);
 
 		ComboTag cboContact = new ComboTag(this, Document.CONTACTS_GUID, objModel);
 		cboContact.setIsReadOnly(objTransaction != null);
-		cboContact.setOptions(Contact.loadOptions(getUser().login(), false));
+		cboContact.setOptions(lstContactOptions);
 		cboContact.addOnChangeEvent(new Event() { public void handle() throws Exception { cboContact_OnChange(); } });
 
 		TextTag txtRef = new TextTag(this, Document.REFERENCE_NUMBER, objModel);
@@ -254,6 +265,17 @@ public class DocumentsController extends EditController {
 		List<Item> lstItems = Item.loadAll(getUser().login(), !getIsPostback());
 		litItems.setValue(Controller.toJson(lstItems));
 	}
+	private DocumentsLinesController createController(DocumentLine line) {
+		Document objModel = (Document) getModel();
+		
+		DocumentsLinesController delc = new DocumentsLinesController(this, "Row", lstItemOptions, lstUmOptions, lstAccountOptions, lstJobOptions, lstDepartmentOptions);
+		delc.setModel(line);
+		delc.setTransaction(objTransaction);
+		delc.setIsDocumentBlock(true);
+		delc.setParentDocument(objModel);
+		
+		return delc;
+	}	
 	public History createHistory() throws Exception {
 		Document objModel = (Document) getModel();
 		
@@ -448,14 +470,14 @@ public class DocumentsController extends EditController {
 
 		Document objModel = (Document) getModel();
 		
-		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), false));
+		cboSalesTax.setOptions(lstSalesTaxOptions);
 		
 		if(objModel.getContactsGuid() != null) {
 			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());
-			cboBillingContact.setOptions(cntct.loadChildOptions(getUser().login(), !getIsPostback()));
+			cboBillingContact.setOptions(cntct.loadChildOptions(getUser().login()));
 			
 			cntct = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());
-			cboShippingContact.setOptions(cntct.loadChildOptions(getUser().login(), !getIsPostback()));
+			cboShippingContact.setOptions(cntct.loadChildOptions(getUser().login()));
 		}
 	}
 }

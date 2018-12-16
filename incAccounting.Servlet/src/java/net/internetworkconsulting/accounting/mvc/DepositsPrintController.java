@@ -4,6 +4,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Deposit;
 import net.internetworkconsulting.accounting.entities.Document;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.Payment;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ComboTag;
@@ -16,6 +17,8 @@ import net.internetworkconsulting.template.Template;
 
 public class DepositsPrintController extends Controller {
 	private Deposit objModel;
+	private List<Option> lstAccountOptions;
+	
 	public DepositsPrintController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
@@ -32,6 +35,8 @@ public class DepositsPrintController extends Controller {
 			}
 		}
 		setModel(objModel);
+		
+		lstAccountOptions = Account.loadOptions(getUser().login());
 
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
@@ -48,7 +53,7 @@ public class DepositsPrintController extends Controller {
 		
 		ComboTag cboAccount = new ComboTag(this, Deposit.ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(lstAccountOptions);
 		
 		LiteralTag txtAccount = new LiteralTag(this, Deposit.ACCOUNTS_GUID, null);
 		Account objAcct = Account.loadByGuid(getUser().login(), Account.class, objModel.getAccountsGuid());

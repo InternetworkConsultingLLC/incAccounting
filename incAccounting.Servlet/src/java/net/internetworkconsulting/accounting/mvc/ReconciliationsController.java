@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.Part;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Document;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.Reconciliation;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
@@ -27,6 +28,7 @@ public class ReconciliationsController extends EditController {
 	private DateTag dtStarting;
 	private DateTag dtEnding;
 	private TextTag tagFile;
+	private List<Option> lstAccountOptions;
 	
 	public ReconciliationsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
@@ -51,6 +53,8 @@ public class ReconciliationsController extends EditController {
 
 		String sFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		
 		TextTag txtGuid = new TextTag(this, Reconciliation.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
 
@@ -58,7 +62,7 @@ public class ReconciliationsController extends EditController {
 		dtDate.addOnChangeEvent(new Event() { public void handle() throws Exception { dtDate_OnChange(); } });
 		
 		cboAccount = new ComboTag(this, Reconciliation.ACCOUNTS_GUID, objModel);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(lstAccountOptions);
 		cboAccount.addOnChangeEvent(new Event() { public void handle() throws Exception { cboAccount_OnChange(); } });
 				
 		litBeginningBalance = new TextTag(this, "Beginning Balance");

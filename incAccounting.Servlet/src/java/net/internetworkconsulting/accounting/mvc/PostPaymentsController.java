@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Payment;
 import net.internetworkconsulting.accounting.entities.PaymentType;
-import net.internetworkconsulting.accounting.entities.TransactionType;
 import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
@@ -15,6 +14,7 @@ public class PostPaymentsController extends Controller {
 	private ComboTag cboStatus;
 	private List<net.internetworkconsulting.accounting.entities.Payment> objModel;
 	private LinkedList<PostPaymentsLinesController> lstControllers;
+	private List<Option> lstPaymentTypeOptions;
 	
 	public PostPaymentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
@@ -28,9 +28,10 @@ public class PostPaymentsController extends Controller {
 		if(status != null && status.equals("null"))
 			status = null;
 
+		lstPaymentTypeOptions = PaymentType.loadOptions(getUser().login());
 		
 		cboType = new ComboTag(this, "Filter Types");
-		cboType.setOptions(PaymentType.loadOptions(getUser().login(), false));
+		cboType.setOptions(lstPaymentTypeOptions);
 		cboType.setValue(type_guid);
 		
 		cboStatus = new ComboTag(this, "Filter Status");

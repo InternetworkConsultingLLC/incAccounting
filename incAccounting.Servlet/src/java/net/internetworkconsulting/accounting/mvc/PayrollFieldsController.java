@@ -1,6 +1,8 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.PayrollField;
 import net.internetworkconsulting.accounting.entities.PayrollFieldType;
 import net.internetworkconsulting.data.RowInterface.RowState;
@@ -17,6 +19,9 @@ public class PayrollFieldsController extends EditController {
 	private PayrollField objModel;
 	private ComboTag cboCreditAccount;
 	private ComboTag cboDebitAccount;
+	private List<Option> lstPayrollFieldTypeOptions;
+	private List<Option> lstAccountOptions;
+	
 	public PayrollFieldsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -37,6 +42,9 @@ public class PayrollFieldsController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		objModel = (PayrollField) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/PayrollField.html"), new HtmlSyntax()));
+		
+		lstPayrollFieldTypeOptions = PayrollFieldType.loadOptions(getUser().login());
+		lstAccountOptions = Account.loadOptions(getUser().login());
 
 		TextTag txtGuid = new TextTag(this, PayrollField.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
@@ -44,14 +52,14 @@ public class PayrollFieldsController extends EditController {
 		TextTag txtName = new TextTag(this, PayrollField.NAME, objModel);
 		
 		ComboTag cboFieldType = new ComboTag(this, PayrollField.PAYROLL_FIELD_TYPES_GUID, objModel);
-		cboFieldType.setOptions(PayrollFieldType.loadOptions(getUser().login(), false));
+		cboFieldType.setOptions(lstPayrollFieldTypeOptions);
 		cboFieldType.addOnChangeEvent(new Event() { public void handle() throws Exception { } });
 		
 		cboDebitAccount = new ComboTag(this, PayrollField.DEBIT_ACCOUNTS_GUID, objModel);
-		cboDebitAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboDebitAccount.setOptions(lstAccountOptions);
 		
 		cboCreditAccount = new ComboTag(this, PayrollField.CREDIT_ACCOUNTS_GUID, objModel);
-		cboCreditAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboCreditAccount.setOptions(lstAccountOptions);
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClick(); } });

@@ -1,15 +1,22 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.util.List;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Item;
-import net.internetworkconsulting.accounting.entities.UnitMeasure;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 
 public class ItemsChildrenController extends Controller {
 	private ButtonTag btnOpen;
-	public ItemsChildrenController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
+	private final List<Option> lstUmOptions;
+	
+	public ItemsChildrenController(ControllerInterface controller, String document_keyword, List<Option> um_options) { 
+		super(controller, document_keyword); 
+	
+		lstUmOptions = um_options;
+	}
 	public boolean getEnforceSecurity() { return false; }
 
 	private Item myParent;
@@ -28,7 +35,7 @@ public class ItemsChildrenController extends Controller {
 		TextTag txtNumber = new TextTag(this, "Child", Item.NUMBER, objModel.getGuid(), objModel);
 
 		ComboTag cboUM = new ComboTag(this, "Child", Item.INVENTORY_UNIT_MEASURES_GUID, objModel.getGuid(), objModel);
-		cboUM.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
+		cboUM.setOptions(lstUmOptions);
 
 		CheckTag chkTaxes = new CheckTag(this, "Child", Item.IS_SALES_TAXED, objModel.getGuid(), objModel);
 		chkTaxes.setIsReadOnly(true);

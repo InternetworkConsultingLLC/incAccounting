@@ -39,11 +39,7 @@ public class Item extends ItemsRow {
  	public AdapterInterface getAdapter() { return myAdapter; }
 	public void setAdapter(AdapterInterface value) { myAdapter = value; }
 	
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-		
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Item.class, "Item.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -52,7 +48,6 @@ public class Item extends ItemsRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 	

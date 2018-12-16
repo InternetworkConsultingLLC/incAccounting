@@ -46,7 +46,7 @@ public class EmployeesController extends ContactsController {
 		TextTag txtJobTitle = new TextTag(this, Employee.JOB_TITLE, objEmployee);
 		
 		ComboTag cboSupervisor = new ComboTag(this, Employee.SUPERVISOR_CONTACTS_GUID, objEmployee);
-		cboSupervisor.setOptions(((Contact) objModel.loadParentContact(getUser().login(), Contact.class, true)).loadChildOptions(getUser().login(), true));
+		cboSupervisor.setOptions(((Contact) objModel.loadParentContact(getUser().login(), Contact.class, true)).loadChildOptions(getUser().login()));
 		
 		DateTag dtHirred = new DateTag(this, Employee.DATE_HIRRED, objEmployee);
 		DateTag dtTerminated = new DateTag(this, Employee.DATE_TERMINATED, objEmployee);

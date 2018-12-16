@@ -1,6 +1,8 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.PaymentType;
 import net.internetworkconsulting.accounting.entities.TransactionType;
 import net.internetworkconsulting.data.RowInterface.RowState;
@@ -9,6 +11,7 @@ import net.internetworkconsulting.template.HtmlSyntax;
 import net.internetworkconsulting.template.Template;
 
 public class PaymentTypesController extends EditController {
+	private List<Option> lstAccountOptions;
 	public PaymentTypesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -29,6 +32,8 @@ public class PaymentTypesController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		PaymentType objModel = (PaymentType) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/PaymentType.html"), new HtmlSyntax()));
+		
+		lstAccountOptions = Account.loadOptions(getUser().login());
 
 		TransactionType objTranType = null;
 		try { objTranType = objModel.loadTransactionType(getUser().login(), TransactionType.class, !getIsPostback()); }
@@ -53,7 +58,7 @@ public class PaymentTypesController extends EditController {
 		cboSalesRelated.setIsReadOnly(true);
 		
 		ComboTag cboAccount = new ComboTag(this, PaymentType.ACCOUNTS_GUID, objModel);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(lstAccountOptions);
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.setValue("Save");

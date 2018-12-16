@@ -5,6 +5,7 @@ import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.Payment;
 import net.internetworkconsulting.accounting.entities.Document;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.PaymentApplicationSelection;
 import net.internetworkconsulting.accounting.entities.PaymentType;
 import net.internetworkconsulting.data.RowInterface.RowState;
@@ -18,6 +19,11 @@ public class PaymentsController extends EditController {
 	private ComboTag cboType;
 	private ComboTag cboContact;
 	private ComboTag cboBilingContact;
+	
+	private List<Option> lstPaymentTypeOptions;
+	private List<Option> lstAccountOptions;
+	private List<Option> lstContactOptions;
+
 	public PaymentsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -54,6 +60,10 @@ public class PaymentsController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		objModel = (Payment) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Payment.html"), new HtmlSyntax()));
+		
+		lstPaymentTypeOptions = PaymentType.loadOptions(getUser().login());
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		lstContactOptions = Contact.loadOptions(getUser().login());
 		
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
@@ -102,16 +112,16 @@ public class PaymentsController extends EditController {
 		
 		cboType = new ComboTag(this, Payment.PAYMENT_TYPES_GUID, objModel);
 		cboType.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboType.setOptions(PaymentType.loadOptions(getUser().login(), false));
+		cboType.setOptions(lstPaymentTypeOptions);
 		cboType.addOnChangeEvent(new Event() { public void handle() throws Exception { cboType_OnChange(); } });
 		
 		cboAccount = new ComboTag(this, Payment.POSTED_ACCOUNTS_GUID, objModel);
 		cboAccount.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(lstAccountOptions);
 		
 		cboContact = new ComboTag(this, Payment.CONTACTS_GUID, objModel);
 		cboContact.setIsReadOnly(objModel.getPostedTransactionsGuid() != null);
-		cboContact.setOptions(Contact.loadOptions(getUser().login(), false));
+		cboContact.setOptions(lstContactOptions);
 		cboContact.addOnChangeEvent(new Event() { public void handle() throws Exception { cboContact_OnChange(); } });
 		
 		cboBilingContact = new ComboTag(this, Payment.BILLING_CONTACTS_GUID, objModel);
@@ -280,7 +290,7 @@ public class PaymentsController extends EditController {
 	public void beforePopulate() throws Exception {
 		if(objModel.getContactsGuid() != null) {
 			Contact cntct = objModel.loadContact(getUser().login(), Contact.class, !getIsPostback());
-			cboBilingContact.setOptions(cntct.loadChildOptions(getUser().login(), !getIsPostback()));
+			cboBilingContact.setOptions(cntct.loadChildOptions(getUser().login()));
 		}
 		
 		objModel.calculate(getUser().login());

@@ -2,6 +2,7 @@ package net.internetworkconsulting.accounting.mvc;
 
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Conversion;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.UnitMeasure;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
@@ -14,6 +15,7 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class UnitMeasureEditController extends EditController {
+	private List<Option> lstUmOptions;
 	public UnitMeasureEditController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -57,10 +59,7 @@ public class UnitMeasureEditController extends EditController {
 		btnAdd.setValue("Add Conversion");
 		btnAdd.addOnClickEvent(new Event() { public void handle() throws Exception { btnAdd_OnClick(); } });
 		
-		// this is doen once to cache a fresh copy for use on each conversion
-		// rather than cycling back to the database x times.
-		UnitMeasure.loadOptions(getUser().login(), false);
-		
+		lstUmOptions = UnitMeasure.loadOptions(getUser().login());		
 		List<Conversion> lstConversion = objModel.loadLeftConversions(getUser().login(), Conversion.class, !getIsPostback());
 		for(Conversion conv: lstConversion)
 			createController(conv);
@@ -68,7 +67,7 @@ public class UnitMeasureEditController extends EditController {
 	private UnitMeasuresConversionsController createController(Conversion conv) throws Exception {
 		UnitMeasure objModel = (UnitMeasure) getModel();
 
-		UnitMeasuresConversionsController umecc = new UnitMeasuresConversionsController(this, "Conversion");
+		UnitMeasuresConversionsController umecc = new UnitMeasuresConversionsController(this, "Conversion", lstUmOptions);
 		umecc.setModel(conv);
 		umecc.setIsDocumentBlock(true);
 		umecc.setLeftUnitMeasure(objModel);

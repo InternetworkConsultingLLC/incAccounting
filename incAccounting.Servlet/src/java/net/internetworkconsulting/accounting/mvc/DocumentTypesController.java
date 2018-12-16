@@ -57,19 +57,19 @@ public class DocumentTypesController extends EditController {
 		CheckTag chkIsCreditMemo = new CheckTag(this, DocumentType.IS_CREDIT_MEMO, objModel);
 		chkIsCreditMemo.setIsReadOnly(true);
 		ComboTag cboAccount = new ComboTag(this, DocumentType.ACCOUNTS_GUID, objModel);
-		List<Option> lstOptions = Account.loadOptions(getUser().login(), false);
+		List<Option> lstAccountOptions = Account.loadOptions(getUser().login());
 		if(
 			objModel.getGuid().equals(DocumentType.PURCHASE_INVOICE_GUID) ||
 			objModel.getGuid().equals(DocumentType.PURCHASE_CREDIT_GUID) ||
 			objModel.getGuid().equals(DocumentType.SALES_INVOICE_GUID) ||
 			objModel.getGuid().equals(DocumentType.SALES_CREDIT_GUID)
 		)
-			lstOptions.get(0).setDisplay("Cash Accounting");
+			lstAccountOptions.get(0).setDisplay("Cash Accounting");
 		else {
-			lstOptions = new LinkedList<>();
-			lstOptions.add(new Option("Does Not Post", ""));
+			lstAccountOptions = new LinkedList<>();
+			lstAccountOptions.add(new Option("Does Not Post", ""));
 		}
-		cboAccount.setOptions(lstOptions);
+		cboAccount.setOptions(lstAccountOptions);
 		
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.setValue("Save");

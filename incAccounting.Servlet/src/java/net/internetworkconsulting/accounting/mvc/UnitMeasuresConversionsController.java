@@ -1,6 +1,8 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.util.List;
 import net.internetworkconsulting.accounting.entities.Conversion;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.UnitMeasure;
 import net.internetworkconsulting.mvc.CheckTag;
 import net.internetworkconsulting.mvc.ComboTag;
@@ -12,7 +14,12 @@ import net.internetworkconsulting.mvc.TextTag;
 import net.internetworkconsulting.template.Template;
 
 public class UnitMeasuresConversionsController extends Controller {
-	public UnitMeasuresConversionsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
+	private final List<Option> lstUmOptions;
+	
+	public UnitMeasuresConversionsController(ControllerInterface controller, String document_keyword, List<Option> um_options) { 
+		super(controller, document_keyword); 
+		lstUmOptions = um_options;
+	}
 	public boolean getEnforceSecurity() { return true; }
 	
 	private UnitMeasure leftUnit;
@@ -37,7 +44,7 @@ public class UnitMeasuresConversionsController extends Controller {
 
 		ComboTag cboRightUnit = new ComboTag(this, "Conversion " + Conversion.RIGHT_UNIT_MEASURES_GUID);
 		cboRightUnit.setName(Conversion.RIGHT_UNIT_MEASURES_GUID + objModel.getGuid());
-		cboRightUnit.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
+		cboRightUnit.setOptions(lstUmOptions);
 		cboRightUnit.bind(objModel, Conversion.RIGHT_UNIT_MEASURES_GUID);
 		
 		TextTag txtRightQty = new TextTag(this, "Conversion " + Conversion.RIGHT_QUANTITY);

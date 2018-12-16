@@ -4,6 +4,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.ContactNote;
 import net.internetworkconsulting.accounting.entities.ContactType;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.SalesTax;
 import net.internetworkconsulting.accounting.entities.User;
 import net.internetworkconsulting.data.RowInterface.RowState;
@@ -33,6 +34,11 @@ public class ContactsController extends EditController {
 	protected CheckTag chkAllowed;
 	protected TextTag txtDisplay;
 	protected TextTag txtGuid;
+	
+	private List<Option> lstUserOptions;
+	private List<Option> lstContactOptions;
+	private List<Option> lstContactTypeOptions;
+	private List<Option> lstSalesTaxOptions;
 
 	protected String getTemplateFile() { return "~/templates/Contact.html"; }
 	
@@ -56,9 +62,11 @@ public class ContactsController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		Contact objModel = (Contact) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate(getTemplateFile()), new HtmlSyntax()));
-
-		User.loadOptions(getUser().login(), true);
-		Contact.loadOptions(getUser().login(), true);
+		
+		lstUserOptions = User.loadOptions(getUser().login());
+		lstContactOptions = Contact.loadOptions(getUser().login());
+		lstContactTypeOptions = ContactType.loadOptions(getUser().login());
+		lstSalesTaxOptions = SalesTax.loadOptions(getUser().login());
 				
 		txtGuid = new TextTag(this, Contact.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
@@ -68,10 +76,10 @@ public class ContactsController extends EditController {
 		dtSince = new DateTag(this, Contact.CONTACT_SINCE, objModel);
 
 		cboType = new ComboTag(this, Contact.CONTACT_TYPES_GUID, objModel);
-		cboType.setOptions(ContactType.loadOptions(getUser().login(), false));
+		cboType.setOptions(lstContactOptions);
 		
 		cboShippingContact = new ComboTag(this, Contact.DEFAULT_SHIPPING_CONTACTS_GUID, objModel);
-		cboShippingContact.setOptions(objModel.loadChildOptions(getUser().login(), true));
+		cboShippingContact.setOptions(objModel.loadChildOptions(getUser().login()));
 		
 		txtWebsite = new TextTag(this, Contact.WEBSITE, objModel);
 		txtEmail = new TextTag(this, Contact.EMAIL_ADDRESS, objModel);
@@ -87,7 +95,7 @@ public class ContactsController extends EditController {
 		txtCountry = new TextTag(this, Contact.COUNTRY, objModel);
 
 		cboSalesTax = new ComboTag(this, Contact.TAX_GROUP_GUID, objModel);
-		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), false));
+		cboSalesTax.setOptions(lstSalesTaxOptions);
 		
 		List<Contact> lstChildren = objModel.loadChildrenContacts(getUser().login(), Contact.class, !getIsPostback());
 		for(Contact child: lstChildren)
@@ -120,13 +128,13 @@ public class ContactsController extends EditController {
 		return new History(sDisplay, getRequest(), getUser());
 	}
 	protected ContactsChildrenController createChildController(Contact child) throws Exception {
-		ContactsChildrenController controller = new ContactsChildrenController(this, "Child");
+		ContactsChildrenController controller = new ContactsChildrenController(this, "Child", lstContactTypeOptions, lstSalesTaxOptions);
 		controller.setModel(child);
 		controller.setIsDocumentBlock(true);
 		return controller;
 	}
 	protected ContactsNotesController createNoteController(ContactNote note) {
-		ContactsNotesController controller = new ContactsNotesController(this, "Note");
+		ContactsNotesController controller = new ContactsNotesController(this, "Note", lstUserOptions);
 		controller.setModel(note);
 		controller.setIsDocumentBlock(true);
 		return controller;

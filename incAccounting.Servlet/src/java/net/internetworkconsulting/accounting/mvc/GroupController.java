@@ -22,6 +22,7 @@ import net.internetworkconsulting.template.HtmlSyntax;
 public class GroupController extends EditController {
 	private LinkedList<GroupMembershipController> lstMemberships;
 	private List<GroupPermissionsController> lstPermisssionControllers;
+	private List<Option> lstUserOptions;
 
 	public GroupController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
@@ -43,6 +44,8 @@ public class GroupController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		Group objModel = (Group) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Group.html"), new HtmlSyntax()));
+		
+		lstUserOptions = User.loadOptions(getUser().login());
 
 		TextTag txtGuid = new TextTag(this, Group.GUID);
 		txtGuid.setIsReadOnly(true);
@@ -68,7 +71,6 @@ public class GroupController extends EditController {
 			hmMembershipsByUser.put(mbr.getUsersGuid(), mbr);
 		
 		// get list of all users by guid
-		List<Option> lstUserOptions = User.loadOptions(getUser().login(), false);
 		lstUserOptions.remove(0);
 		HashMap<String, Option> hmUsersByGuid = new HashMap<>();
 		for(Option opt: lstUserOptions)

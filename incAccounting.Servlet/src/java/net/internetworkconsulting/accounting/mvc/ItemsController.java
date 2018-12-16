@@ -5,6 +5,7 @@ import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Item;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.UnitMeasure;
 import net.internetworkconsulting.data.RowInterface;
 import net.internetworkconsulting.mvc.*;
@@ -12,6 +13,11 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class ItemsController extends EditController {
+	private List<Option> lstItemOptions;
+	private List<Option> lstAccountOptions;
+	private List<Option> lstContactOptions;
+	private List<Option> lstUmOptions;
+	
 	public ItemsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -39,6 +45,11 @@ public class ItemsController extends EditController {
 	public void createControls(Template document, Object model) throws Exception {		
 		Item objModel = (Item) handleNonPostbackActions(model);		
 		setDocument(new Template(readTemplate("~/templates/Item.html"), new HtmlSyntax()));
+		
+		lstItemOptions = Item.loadOptions(getUser().login());
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		lstContactOptions = Contact.loadOptions(getUser().login());
+		lstUmOptions = UnitMeasure.loadOptions(getUser().login());
 
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
@@ -57,7 +68,7 @@ public class ItemsController extends EditController {
 		txtGuid.setIsReadOnly(true);
 
 		ComboTag cboParentItem = new ComboTag(this, Item.PARENT_ITEMS_GUID, objModel);
-		cboParentItem.setOptions(Item.loadOptions(getUser().login(), false));
+		cboParentItem.setOptions(lstItemOptions);
 		cboParentItem.addOnChangeEvent(new Event() { public void handle() throws Exception { cboParentItem_OnChange(); } });
 
 		TextTag txtNumber = new TextTag(this, Item.NUMBER, objModel);
@@ -68,10 +79,9 @@ public class ItemsController extends EditController {
 		CheckTag chkIsAllowed = new CheckTag(this, Item.IS_ALLOWED, objModel);
 
 		ComboTag cboSalesAccount = new ComboTag(this, Item.SALES_ACCOUNTS_GUID, objModel);
-		cboSalesAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboSalesAccount.setOptions(lstAccountOptions);
 
 		TextAreaTag txtSalesDescription = new TextAreaTag(this, Item.SALES_DESCRIPTION, objModel);
-//		txtSalesDescription.setRows(getUser().getSetting(Item.SETTING_DESCRIPTION_ROWS));
 		txtSalesDescription.setMaxLength("255");
 
 		TextTag txtSalesMarkup = new TextTag(this, Item.SALES_MARK_UP, objModel);
@@ -80,14 +90,13 @@ public class ItemsController extends EditController {
 		CheckTag chkSalesIsTaxed = new CheckTag(this, Item.IS_SALES_TAXED, objModel);
 
 		ComboTag cboPurchaseAccount = new ComboTag(this, Item.PURCHASE_ACCOUNTS_GUID, objModel);
-		cboPurchaseAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboPurchaseAccount.setOptions(lstAccountOptions);
 
 		TextAreaTag txtPurchaseDescription = new TextAreaTag(this, Item.PURCHASE_DESCRIPTION, objModel);
-//		txtPurchaseDescription.setRows(getUser().getSetting(Item.SETTING_DESCRIPTION_ROWS));
 		txtPurchaseDescription.setMaxLength("255");
 
 		ComboTag cboPurchaseContact = new ComboTag(this, Item.PURCHASE_CONTACTS_GUID, objModel);
-		cboPurchaseContact.setOptions(Contact.loadOptions(getUser().login(), false));
+		cboPurchaseContact.setOptions(lstContactOptions);
 
 		TextTag txtLastUnitCost = new TextTag(this, Item.LAST_UNIT_COST, objModel);
 		txtLastUnitCost.setFormat(sMoneyFormat);
@@ -96,14 +105,13 @@ public class ItemsController extends EditController {
 		txtSalesPrice.setFormat(sMoneyFormat);
 		
 		ComboTag cboInventoryAccount = new ComboTag(this, Item.INVENTORY_ACCOUNTS_GUID, objModel);
-		cboInventoryAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboInventoryAccount.setOptions(lstAccountOptions);
 
 		TextAreaTag txtInventoryDescription = new TextAreaTag(this, Item.INVENTORY_DESCRIPTION, objModel);
-//		txtInventoryDescription.setRows(getUser().getSetting(Item.SETTING_DESCRIPTION_ROWS));
 		txtInventoryDescription.setMaxLength("255");
 
 		ComboTag cboUnitMeasure = new ComboTag(this, Item.INVENTORY_UNIT_MEASURES_GUID, objModel);
-		cboUnitMeasure.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
+		cboUnitMeasure.setOptions(lstUmOptions);
 
 		CheckTag chkInventoryIsSerialized = new CheckTag(this, Item.IS_SERIALIZED, objModel);
 
@@ -127,7 +135,7 @@ public class ItemsController extends EditController {
 	private ItemsChildrenController createController(Item item) {
 		Item objModel = (Item) getModel();
 
-		ItemsChildrenController iecc = new ItemsChildrenController(this, "Child");
+		ItemsChildrenController iecc = new ItemsChildrenController(this, "Child", lstUmOptions);
 		iecc.setIsDocumentBlock(true);
 		iecc.setModel(item);
 		iecc.setParent(objModel);

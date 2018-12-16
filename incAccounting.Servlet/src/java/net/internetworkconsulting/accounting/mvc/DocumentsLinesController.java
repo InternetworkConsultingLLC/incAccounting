@@ -1,20 +1,34 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.util.List;
 import net.internetworkconsulting.accounting.data.TransactionsRow;
-import net.internetworkconsulting.accounting.entities.Account;
-import net.internetworkconsulting.accounting.entities.Department;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.DocumentLine;
-import net.internetworkconsulting.accounting.entities.Item;
-import net.internetworkconsulting.accounting.entities.Job;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.Transaction;
-import net.internetworkconsulting.accounting.entities.UnitMeasure;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 
 public class DocumentsLinesController extends Controller {
 	private ComboTag cboItem;
-	public DocumentsLinesController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
+	private List<Option> lstItemOptions;
+	private List<Option> lstUmOptions;
+	private List<Option> lstAccountOptions;
+	private List<Option> lstJobOptions;
+	private List<Option> lstDepartmentOptions;
+	
+	public DocumentsLinesController(
+		ControllerInterface controller, String document_keyword, 
+		List<Option> item_options, List<Option> um_options, List<Option> account_options, List<Option> job_options, List<Option> department_options
+	) { 
+		super(controller, document_keyword); 
+
+		lstItemOptions = item_options;
+		lstUmOptions = um_options;
+		lstAccountOptions = account_options;
+		lstJobOptions = job_options;
+		lstDepartmentOptions = department_options;
+	}
 	public boolean getEnforceSecurity() { return false; }
 
 	private Document myParentDocument;
@@ -30,7 +44,7 @@ public class DocumentsLinesController extends Controller {
 		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
-		
+				
 		CheckTag chkIsDeleted = new CheckTag(this, "Row", DocumentLine.IS_DELETED, objModel.getGuid(), objModel);
 		chkIsDeleted.setIsReadOnly(objTransaction != null);
 		
@@ -40,31 +54,25 @@ public class DocumentsLinesController extends Controller {
 		TextTag txtQty = new TextTag(this, "Row", DocumentLine.QUANTITY, objModel.getGuid(), objModel);
 		txtQty.setIsReadOnly(objTransaction != null);
 		txtQty.setFormat(sQtyFormat);
-		//txtQty.addOnChangeEvent(new Event() { public void handle() throws Exception { txtQty_OnChange(); } });
 		
 		cboItem = new ComboTag(this, "Row", DocumentLine.ITEMS_GUID, objModel.getGuid(), objModel);
 		cboItem.setIsReadOnly(objTransaction != null);
-		cboItem.setOptions(Item.loadOptions(getUser().login(), false));
-		//cboItem.addOnChangeEvent(new Event() { public void handle() throws Exception { cboItem_OnChange(); } });
+		cboItem.setOptions(lstItemOptions);
 
 		ComboTag cboUm = new ComboTag(this, "Row", DocumentLine.UNIT_MEASURES_GUID, objModel.getGuid(), objModel);
 		cboUm.setIsReadOnly(objTransaction != null);
-		cboUm.setOptions(UnitMeasure.loadOptions(getUser().login(), false));
-		//cboUm.addOnChangeEvent(new Event() { public void handle() throws Exception { cboUm_OnChange();  } });
+		cboUm.setOptions(lstUmOptions);
 
 		TextTag txtUnitPrice = new TextTag(this, "Row", DocumentLine.UNIT_PRICE, objModel.getGuid(), objModel);
 		txtUnitPrice.setIsReadOnly(objTransaction != null);
 		txtUnitPrice.setFormat(sMoneyFormat);
-		//txtUnitPrice.addOnChangeEvent(new Event() { public void handle() throws Exception { txtUnitPrice_OnChange(); } });
 
 		CheckTag chkIsTaxed = new CheckTag(this, "Row", DocumentLine.IS_TAXED, objModel.getGuid(), objModel);
 		chkIsTaxed.setIsReadOnly(objTransaction != null);
-		//chkIsTaxed.addOnChangeEvent(new Event() { public void handle() throws Exception { chkIsTaxed_OnChange(); } });
 
 		TextTag txtExtension = new TextTag(this, "Row", DocumentLine.EXTENSION, objModel.getGuid(), objModel);
 		txtExtension.setIsReadOnly(objTransaction != null);
 		txtExtension.setFormat(sMoneyFormat);
-		//txtExtension.addOnChangeEvent(new Event() { public void handle() throws Exception { txtExtension_OnChange(); } });
 
 		TextAreaTag txtDescription = new TextAreaTag(this, "Row", DocumentLine.DESCRIPTION, objModel.getGuid(), objModel);
 		txtDescription.setIsReadOnly(objTransaction != null);
@@ -72,15 +80,15 @@ public class DocumentsLinesController extends Controller {
 
 		ComboTag cboAccount = new ComboTag(this, "Row", DocumentLine.ACCOUNTS_GUID, objModel.getGuid(), objModel);
 		cboAccount.setIsReadOnly(objTransaction != null);
-		cboAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboAccount.setOptions(lstAccountOptions);
 
 		ComboTag cboJob = new ComboTag(this, "Row", DocumentLine.JOBS_GUID, objModel.getGuid(), objModel);
 		cboJob.setIsReadOnly(objTransaction != null);
-		cboJob.setOptions(Job.loadOptions(getUser().login(), false));
+		cboJob.setOptions(lstJobOptions);
 
 		ComboTag cboDepartment = new ComboTag(this, "Row", DocumentLine.DEPARTMENTS_GUID, objModel.getGuid(), objModel);
 		cboDepartment.setIsReadOnly(objTransaction != null);
-		cboDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+		cboDepartment.setOptions(lstDepartmentOptions);
 	}
 	public History createHistory() throws Exception { return null; }
 

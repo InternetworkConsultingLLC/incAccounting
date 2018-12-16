@@ -5,6 +5,7 @@ import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.Department;
 import net.internetworkconsulting.accounting.entities.Job;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
 import net.internetworkconsulting.accounting.entities.TransactionType;
@@ -23,6 +24,10 @@ import net.internetworkconsulting.template.HtmlSyntax;
 public class TransactionsController  extends EditController{
 	private TextTag txtBalance;
 	private boolean bReadOnly;
+	private List<Option> lstDepartmentOptions;
+	private List<Option> lstJobOptions;
+	private List<Option> lstAccountOptions;
+	private List<Option> lstTransactionTypeOptions;
 	public TransactionsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return false; }
 
@@ -43,9 +48,10 @@ public class TransactionsController  extends EditController{
 		Transaction objModel = (Transaction) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Transaction.html"), new HtmlSyntax()));
 		
-		Account.loadOptions(getUser().login(), false);
-		Job.loadOptions(getUser().login(), false);
-		Department.loadOptions(getUser().login(), false);
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		lstJobOptions = Job.loadOptions(getUser().login());
+		lstDepartmentOptions = Department.loadOptions(getUser().login());
+		lstTransactionTypeOptions = TransactionType.loadOptions(getUser().login());
 		
 		bReadOnly = objModel.getTransactionTypesGuid() != null && !objModel.getTransactionTypesGuid().equals(TransactionType.TRANSACTION_GUID);
 		if(objModel.isReconciled(getUser().login()))		
@@ -63,7 +69,7 @@ public class TransactionsController  extends EditController{
 
 		ComboTag cboType = new ComboTag(this, Transaction.TRANSACTION_TYPES_GUID, objModel);
 		cboType.setIsReadOnly(true);
-		cboType.setOptions(TransactionType.loadOptions(getUser().login(), false));
+		cboType.setOptions(lstTransactionTypeOptions);
 
 		txtBalance = new TextTag(this, "Balance");
 		txtBalance.setIsReadOnly(true);
@@ -90,7 +96,7 @@ public class TransactionsController  extends EditController{
 			createController(line);
 	}
 	private TransactionsLinesController createController(TransactionLine line) {
-		TransactionsLinesController telc = new TransactionsLinesController(this, "Line");
+		TransactionsLinesController telc = new TransactionsLinesController(this, "Line", lstAccountOptions, lstJobOptions, lstDepartmentOptions);
 		telc.setModel(line);
 		telc.setIsReadOnly(bReadOnly);
 		telc.setIsDocumentBlock(true);

@@ -26,11 +26,7 @@ public class Employee extends EmployeesRow {
 		this.setDateVerified(dtNever);
 	}
 	
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-		
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Employee.class, "Employee.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -39,7 +35,6 @@ public class Employee extends EmployeesRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;		
 		return lst;
 	}
 }

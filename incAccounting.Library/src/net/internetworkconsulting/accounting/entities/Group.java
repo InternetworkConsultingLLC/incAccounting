@@ -14,11 +14,7 @@ public class Group extends net.internetworkconsulting.accounting.data.GroupsRow 
 	public static String ADMINISTRATORS_GUID = "f541b846c9224fc687420fce2a0ec8b1";
 	public static String EVERYONE_GUID = "11eede08a5f34402a2547edc6aad2529";
 
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Group.class, "Group.loadOptions.sql"));
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -27,7 +23,6 @@ public class Group extends net.internetworkconsulting.accounting.data.GroupsRow 
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 

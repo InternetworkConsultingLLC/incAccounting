@@ -17,6 +17,7 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class SettingController extends EditController {
+	private List<Option> lstUserOptions;
 	public SettingController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 
 	public void handleDeleteRow(String guid) throws Exception {
@@ -41,12 +42,14 @@ public class SettingController extends EditController {
 		Setting objModel = (Setting) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Setting.html"), new HtmlSyntax()));
 		
+		lstUserOptions = User.loadOptions(getUser().login());
+		
 		TextTag txtGuid = new TextTag(this, Setting.GUID);
 		txtGuid.setIsReadOnly(true);
 		txtGuid.bind(getModel(), Setting.GUID);
 		
 		ComboTag cboUser = new ComboTag(this, Setting.USERS_GUID);
-		cboUser.setOptions(User.loadOptions(getUser().login(), false));
+		cboUser.setOptions(lstUserOptions);
 		cboUser.bind(getModel(), Setting.USERS_GUID);
 		
 		TextTag txtKey = new TextTag(this, Setting.KEY);

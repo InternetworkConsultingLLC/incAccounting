@@ -1,13 +1,20 @@
 package net.internetworkconsulting.accounting.mvc;
 
+import java.util.List;
 import net.internetworkconsulting.accounting.entities.Contact;
-import net.internetworkconsulting.accounting.entities.ContactType;
-import net.internetworkconsulting.accounting.entities.SalesTax;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.mvc.*;
 import net.internetworkconsulting.template.Template;
 
 public class ContactsChildrenController extends Controller {
-	public ContactsChildrenController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
+	private List<Option> lstContactTypeOptions = null;
+	private List<Option> lstSalesTaxOptions;
+	
+	public ContactsChildrenController(ControllerInterface controller, String document_keyword, List<Option> contact_type_options, List<Option> sales_tax_options) { 
+		super(controller, document_keyword); 
+		lstContactTypeOptions = contact_type_options;
+		lstSalesTaxOptions = sales_tax_options;
+	}
 	public boolean getEnforceSecurity() { return true; }
 	public void createControls(Template document, Object model) throws Exception {
 		setDocument(document);
@@ -23,7 +30,7 @@ public class ContactsChildrenController extends Controller {
 		}
 		
 		ComboTag cboType = new ComboTag(this, "Child", Contact.CONTACT_TYPES_GUID, objModel.getGuid(), objModel);
-		cboType.setOptions(ContactType.loadOptions(getUser().login(), false));
+		cboType.setOptions(lstContactTypeOptions);
 		
 		TextTag txtGuid = new TextTag(this, "Child", Contact.GUID, objModel.getGuid(), objModel);
 		txtGuid.setIsReadOnly(true);
@@ -46,7 +53,7 @@ public class ContactsChildrenController extends Controller {
 		TextTag txtCountry = new TextTag(this, "Child", Contact.COUNTRY, objModel.getGuid(), objModel);
 
 		ComboTag cboSalesTax = new ComboTag(this, "Child", Contact.TAX_GROUP_GUID, objModel.getGuid(), objModel);
-		cboSalesTax.setOptions(SalesTax.loadOptions(getUser().login(), false));
+		cboSalesTax.setOptions(lstSalesTaxOptions);
 	}
 	public History createHistory() throws Exception { return null; }
 	

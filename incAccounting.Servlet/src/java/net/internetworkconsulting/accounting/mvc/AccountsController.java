@@ -3,6 +3,7 @@ package net.internetworkconsulting.accounting.mvc;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
 import net.internetworkconsulting.accounting.entities.AccountType;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.data.RowInterface.RowState;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.CheckTag;
@@ -15,6 +16,9 @@ import net.internetworkconsulting.template.Template;
 import net.internetworkconsulting.template.HtmlSyntax;
 
 public class AccountsController extends EditController {
+	private List<Option> lstAccountTypeOptions;
+	private List<Option> lstAccountOptions;
+	
 	public AccountsController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	public boolean getEnforceSecurity() { return true; }
 
@@ -44,6 +48,9 @@ public class AccountsController extends EditController {
 		Account objModel = (Account) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/Account.html"), new HtmlSyntax()));
 		
+		lstAccountTypeOptions = AccountType.loadOptions(getUser().login());
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		
 		TextTag txtGuid = new TextTag(this, Account.GUID, objModel);
 		txtGuid.setIsReadOnly(true);
 
@@ -60,10 +67,10 @@ public class AccountsController extends EditController {
 		TextTag txtLastnumber = new TextTag(this, Account.LAST_NUMBER, objModel);
 
 		ComboTag cboAccountType = new ComboTag(this, Account.ACCOUNT_TYPES_GUID, objModel);
-		cboAccountType.setOptions(AccountType.loadOptions(getUser().login(), false));
+		cboAccountType.setOptions(lstAccountTypeOptions);
 		
 		ComboTag cboParantAccount = new ComboTag(this, Account.PARENT_ACCOUNTS_GUID, objModel);
-		cboParantAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		cboParantAccount.setOptions(lstAccountOptions);
 
 		List<Account> lstChildren = objModel.loadChildren(getUser().login(), Account.class, !getIsPostback());
 		for(Account child: lstChildren) 

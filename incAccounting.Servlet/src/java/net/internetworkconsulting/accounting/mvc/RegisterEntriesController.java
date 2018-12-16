@@ -5,10 +5,15 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import net.internetworkconsulting.accounting.entities.Account;
+import net.internetworkconsulting.accounting.entities.Contact;
+import net.internetworkconsulting.accounting.entities.Department;
 import net.internetworkconsulting.accounting.entities.Document;
+import net.internetworkconsulting.accounting.entities.Job;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.RegisterEntry;
 import net.internetworkconsulting.accounting.entities.Transaction;
 import net.internetworkconsulting.accounting.entities.TransactionLine;
+import net.internetworkconsulting.accounting.entities.TransactionType;
 import net.internetworkconsulting.data.mysql.Statement;
 import net.internetworkconsulting.mvc.ButtonTag;
 import net.internetworkconsulting.mvc.ComboTag;
@@ -32,6 +37,11 @@ public class RegisterEntriesController extends Controller {
 	private ButtonTag btnAdd;
 	private TextTag tagBegBal;
 	private TextTag tagEndBal;
+	private List<Option> lstAccountOptions;
+	private List<Option> lstTransactionTypeOptions;
+	private List<Option> lstJobOptions;
+	private List<Option> lstDepartmentOptions;
+	private List<Option> lstContactOptions;
 
 	public RegisterEntriesController(ControllerInterface controller, String document_keyword) {
 		super(controller, document_keyword);
@@ -50,11 +60,17 @@ public class RegisterEntriesController extends Controller {
 		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
 		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
 		
+		lstAccountOptions = Account.loadOptions(getUser().login());
+		lstContactOptions = Contact.loadOptions(getUser().login());
+		lstDepartmentOptions = Department.loadOptions(getUser().login());
+		lstJobOptions = Job.loadOptions(getUser().login());
+		lstTransactionTypeOptions = TransactionType.loadOptions(getUser().login());
+		
 		LiteralTag litMoneyDecimals = new LiteralTag(this, "Money Decimals");
 		litMoneyDecimals.setValue(getUser().getSetting(Document.SETTING_MONEY_DECIMALS));
 		
 		tagAccount = new ComboTag(this, "Account");
-		tagAccount.setOptions(Account.loadOptions(getUser().login(), false));
+		tagAccount.setOptions(lstAccountOptions);
 		
 		tagBegBal = new TextTag(this, "Beginning Balance");
 		tagBegBal.setIsReadOnly(true);
@@ -120,7 +136,7 @@ public class RegisterEntriesController extends Controller {
 		return new History(sDisplay, getRequest(), getUser());
 	}
 	private RegisterEntriesLinesController createController(TransactionLine line) throws Exception {
-		RegisterEntriesLinesController relc = new RegisterEntriesLinesController(this, "Row");
+		RegisterEntriesLinesController relc = new RegisterEntriesLinesController(this, "Row", lstAccountOptions, lstContactOptions, lstDepartmentOptions, lstJobOptions, lstTransactionTypeOptions);
 
 		relc.setModel(line);
 		relc.setIsDocumentBlock(true);		

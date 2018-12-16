@@ -15,11 +15,7 @@ public class DocumentType extends DocumentTypesRow {
 	public static String PURCHASE_INVOICE_GUID = "9d3821afd6fb47f9b2713d3cc574ceff";
 	public static String PURCHASE_CREDIT_GUID = "6632ec00f5824aeca4a49bf21cbdaece";
 
-	private static List<Option> lstOptions;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(DocumentType.class, "DocumentType.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -28,15 +24,10 @@ public class DocumentType extends DocumentTypesRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 
-	private static List<Option> lstPostableOptions;
-	public static List<Option> loadPostableOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstPostableOptions != null && !force)
-			return lstPostableOptions;
-
+	public static List<Option> loadPostableOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(DocumentType.class, "DocumentType.loadPostableOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -45,7 +36,6 @@ public class DocumentType extends DocumentTypesRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstPostableOptions = lst;
 		return lst;
 	}
 

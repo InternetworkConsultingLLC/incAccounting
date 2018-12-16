@@ -28,7 +28,7 @@ public class PostDocumentsController extends Controller {
 
 		
 		cboType = new ComboTag(this, "Filter Types");
-		cboType.setOptions(DocumentType.loadPostableOptions(getUser().login(), true));
+		cboType.setOptions(DocumentType.loadPostableOptions(getUser().login()));
 		cboType.setValue(type_guid);
 		
 		cboStatus = new ComboTag(this, "Filter Status");

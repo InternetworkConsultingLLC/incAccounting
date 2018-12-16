@@ -12,11 +12,7 @@ public class TimeEntryType extends TimeEntryTypesRow {
 		this.setGuid(User.newGuid());
 	}
 	
-	private static List<Option> lstOptions = null;
-	public static List<Option> loadOptions(AdapterInterface adapter, boolean force) throws Exception {
-		if(lstOptions != null && !force)
-			return lstOptions;
-		
+	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
 		Statement stmt = new Statement(adapter.getSession().readJar(Document.class, "TimeEntryType.loadOptions.sql"));		
 		List<Option> lst = adapter.load(Option.class, stmt, true);
 
@@ -25,7 +21,6 @@ public class TimeEntryType extends TimeEntryTypesRow {
 		opt.setValue("");
 
 		lst.add(0, opt);
-		lstOptions = lst;
 		return lst;
 	}
 }

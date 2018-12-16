@@ -2,12 +2,14 @@ package net.internetworkconsulting.accounting.mvc;
 
 import java.util.Date;
 import java.util.Calendar;
+import java.util.List;
 import net.internetworkconsulting.accounting.data.TimeEntriesRow;
 import net.internetworkconsulting.accounting.entities.Contact;
 import net.internetworkconsulting.accounting.entities.Department;
 import net.internetworkconsulting.accounting.entities.Document;
 import net.internetworkconsulting.accounting.entities.Employee;
 import net.internetworkconsulting.accounting.entities.Job;
+import net.internetworkconsulting.accounting.entities.Option;
 import net.internetworkconsulting.accounting.entities.TimeEntry;
 import net.internetworkconsulting.accounting.entities.TimeEntryType;
 import net.internetworkconsulting.accounting.entities.TimeSheet;
@@ -24,6 +26,13 @@ import net.internetworkconsulting.template.Template;
 
 public class TimeEntryController extends EditController {
 	private TimeEntriesRow objModel;
+	private List<Option> lstJobOptions;
+	private List<Option> lstEmployeeOptions;
+	private List<Option> lstContactOptions;
+	private List<Option> lstTimeEntryTypeOptions;
+	private List<Option> lstTimeSheetOptions;
+	private List<Option> lstDepartmntOptions;
+	private List<Option> lstDocumentOptions;
 	
 	public TimeEntryController(ControllerInterface controller, String document_keyword) { super(controller, document_keyword); }
 	
@@ -49,9 +58,13 @@ public class TimeEntryController extends EditController {
 		objModel = (TimeEntry) handleNonPostbackActions(model);
 		setDocument(new Template(readTemplate("~/templates/TimeEntry.html"), new HtmlSyntax()));
 
-//		String sMoneyFormat = "%." + getUser().getSetting(Document.SETTING_MONEY_DECIMALS) + "f";
-//		String sRateFormat = "%." + getUser().getSetting(Document.SETTING_RATE_DECIMALS) + "f";
-//		String sQtyFormat = "%." + getUser().getSetting(Document.SETTING_QUANITY_DECIMALS) + "f";
+		lstContactOptions = Contact.loadOptions(getUser().login());
+		lstEmployeeOptions = Employee.loadOptions(getUser().login());
+		lstJobOptions = Job.loadOptions(getUser().login());
+		lstDepartmntOptions = Department.loadOptions(getUser().login());
+		lstTimeSheetOptions = TimeSheet.loadOptions(getUser().login());
+		lstTimeEntryTypeOptions = TimeEntryType.loadOptions(getUser().login());
+		lstDocumentOptions = Document.loadOptions(getUser().login());
 		
 		Tag tagGuid = new TextTag(this, TimeEntry.GUID, objModel);
 
@@ -64,25 +77,25 @@ public class TimeEntryController extends EditController {
 		Tag tagDescription = new TextAreaTag(this, TimeEntry.DESCRIPTION, objModel);
 		
 		ComboTag tagContact = new ComboTag(this, TimeEntry.CONTACTS_GUID, objModel);
-		tagContact.setOptions(Contact.loadOptions(getUser().login(), false));
+		tagContact.setOptions(lstContactOptions);
 		
 		ComboTag tagEmploye = new ComboTag(this, TimeEntry.EMPLOYEES_GUID, objModel);
-		tagEmploye.setOptions(Employee.loadOptions(getUser().login(), false));
+		tagEmploye.setOptions(lstEmployeeOptions);
 		
 		ComboTag tagJob = new ComboTag(this, TimeEntry.JOBS_GUID, objModel);
-		tagJob.setOptions(Job.loadOptions(getUser().login(), false));
+		tagJob.setOptions(lstJobOptions);
 		
 		ComboTag tagDepartment = new ComboTag(this, TimeEntry.DEPARTMENTS_GUID, objModel);
-		tagDepartment.setOptions(Department.loadOptions(getUser().login(), false));
+		tagDepartment.setOptions(lstDepartmntOptions);
 		
 		ComboTag tagTimeSheet = new ComboTag(this, TimeEntry.TIME_SHEETS_GUID, objModel);
-		tagTimeSheet.setOptions(TimeSheet.loadOptions(getUser().login(), false));
+		tagTimeSheet.setOptions(lstTimeSheetOptions);
 		
 		ComboTag tagDocument = new ComboTag(this, TimeEntry.DOCUMENTS_GUID, objModel);
-		tagDocument.setOptions(Document.loadOptions(getUser().login(), false));
+		tagDocument.setOptions(lstDocumentOptions);
 		
 		ComboTag tagType = new ComboTag(this, TimeEntry.ENTRY_TYPES_GUID, objModel);
-		tagType.setOptions(TimeEntryType.loadOptions(getUser().login(), false));
+		tagType.setOptions(lstTimeEntryTypeOptions);
 
 		ButtonTag btnSave = new ButtonTag(this, "Save");
 		btnSave.addOnClickEvent(new Event() { public void handle() throws Exception { btnSave_OnClicked(); } });
