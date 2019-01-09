@@ -30,7 +30,7 @@ public class Adapter implements AdapterInterface {
 		boolean ssl = false;
 
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=CONVERT_TO_NULL";
+		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=convertToNull";
 		if(ssl)
 			sUri = sUri + "&verifyServerCertificate=false&useSSL=true&requireSSL=true";
 		else
@@ -43,7 +43,7 @@ public class Adapter implements AdapterInterface {
 	}
 	public Adapter(String server, String database, String user, String password, boolean ssl) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=CONVERT_TO_NULL";
+		String sUri = "jdbc:mysql://" + server + "/" + database + "?zeroDateTimeBehavior=convertToNull";
 		if(ssl)
 			sUri = sUri + "&verifyServerCertificate=false&useSSL=true&requireSSL=true";
 		else

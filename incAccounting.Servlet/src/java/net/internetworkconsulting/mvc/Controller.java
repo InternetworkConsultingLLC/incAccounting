@@ -241,7 +241,7 @@ public abstract class Controller implements ControllerInterface {
 				return;
 
 			if(ex.getMessage() != null && ex.getMessage().equals("Login failure!")) {
-				try { redirect("~/incBootstrap?App=Login&Error=USER AUTHENICATION REQUIRED TO USE THIS APPLICATION!  Either you have not logged in, or your session might have expired."); }
+				try { redirect("~/incBootstrap?App=Login&Error=USER AUTHENTICATION REQUIRED TO USE THIS APPLICATION!  Either you have not logged in, or your session might have expired."); }
 				catch(Exception exx) { /* do nothing */ }
 				return;
 			}

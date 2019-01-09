@@ -105,7 +105,7 @@ public class SetupController extends Controller {
 		hmValues.get("dbUser").setTextContent(model.getSqlUser());
 		hmValues.get("dbPassword").setTextContent(model.getPassword());
 		saveConfig();		
-		msg = msg + "  System configuration has been updated - restart the application for the changesto take effect.  ";
+		msg = msg + "  System configuration has been updated - restart the application for the changes to take effect.  ";
 
 		addError("Connection", msg);
 	}
