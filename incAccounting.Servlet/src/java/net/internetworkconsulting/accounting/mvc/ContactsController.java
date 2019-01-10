@@ -76,7 +76,7 @@ public class ContactsController extends EditController {
 		dtSince = new DateTag(this, Contact.CONTACT_SINCE, objModel);
 
 		cboType = new ComboTag(this, Contact.CONTACT_TYPES_GUID, objModel);
-		cboType.setOptions(lstContactOptions);
+		cboType.setOptions(lstContactTypeOptions);
 		
 		cboShippingContact = new ComboTag(this, Contact.DEFAULT_SHIPPING_CONTACTS_GUID, objModel);
 		cboShippingContact.setOptions(objModel.loadChildOptions(getUser().login()));
