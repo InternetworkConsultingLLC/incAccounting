@@ -18,12 +18,12 @@ public class Employee extends EmployeesRow {
 			contact.setContactTypesGuid(ContactType.TYPE_EMPLOYEE_GUID);
 		}
 		
-		Date dtNever = new Date(Long.MAX_VALUE);
-		
-		this.setDateHirred(dtNever);
-		this.setDateOfBirth(dtNever);
-		this.setDateTerminated(dtNever);
-		this.setDateVerified(dtNever);
+//		Date dtNever = new Date(Long.MAX_VALUE);
+//		
+//		this.setDateHirred(dtNever);
+//		this.setDateOfBirth(dtNever);
+//		this.setDateTerminated(dtNever);
+//		this.setDateVerified(dtNever);
 	}
 	
 	public static List<Option> loadOptions(AdapterInterface adapter) throws Exception {
