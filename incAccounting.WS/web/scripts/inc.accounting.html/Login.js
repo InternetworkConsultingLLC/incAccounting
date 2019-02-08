@@ -31,7 +31,7 @@ new function() {
 			var user = new inc.accounting.business.UserEntity();
 			user.setEmailAddress(txtEmailAddress.value);
 			user.setPassword(txtPassword.value);
-			user.setDatabase(txtDatabase.value);
+			//user.setDatabase(txtDatabase.value);
 			user.login(btnLogin_Callback);
 		};
 		btnLogin.onclick = btnLogin_OnClick;

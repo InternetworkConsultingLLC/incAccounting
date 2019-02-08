@@ -51,7 +51,8 @@ public class SetupController extends Controller {
 
 			objModel.setSqlUser(hmValues.get("dbUser").getTextContent());		
 			objModel.setSqlServer(hmValues.get("dbServer").getTextContent());
-			objModel.setPassword(hmValues.get("dbPassword").getTextContent());
+			//objModel.setPassword(hmValues.get("dbPassword").getTextContent());
+                        objModel.setDatabase(hmValues.get("dbDatabase").getTextContent());
 		}
 		setModel(objModel);			
 		
@@ -104,6 +105,7 @@ public class SetupController extends Controller {
 		hmValues.get("dbServer").setTextContent(model.getSqlServer());
 		hmValues.get("dbUser").setTextContent(model.getSqlUser());
 		hmValues.get("dbPassword").setTextContent(model.getPassword());
+                hmValues.get("dbDatabase").setTextContent(model.getDatabase());
 		saveConfig();		
 		msg = msg + "  System configuration has been updated - restart the application for the changes to take effect.  ";
 

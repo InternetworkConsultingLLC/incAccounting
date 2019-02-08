@@ -19,7 +19,7 @@ public class LoginController extends Controller {
 		setDocument(new Template(readTemplate("~/templates/Login.html"), new HtmlSyntax()));
 		setModel(new User());
 
-		TextTag txDatabase = new TextTag(this, User.DATABASE, getModel());
+		//TextTag txDatabase = new TextTag(this, User.DATABASE, getModel());
 		TextTag txtUser = new TextTag(this, User.EMAIL_ADDRESS, getModel());
 		TextTag txtPassword = new TextTag(this, User.PASSWORD, getModel());
 		txtPassword.setInputType(TextTag.TYPE_PASSWORD);

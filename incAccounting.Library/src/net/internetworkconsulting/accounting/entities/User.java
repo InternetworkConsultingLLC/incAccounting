@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.naming.InitialContext;
 import net.internetworkconsulting.accounting.data.MembershipsRow;
 import net.internetworkconsulting.accounting.data.SettingsRow;
 import net.internetworkconsulting.accounting.data.UsersRow;
@@ -89,9 +90,12 @@ public class User extends UsersRow implements SessionInterface {
 		return login(new Adapter(), new Adapter());
 	}
 	public AdapterInterface login(AdapterInterface tempAdapter, AdapterInterface tempLoggingAdapter) throws Exception {
-		if(getPassword() == null || getDatabase() == null)
+		if(getPassword() == null)
 			throw new Exception("Login failure!");
-
+                if(getDatabase() == null) {
+                    InitialContext ctx = new InitialContext();
+                    setDatabase((String) ctx.lookup("java:comp/env/dbDatabase"));
+                }
 		tempAdapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
 		tempLoggingAdapter.execute(new Statement("USE \"" + getDatabase() + "\""), false);
 		
