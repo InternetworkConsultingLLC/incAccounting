@@ -119,8 +119,13 @@ public class Adapter implements AdapterInterface {
 		while(rs.next()) {
 			java.util.HashMap<String, Object> map = new java.util.HashMap<>();
 			for(int cnt = 0; cnt < rs.getMetaData().getColumnCount(); cnt++) {
-				Object obj = rs.getObject(cnt + 1);
 				String col = rs.getMetaData().getColumnLabel(cnt + 1);
+                                Object obj = null;
+                                if(mapColumnsToSqlType.get(col).toLowerCase().contains("char"))
+                                    obj = rs.getString(cnt + 1);
+                                else
+                                    obj = rs.getObject(cnt + 1);
+                                
 				
 				if(obj != null) {
 					if(obj.getClass().getCanonicalName().equals("java.sql.Date")) {

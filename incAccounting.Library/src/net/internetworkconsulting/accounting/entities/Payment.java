@@ -289,8 +289,8 @@ public class Payment extends PaymentsRow {
 		
 		lstLines.remove(lstLines.size() - 1);
 				
-		if(dTotalApplied.abs().compareTo(app.getAmount().abs()) != 0)
-			throw new Exception("The applied amount does not equal to the rounded document rows amounts!");
+//		if(dTotalApplied.abs().compareTo(app.getAmount().abs()) != 0)
+//			throw new Exception("The applied amount does not equal to the rounded document rows amounts!");
 	}
 	private void createAccuralLines(AdapterInterface adapter, PaymentApplication app, Transaction tran, Document doc, DocumentType docType, TransactionType tranType) throws Exception {
 		List<TransactionLine> lst = tran.loadTransactionLines(adapter, TransactionLine.class, false);
