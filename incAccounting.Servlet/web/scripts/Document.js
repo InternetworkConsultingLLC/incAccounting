@@ -49,16 +49,18 @@ function changedItem() {
 	}
 
 	var ctlRowQuantity = document.getElementById("RowQuantity" + sGuid);
-	if(isFinite(ctlRowQuantity.value))
-		ctlRowQuantity.value = 0;
+        if(!ctlRowQuantity.value)
+		ctlRowQuantity.value = 1;
 	var nQty = round(Number(ctlRowQuantity.value), nSettingDocumentQuantityDecimals);
 	ctlRowQuantity.value = nQty;
 
 	var ctlRowUnitPrice = document.getElementById("RowUnitPrice" + sGuid);
-	ctlRowUnitPrice.value = objItem["Sales Unit Price"];
-	if(!ctlRowUnitPrice.value)
-		ctlRowUnitPrice.value = "0.00";
-	var nPrice = round(Number(ctlRowUnitPrice.value), nSettingDocumentMoneyDecimals);
+        if(ctlRowUnitPrice.value && ctlRowUnitPrice.value != 0) {
+            if(confirm("Do you want to overwrite the price?"))
+                ctlRowUnitPrice.value = objItem["Sales Unit Price"];
+        } else
+            ctlRowUnitPrice.value = objItem["Sales Unit Price"]; 
+ 	var nPrice = round(Number(ctlRowUnitPrice.value), nSettingDocumentMoneyDecimals);
 	ctlRowUnitPrice.value = nPrice;
 
 	if(!isFinite(nPrice))
